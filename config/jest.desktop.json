@@ -1,0 +1,30 @@
+{
+  "transform": {
+    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/test/",
+    "/__tests__/setup/",
+    "/dist"
+  ],
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json"
+  ],
+  "globals": {
+    "window": {}
+  },
+  "setupFiles": [
+    "<rootDir>/__tests__/setup/setup.tsx"
+  ],
+  "rootDir": "..",
+  "verbose": true,
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ]
+}

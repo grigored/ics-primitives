@@ -1,0 +1,9 @@
+export var XS_BREAKING_POINT = 768;
+export var all = 'all';
+export var android = 'android';
+export var ios = 'ios';
+export var native = 'native';
+export var web = 'web';
+export var webMobile = 'webMobile';
+export var webDesktop = 'webDesktop';
+//# sourceMappingURL=theme.js.map
