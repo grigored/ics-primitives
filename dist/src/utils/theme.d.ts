@@ -1,3 +1,4 @@
+import { AppTheme } from "src/utils/theme.types";
 export declare const XS_BREAKING_POINT = 768;
 export declare const all = "all";
 export declare const android = "android";
@@ -6,3 +7,5 @@ export declare const native = "native";
 export declare const web = "web";
 export declare const webMobile = "webMobile";
 export declare const webDesktop = "webDesktop";
+export declare const appTheme: AppTheme;
+export declare const runTimeClasses: {};

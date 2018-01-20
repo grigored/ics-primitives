@@ -1,1 +1,1 @@
-export {View} from 'react-sketchapp';
+export { View } from 'react-sketchapp';

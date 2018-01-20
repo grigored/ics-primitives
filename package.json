@@ -2,8 +2,8 @@
   "name": "react-web-native-sketch",
   "version": "0.0.3",
   "private": false,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "dependencies": {
     "react": "^16.2.0",
     "react-native": "^0.52.0",
@@ -32,7 +32,7 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "tsc",
+    "build": "tsc -m CommonJS",
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json"

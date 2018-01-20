@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -25,7 +26,8 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import * as React from "react";
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
 ;
 var View = /** @class */ (function (_super) {
     __extends(View, _super);
@@ -38,5 +40,5 @@ var View = /** @class */ (function (_super) {
     };
     return View;
 }(React.PureComponent));
-export { View };
+exports.View = View;
 //# sourceMappingURL=View.js.map

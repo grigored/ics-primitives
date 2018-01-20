@@ -1,6 +1,6 @@
-// import { updateTheme, getStyles } from 'src/utils/combineStyles';
-// import {ios, native, web} from 'src/utils/theme';
-// import {isWeb, isIOS, isAndroid} from 'src/utils/platform/platform';
+import { removePlatform } from 'src/utils/combineStyles';
+import {all, ios, native, web} from 'src/utils/theme';
+import {isWeb, isIOS, isAndroid} from 'src/primitives/platform/platform';
 //
 // const containerPadding1 = {
 //     container: {
@@ -13,87 +13,63 @@
 //         padding: 2
 //     }
 // };
-//
-//
-// describe('getStyles', () => {
-//     it('extracts the right styles according to the platform when platform name is before classname', () => {
-//         const theme = {
-//             [web]: {
-//                 container: {
-//                     padding: 1,
-//                 },
-//             },
-//             [ios]: {
-//                 container: {
-//                     margin: 2,
-//                 }
-//             },
-//             [native]: {
-//                 container: {
-//                     borderWidth: 1
-//                 }
-//             }
-//         };
-//         isWeb && expect(getStyles(theme)).toEqual({container: {padding: 1}});
-//         isIOS && expect(getStyles(theme)).toEqual({container: {margin: 2, borderWidth: 1}});
-//         isAndroid && expect(getStyles(theme)).toEqual({container: {borderWidth: 1}});
-//     });
-//
-//     it('extracts the right styles according to the platform when platform name is inside the class definition', () => {
-//         const theme = {
-//             container: {
-//                 [web]: {
-//                     padding: 1,
-//                 },
-//                 [ios]: {
-//                     padding: 2,
-//                 }
-//             }
-//         };
-//         expect(getStyles(theme)).toEqual({container: {padding: 1}});
-//     });
-//
-//     it('getStyles extracts the web styles, and ignores ios styles when running on web, platform inside classname', () => {
-//         const theme = {
-//             container: {
-//                 [web]: {
-//                     padding: 1,
-//                 },
-//                 [ios]: {
-//                     padding: 2,
-//                 }
-//             }
-//         };
-//         expect(getStyles(theme)).toEqual({container: {padding: 1}});
-//     });
-//
-//     it('getStyles extracts the ios styles, and ignores ios styles when running on web, platform inside classname', () => {
-//         const theme = {
-//             container: {
-//                 [web]: {
-//                     padding: 1,
-//                 },
-//                 [ios]: {
-//                     padding: 2,
-//                 }
-//             }
-//         };
-//         expect(getStyles(theme)).toEqual({container: {padding: 1}});
-//     });
-//
-//     test('media queries are returned on web', () => {
-//        const theme = {
-//            '@media (min-width: 1024px)': {
-//                button: {
-//                    width: 200
-//                }
-//            }
-//        };
-//        expect(getStyles(theme)).toEqual({});
-//     });
-//
-//     it('updating only ', () => {
-//         expect(updateTheme(containerPadding1, containerPadding2)).toEqual(containerPadding2);
-//     });
-//
-// });
+
+
+describe('getStyles', () => {
+    it('extracts the right styles according to the platform when platform name is before classname', () => {
+        const theme = {
+            container: {
+                padding: {
+                    [web]: 1,
+                    [ios]: 2,
+                    [all]: 3,
+                },
+                margin: 1,
+            },
+        };
+        isWeb && expect(removePlatform(theme)).toEqual({container: {padding: 1, margin: 1}});
+        isIOS && expect(removePlatform(theme)).toEqual({container: {padding: 2, margin: 1}});
+        isAndroid && expect(removePlatform(theme)).toEqual({container: {padding: 3, margin: 1}});
+    });
+
+    it('extracts the right styles according to the platform when platform name is inside the class definition', () => {
+        const theme = {
+            container: {
+                [web]: {
+                    padding: 1,
+                },
+                [ios]: {
+                    padding: 2,
+                },
+                [all]: {
+                    padding: 3,
+                },
+                [native]: {
+                    padding: 4,
+                },
+                margin: 1,
+            },
+        };
+        isWeb && expect(removePlatform(theme)).toEqual({container: {padding: 1, margin: 1}});
+        isIOS && expect(removePlatform(theme)).toEqual({container: {padding: 2, margin: 1}});
+        isAndroid && expect(removePlatform(theme)).toEqual({container: {padding: 4, margin: 1}});
+    });
+
+
+    test('media queries are returned on web, but not on native', () => {
+       const theme = {
+           '@media (min-width: 1024px)': {
+               button: {
+                   width: 200
+               }
+           }
+       };
+       isWeb && expect(removePlatform(theme)).toEqual(theme);
+       isIOS && expect(removePlatform(theme)).toEqual({});
+    });
+
+    // it('updating only ', () => {
+    //     expect(updateTheme(containerPadding1, containerPadding2)).toEqual(containerPadding2);
+    // });
+
+});

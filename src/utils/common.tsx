@@ -1,4 +1,4 @@
-import {getWindowWidth} from "./platform/platform";
+import {getWindowWidth} from "../primitives/platform/platform";
 import {XS_BREAKING_POINT} from "./theme";
 
 export function isObject(obj: any): boolean {

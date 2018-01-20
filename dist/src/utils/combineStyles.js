@@ -1,104 +1,77 @@
-// import {isObject, isXs} from "./common";
-// import {isIOS, isWeb, isAndroid} from "./platform/platform";
+"use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var common_1 = require("./common");
+var platform_1 = require("../primitives/platform/platform");
+var theme_1 = require("./theme");
+exports.removePlatform = function (theme) {
+    if (!common_1.isObject(theme)) {
+        return theme;
+    }
+    var webDesktop = theme.webDesktop, webMobile = theme.webMobile, web = theme.web, ios = theme.ios, android = theme.android, native = theme.native, all = theme.all, other = __rest(theme, ["webDesktop", "webMobile", "web", "ios", "android", "native", "all"]);
+    // other.values is either [] or list of objects
+    var value = undefined;
+    if (platform_1.isWeb && webDesktop !== undefined && !common_1.isXs()) {
+        value = webDesktop;
+    }
+    else if (platform_1.isWeb && webMobile !== undefined && common_1.isXs()) {
+        value = webMobile;
+    }
+    else if (platform_1.isWeb && web !== undefined) {
+        value = web;
+    }
+    else if (platform_1.isIOS && ios !== undefined) {
+        value = ios;
+    }
+    else if (platform_1.isAndroid && android !== undefined) {
+        value = android;
+    }
+    else if (!platform_1.isWeb && native !== undefined) {
+        value = native;
+    }
+    else if (all !== undefined) {
+        value = all;
+    }
+    if (value !== undefined && !common_1.isObject(value)) {
+        return value;
+    }
+    var cleanedOther = {};
+    for (var _i = 0, _a = Object.keys(other); _i < _a.length; _i++) {
+        var key = _a[_i];
+        if (!platform_1.isWeb && key.indexOf('media') !== -1) {
+            // TODO: use media queries for webMobile/webDesktop and support media queries on native
+            continue;
+        }
+        cleanedOther[key] = exports.removePlatform(other[key]);
+    }
+    return __assign({}, (value === undefined ? {} : value), cleanedOther);
+};
 //
-//
-// export const updateTheme = (currentTheme: any, remoteTheme: any) => {
-//     if (!remoteTheme) {
-//         return;
-//     }
-//     for (let key in remoteTheme) {
-//         currentTheme[key] = getStyles(currentTheme[key]);
-//         remoteTheme[key] = getStyles(remoteTheme[key]);
-//         if (isObject(remoteTheme[key])) {
-//             if (!currentTheme[key]) {
-//                 currentTheme[key] = {};
-//             }
-//
-//             updateTheme(currentTheme[key], remoteTheme[key]);
-//         }
-//         else {
-//             if (remoteTheme[key] !== undefined) {
-//                 currentTheme[key] = remoteTheme[key];
-//             }
-//             else {
-//                 delete currentTheme[key];
-//             }
-//         }
-//     }
-//     return currentTheme;
-// };
-//
-// export const getStyles = (theme: any): any => {
-//     if (!isObject(theme)) {
-//         return theme;
-//     }
-//
-//     let platform = null,
-//         {webDesktop, webMobile, web, ios, android, native, all, ...other} = theme;
-//
-//     if (isWeb && webDesktop !== undefined && !isXs()) {
-//         platform = 'webDesktop';
-//     }
-//     else if (isWeb && webMobile !== undefined && isXs()) {
-//         platform = 'webMobile';
-//     }
-//     else if (isWeb && web !== undefined) {
-//         platform = 'web';
-//     }
-//     else if (isIOS && ios !== undefined) {
-//         platform = 'ios';
-//     }
-//     else if (isAndroid && android !== undefined) {
-//         platform = 'android';
-//     }
-//     else if (!isWeb && native !== undefined) {
-//         platform = 'native';
-//     }
-//     else if (all !== undefined) {
-//         platform = 'all';
-//     }
-//
-//     if (platform) {
-//         if (theme[platform] !== undefined) {
-//             if (isObject(theme[platform])) {
-//                 return getStyles({...(theme[platform] || {}), ...(other || {})});
-//                 // return {...(theme[platform] || {}), ...(other || {})};
-//             }
-//             return theme[platform];
-//         }
-//     }
-//     return Object.keys(other).length > 0 ? other : undefined;
-// }
-//
-// export function combineStyles(componentStyles: any, componentName: string, muiTheme: any = null): any {
-//     const stylesIsFunction = typeof(componentStyles) === "function";
-//     let fullStyles = updateTheme({}, {...(appTheme.baseStyles || {}), ...((stylesIsFunction ? componentStyles(muiTheme) : componentStyles) || {})});
-//     let newStyles: any = {};
-//     for (let className in fullStyles) {
-//         if (!isWeb && (className.indexOf('media') !== -1 || !fullStyles[className])) {
-//             // delete componentStyles[className];
-//             continue;
-//         }
-//         let styleDefinition = {
-//             ...(fullStyles[className] || {}),
-//             ...(
-//                 (appTheme[componentName] && appTheme[componentName][className]) || {}
-//             ),
-//         };
-//         // TODO: support media queries on native
-//         Object.keys(styleDefinition)
-//             .forEach(key => {
-//                 // DO NOT REMOVE FALSE, as that will make bottom: 0 not work
-//                 // TODO: support media queries on mobile for better tablet experience
-//                 // if (key.indexOf('media') !== -1) {
-//                 // console.log(styleDefinition[key])
-//                 // }
-//                 if (styleDefinition[key] === false) {
-//                     delete styleDefinition[key];
-//                 }
-//             });
-//         newStyles[className] = {...styleDefinition};
-//     }
-//     return newStyles;
-// }
+function combineStyles(componentStyles, componentName) {
+    var fullStyles = typeof (componentStyles) === "function" ? componentStyles() : componentStyles;
+    var newStyles = {};
+    for (var className in fullStyles) {
+        var styleDefinition = __assign({}, (fullStyles[className] || {}), ((theme_1.runTimeClasses[componentName] && theme_1.runTimeClasses[componentName][className])
+            || {}));
+        newStyles[className] = __assign({}, styleDefinition);
+    }
+    return newStyles;
+}
+exports.combineStyles = combineStyles;
 //# sourceMappingURL=combineStyles.js.map

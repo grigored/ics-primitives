@@ -1,7 +1,10 @@
-import { getWindowWidth } from "./platform/platform";
-import { XS_BREAKING_POINT } from "./theme";
-export function isObject(obj) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var platform_1 = require("../primitives/platform/platform");
+var theme_1 = require("./theme");
+function isObject(obj) {
     return obj && obj instanceof Object && obj.constructor === Object;
 }
-export var isXs = function () { return getWindowWidth() < XS_BREAKING_POINT; };
+exports.isObject = isObject;
+exports.isXs = function () { return platform_1.getWindowWidth() < theme_1.XS_BREAKING_POINT; };
 //# sourceMappingURL=common.js.map
