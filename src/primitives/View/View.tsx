@@ -1,4 +1,5 @@
 import * as React from "react";
+import { getStyleProps } from '../../utils/web';
 
 export interface ViewStyle {
 
@@ -22,6 +23,7 @@ export class View extends React.PureComponent<Props, {}> {
         } = this.props;
         return (
             <div
+                {...getStyleProps(style)}
                 {...otherProps}
             >
                 {children}

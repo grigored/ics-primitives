@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var View_1 = require("./primitives/View/View");
-exports.View = View_1.View;
-var Text_1 = require("./primitives/Text/Text");
-exports.Text = Text_1.Text;
-var createStyles_1 = require("./primitives/createStyles/createStyles");
-exports.createStyles = createStyles_1.createStyles;
+export { createStyles } from './primitives/createStyles/createStyles';
+export { Image } from './primitives/Image/Image';
+export { Text } from './primitives/Text/Text';
+export { Touchable } from './primitives/Touchable/Touchable';
+export { View } from './primitives/View/View';
+export { appTheme } from './utils/theme';
+export { Button } from './nativeComponents/Button/Button';
+export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 //# sourceMappingURL=index.js.map

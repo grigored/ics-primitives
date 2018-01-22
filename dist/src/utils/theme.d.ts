@@ -1,4 +1,4 @@
-import { AppTheme } from "src/utils/theme.types";
+import { AppTheme } from "./theme.types";
 export declare const XS_BREAKING_POINT = 768;
 export declare const all = "all";
 export declare const android = "android";
@@ -9,3 +9,14 @@ export declare const webMobile = "webMobile";
 export declare const webDesktop = "webDesktop";
 export declare const appTheme: AppTheme;
 export declare const runTimeClasses: {};
+export declare const defaultClasses: {
+    paper: {
+        shadowColor: string;
+        shadowOffset: {
+            width: number;
+            height: number;
+        };
+        shadowRadius: number;
+        shadowOpacity: number;
+    };
+};

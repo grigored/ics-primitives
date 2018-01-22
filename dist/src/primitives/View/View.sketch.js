@@ -1,5 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_sketchapp_1 = require("react-sketchapp");
-exports.View = react_sketchapp_1.View;
+export { View } from 'react-sketchapp';
 //# sourceMappingURL=View.sketch.js.map

@@ -1,9 +1,15 @@
 export type AppTheme = {
-    [cssProp: string]: string | number | {[platform: string]: string | number}
+    topBarHeight: number,
+    primaryColor: string,
+    primaryTextColor: string,
+    secondaryColor?: string,
+    drawerWidth: number,
 }
 
+export type CssPropValue = string | number | boolean;
+
 export type ClassValues = {
-    [cssProp: string]: string | number
+    [cssProp: string]: CssPropValue,
 }
 
 export type StyleRules = {
@@ -12,7 +18,7 @@ export type StyleRules = {
 
 export type PlatformStyleRules = {
     [className: string]: {
-        [cssPropOrPlatform: string]: string | number | {[platform: string]: string | number} | ClassValues,
+        [cssPropOrPlatform: string]: CssPropValue | {[platform: string]: CssPropValue} | ClassValues,
     },
 };
 
@@ -25,3 +31,5 @@ export type StyleSheetClasses = {
 export type WithStyles = {
     classes: StyleSheetClasses
 }
+
+export type Classes = Object | Array<Object | string | number> | string | number;

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { getStyleProps } from '../../utils/web';
 
 export interface Props {
     key?: string | number;
@@ -12,13 +13,13 @@ export interface Props {
 }
 
 export const Text = ({classes, children, style, onPress}: Props) => (
-    <div
+    <span
+        {...getStyleProps(style)}
         onClick={onPress && ((event) => {
             event.preventDefault();
             onPress();
         })}
     >
         {children}
-    </div>
+    </span>
 );
-

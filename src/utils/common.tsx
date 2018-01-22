@@ -6,3 +6,4 @@ export function isObject(obj: any): boolean {
 }
 
 export const isXs = () => getWindowWidth() < XS_BREAKING_POINT;
+
