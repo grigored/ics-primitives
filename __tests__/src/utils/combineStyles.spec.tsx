@@ -1,21 +1,8 @@
-import { removePlatform } from 'src/utils/combineStyles';
+import { removePlatform, combineStyles } from 'src/utils/combineStyles';
 import {all, ios, native, web} from 'src/utils/theme';
 import {isWeb, isIOS, isAndroid} from 'src/primitives/platform/platform';
-//
-// const containerPadding1 = {
-//     container: {
-//         padding: 1
-//     }
-// };
-//
-// const containerPadding2 = {
-//     container: {
-//         padding: 2
-//     }
-// };
 
-
-describe('getStyles', () => {
+describe('removePlatform()', () => {
     it('extracts the right styles according to the platform when platform name is before classname', () => {
         const theme = {
             container: {
@@ -68,8 +55,20 @@ describe('getStyles', () => {
        isIOS && expect(removePlatform(theme)).toEqual({});
     });
 
-    // it('updating only ', () => {
-    //     expect(updateTheme(containerPadding1, containerPadding2)).toEqual(containerPadding2);
-    // });
-
 });
+
+describe('combineStyles()', () => {
+    it('returns the right class names', () => {
+        const styles = {
+            content: {
+                marginTop: {
+                    [web]: 5
+                },
+            },
+        }, expectedWeb = {content: {marginTop: 5}};
+        isWeb && expect(combineStyles(styles, "test")).toEqual(expectedWeb);
+        isWeb && expect(combineStyles(() => styles, "test")).toEqual(expectedWeb);
+        isIOS && expect(combineStyles(styles, 'text').toEqual({content: {}}));
+    })
+});
+

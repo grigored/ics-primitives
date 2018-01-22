@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {appTheme, createStyles, View, WithStyles} from "../..";
-import {webDesktop} from "../../utils/theme";
 import {Topbar} from "../Topbar/Topbar";
 import {DrawerWeb} from '../DrawerWeb/DrawerWeb';
+import {web} from "../../utils/theme";
 
 const styles = () => ({
     appFrame: {
@@ -12,7 +12,6 @@ const styles = () => ({
         display: 'flex',
         width: '100%',
         flex: 1,
-
     },
     menuButton: {
         marginLeft: 12,
@@ -33,8 +32,8 @@ const styles = () => ({
         // marginTop: 56,
         position: 'relative',
         overflow: 'hidden',
-        [webDesktop]: {
-            marginTop: appTheme.topBarHeight,
+        marginTop: {
+            [web]: appTheme.topBarHeight
         },
     },
     contentPersistent: {
@@ -104,4 +103,4 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps> {
     }
 }
 
-export const AppContainerWeb = createStyles(styles, "AppContainerWeb", CAppContainerWeb);
+export const AppContainerWeb = createStyles<AppProps>(styles, "AppContainerWeb", CAppContainerWeb);

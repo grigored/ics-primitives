@@ -57,11 +57,8 @@ export function combineStyles(componentStyles: any, componentName: string): any 
     let newStyles: any = {};
     for (let className in fullStyles) {
         let styleDefinition = {
-            ...(fullStyles[className] || {}),
-            ...(
-                (runTimeClasses[componentName] && runTimeClasses[componentName][className])
-                || {}
-            ),
+            ...removePlatform(fullStyles[className]),
+            ...removePlatform(runTimeClasses[componentName] && runTimeClasses[componentName][className]),
         };
         newStyles[className] = {...styleDefinition};
     }

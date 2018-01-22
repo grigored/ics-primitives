@@ -7,7 +7,7 @@ export var web = 'web';
 export var webMobile = 'webMobile';
 export var webDesktop = 'webDesktop';
 export var appTheme = {
-    topBarHeight: 50,
+    topBarHeight: 64,
     drawerWidth: 250,
     primaryColor: '#f00',
     primaryTextColor: '#fff',

@@ -65,8 +65,7 @@ export function combineStyles(componentStyles, componentName) {
     var fullStyles = typeof (componentStyles) === "function" ? componentStyles() : componentStyles;
     var newStyles = {};
     for (var className in fullStyles) {
-        var styleDefinition = __assign({}, (fullStyles[className] || {}), ((runTimeClasses[componentName] && runTimeClasses[componentName][className])
-            || {}));
+        var styleDefinition = __assign({}, removePlatform(fullStyles[className]), removePlatform(runTimeClasses[componentName] && runTimeClasses[componentName][className]));
         newStyles[className] = __assign({}, styleDefinition);
     }
     return newStyles;

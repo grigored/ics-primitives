@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import * as React from 'react';
 import { appTheme, createStyles, View } from "../..";
-import { webDesktop } from "../../utils/theme";
 import { Topbar } from "../Topbar/Topbar";
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
+import { web } from "../../utils/theme";
 var styles = function () {
     return ({
         appFrame: {
@@ -30,23 +30,22 @@ var styles = function () {
         hide: {
             display: 'none',
         },
-        content: (_a = {
-                display: 'flex',
-                width: '100%',
-                flexGrow: 1,
-                // backgroundColor: muiTheme.palette.background.default,
-                // transition: muiTheme.transitions.create('margin', {
-                //     easing: muiTheme.transitions.easing.sharp,
-                //     duration: muiTheme.transitions.duration.leavingScreen,
-                // }),
-                // marginTop: 56,
-                position: 'relative',
-                overflow: 'hidden'
-            },
-            _a[webDesktop] = {
-                marginTop: appTheme.topBarHeight,
-            },
-            _a),
+        content: {
+            display: 'flex',
+            width: '100%',
+            flexGrow: 1,
+            // backgroundColor: muiTheme.palette.background.default,
+            // transition: muiTheme.transitions.create('margin', {
+            //     easing: muiTheme.transitions.easing.sharp,
+            //     duration: muiTheme.transitions.duration.leavingScreen,
+            // }),
+            // marginTop: 56,
+            position: 'relative',
+            overflow: 'hidden',
+            marginTop: (_a = {},
+                _a[web] = appTheme.topBarHeight,
+                _a),
+        },
         contentPersistent: {
             marginLeft: -appTheme.drawerWidth,
         },

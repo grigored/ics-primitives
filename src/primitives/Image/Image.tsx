@@ -2,10 +2,10 @@ import * as React from "react";
 import {getStyleProps} from "../../utils/web";
 import {createStyles} from "../createStyles/createStyles";
 import {WithStyles} from "../..";
+import { ImageProps } from './Image.types';
 
 const styles = {
     image: {
-        objectFit: 'contain',
         width: '100%',
         height: '100%',
     },
@@ -15,30 +15,16 @@ const styles = {
     },
 };
 
-
-export interface Props {
-    key?: string | number;
-    children?: any;
-    style?: any;
-    id?: string;
-    onPress?: () => void;
-    color?: string;
-    s3Url?: string;
-    openOnClick?: boolean,
-    resizeMode?: string,
-    source?: {uri: string} | any; // TODO add material ui image here
-}
-
-class CImage extends React.PureComponent<Props & WithStyles, {}> {
+class CImage extends React.PureComponent<ImageProps & WithStyles, {}> {
     render() {
-        let {classes, children, style, source, onPress, openOnClick, color, s3Url} = this.props;
+        let {classes, children, style, source, onPress, openOnClick, resizeMode, color, s3Url} = this.props;
 
         let styles = style && style.constructor === Array ? [...style] : [style];
         let result;
         if (source.uri) {
             result = (
                 <img
-                    {...getStyleProps([...styles, classes.image])}
+                    {...getStyleProps([...styles, classes.image, {objectFit: resizeMode}])}
                     src={source.uri}
                     onClick={onPress}
                 >
@@ -74,4 +60,4 @@ class CImage extends React.PureComponent<Props & WithStyles, {}> {
 }
 
 const componentName = 'Image';
-export const Image = createStyles<Props>(styles, componentName, CImage);
+export const Image = createStyles<ImageProps>(styles, componentName, CImage);

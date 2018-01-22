@@ -21,7 +21,6 @@ import { getStyleProps } from "../../utils/web";
 import { createStyles } from "../createStyles/createStyles";
 var styles = {
     image: {
-        objectFit: 'contain',
         width: '100%',
         height: '100%',
     },
@@ -36,11 +35,11 @@ var CImage = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CImage.prototype.render = function () {
-        var _a = this.props, classes = _a.classes, children = _a.children, style = _a.style, source = _a.source, onPress = _a.onPress, openOnClick = _a.openOnClick, color = _a.color, s3Url = _a.s3Url;
+        var _a = this.props, classes = _a.classes, children = _a.children, style = _a.style, source = _a.source, onPress = _a.onPress, openOnClick = _a.openOnClick, resizeMode = _a.resizeMode, color = _a.color, s3Url = _a.s3Url;
         var styles = style && style.constructor === Array ? style.slice() : [style];
         var result;
         if (source.uri) {
-            result = (React.createElement("img", __assign({}, getStyleProps(styles.concat([classes.image])), { src: source.uri, onClick: onPress }), children));
+            result = (React.createElement("img", __assign({}, getStyleProps(styles.concat([classes.image, { objectFit: resizeMode }])), { src: source.uri, onClick: onPress }), children));
         }
         else {
             styles.unshift(classes.icon);

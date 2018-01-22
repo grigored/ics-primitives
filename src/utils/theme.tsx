@@ -13,7 +13,7 @@ export const webDesktop = 'webDesktop';
 
 
 export const appTheme: AppTheme = {
-    topBarHeight: 50,
+    topBarHeight: 64,
     drawerWidth: 250,
     primaryColor: '#f00',
     primaryTextColor: '#fff',

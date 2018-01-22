@@ -1,2 +1,3 @@
 /// <reference types="react" />
-export declare const DrawerWeb: () => JSX.Element;
+import * as React from 'react';
+export declare const DrawerWeb: React.StatelessComponent;

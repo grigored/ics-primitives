@@ -1,19 +1,7 @@
-import { removePlatform } from 'src/utils/combineStyles';
+import { removePlatform, combineStyles } from 'src/utils/combineStyles';
 import { all, ios, native, web } from 'src/utils/theme';
 import { isWeb, isIOS, isAndroid } from 'src/primitives/platform/platform';
-//
-// const containerPadding1 = {
-//     container: {
-//         padding: 1
-//     }
-// };
-//
-// const containerPadding2 = {
-//     container: {
-//         padding: 2
-//     }
-// };
-describe('getStyles', function () {
+describe('removePlatform()', function () {
     it('extracts the right styles according to the platform when platform name is before classname', function () {
         var theme = {
             container: {
@@ -64,8 +52,20 @@ describe('getStyles', function () {
         isWeb && expect(removePlatform(theme)).toEqual(theme);
         isIOS && expect(removePlatform(theme)).toEqual({});
     });
-    // it('updating only ', () => {
-    //     expect(updateTheme(containerPadding1, containerPadding2)).toEqual(containerPadding2);
-    // });
+});
+describe('combineStyles()', function () {
+    it('returns the right class names', function () {
+        var styles = {
+            content: {
+                marginTop: (_a = {},
+                    _a[web] = 5,
+                    _a),
+            },
+        }, expectedWeb = { content: { marginTop: 5 } };
+        isWeb && expect(combineStyles(styles, "test")).toEqual(expectedWeb);
+        isWeb && expect(combineStyles(function () { return styles; }, "test")).toEqual(expectedWeb);
+        isIOS && expect(combineStyles(styles, 'text').toEqual({ content: {} }));
+        var _a;
+    });
 });
 //# sourceMappingURL=combineStyles.spec.js.map
