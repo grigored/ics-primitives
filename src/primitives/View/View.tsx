@@ -1,22 +1,9 @@
 import * as React from "react";
 import { getStyleProps } from '../../utils/web';
+import { ViewProps } from './View.types';
 
-export interface ViewStyle {
 
-};
-
-export interface Props {
-    accessible?: boolean;
-    children?: React.ReactNode;
-    collapsable?: boolean;
-    dangerouslySetInnerHTML?: {__html: string};
-    id?: string;
-    key?: string | number;
-    onClick?: () => void;
-    style?: ViewStyle;
-}
-
-export class View extends React.PureComponent<Props, {}> {
+export class View extends React.PureComponent<ViewProps, {}> {
     render() {
         let {
             children, style, collapsable, accessible, ...otherProps

@@ -3,14 +3,11 @@ import {appTheme, createStyles, View, WithStyles} from "../..";
 import {Topbar} from "../Topbar/Topbar";
 import {DrawerWeb} from '../DrawerWeb/DrawerWeb';
 import {web} from "../../utils/theme";
+import {ThemeProvider} from "../ThemeProvider/ThemeProvider";
 
 const styles = () => ({
     appFrame: {
-        position: 'absolute',
         fontFamily: 'Roboto',
-        height: '100%',
-        display: 'flex',
-        width: '100%',
         flex: 1,
     },
     menuButton: {
@@ -65,40 +62,41 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps> {
     render() {
         const {classes, children, drawerContent, drawerOpen, drawerPersistent, onDrawerClose } = this.props;
         return (
-            <View style={classes.appFrame}>
-                <Topbar
-                    // leftButtonIcon={(isXs() || isAdmin(userData)) &&
-                    // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
-                    // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
-                    drawerOpen={!!drawerOpen}
-                    title={"ASD"}
-                    // rightButtonsData={!isXs() && this.getRightMenuButtonData()}
-                />
+            <ThemeProvider>
+                <View style={classes.appFrame} name={'AppFrame'}>
+                    <Topbar
+                        // leftButtonIcon={(isXs() || isAdmin(userData)) &&
+                        // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
+                        // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
+                        drawerOpen={!!drawerOpen}
+                        title={"ASD"}
+                        // rightButtonsData={!isXs() && this.getRightMenuButtonData()}
+                    />
 
-                <DrawerWeb
-                    persistent={drawerPersistent}
-                    open={drawerOpen}
-                    onDrawerClose={onDrawerClose}
-                >
-                    {drawerContent}
-                </DrawerWeb>
-                <View style={[
-                    classes.content,
-                    drawerOpen && classes.contentShift,
-                    drawerPersistent && classes.contentPersistent,
-                ]}>
-                    {children}
-                    {/*{Object.values(routeDefinitions).map(routeData =>*/}
-                    {/*<Route*/}
-                    {/*key={routeData.screen}*/}
-                    {/*path={'/' + routeData.screen + (routeData.webRouteParam || '')}*/}
-                    {/*component={routeData.container}*/}
-                    {/*/>*/}
-                    {/*)}*/}
-                    {/*{!routeDefinition && "unknown route"}*/}
+                    <DrawerWeb
+                        persistent={drawerPersistent}
+                        open={drawerOpen}
+                        onDrawerClose={onDrawerClose}
+                    >
+                        {drawerContent}
+                    </DrawerWeb>
+                    <View style={[
+                        classes.content,
+                        drawerOpen && classes.contentShift,
+                        drawerPersistent && classes.contentPersistent,
+                    ]}>
+                        {children}
+                        {/*{Object.values(routeDefinitions).map(routeData =>*/}
+                        {/*<Route*/}
+                        {/*key={routeData.screen}*/}
+                        {/*path={'/' + routeData.screen + (routeData.webRouteParam || '')}*/}
+                        {/*component={routeData.container}*/}
+                        {/*/>*/}
+                        {/*)}*/}
+                        {/*{!routeDefinition && "unknown route"}*/}
+                    </View>
                 </View>
-            </View>
-
+            </ThemeProvider>
         );
     }
 }

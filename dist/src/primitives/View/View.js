@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -25,9 +26,9 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import * as React from "react";
-import { getStyleProps } from '../../utils/web';
-;
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var web_1 = require("../../utils/web");
 var View = /** @class */ (function (_super) {
     __extends(View, _super);
     function View() {
@@ -35,9 +36,9 @@ var View = /** @class */ (function (_super) {
     }
     View.prototype.render = function () {
         var _a = this.props, children = _a.children, style = _a.style, collapsable = _a.collapsable, accessible = _a.accessible, otherProps = __rest(_a, ["children", "style", "collapsable", "accessible"]);
-        return (React.createElement("div", __assign({}, getStyleProps(style), otherProps), children));
+        return (React.createElement("div", __assign({}, web_1.getStyleProps(style), otherProps), children));
     };
     return View;
 }(React.PureComponent));
-export { View };
+exports.View = View;
 //# sourceMappingURL=View.js.map

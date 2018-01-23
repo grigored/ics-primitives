@@ -1,56 +1,47 @@
 'use strict';
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-import * as React from 'react';
-import { BUTTON_TYPE } from "../enums";
-import { android, appTheme, ios } from "../../utils/theme";
-import { createStyles, Image, Text, Touchable, View } from "../..";
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var theme_1 = require("../../utils/theme");
+var __1 = require("../..");
 var styles = function () {
     return ({
         button: (_a = {},
-            _a[ios] = {
-                // height: 24,
-                paddingLeft: 14,
-                paddingRight: 14,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-            },
-            _a[android] = {
+            _a[theme_1.android] = {
                 elevation: 4,
                 borderRadius: 2,
                 flexDirection: 'row',
             },
-            _a),
-        primaryView: {
-            backgroundColor: appTheme.primaryColor,
-        },
-        primaryText: {
-            color: 'white'
-        },
-        text: (_b = {},
-            _b[ios] = {
-                color: appTheme.primaryColor,
-                textAlign: 'center',
-                // padding: 8,
-                fontSize: 14,
-                fontWeight: '500',
+            _a[theme_1.all] = {
+                padding: 14,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
             },
-            _b[android] = {
-                textAlign: 'center',
-                color: 'white',
-                // padding: 8,
-                fontWeight: '500',
+            _a),
+        disabledView: (_b = {
+                backgroundColor: '#a1a1a1'
+            },
+            _b[theme_1.android] = {
+                elevation: 0,
             },
             _b),
+        disabledText: {
+            color: '#cdcdcd',
+        },
+        primaryView: {
+            backgroundColor: theme_1.appTheme.primaryColor,
+        },
+        primaryText: {
+            color: theme_1.appTheme.primaryTextColor,
+        },
+        text: {
+            textAlign: 'center',
+            fontWeight: '500',
+            fontSize: 14,
+        },
         shadowedButton: (_c = {},
-            _c[ios] = {
+            _c[theme_1.android] = {},
+            _c[theme_1.all] = {
                 shadowColor: '#000',
                 // shadowOffset: {
                 //     width: 0,
@@ -60,23 +51,6 @@ var styles = function () {
                 shadowRadius: 3,
             },
             _c),
-        buttonDisabled: (_d = {},
-            _d[ios] = {
-                backgroundColor: '#a1a1a1',
-            },
-            _d[android] = {
-                elevation: 0,
-                backgroundColor: '#a1a1a1',
-            },
-            _d),
-        textDisabled: (_e = {},
-            _e[ios] = {
-                color: '#cdcdcd',
-            },
-            _e[android] = {
-                color: '#cdcdcd',
-            },
-            _e),
         iconStyle: {
             width: 24,
             height: 24,
@@ -84,30 +58,31 @@ var styles = function () {
             marginRight: 16,
         }
     });
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c;
 };
 var CButton = function (_a) {
-    var labelColor = _a.labelColor, backgroundColor = _a.backgroundColor, onPress = _a.onPress, title = _a.title, disabled = _a.disabled, style = _a.style, labelStyle = _a.labelStyle, type = _a.type, classes = _a.classes, icon = _a.icon, iconStyle = _a.iconStyle, testProps = _a.testProps, touchableStyle = _a.touchableStyle;
+    var children = _a.children, classes = _a.classes, disabled = _a.disabled, icon = _a.icon, onPress = _a.onPress, primary = _a.primary, raised = _a.raised, styles = _a.styles, title = _a.title;
     // use TouchableComponent for Ripple effect
-    return (React.createElement(Touchable, __assign({}, (testProps || {}), { testProps: testProps, disabled: disabled, activeOpacity: 0.3, onPress: onPress, underlayColor: 'transparent', style: touchableStyle }),
-        React.createElement(View, { style: [
-                classes.button,
-                type === BUTTON_TYPE.RAISED && classes.shadowedButton,
-                style,
-                disabled && classes.buttonDisabled,
-                !disabled && backgroundColor && { backgroundColor: backgroundColor }
-            ] },
+    return (React.createElement(__1.Touchable, { disabled: disabled, activeOpacity: 0.3, onPress: onPress, underlayColor: 'transparent', style: [
+            classes.button,
+            disabled && classes.disabledView,
+            raised && classes.shadowedButton,
+            primary && classes.primaryView,
+            styles && styles.root
+        ] },
+        React.createElement(__1.View, null,
             icon &&
-                React.createElement(Image, { style: [classes.iconStyle, iconStyle], source: icon }),
-            typeof title === 'string'
-                ? React.createElement(Text, { style: [
+                React.createElement(__1.Image, { style: [classes.iconStyle, styles && styles.icon], source: icon }),
+            !!title
+                ? React.createElement(__1.Text, { style: [
                         classes.text,
-                        disabled && classes.textDisabled,
-                        labelStyle,
-                        !disabled && labelColor && { color: labelColor }
+                        primary && classes.primaryText,
+                        disabled && classes.disabledText,
+                        styles && styles.label
                     ] }, title)
-                : title)));
+                : null,
+            children)));
 };
 var componentName = 'Button';
-export var Button = createStyles(styles, componentName, CButton);
+exports.Button = __1.createStyles(styles, componentName, CButton);
 //# sourceMappingURL=Button.native.js.map

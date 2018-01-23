@@ -4,7 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import {Button} from "../Button/Button";
-import {appTheme, createStyles, WithStyles, View} from "../..";
+import {appTheme, createStyles, WithStyles} from "../..";
 import {getStyleProps} from "../../utils/web";
 import {TopbarProps} from "./Topbar.types";
 
@@ -40,39 +40,37 @@ const CTopBar = ({
      leftButtonOnPress,
      rightButtonsData,
      title,
- }: TopbarProps & WithStyles)  => (
+}: TopbarProps & WithStyles) => (
     <AppBar {...getStyleProps([classes.appBar, drawerOpen && classes.appBarShift])}>
-        <View style={classes.root}>
-            <Toolbar>
-                {
-                    leftButtonIcon &&
-                    <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
-                        {leftButtonIcon}
-                    </IconButton>
-                }
+        <Toolbar>
+            {
+                leftButtonIcon &&
+                <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
+                    {leftButtonIcon}
+                </IconButton>
+            }
 
-                <Typography type="title" color="inherit" className={classes.flex as string}>
-                    {title || ''}
-                </Typography>
+            <Typography type="title" color="inherit" className={classes.flex as string}>
+                {title || ''}
+            </Typography>
 
-                {rightButtonsData && rightButtonsData.map(buttonData =>
-                    !!buttonData.items
-                        ? <Button
-                            key={buttonData.title}
-                            icon={buttonData.icon}
-                            title={buttonData.title}
-                            // items={buttonData.items}
-                        />
-                        : <Button
-                            key={buttonData.title}
-                            backgroundColor={buttonData.selected ? 'rgba(255,255,255,0.2)' : 'transparent'}
-                            onPress={buttonData.onClick}
-                            title={buttonData.title}
-                        />
-                )}
+            {rightButtonsData && rightButtonsData.map(buttonData =>
+                !!buttonData.items
+                    ? <Button
+                        key={buttonData.title}
+                        icon={buttonData.icon}
+                        title={buttonData.title}
+                        onPress={() => {}}
+                        // items={buttonData.items}
+                    />
+                    : <Button
+                        key={buttonData.title}
+                        onPress={buttonData.onClick}
+                        title={buttonData.title}
+                    />
+            )}
 
-            </Toolbar>
-        </View>
+        </Toolbar>
     </AppBar>
 );
 

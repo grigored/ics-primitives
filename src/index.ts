@@ -5,5 +5,6 @@ export { Touchable } from './primitives/Touchable/Touchable';
 export { View } from './primitives/View/View';
 export { WithStyles } from './utils/theme.types';
 export { appTheme} from './utils/theme';
+
 export { Button } from './nativeComponents/Button/Button';
 export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';

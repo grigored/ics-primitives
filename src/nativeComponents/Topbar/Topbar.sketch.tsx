@@ -1,15 +1,14 @@
 import * as React from 'react';
 import {TopbarProps} from "./Topbar.types";
-import {appTheme, Text, View} from '../..';
+import { Paper } from '../Paper/Paper';
+import {appTheme, Text} from '../..';
 import {createStyles, WithStyles} from "../..";
-import {defaultClasses} from "../../utils/theme";
 
 const styles = () => ({
     container: {
         backgroundColor: appTheme.primaryColor,
         width: '100%',
         height: appTheme.topBarHeight,
-        ...defaultClasses.paper,
         paddingLeft: 24,
         paddingRight: 24
     },
@@ -21,9 +20,9 @@ const styles = () => ({
 });
 
 const CTopbar: React.StatelessComponent<TopbarProps & WithStyles> = ({classes, title}) => (
-    <View style={classes.container}>
+    <Paper style={classes.container} name={'Topbar'}>
         <Text style={classes.text}>{title}</Text>
-    </View>
+    </Paper>
 );
 
 export const Topbar = createStyles(styles, 'Topbar', CTopbar);

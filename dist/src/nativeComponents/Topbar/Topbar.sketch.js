@@ -1,27 +1,27 @@
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-import * as React from 'react';
-import { appTheme, Text, View } from '../..';
-import { createStyles } from "../..";
-import { defaultClasses } from "../../utils/theme";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var Paper_1 = require("../Paper/Paper");
+var __1 = require("../..");
+var __2 = require("../..");
 var styles = function () { return ({
-    container: __assign({ backgroundColor: appTheme.primaryColor, width: '100%', height: appTheme.topBarHeight }, defaultClasses.paper, { paddingLeft: 24, paddingRight: 24 }),
+    container: {
+        backgroundColor: __1.appTheme.primaryColor,
+        width: '100%',
+        height: __1.appTheme.topBarHeight,
+        paddingLeft: 24,
+        paddingRight: 24
+    },
     text: {
-        color: appTheme.primaryTextColor,
+        color: __1.appTheme.primaryTextColor,
         fontSize: 24,
         fontWeight: 500,
     }
 }); };
 var CTopbar = function (_a) {
     var classes = _a.classes, title = _a.title;
-    return (React.createElement(View, { style: classes.container },
-        React.createElement(Text, { style: classes.text }, title)));
+    return (React.createElement(Paper_1.Paper, { style: classes.container, name: 'Topbar' },
+        React.createElement(__1.Text, { style: classes.text }, title)));
 };
-export var Topbar = createStyles(styles, 'Topbar', CTopbar);
+exports.Topbar = __2.createStyles(styles, 'Topbar', CTopbar);
 //# sourceMappingURL=Topbar.sketch.js.map

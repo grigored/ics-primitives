@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -6,7 +7,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-export function getStyleProps(style) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getStyleProps = function (style) {
     var generalStyle = {
         display: 'flex',
         fontFamily: 'Roboto',
@@ -39,8 +41,8 @@ export function getStyleProps(style) {
     else {
         throw 'Unknown style type';
     }
-}
-export function getMuiTheme(appTheme) {
+};
+exports.getMuiTheme = function (appTheme) {
     var hues = [
         "50",
         "100",
@@ -68,5 +70,16 @@ export function getMuiTheme(appTheme) {
             secondary: secondary,
         }
     };
-}
+};
+exports.loadRoboto = function () {
+    var robotoCssId = 'robotoCssId'; // you could encode the css path itself to generate id..
+    if (!document.getElementById(robotoCssId)) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.id = robotoCssId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+        head.appendChild(link);
+    }
+};
 //# sourceMappingURL=web.js.map

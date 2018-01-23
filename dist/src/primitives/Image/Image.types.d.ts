@@ -7,7 +7,7 @@ export interface ImageProps {
     color?: string;
     s3Url?: string;
     openOnClick?: boolean;
-    resizeMode: any;
+    resizeMode?: any;
     source: {
         uri: string;
     } | any;

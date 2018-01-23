@@ -1,51 +1,50 @@
 'use strict';
 import * as React from 'react';
-import {BUTTON_TYPE} from "../enums";
 import {ButtonProps} from "./Button.types";
-import {android, appTheme, ios} from "../../utils/theme";
+import {android, appTheme, all} from "../../utils/theme";
 import {createStyles, WithStyles, Image, Text, Touchable, View} from "../..";
 
 
 const styles = () => ({
     button: {
-        [ios]: {
-            // height: 24,
-            paddingLeft: 14,
-            paddingRight: 14,
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-        },
         [android]: {
             elevation: 4,
             borderRadius: 2,
             flexDirection: 'row',
         },
+        [all]: {
+            padding: 14,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+        },
+
     },
+    disabledView: {
+        backgroundColor: '#a1a1a1',
+        [android]: {
+            elevation: 0,
+        },
+    },
+    disabledText: {
+        color: '#cdcdcd',
+    },
+
     primaryView: {
-        backgroundColor: appTheme.primaryColor,//'#f00',//theme.palette.primary[500],
+        backgroundColor: appTheme.primaryColor,
     },
     primaryText: {
-        color: 'white'
+        color: appTheme.primaryTextColor,
 
     },
     text: {
-        [ios]: {
-            color: appTheme.primaryColor,//'#f00',//theme.palette.primary[500],
-            textAlign: 'center',
-            // padding: 8,
-            fontSize: 14,
-            fontWeight: '500',
-        },
-        [android]: {
-            textAlign: 'center',
-            color: 'white',
-            // padding: 8,
-            fontWeight: '500',
-        },
+        textAlign: 'center',
+        fontWeight: '500',
+        fontSize: 14,
     },
     shadowedButton: {
-        [ios]: {
+        [android]: {},
+        [all]: {
             shadowColor: '#000',
             // shadowOffset: {
             //     width: 0,
@@ -55,23 +54,6 @@ const styles = () => ({
             shadowRadius: 3,
         },
     },
-    buttonDisabled: {
-        [ios]: {
-            backgroundColor: '#a1a1a1',
-        },
-        [android]: {
-            elevation: 0,
-            backgroundColor: '#a1a1a1',
-        }
-    },
-    textDisabled: {
-        [ios]: {
-            color: '#cdcdcd',
-        },
-        [android]: {
-            color: '#cdcdcd',
-        }
-    },
     iconStyle: {
         width: 24,
         height: 24,
@@ -80,61 +62,54 @@ const styles = () => ({
     }
 });
 
-const CButton = ({
-                     labelColor,
-                     backgroundColor,
-                     onPress,
-                     title,
-                     disabled,
-                     style,
-                     labelStyle,
-                     type,
-                     classes,
-                     icon,
-                     iconStyle,
-                     testProps,
-                     touchableStyle,
-                 }: ButtonProps & WithStyles) => {
+const CButton: React.StatelessComponent<ButtonProps & WithStyles> = ({
+    children,
+    classes,
+    disabled,
+    icon,
+    onPress,
+    primary,
+    raised,
+    styles,
+    title,
+}) => {
 
     // use TouchableComponent for Ripple effect
     return (
         <Touchable
-            {...(testProps || {})}
-            testProps={testProps}
             disabled={disabled}
             activeOpacity={0.3}
             onPress={onPress}
             underlayColor={'transparent'}
-            style={touchableStyle}
-        >
-            <View style={[
+            style={[
                 classes.button,
-                type === BUTTON_TYPE.RAISED && classes.shadowedButton,
-                style,
-                disabled && classes.buttonDisabled,
-                !disabled && backgroundColor && {backgroundColor}
+                disabled && classes.disabledView,
+                raised && classes.shadowedButton,
+                primary && classes.primaryView,
+                styles && styles.root
             ]}
-            >
+        >
+            <View>
                 {
                     icon &&
                     <Image
-                        style={[classes.iconStyle, iconStyle]}
+                        style={[classes.iconStyle, styles && styles.icon]}
                         source={icon}
                     />
                 }
-                {
-                    typeof title === 'string'
-                        ? <Text
-                            style={[
-                                classes.text,
-                                disabled && classes.textDisabled,
-                                labelStyle,
-                                !disabled && labelColor && {color: labelColor}
-                            ]}>
-                            {title}
-                        </Text>
-                        : title
+                {!!title
+                    ? <Text
+                        style={[
+                            classes.text,
+                            primary && classes.primaryText,
+                            disabled && classes.disabledText,
+                            styles && styles.label
+                        ]}>
+                        {title}
+                    </Text>
+                    : null
                 }
+                {children}
             </View>
         </Touchable>
     );

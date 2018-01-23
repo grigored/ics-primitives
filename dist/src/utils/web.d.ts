@@ -1,5 +1,5 @@
-import { AppTheme, Classes } from "./theme.types";
-export declare function getStyleProps(style?: Classes): {
+import { AppTheme } from "./theme.types";
+export declare const getStyleProps: (style?: string | number | Object | (string | number | Object)[] | undefined) => {
     style: {
         display: string;
         fontFamily: string;
@@ -20,9 +20,10 @@ export declare function getStyleProps(style?: Classes): {
         fontFamily: string;
     };
 };
-export declare function getMuiTheme(appTheme: AppTheme): {
+export declare const getMuiTheme: (appTheme: AppTheme) => {
     palette: {
         primary: any;
         secondary: any;
     };
 };
+export declare const loadRoboto: () => void;

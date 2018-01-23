@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -8,19 +9,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
-import { appTheme, createStyles, View } from "../..";
-import { Topbar } from "../Topbar/Topbar";
-import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
-import { web } from "../../utils/theme";
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var __1 = require("../..");
+var Topbar_1 = require("../Topbar/Topbar");
+var DrawerWeb_1 = require("../DrawerWeb/DrawerWeb");
+var theme_1 = require("../../utils/theme");
+var ThemeProvider_1 = require("../ThemeProvider/ThemeProvider");
 var styles = function () {
     return ({
         appFrame: {
-            position: 'absolute',
             fontFamily: 'Roboto',
-            height: '100%',
-            display: 'flex',
-            width: '100%',
             flex: 1,
         },
         menuButton: {
@@ -43,11 +42,11 @@ var styles = function () {
             position: 'relative',
             overflow: 'hidden',
             marginTop: (_a = {},
-                _a[web] = appTheme.topBarHeight,
+                _a[theme_1.web] = __1.appTheme.topBarHeight,
                 _a),
         },
         contentPersistent: {
-            marginLeft: -appTheme.drawerWidth,
+            marginLeft: -__1.appTheme.drawerWidth,
         },
         contentShift: {
             marginLeft: 0,
@@ -66,24 +65,25 @@ var CAppContainerWeb = /** @class */ (function (_super) {
     }
     CAppContainerWeb.prototype.render = function () {
         var _a = this.props, classes = _a.classes, children = _a.children, drawerContent = _a.drawerContent, drawerOpen = _a.drawerOpen, drawerPersistent = _a.drawerPersistent, onDrawerClose = _a.onDrawerClose;
-        return (React.createElement(View, { style: classes.appFrame },
-            React.createElement(Topbar
-            // leftButtonIcon={(isXs() || isAdmin(userData)) &&
-            // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
-            // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
-            , { 
+        return (React.createElement(ThemeProvider_1.ThemeProvider, null,
+            React.createElement(__1.View, { style: classes.appFrame, name: 'AppFrame' },
+                React.createElement(Topbar_1.Topbar
                 // leftButtonIcon={(isXs() || isAdmin(userData)) &&
                 // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
                 // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
-                drawerOpen: !!drawerOpen, title: "ASD" }),
-            React.createElement(DrawerWeb, { persistent: drawerPersistent, open: drawerOpen, onDrawerClose: onDrawerClose }, drawerContent),
-            React.createElement(View, { style: [
-                    classes.content,
-                    drawerOpen && classes.contentShift,
-                    drawerPersistent && classes.contentPersistent,
-                ] }, children)));
+                , { 
+                    // leftButtonIcon={(isXs() || isAdmin(userData)) &&
+                    // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
+                    // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
+                    drawerOpen: !!drawerOpen, title: "ASD" }),
+                React.createElement(DrawerWeb_1.DrawerWeb, { persistent: drawerPersistent, open: drawerOpen, onDrawerClose: onDrawerClose }, drawerContent),
+                React.createElement(__1.View, { style: [
+                        classes.content,
+                        drawerOpen && classes.contentShift,
+                        drawerPersistent && classes.contentPersistent,
+                    ] }, children))));
     };
     return CAppContainerWeb;
 }(React.PureComponent));
-export var AppContainerWeb = createStyles(styles, "AppContainerWeb", CAppContainerWeb);
+exports.AppContainerWeb = __1.createStyles(styles, "AppContainerWeb", CAppContainerWeb);
 //# sourceMappingURL=AppContainerWeb.js.map

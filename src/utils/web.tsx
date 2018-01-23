@@ -1,6 +1,6 @@
 import {AppTheme, Classes} from "./theme.types";
 
-export function getStyleProps(style?: Classes) {
+export const getStyleProps = (style?: Classes) => {
     const generalStyle = {
         display: 'flex',
         fontFamily: 'Roboto',
@@ -38,9 +38,9 @@ export function getStyleProps(style?: Classes) {
     else {
         throw 'Unknown style type';
     }
-}
+};
 
-export function getMuiTheme(appTheme: AppTheme) {
+export const getMuiTheme = (appTheme: AppTheme) => {
     let hues = [
             "50",
             "100",
@@ -69,4 +69,17 @@ export function getMuiTheme(appTheme: AppTheme) {
             secondary,
         }
     };
-}
+};
+
+export const loadRoboto = () => {
+    let robotoCssId = 'robotoCssId';  // you could encode the css path itself to generate id..
+    if (!document.getElementById(robotoCssId))
+    {
+        let head  = document.getElementsByTagName('head')[0];
+        let link  = document.createElement('link');
+        link.id   = robotoCssId;
+        link.rel  = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+        head.appendChild(link);
+    }
+};

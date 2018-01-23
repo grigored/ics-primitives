@@ -1,4 +1,4 @@
-import {AppTheme} from "./theme.types";
+import {AppTheme, PlatformStyleRules} from "./theme.types";
 
 export const XS_BREAKING_POINT = 768;
 
@@ -10,27 +10,41 @@ export const web = 'web';
 export const webMobile = 'webMobile';
 export const webDesktop = 'webDesktop';
 
-
-
 export const appTheme: AppTheme = {
     topBarHeight: 64,
     drawerWidth: 250,
     primaryColor: '#f00',
     primaryTextColor: '#fff',
+    fontSizeS: 12,
+    fontSizeM: 14,
+    fontSizeL: 18,
+    fontSizeXL: 24,
+    spacingXS: 2,
+    spacingS: 4,
+    spacingM: 8,
+    spacingL: 16,
+    spacingXL: 32,
 };
 
 export const runTimeClasses = {
 
 };
 
-export const defaultClasses = {
+export const defaultClasses: PlatformStyleRules = {
     paper: {
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 0,
-            height: 2
+        [web]: {
+            boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+            transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
         },
-        shadowRadius: 4,
-        shadowOpacity: 1.0
+        [all]: {
+            shadowColor: '#000000',
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+
+            shadowRadius: 4,
+            shadowOpacity: 1.0
+        }
     }
-}
+};

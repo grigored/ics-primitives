@@ -7,6 +7,6 @@ export interface ImageProps {
     color?: string;
     s3Url?: string;
     openOnClick?: boolean,
-    resizeMode: any, // sketch expects import {ResizeMode} from "react-sketchapp";
+    resizeMode?: any,
     source: {uri: string} | any; // TODO add material ui image here
 }
