@@ -1,12 +1,14 @@
-export var XS_BREAKING_POINT = 768;
-export var all = 'all';
-export var android = 'android';
-export var ios = 'ios';
-export var native = 'native';
-export var web = 'web';
-export var webMobile = 'webMobile';
-export var webDesktop = 'webDesktop';
-export var appTheme = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.XS_BREAKING_POINT = 768;
+exports.all = 'all';
+exports.android = 'android';
+exports.ios = 'ios';
+exports.native = 'native';
+exports.web = 'web';
+exports.webMobile = 'webMobile';
+exports.webDesktop = 'webDesktop';
+exports.appTheme = {
     topBarHeight: 64,
     drawerWidth: 250,
     primaryColor: '#f00',
@@ -21,14 +23,14 @@ export var appTheme = {
     spacingL: 16,
     spacingXL: 32,
 };
-export var runTimeClasses = {};
-export var defaultClasses = {
+exports.runTimeClasses = {};
+exports.defaultClasses = {
     paper: (_a = {},
-        _a[web] = {
+        _a[exports.web] = {
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
             transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
         },
-        _a[all] = {
+        _a[exports.all] = {
             shadowColor: '#000000',
             shadowOffset: {
                 width: 0,

@@ -1,4 +1,5 @@
 export { createStyles } from './primitives/createStyles/createStyles';
+export { Link } from './primitives/Link/Link';
 export { Image } from './primitives/Image/Image';
 export { Text } from './primitives/Text/Text';
 export { Touchable } from './primitives/Touchable/Touchable';
