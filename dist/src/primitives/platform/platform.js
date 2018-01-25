@@ -1,9 +1,9 @@
-import { default as localForage } from "localforage";
-export var isWeb = true;
-export var isIOS = false;
-export var isAndroid = false;
-export var isSketch = false;
-export var getWindowHeight = function () { return window.innerHeight; };
-export var getWindowWidth = function () { return window.innerWidth; };
-export var storage = localForage;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isWeb = true;
+exports.isIOS = false;
+exports.isAndroid = false;
+exports.isSketch = false;
+exports.getWindowHeight = function () { return window.innerHeight; };
+exports.getWindowWidth = function () { return window.innerWidth; };
 //# sourceMappingURL=platform.js.map

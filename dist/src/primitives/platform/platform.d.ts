@@ -4,4 +4,3 @@ export declare const isAndroid: boolean;
 export declare const isSketch: boolean;
 export declare const getWindowHeight: () => number;
 export declare const getWindowWidth: () => number;
-export declare const storage: any;

@@ -6,8 +6,6 @@ export { Touchable } from './primitives/Touchable/Touchable';
 export { View } from './primitives/View/View';
 export { WithStyles } from './utils/theme.types';
 export { appTheme} from './utils/theme';
-export { storage } from './primitives/platform/platform';
-
 export { Button } from './nativeComponents/Button/Button';
 export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 export { isXs } from './utils/common';

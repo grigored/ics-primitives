@@ -7,5 +7,4 @@ exports.isAndroid = react_native_1.Platform.OS === 'android';
 exports.isSketch = false;
 exports.getWindowHeight = function () { return react_native_1.Dimensions.get('window').height; };
 exports.getWindowWidth = function () { return react_native_1.Dimensions.get('window').width; };
-exports.storage = react_native_1.AsyncStorage;
 //# sourceMappingURL=platform.native.js.map
