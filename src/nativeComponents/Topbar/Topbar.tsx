@@ -31,6 +31,9 @@ const styles = () => ({
         //     duration: muiTheme.transitions.duration.enteringScreen,
         // }),
     },
+    buttonColor: {
+        color: appTheme.primaryTextColor,
+    }
 });
 
 const CTopBar = ({
@@ -67,6 +70,10 @@ const CTopBar = ({
                         key={buttonData.title}
                         onPress={buttonData.onClick}
                         title={buttonData.title}
+                        href={buttonData.href}
+                        styles={{
+                            label: classes.buttonColor,
+                        }}
                     />
             )}
 

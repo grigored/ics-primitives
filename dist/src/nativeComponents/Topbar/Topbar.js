@@ -31,6 +31,9 @@ var styles = function () { return ({
         marginLeft: __1.appTheme.drawerWidth,
         width: "calc(100% - " + __1.appTheme.drawerWidth + "px)",
     },
+    buttonColor: {
+        color: __1.appTheme.primaryTextColor,
+    }
 }); };
 var CTopBar = function (_a) {
     var classes = _a.classes, drawerOpen = _a.drawerOpen, leftButtonIcon = _a.leftButtonIcon, leftButtonOnPress = _a.leftButtonOnPress, rightButtonsData = _a.rightButtonsData, title = _a.title;
@@ -42,7 +45,9 @@ var CTopBar = function (_a) {
             rightButtonsData && rightButtonsData.map(function (buttonData) {
                 return !!buttonData.items
                     ? React.createElement(Button_1.Button, { key: buttonData.title, icon: buttonData.icon, title: buttonData.title, onPress: function () { } })
-                    : React.createElement(Button_1.Button, { key: buttonData.title, onPress: buttonData.onClick, title: buttonData.title });
+                    : React.createElement(Button_1.Button, { key: buttonData.title, onPress: buttonData.onClick, title: buttonData.title, href: buttonData.href, styles: {
+                            label: classes.buttonColor,
+                        } });
             }))));
 };
 exports.Topbar = __1.createStyles(styles, 'Topbar', CTopBar);

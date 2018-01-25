@@ -7,6 +7,7 @@ export const Button: React.StatelessComponent<ButtonProps> = ({
     disabled,
     icon,
     onPress,
+    href,
     primary,
     raised,
     styles,
@@ -14,11 +15,12 @@ export const Button: React.StatelessComponent<ButtonProps> = ({
 }) => {
     return (
         <MaterialButton
-            raised={raised}
-            onClick={onPress}
-            disabled={disabled}
             classes={styles as any}
             color={primary ? "primary": undefined}
+            disabled={disabled}
+            href={href}
+            onClick={onPress}
+            raised={raised}
         >
             {!!title ? title: null}
             {children}

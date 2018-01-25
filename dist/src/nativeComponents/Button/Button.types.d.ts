@@ -2,7 +2,8 @@ import { StyleSheetClass } from "../../utils/theme.types";
 export interface ButtonProps {
     disabled?: boolean;
     icon?: string;
-    onPress: () => void;
+    href?: string;
+    onPress?: () => void;
     primary?: boolean;
     raised?: boolean;
     styles?: {

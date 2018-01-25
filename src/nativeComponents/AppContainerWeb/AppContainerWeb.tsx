@@ -4,6 +4,7 @@ import {Topbar} from "../Topbar/Topbar";
 import {DrawerWeb} from '../DrawerWeb/DrawerWeb';
 import {web} from "../../utils/theme";
 import {ThemeProvider} from "../ThemeProvider/ThemeProvider";
+import {TopbarListButtonData, TopbarSimpleButtonData} from "../Topbar/Topbar.types";
 
 const styles = () => ({
     appFrame: {
@@ -55,12 +56,24 @@ export interface AppProps {
     drawerOpen?: boolean,
     drawerPersistent?: boolean,
     onDrawerClose?: () => void,
+    rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
+    title?: React.ReactNode | string,
 }
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps> {
 
     render() {
-        const {classes, children, drawerContent, drawerOpen, drawerPersistent, onDrawerClose } = this.props;
+        const {
+            classes,
+            children,
+            drawerContent,
+            drawerOpen,
+            drawerPersistent,
+            onDrawerClose,
+            rightButtonsData,
+            title,
+        } = this.props;
+        console.log('title is', title);
         return (
             <ThemeProvider>
                 <View style={classes.appFrame} name={'AppFrame'}>
@@ -69,8 +82,8 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps> {
                         // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
                         // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
                         drawerOpen={!!drawerOpen}
-                        title={"ASD"}
-                        // rightButtonsData={!isXs() && this.getRightMenuButtonData()}
+                        title={title}
+                        rightButtonsData={rightButtonsData}
                     />
 
                     <DrawerWeb

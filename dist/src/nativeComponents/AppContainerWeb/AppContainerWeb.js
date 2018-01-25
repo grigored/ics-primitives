@@ -64,7 +64,8 @@ var CAppContainerWeb = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CAppContainerWeb.prototype.render = function () {
-        var _a = this.props, classes = _a.classes, children = _a.children, drawerContent = _a.drawerContent, drawerOpen = _a.drawerOpen, drawerPersistent = _a.drawerPersistent, onDrawerClose = _a.onDrawerClose;
+        var _a = this.props, classes = _a.classes, children = _a.children, drawerContent = _a.drawerContent, drawerOpen = _a.drawerOpen, drawerPersistent = _a.drawerPersistent, onDrawerClose = _a.onDrawerClose, rightButtonsData = _a.rightButtonsData, title = _a.title;
+        console.log('title is', title);
         return (React.createElement(ThemeProvider_1.ThemeProvider, null,
             React.createElement(__1.View, { style: classes.appFrame, name: 'AppFrame' },
                 React.createElement(Topbar_1.Topbar
@@ -75,7 +76,7 @@ var CAppContainerWeb = /** @class */ (function (_super) {
                     // leftButtonIcon={(isXs() || isAdmin(userData)) &&
                     // <MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
                     // leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
-                    drawerOpen: !!drawerOpen, title: "ASD" }),
+                    drawerOpen: !!drawerOpen, title: title, rightButtonsData: rightButtonsData }),
                 React.createElement(DrawerWeb_1.DrawerWeb, { persistent: drawerPersistent, open: drawerOpen, onDrawerClose: onDrawerClose }, drawerContent),
                 React.createElement(__1.View, { style: [
                         classes.content,
