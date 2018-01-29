@@ -16,6 +16,8 @@ export const appTheme: AppTheme = {
     primaryColor: '#000',
     primaryTextColor: '#fff',
     backgroundColor: '#fff',
+    textColor: '#000',
+    horizontalMargin: 16,
     fontSizeS: 12,
     fontSizeM: 14,
     fontSizeL: 18,

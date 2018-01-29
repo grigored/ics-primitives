@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -6,7 +7,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-export var getStyleProps = function (style) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getStyleProps = function (style) {
     var generalStyle = {
         display: 'flex',
         fontFamily: 'Roboto',
@@ -40,7 +42,7 @@ export var getStyleProps = function (style) {
         throw 'Unknown style type';
     }
 };
-export var getMuiTheme = function (appTheme) {
+exports.getMuiTheme = function (appTheme) {
     var hues = [
         "50",
         "100",

@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -15,10 +16,11 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import * as React from 'react';
-import { Image as SketchImage } from 'react-sketchapp';
-export var Image = function (_a) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var react_sketchapp_1 = require("react-sketchapp");
+exports.Image = function (_a) {
     var resizeMode = _a.resizeMode, source = _a.source, other = __rest(_a, ["resizeMode", "source"]);
-    return (React.createElement(SketchImage, __assign({ resizeMode: resizeMode || 'contain', source: source.uri }, other)));
+    return (React.createElement(react_sketchapp_1.Image, __assign({ resizeMode: resizeMode || 'contain', source: source.uri }, other)));
 };
 //# sourceMappingURL=Image.sketch.js.map

@@ -3,8 +3,10 @@ export declare type AppTheme = {
     primaryColor: string;
     primaryTextColor: string;
     backgroundColor: string;
+    textColor: string;
     secondaryColor?: string;
     drawerWidth: number;
+    horizontalMargin: number;
     fontSizeS: number;
     fontSizeM: number;
     fontSizeL: number;
