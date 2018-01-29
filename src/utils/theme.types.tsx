@@ -2,6 +2,7 @@ export type AppTheme = {
     topBarHeight: number,
     primaryColor: string,
     primaryTextColor: string,
+    backgroundColor: string,
     secondaryColor?: string,
     drawerWidth: number,
     fontSizeS: number,

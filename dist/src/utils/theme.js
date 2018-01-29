@@ -9,8 +9,9 @@ export var webDesktop = 'webDesktop';
 export var appTheme = {
     topBarHeight: 64,
     drawerWidth: 250,
-    primaryColor: '#f00',
+    primaryColor: '#000',
     primaryTextColor: '#fff',
+    backgroundColor: '#fff',
     fontSizeS: 12,
     fontSizeM: 14,
     fontSizeL: 18,

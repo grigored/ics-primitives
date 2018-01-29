@@ -1,7 +1,7 @@
 import * as React from "react";
 import {getStyleProps} from "../../utils/web";
 import {createStyles} from "../createStyles/createStyles";
-import {WithStyles} from "../..";
+import {WithStyles} from "../../utils/theme.types";
 import { ImageProps } from './Image.types';
 
 const styles = {

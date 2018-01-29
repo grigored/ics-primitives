@@ -1,6 +1,6 @@
 {
   "name": "react-web-native-sketch",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "private": false,
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@types/react-native": "*",
-    "react-native": "*",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "babel-jest": "^22.1.0",
     "@types/enzyme": "^3.1.6",
     "@types/enzyme-adapter-react-16": "^1.0.1",
@@ -37,6 +37,25 @@
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "ios.ts",
+      "ios.tsx",
+      "android.ts",
+      "android.tsx"
+    ]
   },
   "repository": {
     "type": "git",
