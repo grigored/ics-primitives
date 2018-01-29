@@ -70,16 +70,3 @@ export const getMuiTheme = (appTheme: AppTheme) => {
         }
     };
 };
-
-export const loadRoboto = () => {
-    let robotoCssId = 'robotoCssId';  // you could encode the css path itself to generate id..
-    if (!document.getElementById(robotoCssId))
-    {
-        let head  = document.getElementsByTagName('head')[0];
-        let link  = document.createElement('link');
-        link.id   = robotoCssId;
-        link.rel  = 'stylesheet';
-        link.href = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
-        head.appendChild(link);
-    }
-};

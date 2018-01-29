@@ -1,6 +1,7 @@
 /// <reference types="react" />
 import * as React from 'react';
 import { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from "../../utils/enums";
+import { Classes } from "../../utils/theme.types";
 export interface FieldCommon {
     name: string;
 }
@@ -16,6 +17,7 @@ export declare type FieldDefinition = TextInputProps & {
     type: FORM_INPUT_TYPES.TEXT;
 } & FieldCommon;
 export interface FormProps {
-    fieldDefinitions: Array<FieldDefinition>;
+    containerStyle?: Classes;
+    fields: Array<FieldDefinition>;
     getFieldComponent: (name: string, component: React.ComponentType<any>, otherProps: any) => any;
 }

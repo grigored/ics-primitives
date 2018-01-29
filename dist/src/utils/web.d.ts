@@ -26,4 +26,3 @@ export declare const getMuiTheme: (appTheme: AppTheme) => {
         secondary: any;
     };
 };
-export declare const loadRoboto: () => void;

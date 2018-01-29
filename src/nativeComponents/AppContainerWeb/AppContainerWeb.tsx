@@ -73,7 +73,6 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps> {
             rightButtonsData,
             title,
         } = this.props;
-        console.log('title is', title);
         return (
             <ThemeProvider>
                 <View style={classes.appFrame} name={'AppFrame'}>

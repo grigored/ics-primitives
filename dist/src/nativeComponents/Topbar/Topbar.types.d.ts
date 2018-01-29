@@ -16,5 +16,5 @@ export interface TopbarProps {
     leftButtonOnPress?: () => void;
     title: ReactNode | string;
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>;
-    drawerOpen: boolean;
+    drawerOpen?: boolean;
 }

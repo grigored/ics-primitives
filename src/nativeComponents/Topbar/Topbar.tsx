@@ -17,7 +17,7 @@ const styles = () => ({
         flex: 1,
     },
     appBar: {
-        position: 'absolute',
+        position: 'fixed',
         backgroundColor: appTheme.primaryColor,
         // transition: muiTheme.transitions.create(['margin', 'width'], {
         //     easing: muiTheme.transitions.easing.sharp,

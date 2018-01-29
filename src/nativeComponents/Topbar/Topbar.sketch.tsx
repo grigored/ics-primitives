@@ -4,6 +4,7 @@ import { Paper } from '../Paper/Paper';
 import {appTheme, Text, View} from '../..';
 import {createStyles, WithStyles} from "../..";
 import { Button } from '../Button/Button';
+import {TopbarListButtonData, TopbarSimpleButtonData} from "src/nativeComponents/Topbar/Topbar.types";
 
 const styles = () => ({
     container: {
@@ -30,25 +31,31 @@ const CTopbar: React.StatelessComponent<TopbarProps & WithStyles> = ({classes, t
     <Paper style={classes.container} name={'Topbar'}>
         <Text style={classes.text}>{title}</Text>
         <View>
-            {rightButtonsData && rightButtonsData.map(buttonData =>
-                !!buttonData.items
-                    ? <Button
-                        key={buttonData.title}
-                        icon={buttonData.icon}
-                        title={buttonData.title}
-                        onPress={() => {}}
-                        // items={buttonData.items}
-                    />
-                    : <Button
-                        key={buttonData.title}
-                        onPress={buttonData.onClick}
-                        title={buttonData.title}
-                        href={buttonData.href}
-                        styles={{
-                            label: classes.buttonColor,
-                        }}
-                    />
-            )}
+            {rightButtonsData && rightButtonsData.map(buttonData => {
+                if ((buttonData as TopbarListButtonData).items) {
+                    let bd = buttonData as TopbarListButtonData;
+                    return (
+                        <Button
+                            key={bd.title}
+                            title={bd.title}
+                            // items={buttonData.items}
+                        />
+                    );
+                } else {
+                    let bd = buttonData as TopbarSimpleButtonData;
+                    return (
+                        <Button
+                            key={bd.title}
+                            onPress={bd.onPress}
+                            title={bd.title}
+                            href={bd.href}
+                            styles={{
+                                label: classes.buttonColor,
+                            }}
+                        />
+                    );
+                }
+            })}
         </View>
     </Paper>
 );

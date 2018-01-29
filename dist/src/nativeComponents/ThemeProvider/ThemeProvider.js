@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = require("react");
-var styles_1 = require("material-ui/styles");
-var web_1 = require("../../utils/web");
-var __1 = require("../..");
-web_1.loadRoboto();
-exports.ThemeProvider = function (_a) {
+import * as React from 'react';
+import { createMuiTheme, MuiThemeProvider } from "material-ui/styles";
+import { getMuiTheme } from "../../utils/web";
+import { appTheme } from "../..";
+export var ThemeProvider = function (_a) {
     var children = _a.children;
-    return (React.createElement(styles_1.MuiThemeProvider, { theme: styles_1.createMuiTheme(web_1.getMuiTheme(__1.appTheme)) }, children));
+    return (React.createElement(MuiThemeProvider, { theme: createMuiTheme(getMuiTheme(appTheme)) }, children));
 };
 //# sourceMappingURL=ThemeProvider.js.map

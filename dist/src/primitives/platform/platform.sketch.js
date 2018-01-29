@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isWeb = false;
-exports.isIOS = false;
-exports.isAndroid = false;
-exports.isSketch = true;
-exports.getWindowHeight = function () { return 767; };
-exports.getWindowWidth = function () { return 767; };
+export var isWeb = false;
+export var isIOS = false;
+export var isAndroid = false;
+export var isSketch = true;
+export var getWindowHeight = function () { return 767; };
+export var getWindowWidth = function () { return 767; };
 //# sourceMappingURL=platform.sketch.js.map

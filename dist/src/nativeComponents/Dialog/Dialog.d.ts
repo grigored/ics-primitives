@@ -7,11 +7,12 @@ export interface BodyProps {
     hideDialog?: Function;
 }
 export interface Props {
+    body: React.ComponentType<BodyProps>;
+    fullScreen: boolean;
     visible: boolean;
     nonUrlProps?: any;
     urlProps?: any;
     hideDialog: () => void;
-    body: React.ComponentType<BodyProps>;
 }
 export declare class Dialog extends React.PureComponent<Props, {}> {
     private hideDialog;

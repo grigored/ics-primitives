@@ -14,11 +14,12 @@ export interface BodyProps {
 }
 
 export interface Props {
+    body: React.ComponentType<BodyProps>,
+    fullScreen: boolean,
     visible: boolean,
     nonUrlProps?: any,
     urlProps?: any,
     hideDialog: () => void,
-    body: React.ComponentType<BodyProps>
 }
 
 export class Dialog extends React.PureComponent<Props, {}> {
@@ -32,7 +33,7 @@ export class Dialog extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let {body, visible, nonUrlProps, urlProps} = this.props;
+        let { body, fullScreen, visible, nonUrlProps, urlProps } = this.props;
         // noinspection JSUnusedLocalSymbols
         const BodyComponent = body;
 
@@ -40,8 +41,9 @@ export class Dialog extends React.PureComponent<Props, {}> {
             <MaterialDialog
                 open={visible}
                 onExited={this.onExited}
-                fullScreen={false}
+                fullScreen={fullScreen}
                 transition={Transition}
+                onClose={this.hideDialog}
             >
                 <BodyComponent
                     displayTopbar={true}
