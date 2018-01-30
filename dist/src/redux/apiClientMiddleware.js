@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("whatwg-fetch");
 var encodeParametersInUrl = function (url, queryParameters) {
     if (!queryParameters) {
-        return '';
+        return url;
     }
     var encodedParams = Object.keys(queryParameters)
         .filter(function (key) { return queryParameters[key] !== null && queryParameters[key] !== undefined; })
@@ -48,7 +48,7 @@ exports.apiClientMiddleware = function (baseUrl, baseHeaders) {
                     .then(function (json) {
                     var status = response.status;
                     if (status >= 200 && status < 300) {
-                        dispatch(__assign({ type: successType }, successPayload));
+                        dispatch(__assign({ type: successType, response: json }, successPayload));
                         dispatchOnSuccess && dispatch(dispatchOnSuccess);
                     }
                     else if (status === 401) {
@@ -56,7 +56,7 @@ exports.apiClientMiddleware = function (baseUrl, baseHeaders) {
                         // dispatch(push('/login'));
                     }
                     else {
-                        dispatch(__assign({ type: failureType }, failurePayload));
+                        dispatch(__assign({ type: failureType, response: json }, failurePayload));
                         dispatchOnFailure && dispatch(dispatchOnFailure);
                     }
                     // if (json.error) {
@@ -70,7 +70,7 @@ exports.apiClientMiddleware = function (baseUrl, baseHeaders) {
                 });
             }).catch(function (error) {
                 console.log(error);
-                dispatch(__assign({ type: failureType }, failurePayload));
+                dispatch(__assign({ type: failureType, response: { error: error } }, failurePayload));
                 dispatchOnFailure && dispatch(dispatchOnFailure);
             });
         }; };

@@ -2,7 +2,7 @@ import "whatwg-fetch";
 
 const encodeParametersInUrl = (url: string, queryParameters: {[key: string]: string}) => {
     if (!queryParameters) {
-        return '';
+        return url;
     }
     const encodedParams = Object.keys(queryParameters)
         .filter(key => queryParameters[key] !== null && queryParameters[key] !== undefined)
@@ -69,6 +69,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                         if (status >= 200 && status < 300) {
                             dispatch({
                                 type: successType,
+                                response: json,
                                 ...successPayload,
                             });
                             dispatchOnSuccess && dispatch(dispatchOnSuccess);
@@ -79,6 +80,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                         else {
                             dispatch({
                                 type: failureType,
+                                response: json,
                                 ...failurePayload,
                             });
                             dispatchOnFailure && dispatch(dispatchOnFailure);
@@ -98,6 +100,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                 console.log(error);
                 dispatch({
                     type: failureType,
+                    response: {error},
                     ...failurePayload,
                 });
                 dispatchOnFailure && dispatch(dispatchOnFailure);
