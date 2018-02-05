@@ -2,7 +2,10 @@ import * as React from "react";
 import { getStyleProps } from '../../utils/web';
 import { ViewProps } from './View.types';
 
-
+/**
+ * Class description and examples here
+ * @class View
+ */
 export class View extends React.PureComponent<ViewProps, {}> {
     render() {
         let {
