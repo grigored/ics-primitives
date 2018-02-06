@@ -6,13 +6,21 @@ import Styled from 'rsg-components/Styled';
 import {Button} from '../src/nativeComponents/Button/Button';
 import {View} from '../src/primitives/View/View';
 import {Image} from '../src/primitives/Image/Image';
+import cx from 'classnames';
 
 const xsmall = '@media (max-width: 600px)';
 
-const styles = ({font, base, light, link, baseBackground, mq}) => ({
+const styles = ({font, base, light, link, baseBackground, sidebarWidth, space, color, mq}) => ({
     root: {
         color: base,
         backgroundColor: baseBackground,
+    },
+
+    hasSidebar: {
+        paddingLeft: sidebarWidth,
+        [mq.small]: {
+            paddingLeft: 0,
+        },
     },
     header: {
         color: '#fff',
@@ -127,6 +135,28 @@ const styles = ({font, base, light, link, baseBackground, mq}) => ({
         width: 224,
         height: 400,
     },
+
+    sidebar: {
+        backgroundColor: color.sidebarBackground,
+        border: [[color.border, 'solid']],
+        borderWidth: [[0, 1, 0, 0]],
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: sidebarWidth,
+        overflow: 'auto',
+        [mq.small]: {
+            position: 'static',
+            width: 'auto',
+            borderWidth: [[1, 0, 0, 0]],
+            paddingBottom: space[0],
+        },
+    },
+    logo: {
+        padding: space[2],
+        borderBottom: [[1, color.border, 'solid']],
+    },
 });
 
 class StyleGuideRenderer extends React.PureComponent {
@@ -148,13 +178,13 @@ class StyleGuideRenderer extends React.PureComponent {
     }
 
     render() {
-        const {classes, title, homepageUrl, children,} = this.props,
+        const {classes, title, hasSidebar, toc, homepageUrl, children,} = this.props,
             {selectedFrame, selectedComponent} = this.state,
             unselectedColor = '#777',
             selectedColor = '#4CAF50',
-            icsClasses = styles({mq: {}});
+            icsClasses = styles({mq: {},space: {}, color: {}});
         return (
-            <div className={classes.root}>
+            <div className={cx(classes.root, hasSidebar && classes.hasSidebar)}>
                 <header className={classes.header}>
                     <div className={classes.content}>
                         <div className={classes.bar}>
@@ -179,7 +209,6 @@ class StyleGuideRenderer extends React.PureComponent {
                                 labelColor={'#fff'}
                                 onPress={() => {
                                     this.setState({selectedFrame: this.ios});
-                                    console.log('click')
                                 }}
                             >
                                 iOS
@@ -190,7 +219,6 @@ class StyleGuideRenderer extends React.PureComponent {
                                 labelColor={'#fff'}
                                 onPress={() => {
                                     this.setState({selectedFrame: this.android});
-                                    console.log('click')
                                 }}
                             >
                                 Android
@@ -201,7 +229,6 @@ class StyleGuideRenderer extends React.PureComponent {
                                 labelColor={'#fff'}
                                 onPress={() => {
                                     this.setState({selectedFrame: this.web});
-                                    console.log('click')
                                 }}
                             >
                                 Web
@@ -236,6 +263,14 @@ class StyleGuideRenderer extends React.PureComponent {
                         <Markdown text={`Generated with [React Styleguidist](${homepageUrl}) ❤️`}/>
                     </footer>
                 </main>
+                {hasSidebar && (
+                    <div className={classes.sidebar}>
+                        <div className={classes.logo}>
+                            <Logo>{title}</Logo>
+                        </div>
+                        {toc}
+                    </div>
+                )}
             </div>
         );
     }
@@ -246,6 +281,8 @@ StyleGuideRenderer.propTypes = {
     title: PropTypes.string.isRequired,
     homepageUrl: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+    toc: PropTypes.node.isRequired,
+    hasSidebar: PropTypes.bool,
 };
 
 export default Styled(styles)(StyleGuideRenderer);

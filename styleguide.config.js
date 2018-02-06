@@ -11,7 +11,7 @@ module.exports = {
     },
     resolver: require('react-docgen').resolver.findAllComponentDefinitions,
     propsParser: require('react-docgen-typescript').withDefaultConfig().parse,
-    webpackConfig: require('./examples/webpack.config'),
+    webpackConfig: require('./styleguide/webpack.config'),
     styleguideDir: 'docs',
     // template: './styleguide/template.html',
     styles: {
