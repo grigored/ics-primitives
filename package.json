@@ -16,6 +16,7 @@
     "react-dom": "^16.2.0",
     "react-sketchapp": "^1.0.0",
     "react-test-renderer": "^16.2.0",
+    "source-map-loader": "^0.2.3",
     "typescript": "^2.6.2",
     "whatwg-fetch": "^2.0.3"
   },
@@ -42,7 +43,8 @@
     "build": "tsc -m CommonJS",
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
-    "styleguidist": "styleguidist build",
+    "styleguidist:build": "styleguidist build",
+    "styleguidist:server": "styleguidist server",
     "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json"
   },
   "jest": {

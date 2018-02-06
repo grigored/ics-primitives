@@ -13,4 +13,5 @@ module.exports = {
     propsParser: require('react-docgen-typescript').withDefaultConfig().parse,
     webpackConfig: require('./examples/webpack.config'),
     styleguideDir: 'docs',
+    template: './styleguide/template.html',
 };
