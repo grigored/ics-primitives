@@ -11,6 +11,6 @@ def create_gif(file_names, output_file_name):
 
 if __name__ == '__main__':
     create_gif(
-        ['dummy_image1.png', 'dummy_image2.png', 'dummy_image3.png', 'dummy_image4.png'],
+        ['{}.png'.format(i) for i in range(2)],
         'outputGif'
     )

@@ -3,7 +3,7 @@ import { getStyleProps } from '../../utils/web';
 import { ViewProps } from './View.types';
 
 /**
- * Class description and examples here
+ * Class description and examples here <a id="asd" data-path="src/primitives/View" href="#asd">#asd</a>
  * @class View
  */
 export class View extends React.PureComponent<ViewProps, {}> {

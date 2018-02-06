@@ -13,5 +13,19 @@ module.exports = {
     propsParser: require('react-docgen-typescript').withDefaultConfig().parse,
     webpackConfig: require('./examples/webpack.config'),
     styleguideDir: 'docs',
-    template: './styleguide/template.html',
+    // template: './styleguide/template.html',
+    styles: {
+        StyleGuide: {
+            content: {
+                marginRight: 288,
+            }
+        }
+    },
+    showSidebar: true,
+    styleguideComponents: {
+        // LogoRenderer: path.join(__dirname, 'styleguide/components/Logo'),
+        // ReactComponentRenderer: path.join(__dirname, 'styleguide/Wrapper'),
+        // StyleGuide: path.join(__dirname, 'styleguide/StyleGuideRenderer'),
+        StyleGuideRenderer: path.join(__dirname, 'styleguide/StyleGuideRenderer'),
+    },
 };
