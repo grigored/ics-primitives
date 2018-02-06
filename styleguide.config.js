@@ -23,9 +23,6 @@ module.exports = {
     },
     showSidebar: true,
     styleguideComponents: {
-        // LogoRenderer: path.join(__dirname, 'styleguide/components/Logo'),
-        // ReactComponentRenderer: path.join(__dirname, 'styleguide/Wrapper'),
-        // StyleGuide: path.join(__dirname, 'styleguide/StyleGuideRenderer'),
-        StyleGuideRenderer: path.join(__dirname, 'styleguide/StyleGuideRenderer'),
+        StyleGuide: path.join(__dirname, 'styleguide/StyleGuide'),
     },
 };
