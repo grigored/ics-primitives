@@ -3,6 +3,7 @@
 # dependencies
 node_modules
 dist
+env
 
 # testing
 /coverage
