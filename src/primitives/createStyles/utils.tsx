@@ -10,13 +10,14 @@ import {combineStyles } from "../../utils/combineStyles";
  * @param {React.ComponentType<T & WithStyles>} WrappedComponent
  * @param {(styles: StyleRules) => StyleSheetClasses} StyleSheetCreate
  * @returns {React.ComponentType<T>}
+ * @public
  */
-export function createStylesGeneric<T>(
+export const createStylesGeneric = <T extends {}>(
     styles: StyleRules | (() => StyleRules),
     componentName: string,
     WrappedComponent: React.ComponentType<T & WithStyles>,
     StyleSheetCreate: (styles: StyleRules) => StyleSheetClasses,
-): React.ComponentType<T> {
+): React.ComponentType<T> => {
 
     class Enhance extends React.Component<T & {classes: any}> {
 
@@ -34,4 +35,4 @@ export function createStylesGeneric<T>(
     hoistNonReactStatics(Enhance, WrappedComponent);
     return Enhance;
 
-}
+};
