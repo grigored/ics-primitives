@@ -2,5 +2,11 @@
   // without this, test-ios complains due to flow-types
   "presets": [
     "react-native"
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "extensions": [".js", ".ios.js", ".android.js", ".ts", ".tsx", ".ios.tsx", ".android.tsx"]
+    }]
   ]
 }
