@@ -4,7 +4,7 @@ const glob = require('glob');
 module.exports = {
     title: 'React Style Guide Example',
     components: function () {
-        return glob.sync(path.resolve(__dirname, 'src/primitives/**/*.tsx'))
+        return glob.sync(path.resolve(__dirname, 'src/**/*.tsx'))
             .filter(function (module) {
                 return /\/[A-Z]\w*\.tsx$/.test(module);
             });

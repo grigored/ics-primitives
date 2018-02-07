@@ -6,9 +6,10 @@ import { PlatformStyleRules, WithStyles } from "../../utils/theme.types";
 export const createStyles = function<T>(
     styles: PlatformStyleRules | (() => PlatformStyleRules),
     componentName: string,
-    WrappedComponent: React.ComponentType<T & WithStyles>,
+    WrappedComponent: React.ComponentClass<T & WithStyles> | React.ComponentType<T & WithStyles>,
     name?: string,
-): React.ComponentType<T> {
+): React.ComponentClass<T> {
+    // @ts-ignore
     return withStyles(
         () => combineStyles(styles, componentName)
     )(WrappedComponent);
