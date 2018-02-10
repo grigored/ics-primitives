@@ -15,6 +15,10 @@ const styles = {
     },
 };
 
+/**
+ * Class description and examples here <a id="asd" data-path="src/primitives/View" href="#asd">#asd</a>
+ * @class Image
+ */
 class CImage extends React.PureComponent<ImageProps & WithStyles, {}> {
     render() {
         let {classes, children, style, source, onPress, openOnClick, resizeMode, color, s3Url} = this.props;

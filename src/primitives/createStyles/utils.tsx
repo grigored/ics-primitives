@@ -3,13 +3,21 @@ import { StyleRules, WithStyles, StyleSheetClasses } from "../../utils/theme.typ
 import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics";
 import {combineStyles } from "../../utils/combineStyles";
 
-
-export function createStylesGeneric<T>(
+/**
+ * some method
+ * @param {StyleRules | (() => StyleRules)} styles
+ * @param {string} componentName
+ * @param {React.ComponentType<T & WithStyles>} WrappedComponent
+ * @param {(styles: StyleRules) => StyleSheetClasses} StyleSheetCreate
+ * @returns {React.ComponentType<T>}
+ * @public
+ */
+export const createStylesGeneric = <T extends {}>(
     styles: StyleRules | (() => StyleRules),
     componentName: string,
     WrappedComponent: React.ComponentType<T & WithStyles>,
     StyleSheetCreate: (styles: StyleRules) => StyleSheetClasses,
-): React.ComponentType<T> {
+): React.ComponentType<T> => {
 
     class Enhance extends React.Component<T & {classes: any}> {
 
@@ -27,4 +35,4 @@ export function createStylesGeneric<T>(
     hoistNonReactStatics(Enhance, WrappedComponent);
     return Enhance;
 
-}
+};

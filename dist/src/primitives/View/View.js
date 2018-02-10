@@ -27,6 +27,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import * as React from "react";
 import { getStyleProps } from '../../utils/web';
+/**
+ * Class description and examples here <a id="asd" data-path="src/primitives/View" href="#asd">#asd</a>
+ * @class View
+ */
 var View = /** @class */ (function (_super) {
     __extends(View, _super);
     function View() {

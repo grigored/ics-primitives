@@ -29,6 +29,10 @@ var styles = {
         height: 24,
     },
 };
+/**
+ * Class description and examples here <a id="asd" data-path="src/primitives/View" href="#asd">#asd</a>
+ * @class Image
+ */
 var CImage = /** @class */ (function (_super) {
     __extends(CImage, _super);
     function CImage() {

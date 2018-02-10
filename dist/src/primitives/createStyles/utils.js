@@ -19,7 +19,16 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 import * as React from "react";
 import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics";
 import { combineStyles } from "../../utils/combineStyles";
-export function createStylesGeneric(styles, componentName, WrappedComponent, StyleSheetCreate) {
+/**
+ * some method
+ * @param {StyleRules | (() => StyleRules)} styles
+ * @param {string} componentName
+ * @param {React.ComponentType<T & WithStyles>} WrappedComponent
+ * @param {(styles: StyleRules) => StyleSheetClasses} StyleSheetCreate
+ * @returns {React.ComponentType<T>}
+ * @public
+ */
+export var createStylesGeneric = function (styles, componentName, WrappedComponent, StyleSheetCreate) {
     var Enhance = /** @class */ (function (_super) {
         __extends(Enhance, _super);
         function Enhance() {
@@ -33,5 +42,5 @@ export function createStylesGeneric(styles, componentName, WrappedComponent, Sty
     // need this for statics like react-native-navigation navigatorStyle/ navigatorButtons
     hoistNonReactStatics(Enhance, WrappedComponent);
     return Enhance;
-}
+};
 //# sourceMappingURL=utils.js.map

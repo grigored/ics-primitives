@@ -7,7 +7,8 @@ export interface ViewProps {
     collapsable?: boolean;
     dangerouslySetInnerHTML?: {__html: string};
     id?: string;
-    name?: string; // for sketch
+    /** for sketch */
+    name?: string;
     onClick?: () => void;
     style?: Classes;
 }
