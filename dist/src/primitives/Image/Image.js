@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -17,10 +16,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = require("react");
-var web_1 = require("../../utils/web");
-var createStyles_1 = require("../createStyles/createStyles");
+import * as React from "react";
+import { getStyleProps } from "../../utils/web";
+import { createStyles } from "../createStyles/createStyles";
 var styles = {
     image: {
         width: '100%',
@@ -41,13 +39,13 @@ var CImage = /** @class */ (function (_super) {
         var styles = style && style.constructor === Array ? style.slice() : [style];
         var result;
         if (source.uri) {
-            result = (React.createElement("img", __assign({}, web_1.getStyleProps(styles.concat([classes.image, { objectFit: resizeMode }])), { src: source.uri, onClick: onPress }), children));
+            result = (React.createElement("img", __assign({}, getStyleProps(styles.concat([classes.image, { objectFit: resizeMode }])), { src: source.uri, onClick: onPress }), children));
         }
         else {
             styles.unshift(classes.icon);
             // noinspection JSUnusedLocalSymbols
             var ImageComponent = source;
-            result = (React.createElement(ImageComponent, __assign({}, web_1.getStyleProps(styles), { color: color, onClick: onPress }), children));
+            result = (React.createElement(ImageComponent, __assign({}, getStyleProps(styles), { color: color, onClick: onPress }), children));
         }
         if (!openOnClick || !source.uri) {
             return result;
@@ -57,5 +55,5 @@ var CImage = /** @class */ (function (_super) {
     return CImage;
 }(React.PureComponent));
 var componentName = 'Image';
-exports.Image = createStyles_1.createStyles(styles, componentName, CImage);
+export var Image = createStyles(styles, componentName, CImage);
 //# sourceMappingURL=Image.js.map

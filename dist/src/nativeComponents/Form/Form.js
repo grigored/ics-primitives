@@ -1,4 +1,3 @@
-"use strict";
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -8,11 +7,10 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = require("react");
-var __1 = require("../..");
-var enums_1 = require("../../utils/enums");
-var TextInput_1 = require("./TextInput/TextInput");
+import * as React from 'react';
+import { createStyles, View } from '../..';
+import { FORM_INPUT_TYPES } from '../../utils/enums';
+import { TextInput } from './TextInput/TextInput';
 var styles = {
     formContainer: {
         flexDirection: 'column'
@@ -20,17 +18,17 @@ var styles = {
 };
 var CForm = function (_a) {
     var classes = _a.classes, containerStyle = _a.containerStyle, fields = _a.fields, getFieldComponent = _a.getFieldComponent;
-    return (React.createElement(__1.View, { style: [classes.formContainer, containerStyle] }, fields.map(function (_a) {
+    return (React.createElement(View, { style: [classes.formContainer, containerStyle] }, fields.map(function (_a) {
         var name = _a.name, type = _a.type, other = __rest(_a, ["name", "type"]);
         var component;
         switch (type) {
-            case enums_1.FORM_INPUT_TYPES.TEXT:
-                component = TextInput_1.TextInput;
+            case FORM_INPUT_TYPES.TEXT:
+                component = TextInput;
             default:
-                component = TextInput_1.TextInput;
+                component = TextInput;
         }
         return getFieldComponent(name, component, other);
     })));
 };
-exports.Form = __1.createStyles(styles, "Form", CForm);
+export var Form = createStyles(styles, "Form", CForm);
 //# sourceMappingURL=Form.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -7,8 +6,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-require("whatwg-fetch");
+import "whatwg-fetch";
 var encodeParametersInUrl = function (url, queryParameters) {
     if (!queryParameters) {
         return url;
@@ -19,7 +17,7 @@ var encodeParametersInUrl = function (url, queryParameters) {
         .join('&');
     return url + (encodedParams ? "?" + encodedParams : '');
 };
-exports.apiClientMiddleware = function (baseUrl, baseHeaders) {
+export var apiClientMiddleware = function (baseUrl, baseHeaders) {
     if (baseHeaders === void 0) { baseHeaders = {}; }
     return function (_a) {
         var dispatch = _a.dispatch, getState = _a.getState;

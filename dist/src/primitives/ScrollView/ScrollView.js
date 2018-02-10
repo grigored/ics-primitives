@@ -1,5 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var View_1 = require("../View/View");
-exports.ScrollView = View_1.View;
+export { View as ScrollView } from '../View/View';
 //# sourceMappingURL=ScrollView.js.map

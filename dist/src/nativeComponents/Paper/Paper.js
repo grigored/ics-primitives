@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = require("react");
-var __1 = require("../..");
-var theme_1 = require("../../utils/theme");
+import * as React from 'react';
+import { createStyles, View } from "../..";
+import { all, web } from "../../utils/theme";
 var styles = {
     elevation: (_a = {},
-        _a[theme_1.web] = {
+        _a[web] = {
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
             transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
         },
-        _a[theme_1.all] = {
+        _a[all] = {
             shadowColor: '#000000',
             shadowOffset: {
                 width: 0,
@@ -22,8 +20,8 @@ var styles = {
 };
 var CPaper = function (_a) {
     var children = _a.children, classes = _a.classes, style = _a.style, name = _a.name;
-    return (React.createElement(__1.View, { name: name, style: [classes.elevation, style] }, children));
+    return (React.createElement(View, { name: name, style: [classes.elevation, style] }, children));
 };
-exports.Paper = __1.createStyles(styles, 'Paper', CPaper);
+export var Paper = createStyles(styles, 'Paper', CPaper);
 var _a;
 //# sourceMappingURL=Paper.js.map
