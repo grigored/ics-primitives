@@ -38,12 +38,3 @@ const styles = {
 
 * Things to pay attention:
 1. on web, styles cascade to children, this does not happen in sketch (and native?)
-
-
-Alternatives:
-react xp
-react native web
-react primitives
-
-BuilderX -> no typescript, absolute positioning, can not do responsive designs
-https://reactstudio.com/
