@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "react": "^16.2.0",
+    "react-redux": "5.0.6",
+    "redux-form": "^7.2.1",
     "material-ui": "1.0.0-beta.29",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-dom": "^16.2.0",
@@ -22,6 +24,8 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-sketchapp": "^0.12.2",
     "@types/react-native": "*",
+    "@types/react-redux": "^5.0.14",
+    "@types/redux-form": "^7.0.13",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

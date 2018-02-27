@@ -13,3 +13,9 @@ export enum FORM_INPUT_TYPES {
     SELECT,
     DATE,
 }
+
+export enum SELECT_INPUT_TYPES {
+    TEXT,
+    INT,
+    FLOAT,
+}
