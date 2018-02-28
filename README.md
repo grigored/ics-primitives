@@ -38,3 +38,27 @@ const styles = {
 
 * Things to pay attention:
 1. on web, styles cascade to children, this does not happen in sketch (and native?)
+
+
+# How to use the lib locally
+1. Install yalc:
+    ```bash
+    yarn global add yalc
+    ```
+1. Run this from ```ics-primitives``` root:
+    ```bash
+    yarn
+    yarn build
+    yalc publish  # this publishes code to local yalc repo
+    ```
+1. Go to your development project (eg: ```instacar-front```) and remove ```react-web-native-sketch``` from ```package.json```
+1. Go to your development project (eg: ```instacar-front```) and run:
+    ```bash
+    yalc link react-web-native-sketch
+    ```
+1. When making code changes to ```ics-primitives``` run (from ```ics-primitives``` root):
+    1. Run:
+        ```bash
+        yalc push
+        ```
+    1. Refresh web page

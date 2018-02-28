@@ -1,6 +1,6 @@
 {
   "name": "react-web-native-sketch",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "private": false,
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -27,7 +27,6 @@
   "devDependencies": {
     "react-redux": "5.0.6",
     "redux-form": "^7.2.1",
-    "@types/react-redux": "^5.0.14",
     "@types/redux-form": "^7.0.13",
     "@types/enzyme": "^3.1.6",
     "@types/enzyme-adapter-react-16": "^1.0.1",
