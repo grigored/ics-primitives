@@ -28,5 +28,6 @@ export {
     // SendFormDataAction,
     // SendFormDataSuccessAction,
     // SendFormDataFailAction,
-    formHelpers
+    formHelpers,
+    sendFormData,
 } from './redux/reducers/formHelpers';

@@ -58,6 +58,7 @@ const styles = {
 1. When making code changes to ```ics-primitives``` run (from ```ics-primitives``` root):
     1. Run:
         ```bash
+        yarn build  # run this if necessary
         yalc push
         ```
     1. Refresh web page
