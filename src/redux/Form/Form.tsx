@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { ScrollView } from 'src/primitives/ScrollView/ScrollView';
-import { appTheme, web } from 'src/utils/theme';
-import { createStyles, Text, View, WithStyles } from '../../';
+import { ScrollView } from '../../primitives/ScrollView/ScrollView';
+import { appTheme, web } from '../../utils/theme';
+import { createStyles } from '../../primitives/createStyles/createStyles';
+import { Text } from '../../primitives/Text/Text';
+import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';
-import { StyleRules } from '../../utils/theme.types';
-import { DBValue, FieldDefinition } from './form.types';
+import { StyleRules, WithStyles } from '../../utils/theme.types';
+import { DBValue, FieldDefinition, GlobalState } from './form.types';
 import { FormItem } from './FormItem';
 
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
@@ -150,7 +152,7 @@ let FormComponent: any = reduxForm( {} )(
     )
 );
 
-export const Form = connect( ( state: KnownGlobalState, ownProps: FormProps ) => {
+export const Form = connect( ( state: GlobalState, ownProps: FormProps ) => {
     let formName = ownProps.form;
     return {
         formError: getNestedField( state.form[formName], ['syncErrors', 'form'] ),

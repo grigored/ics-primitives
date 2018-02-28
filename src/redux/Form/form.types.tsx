@@ -44,6 +44,32 @@ export interface Option {
     text: string,
 }
 
+export interface FormData {
+    fields?: {
+        [field: string]: FieldReduxData,
+    },
+    formError?: string,
+    values?: {[key: string]: DBValue}
+}
+
+export interface FormState {
+    [formName: string]: FormData, //FORM_NAMES_ENUM
+}
+
+export interface FormHelpersState {
+    [formName: string]: {
+        sendingForm: boolean,
+        sendFormSuccess: boolean,
+        showErrors?: boolean,
+        response?: any,
+    }
+}
+
+export type GlobalState = {
+    form: FormState,
+    formHelpers: FormHelpersState,
+};
+
 export interface FieldStateProps<DBValueType> {
     dbValue?: DBValueType,
     value?: any,

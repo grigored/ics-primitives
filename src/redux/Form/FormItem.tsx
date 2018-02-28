@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Text } from 'src/primitives/Text/Text';
-import { View } from '../../';
+import { Text } from '../../primitives/Text/Text';
+import { View } from '../../primitives/View/View';
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { StyleRules } from '../../utils/theme.types';
 import { DBValue, FieldDefinition, FieldReduxData } from './form.types';

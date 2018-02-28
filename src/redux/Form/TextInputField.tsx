@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { isIOS, isWeb } from '../../primitives/platform/platform';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
-import { TextInput } from '../TextInput/TextInput';
+import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { FieldStateProps, TextInputDBValue, TextInputFieldProps } from './form.types';
 
 
