@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -15,10 +16,11 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import * as React from 'react';
-import { View } from '../View/View';
-export var Touchable = function (_a) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var View_1 = require("../View/View");
+exports.Touchable = function (_a) {
     var onPress = _a.onPress, otherProps = __rest(_a, ["onPress"]);
-    return (React.createElement(View, __assign({ onClick: onPress }, otherProps)));
+    return (React.createElement(View_1.View, __assign({ onClick: onPress }, otherProps)));
 };
 //# sourceMappingURL=Touchable.js.map

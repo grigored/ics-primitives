@@ -1,6 +1,6 @@
 {
   "name": "react-web-native-sketch",
-  "version": "0.0.17",
+  "version": "0.0.19",
   "private": false,
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -50,9 +50,8 @@
     "webpack": "^3.10.0"
   },
   "scripts": {
-    "start": "node_modules/.bin/webpack --config webpack.config.js --watch",
-    "build": "node_modules/.bin/webpack --config webpack.config.js",
-    "build2": "tsc -m CommonJS",
+    "prepublish": "npm run build",
+    "build": "tsc -m CommonJS",
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "styleguidist:build": "styleguidist build",

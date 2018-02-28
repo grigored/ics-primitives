@@ -1,3 +1,4 @@
+
 export { createStyles } from './primitives/createStyles/createStyles';
 export { Link } from './primitives/Link/Link';
 export { Image } from './primitives/Image/Image';
@@ -22,6 +23,10 @@ export { isXs } from './utils/common';
 
 export { apiClientMiddleware } from './redux/apiClientMiddleware';
 
-import { reducer as formReducer } from 'redux-form'
-import { formHelpers } from './redux/reducers/formHelpers';
-export const reducers = {formHelpers, form: formReducer};
+export {
+    // DisplayErrorsAction,
+    // SendFormDataAction,
+    // SendFormDataSuccessAction,
+    // SendFormDataFailAction,
+    formHelpers
+} from './redux/reducers/formHelpers';

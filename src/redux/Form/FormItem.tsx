@@ -27,7 +27,7 @@ export interface FormItemProps {
 
 const UnImplemented = () => <Text>Unimplemented</Text>;
 
-export const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
+const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
     switch (type) {
         // case FORM_INPUT_TYPES.DATE:
         //     return DateTime;

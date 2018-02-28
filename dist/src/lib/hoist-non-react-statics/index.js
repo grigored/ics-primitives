@@ -1,4 +1,5 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
 var REACT_STATICS = {
     childContextTypes: true,
     contextTypes: true,
@@ -24,7 +25,7 @@ var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 var getPrototypeOf = Object.getPrototypeOf;
 var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
-export function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
     if (typeof sourceComponent !== 'string') {
         if (objectPrototype) {
             var inheritedComponent = getPrototypeOf(sourceComponent);
@@ -50,4 +51,5 @@ export function hoistNonReactStatics(targetComponent, sourceComponent, blacklist
     }
     return targetComponent;
 }
+exports.hoistNonReactStatics = hoistNonReactStatics;
 //# sourceMappingURL=index.js.map

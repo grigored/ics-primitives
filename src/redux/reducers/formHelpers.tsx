@@ -1,30 +1,30 @@
 import { FormHelpersState, GlobalState } from '../Form/form.types';
 import { getNestedField, isObject } from '../../utils/common';
 
-enum TypeKeys {
+export enum TypeKeys {
     DISPLAY_ERRORS = 'instacar/form/DISPLAY_ERRORS',
     SEND_FORM_DATA = 'instacar/form/SEND_FORM_DATA',
     SEND_FORM_DATA_SUCCESS = 'instacar/form/SEND_FORM_DATA_SUCCESS',
     SEND_FORM_DATA_FAIL = 'instacar/form/SEND_FORM_DATA_FAIL',
 }
 
-interface DisplayErrorsAction {
+export interface DisplayErrorsAction {
     type: TypeKeys.DISPLAY_ERRORS,
     formName: string, // FORM_NAMES_ENUM,
 }
 
-interface SendFormDataAction {
+export interface SendFormDataAction {
     type: TypeKeys.SEND_FORM_DATA,
     formName: string,
 }
 
-interface SendFormDataSuccessAction {
+export interface SendFormDataSuccessAction {
     type: TypeKeys.SEND_FORM_DATA_SUCCESS,
     formName: string,
     response: any,
 }
 
-interface SendFormDataFailAction {
+export interface SendFormDataFailAction {
     type: TypeKeys.SEND_FORM_DATA_FAIL,
     formName: string,
 }
