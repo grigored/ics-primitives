@@ -51,8 +51,7 @@ const styles = {
     yarn build
     yalc publish  # this publishes code to local yalc repo
     ```
-1. Go to your development project (eg: ```instacar-front```) and remove ```react-web-native-sketch``` from ```package.json```
-1. Go to your development project (eg: ```instacar-front```) and run:
+1. Go to your development project (eg: ```instacar-front```) and run (remember to run this after every ```yarn``` or ```npm install```):
     ```bash
     yalc link react-web-native-sketch
     ```
