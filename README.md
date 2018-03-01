@@ -62,3 +62,19 @@ const styles = {
         yalc push
         ```
     1. Refresh web page
+
+
+# TODO
+1. Add internationalization (using context maybe?)
+1. Add the rest of form components
+    1. select
+    1. checkbox
+    1. radio group
+    1. photo upload
+    1. array of photos
+    1. array of objects
+    1. date/time picker
+1. Document components
+1. Navigation (native and web)
+1. Dialogs
+1. Alerts
