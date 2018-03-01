@@ -12,4 +12,7 @@ export interface TextInputProps {
     title?: string,
     value?: string,
     multiline?: boolean,
+    input?: any
 }
+
+export type TextInputDBValue = any;// string | number | {[field: string]: any};

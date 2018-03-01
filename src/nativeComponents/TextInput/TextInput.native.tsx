@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
 import { appTheme, createStyles, Text, View, WithStyles } from '../../';
+import { isIOS } from '../../primitives/platform/platform';
+import { FieldStateProps, TextInputDBValue } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 import { TextInputProps } from './TextInput.types';
+import { parseValue } from './TextInput.utils';
 
 
 let styles = () => ({
@@ -41,8 +44,11 @@ const getKeyboardType = (inputType: TEXT_INPUT_TYPES) => {
 };
 
 
-class CTextInput extends React.PureComponent<TextInputProps & WithStyles, {}> {
+class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles, {}> {
     private inputRef: any;
+    static defaultProps = {
+        labelPositionLeft: isIOS,
+    };
 
     render() {
         let {
@@ -70,14 +76,17 @@ class CTextInput extends React.PureComponent<TextInputProps & WithStyles, {}> {
                             autoCapitalize={'none'}
                             autoCorrect={false}
                             keyboardType={getKeyboardType(inputType)}
-                            onChangeText={onChange}
+                            onChangeText={( text: string ) => {
+                                const dbValue = parseValue(inputType, text);
+                                onChange && onChange(dbValue);
+                            }}
                             onFocus={onFocus}
                             placeholder={placeholder}
                             ref={input => this.inputRef = input}
                             secureTextEntry={inputType === TEXT_INPUT_TYPES.PASSWORD}
                             style={labelPositionLeft ? classes.leftText as StyleProp<TextStyle>: null}
                             underlineColorAndroid={appTheme.primaryColor}
-                            value={value}
+                            value={(value && value.toString()) || ''}
                         />
                     </View>
                     {!!error && <Text style={classes.error}>{error}</Text>}
@@ -88,4 +97,4 @@ class CTextInput extends React.PureComponent<TextInputProps & WithStyles, {}> {
 }
 
 const componentName = 'TextInput';
-export const TextInput = createStyles<TextInputProps>(styles, componentName, CTextInput);
+export const TextInput: React.ComponentType<TextInputProps> = createStyles(styles, componentName, CTextInput);

@@ -1,8 +1,6 @@
-import * as React from 'react';
-import { FORM_INPUT_TYPES, SELECT_INPUT_TYPES, TEXT_INPUT_TYPES } from '../../utils/enums';
-import {Classes} from "../../utils/theme.types";
+import { TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
+import { FORM_INPUT_TYPES, SELECT_INPUT_TYPES } from '../../utils/enums';
 
-export type TextInputDBValue = any;// string | number | {[field: string]: any};
 export type SelectDBValue = any;
 
 export type DBValue =
@@ -25,18 +23,6 @@ export interface FieldCommon {
     isRequired?: boolean,
     extraOnChange?: FieldOnChange,
     fieldErrorChecker?: FieldErrorChecker,
-}
-
-export interface TextInputFieldProps {
-    id?: string,
-    onFocus?: () => void,
-    onBlur?: ()=> void,
-    placeholder?: string,
-    textInputType?: TEXT_INPUT_TYPES,
-    title?: string,
-    multiline?: boolean
-    input?: any
-    value?: any,
 }
 
 export interface Option {
@@ -97,16 +83,5 @@ export interface SelectProps {
 }
 
 export type FieldDefinition =
-    | TextInputFieldProps & { type: FORM_INPUT_TYPES.TEXT } & FieldCommon
+    | TextInputProps & { type: FORM_INPUT_TYPES.TEXT } & FieldCommon
     | SelectProps & { type: FORM_INPUT_TYPES.SELECT } & FieldCommon
-
-
-export interface FormProps {
-    containerStyle?: Classes,
-    fields: Array<FieldDefinition>,
-    getFieldComponent: (
-        name: string,
-        component: React.ComponentType<any>,
-        otherProps: any,
-    ) => any,
-}

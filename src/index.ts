@@ -6,7 +6,7 @@ export { ScrollView } from './primitives/ScrollView/ScrollView';
 export { Text } from './primitives/Text/Text';
 export { Touchable } from './primitives/Touchable/Touchable';
 export { View } from './primitives/View/View';
-export { Form } from './redux/Form/Form';
+export { Form } from './redux/FormComponents/Form';
 export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from './utils/enums';
 export { WithStyles, Classes } from './utils/theme.types';
 export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from './utils/theme';

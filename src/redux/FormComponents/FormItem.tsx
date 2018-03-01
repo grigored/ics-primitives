@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { StyleRules } from '../../utils/theme.types';
-import { DBValue, FieldDefinition, FieldReduxData } from './form.types';
-import { TextInputField } from './TextInputField';
+import { DBValue, FieldDefinition, FieldReduxData } from './FormComponents.types';
 
 export interface FormItemProps {
     handleFieldChange: ( field: string, fieldReduxData: FieldReduxData, currentRawValue?: any ) => void,
@@ -38,7 +38,7 @@ const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
         // case FORM_INPUT_TYPES.SELECT:
         //     return Select;
         case FORM_INPUT_TYPES.TEXT:
-            return TextInputField;
+            return TextInput;
         // case FORM_INPUT_TYPES.RADIO:
         //     return RadioGroup;
         // case FORM_INPUT_TYPES.ARRAY_PHOTO_UPLOAD:

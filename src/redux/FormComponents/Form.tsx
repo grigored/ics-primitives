@@ -8,7 +8,7 @@ import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';
 import { StyleRules, WithStyles } from '../../utils/theme.types';
-import { DBValue, FieldDefinition, GlobalState } from './form.types';
+import { DBValue, FieldDefinition, GlobalState } from './FormComponents.types';
 import { FormItem } from './FormItem';
 
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
@@ -27,18 +27,18 @@ const styles = () => ( {
 export type FormErrorChecker = ( values: { [key: string]: any } ) => ( undefined | { form: string } );
 
 export interface FormProps {
-    handleSubmit?: any,
+    handleSubmit?: any, // do we need this?
     fieldDefinitions: Array<FieldDefinition>,
     form: string,
     containerStyle?: StyleRules,
     allRequired?: boolean,
     alwaysTouched?: boolean,
-    destroyOnUnmount?: boolean,
+    destroyOnUnmount?: boolean, // do we need this?
     initialValues?: { [key: string]: any } | null,
     validate?: FormErrorChecker,
     enableReinitialize?: boolean,
-    fields?: any,
-    keepDirty?: boolean,
+    fields?: any, // do we need this?
+    keepDirty?: boolean, // do we need this?
 }
 
 interface ConnectedProps {

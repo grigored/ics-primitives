@@ -1,4 +1,4 @@
-import { FormHelpersState, GlobalState } from '../Form/form.types';
+import { FormHelpersState, GlobalState } from '../FormComponents/FormComponents.types';
 import { getNestedField, isObject } from '../../utils/common';
 
 export enum TypeKeys {
