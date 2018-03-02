@@ -31,3 +31,4 @@ export {
     formHelpers,
     sendFormData,
 } from './redux/reducers/formHelpers';
+export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
