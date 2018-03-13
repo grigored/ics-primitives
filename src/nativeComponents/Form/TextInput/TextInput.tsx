@@ -5,8 +5,8 @@ import { FormControl } from 'material-ui/Form';
 import { TEXT_INPUT_TYPES } from 'src/utils/enums';
 import { TextInputProps } from "./TextInput.types";
 
-const INVALID_JSON_STRING = 'Invalid JSON string';
-const FIELD_MUST_BE_NUMBER = 'Field must be a number';
+export const INVALID_JSON_STRING = 'Invalid JSON string';
+export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 
 const getKeyboardType = ( inputType?: TEXT_INPUT_TYPES ): string => {
     switch (inputType) {

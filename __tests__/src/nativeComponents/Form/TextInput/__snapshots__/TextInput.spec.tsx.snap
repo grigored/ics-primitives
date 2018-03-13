@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextInput /> renders 1`] = `
+<CTextInput
+  input={
+    Object {
+      "onChange": [Function],
+    }
+  }
+  inputType={0}
+>
+  <WithStyles(FormControl)
+    fullWidth={true}
+  >
+    <FormControl
+      classes={
+        Object {
+          "fullWidth": "MuiFormControl-fullWidth-4",
+          "marginDense": "MuiFormControl-marginDense-3",
+          "marginNormal": "MuiFormControl-marginNormal-2",
+          "root": "MuiFormControl-root-1",
+        }
+      }
+      component="div"
+      disabled={false}
+      error={false}
+      fullWidth={true}
+      margin="none"
+      required={false}
+    >
+      <div
+        className="MuiFormControl-root-1 MuiFormControl-fullWidth-4"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        required={false}
+      >
+        <TextField
+          error={false}
+          label=""
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder=""
+          required={false}
+          select={false}
+          type="text"
+          value=""
+        >
+          <WithStyles(FormControl)
+            error={false}
+            onBlur={[Function]}
+            required={false}
+          >
+            <FormControl
+              classes={
+                Object {
+                  "fullWidth": "MuiFormControl-fullWidth-4",
+                  "marginDense": "MuiFormControl-marginDense-3",
+                  "marginNormal": "MuiFormControl-marginNormal-2",
+                  "root": "MuiFormControl-root-1",
+                }
+              }
+              component="div"
+              disabled={false}
+              error={false}
+              fullWidth={false}
+              margin="none"
+              onBlur={[Function]}
+              required={false}
+            >
+              <div
+                className="MuiFormControl-root-1"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                required={false}
+              >
+                <WithStyles(Input)
+                  onChange={[Function]}
+                  placeholder=""
+                  type="text"
+                  value=""
+                >
+                  <Input
+                    classes={
+                      Object {
+                        "disabled": "MuiInput-disabled-10",
+                        "error": "MuiInput-error-8",
+                        "focused": "MuiInput-focused-9",
+                        "formControl": "MuiInput-formControl-6",
+                        "fullWidth": "MuiInput-fullWidth-13",
+                        "inkbar": "MuiInput-inkbar-7",
+                        "input": "MuiInput-input-14",
+                        "inputDense": "MuiInput-inputDense-15",
+                        "inputDisabled": "MuiInput-inputDisabled-16",
+                        "inputMultiline": "MuiInput-inputMultiline-18",
+                        "inputSearch": "MuiInput-inputSearch-19",
+                        "inputSingleline": "MuiInput-inputSingleline-17",
+                        "multiline": "MuiInput-multiline-12",
+                        "root": "MuiInput-root-5",
+                        "underline": "MuiInput-underline-11",
+                      }
+                    }
+                    disableUnderline={false}
+                    fullWidth={false}
+                    multiline={false}
+                    onChange={[Function]}
+                    placeholder=""
+                    type="text"
+                    value=""
+                  >
+                    <div
+                      className="MuiInput-root-5 MuiInput-formControl-6 MuiInput-inkbar-7 MuiInput-underline-11"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-required={false}
+                        className="MuiInput-input-14 MuiInput-inputSingleline-17"
+                        disabled={false}
+                        onChange={[Function]}
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </Input>
+                </WithStyles(Input)>
+              </div>
+            </FormControl>
+          </WithStyles(FormControl)>
+        </TextField>
+      </div>
+    </FormControl>
+  </WithStyles(FormControl)>
+</CTextInput>
+`;
