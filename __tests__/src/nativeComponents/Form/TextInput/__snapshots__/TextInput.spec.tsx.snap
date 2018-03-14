@@ -2,12 +2,8 @@
 
 exports[`<TextInput /> renders 1`] = `
 <CTextInput
-  input={
-    Object {
-      "onChange": [Function],
-    }
-  }
   inputType={0}
+  onChange={[Function]}
 >
   <WithStyles(FormControl)
     fullWidth={true}
