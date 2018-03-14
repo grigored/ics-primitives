@@ -1,6 +1,6 @@
 {
   "name": "react-web-native-sketch",
-  "version": "0.0.17",
+  "version": "0.0.24",
   "private": false,
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -25,10 +25,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "react-redux": "5.0.6",
+    "redux-form": "^7.2.1",
+    "@types/redux-form": "^7.0.13",
     "@types/enzyme": "^3.1.6",
     "@types/enzyme-adapter-react-16": "^1.0.1",
     "@types/enzyme-to-json": "^1.5.0",
     "@types/jest": "^22.0.1",
+    "@types/react-redux": "^5.0.15",
     "awesome-typescript-loader": "^3.4.1",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
@@ -46,6 +50,8 @@
     "webpack": "^3.10.0"
   },
   "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc -m CommonJS",
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "styleguidist:build": "styleguidist build",

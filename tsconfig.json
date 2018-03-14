@@ -22,7 +22,7 @@
         "."
       ]
     },
-    "types": ["react", "react-native", "react-dom", "react-sketchapp", "jest"],
+    "types": ["react", "react-native", "react-dom", "react-sketchapp", "jest"]
   },
   "exclude": [
     "node_modules",
