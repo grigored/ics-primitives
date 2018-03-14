@@ -34,6 +34,7 @@ describe( '<TextInput />', () => {
     } );
 
     it( 'properly checks floats', () => {
+
         let x = '';
         const wrapper = mount(
             <TextInput
@@ -41,7 +42,6 @@ describe( '<TextInput />', () => {
                 inputType={TEXT_INPUT_TYPES.FLOAT}
             />
         );
-
         const input: any = wrapper.find( 'input' );
 
         input.instance().value = '123';
@@ -55,5 +55,24 @@ describe( '<TextInput />', () => {
         input.instance().value = '123.5.';
         input.simulate( 'change', input );
         expect( x['error'] ).toBe( FIELD_MUST_BE_NUMBER );
+    } );
+
+    it( 'initialises from value & uses rawToDb and dbToRaw the way it should', () => {
+        let x = '';
+        const wrapper = mount(
+            <TextInput
+                value={"123"}
+                rawToDb={value => +value + 1}
+                dbToRaw={value => ( value - 1 ).toString()}
+                onChange={( value: any ) => x = value}
+                inputType={TEXT_INPUT_TYPES.FLOAT}
+            />
+        );
+        const input: any = wrapper.find( 'input' );
+        expect( input.instance().value ).toBe( "122" );
+
+        input.instance().value = '213';
+        input.simulate( 'change', input );
+        expect( x ).toBe( 214 );
     } );
 } );

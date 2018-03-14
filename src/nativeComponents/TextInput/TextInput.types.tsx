@@ -13,6 +13,8 @@ export interface TextInputProps {
     value?: string,
     multiline?: boolean,
     input?: any
+    rawToDb?: (value: string) => any,
+    dbToRaw?: (value: any) => string,
 }
 
 export type TextInputDBValue = any;// string | number | {[field: string]: any};

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import TextField from 'material-ui/TextField';
 import { FormHelperText } from "material-ui";
 import { FormControl } from 'material-ui/Form';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
 import { TEXT_INPUT_TYPES } from "../../utils/enums";
 import { TextInputProps } from "./TextInput.types";
 
@@ -41,8 +41,8 @@ const getError = ( textInputType: TEXT_INPUT_TYPES, rawValue: string ): string |
     return undefined;
 };
 
-const db2raw = ( textInputType: TEXT_INPUT_TYPES,
-                 dbValue: any, ): string => {
+const defaultDbToRaw = ( textInputType: TEXT_INPUT_TYPES,
+                         dbValue: any, ): string => {
     if (!dbValue) {
         return '';
     }
@@ -54,7 +54,7 @@ const db2raw = ( textInputType: TEXT_INPUT_TYPES,
     }
 };
 
-const parseValue = ( textInputType: TEXT_INPUT_TYPES, value: string ): any => {
+const defaultRawToDb = ( textInputType: TEXT_INPUT_TYPES, value: string ): any => {
     switch (textInputType) {
         case TEXT_INPUT_TYPES.INT:
             return parseInt( value );
@@ -73,9 +73,13 @@ const parseValue = ( textInputType: TEXT_INPUT_TYPES, value: string ): any => {
 
 export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: string, }> {
     componentWillMount() {
-        let { value, inputType = TEXT_INPUT_TYPES.TEXT, } = this.props;
+        let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
         if (value !== null && value !== undefined) {
-            this.setState( { rawValue: db2raw( inputType, value ) } )
+            this.setState( {
+                rawValue: !!dbToRaw
+                    ? dbToRaw( value )
+                    : defaultDbToRaw( inputType, value )
+            } )
         } else {
             this.setState( { rawValue: '' } )
         }
@@ -91,6 +95,7 @@ export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: 
             id,
             multiline,
             onChange,
+            rawToDb,
         } = this.props;
         return (
             <FormControl fullWidth>
@@ -104,7 +109,9 @@ export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: 
                     type={getKeyboardType( inputType )}
                     onChange={( ev: React.ChangeEvent<HTMLInputElement> ) => {
                         let rawValue = ev.target.value;
-                        let dbValue = parseValue( inputType, rawValue );
+                        let dbValue = !!rawToDb
+                            ? rawToDb( rawValue )
+                            : defaultRawToDb( inputType, rawValue );
                         this.setState( { rawValue: rawValue } );
                         let fieldError = getError( inputType, rawValue );
                         !!onChange && onChange(
