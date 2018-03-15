@@ -18,6 +18,6 @@ export interface ButtonProps {
     //     raised?: StyleSheetClass,
     // },
     styles?: any,
-    classes?: any,
+    className?: any,
     title?: string,
 }

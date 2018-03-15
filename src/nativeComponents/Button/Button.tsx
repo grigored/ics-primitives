@@ -29,7 +29,7 @@ const getUpdatedRoot = (backgroundColor?: string, labelColor?: string): any => {
 export class Button extends React.PureComponent<ButtonProps, {}> {
     render() {
         const {
-            children, disabled, iconLeft, iconRight, onPress, href, primary, raised, styles, classes, title,
+            children, disabled, iconLeft, iconRight, onPress, href, primary, raised, styles, className, title,
             backgroundColor, labelColor,
         } = this.props;
         let buttonStyle = styles || {};
@@ -40,7 +40,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
         };
         return (
             <MaterialButton
-                classes={classes}
+                classes={className}
                 style={buttonStyle.root}
                 color={primary ? 'primary' : undefined}
                 disabled={disabled}

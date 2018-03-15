@@ -1,23 +1,22 @@
 import * as React from 'react';
 import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
+import { isIOS } from '../../primitives/platform/platform';
 import { all, android, appTheme } from '../../utils/theme';
 import { ButtonProps } from './Button.types';
 
 
 const styles = () => ({
     button: {
+        borderRadius: 2,
+        flexDirection: 'row',
+        padding: 14,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonRaised: {
         [android]: {
             elevation: 4,
-            borderRadius: 2,
-            flexDirection: 'row',
         },
-        [all]: {
-            padding: 14,
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-        },
-
     },
     disabledView: {
         backgroundColor: '#a1a1a1',
@@ -65,7 +64,20 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
     render() {
         const {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
+            backgroundColor, labelColor, className,
         } = this.props;
+        let buttonStyle = (styles && styles.root) || {}, labelStyle = (styles && styles.label) || {};
+        if (backgroundColor) {
+            buttonStyle.backgroundColor = backgroundColor;
+        }
+        if (labelColor) {
+            labelStyle.color = labelColor;
+        }
+        const containerStyle = [
+            classes.button,
+            buttonStyle,
+            className && className.root,
+        ];
         // use TouchableComponent for Ripple effect
         return (
             <Touchable
@@ -74,14 +86,16 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                 onPress={onPress}
                 underlayColor={'transparent'}
                 style={[
-                    classes.button,
+                    raised && classes.buttonRaised,
                     disabled && classes.disabledView,
                     raised && classes.shadowedButton,
                     primary && classes.primaryView,
-                    styles && styles.root
+                    ...(isIOS ? containerStyle : []),
                 ]}
             >
-                <View>
+                <View
+                    style={isIOS ? undefined : containerStyle}
+                >
                     {
                         iconLeft &&
                         <Image
@@ -95,7 +109,8 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                                 classes.text,
                                 primary && classes.primaryText,
                                 disabled && classes.disabledText,
-                                styles && styles.label
+                                labelStyle,
+                                className && className.label,
                             ]}>
                             {title}
                         </Text>
