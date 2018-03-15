@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { appTheme, createStyles, Text, View, WithStyles } from '../../';
+import { appTheme, createStyles, Text, View, WithStyles, ios } from '../../';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
@@ -11,7 +11,9 @@ import { parseValue } from './TextInput.utils';
 let styles = () => ({
     containerLeft: {
         flexDirection: 'row',
-        height: appTheme.inputHeight,
+        [ios]: {
+            height: appTheme.inputHeight,
+        },
         alignItems: 'center',
     },
     leftLabel: {

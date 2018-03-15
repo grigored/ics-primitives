@@ -1,24 +1,22 @@
-'use strict';
 import * as React from 'react';
-import {ButtonProps} from "./Button.types";
-import {android, appTheme, all} from "../../utils/theme";
-import {createStyles, WithStyles, Image, Text, Touchable, View} from "../..";
+import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
+import { isIOS } from '../../primitives/platform/platform';
+import { all, android, appTheme } from '../../utils/theme';
+import { ButtonProps } from './Button.types';
 
 
 const styles = () => ({
     button: {
+        borderRadius: 2,
+        flexDirection: 'row',
+        padding: 14,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonRaised: {
         [android]: {
             elevation: 4,
-            borderRadius: 2,
-            flexDirection: 'row',
         },
-        [all]: {
-            padding: 14,
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-        },
-
     },
     disabledView: {
         backgroundColor: '#a1a1a1',
@@ -62,58 +60,75 @@ const styles = () => ({
     }
 });
 
-const CButton: React.StatelessComponent<ButtonProps & WithStyles> = ({
-    children,
-    classes,
-    disabled,
-    icon,
-    onPress,
-    primary,
-    raised,
-    styles,
-    title,
-}) => {
-
-    // use TouchableComponent for Ripple effect
-    return (
-        <Touchable
-            disabled={disabled}
-            activeOpacity={0.3}
-            onPress={onPress}
-            underlayColor={'transparent'}
-            style={[
-                classes.button,
-                disabled && classes.disabledView,
-                raised && classes.shadowedButton,
-                primary && classes.primaryView,
-                styles && styles.root
-            ]}
-        >
-            <View>
-                {
-                    icon &&
-                    <Image
-                        style={[classes.iconStyle, styles && styles.icon]}
-                        source={icon}
-                    />
-                }
-                {!!title
-                    ? <Text
-                        style={[
-                            classes.text,
-                            primary && classes.primaryText,
-                            disabled && classes.disabledText,
-                            styles && styles.label
-                        ]}>
-                        {title}
-                    </Text>
-                    : null
-                }
-                {children}
-            </View>
-        </Touchable>
-    );
-};
+class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
+    render() {
+        const {
+            children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
+            backgroundColor, labelColor, className,
+        } = this.props;
+        let buttonStyle = (styles && styles.root) || {}, labelStyle = (styles && styles.label) || {};
+        if (backgroundColor) {
+            buttonStyle.backgroundColor = backgroundColor;
+        }
+        if (labelColor) {
+            labelStyle.color = labelColor;
+        }
+        const containerStyle = [
+            classes.button,
+            buttonStyle,
+            className && className.root,
+        ];
+        // use TouchableComponent for Ripple effect
+        return (
+            <Touchable
+                disabled={disabled}
+                activeOpacity={0.3}
+                onPress={onPress}
+                underlayColor={'transparent'}
+                style={[
+                    raised && classes.buttonRaised,
+                    disabled && classes.disabledView,
+                    raised && classes.shadowedButton,
+                    primary && classes.primaryView,
+                    ...(isIOS ? containerStyle : []),
+                ]}
+            >
+                <View
+                    style={isIOS ? undefined : containerStyle}
+                >
+                    {
+                        iconLeft &&
+                        <Image
+                            style={[classes.iconStyle, styles && styles.iconLeft]}
+                            source={iconLeft}
+                        />
+                    }
+                    {!!title
+                        ? <Text
+                            style={[
+                                classes.text,
+                                primary && classes.primaryText,
+                                disabled && classes.disabledText,
+                                labelStyle,
+                                className && className.label,
+                            ]}>
+                            {title}
+                        </Text>
+                        : null
+                    }
+                    {
+                        iconRight &&
+                        <Image
+                            style={[classes.iconStyle, styles && styles.iconRight]}
+                            source={iconRight}
+                        />
+                    }
+                    {children}
+                </View>
+            </Touchable>
+        );
+    }
+}
 
 const componentName = 'Button';
 export const Button = createStyles(styles, componentName, CButton);

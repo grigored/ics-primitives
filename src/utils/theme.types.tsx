@@ -19,7 +19,7 @@ export type AppTheme = {
     spacingM: number,
     spacingL: number,
     spacingXL: number,
-}
+} | any
 
 export type CssPropValue =
     | string
