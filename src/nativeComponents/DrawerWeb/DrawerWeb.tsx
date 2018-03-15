@@ -4,7 +4,6 @@ import {appTheme, createStyles, WithStyles} from "../..";
 
 const styles = {
     drawerPaper: {
-        position: 'relative',
         height: '100%',
         width: appTheme.drawerWidth,
         overflow: 'hidden',

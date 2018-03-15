@@ -11,6 +11,10 @@ const styles = () => ({
         fontFamily: 'Roboto',
         flex: 1,
     },
+    appBarShift: {
+        marginLeft: appTheme.drawerWidth,
+        width: `calc(100% - ${appTheme.drawerWidth}px)`,
+    },
     menuButton: {
         marginLeft: 12,
         marginRight: 20,
@@ -22,17 +26,17 @@ const styles = () => ({
         display: 'flex',
         width: '100%',
         flexGrow: 1,
-        // backgroundColor: muiTheme.palette.background.default,
-        // transition: muiTheme.transitions.create('margin', {
-        //     easing: muiTheme.transitions.easing.sharp,
-        //     duration: muiTheme.transitions.duration.leavingScreen,
-        // }),
-        // marginTop: 56,
         position: 'relative',
         overflow: 'hidden',
         marginTop: {
             [web]: appTheme.topBarHeight
         },
+    },
+    drawerPaper: {
+        height: '100%',
+        width: appTheme.drawerWidth,
+        overflow: 'hidden',
+        backgroundColor: '#fff'
     },
     contentPersistent: {
         marginLeft: -appTheme.drawerWidth,
