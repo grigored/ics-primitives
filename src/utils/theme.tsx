@@ -17,6 +17,8 @@ export const appTheme: AppTheme = {
     primaryTextColor: '#fff',
     backgroundColor: '#fff',
     textColor: '#000',
+    placeholderColor: '#555',
+    cursorColor: '#000',
     errorColor: '#f44336',
     horizontalMargin: 16,
     defaultVerticalMargin: 8,
