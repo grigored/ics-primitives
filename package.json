@@ -11,17 +11,18 @@
     "react-dom": "^16.2.0"
   },
   "dependencies": {
-    "react": "^16.2.0",
+    "@types/react": "^16.0.34",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-native": "*",
+    "@types/react-sketchapp": "^0.12.2",
     "material-ui": "1.0.0-beta.29",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-modal": "^5.3.0",
     "react-sketchapp": "^1.0.0",
     "react-test-renderer": "^16.2.0",
     "typescript": "^2.6.2",
-    "@types/react": "^16.0.34",
-    "@types/react-dom": "^16.0.3",
-    "@types/react-sketchapp": "^0.12.2",
-    "@types/react-native": "*",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

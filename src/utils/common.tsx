@@ -56,3 +56,5 @@ function arraysEqual(arr1: Array<any>, arr2: Array<any>) {
     }
     return true;
 }
+
+export function _t(s?: string): string {return s || '';}
