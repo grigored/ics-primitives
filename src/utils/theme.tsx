@@ -20,6 +20,8 @@ export const appTheme: AppTheme = {
     placeholderColor: '#555',
     cursorColor: '#000',
     errorColor: '#f44336',
+    textInputUnderlineColor: '#000',
+    textInputLabelColor: '#000',
     horizontalMargin: 16,
     defaultVerticalMargin: 8,
     inputHeight: 28,

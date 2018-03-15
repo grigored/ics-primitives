@@ -91,7 +91,7 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                             ref={input => this.inputRef = input}
                             secureTextEntry={inputType === TEXT_INPUT_TYPES.PASSWORD}
                             style={labelPositionLeft ? classes.leftText as StyleProp<TextStyle>: null}
-                            underlineColorAndroid={appTheme.primaryColor}
+                            underlineColorAndroid={appTheme.textInputUnderlineColor}
                             value={(value && value.toString()) || ''}
                         />
                     </View>
