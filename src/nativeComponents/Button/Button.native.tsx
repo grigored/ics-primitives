@@ -1,8 +1,7 @@
-'use strict';
 import * as React from 'react';
-import {ButtonProps} from "./Button.types";
-import {android, appTheme, all} from "../../utils/theme";
-import {createStyles, WithStyles, Image, Text, Touchable, View} from "../..";
+import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
+import { all, android, appTheme } from '../../utils/theme';
+import { ButtonProps } from './Button.types';
 
 
 const styles = () => ({
@@ -62,58 +61,59 @@ const styles = () => ({
     }
 });
 
-const CButton: React.StatelessComponent<ButtonProps & WithStyles> = ({
-    children,
-    classes,
-    disabled,
-    icon,
-    onPress,
-    primary,
-    raised,
-    styles,
-    title,
-}) => {
-
-    // use TouchableComponent for Ripple effect
-    return (
-        <Touchable
-            disabled={disabled}
-            activeOpacity={0.3}
-            onPress={onPress}
-            underlayColor={'transparent'}
-            style={[
-                classes.button,
-                disabled && classes.disabledView,
-                raised && classes.shadowedButton,
-                primary && classes.primaryView,
-                styles && styles.root
-            ]}
-        >
-            <View>
-                {
-                    icon &&
-                    <Image
-                        style={[classes.iconStyle, styles && styles.icon]}
-                        source={icon}
-                    />
-                }
-                {!!title
-                    ? <Text
-                        style={[
-                            classes.text,
-                            primary && classes.primaryText,
-                            disabled && classes.disabledText,
-                            styles && styles.label
-                        ]}>
-                        {title}
-                    </Text>
-                    : null
-                }
-                {children}
-            </View>
-        </Touchable>
-    );
-};
+class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
+    render() {
+        const {
+            children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
+        } = this.props;
+        // use TouchableComponent for Ripple effect
+        return (
+            <Touchable
+                disabled={disabled}
+                activeOpacity={0.3}
+                onPress={onPress}
+                underlayColor={'transparent'}
+                style={[
+                    classes.button,
+                    disabled && classes.disabledView,
+                    raised && classes.shadowedButton,
+                    primary && classes.primaryView,
+                    styles && styles.root
+                ]}
+            >
+                <View>
+                    {
+                        iconLeft &&
+                        <Image
+                            style={[classes.iconStyle, styles && styles.iconLeft]}
+                            source={iconLeft}
+                        />
+                    }
+                    {!!title
+                        ? <Text
+                            style={[
+                                classes.text,
+                                primary && classes.primaryText,
+                                disabled && classes.disabledText,
+                                styles && styles.label
+                            ]}>
+                            {title}
+                        </Text>
+                        : null
+                    }
+                    {
+                        iconRight &&
+                        <Image
+                            style={[classes.iconStyle, styles && styles.iconRight]}
+                            source={iconRight}
+                        />
+                    }
+                    {children}
+                </View>
+            </Touchable>
+        );
+    }
+}
 
 const componentName = 'Button';
 export const Button = createStyles(styles, componentName, CButton);
