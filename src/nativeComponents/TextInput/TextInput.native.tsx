@@ -19,11 +19,11 @@ let styles = () => ({
     leftLabel: {
         fontWeight: "500",
         minWidth: 150,
-        color: appTheme.textColor,
+        color: appTheme.textInputLabelColor,
     },
     topLabel: {
         marginBottom: -10,
-        color: appTheme.primaryColor,
+        color: appTheme.textInputLabelColor,
     },
     leftText: {
         flex: 1,
@@ -90,8 +90,10 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                             placeholderTextColor={appTheme.placeholderColor}
                             ref={input => this.inputRef = input}
                             secureTextEntry={inputType === TEXT_INPUT_TYPES.PASSWORD}
-                            style={labelPositionLeft ? classes.leftText as StyleProp<TextStyle>: null}
-                            underlineColorAndroid={appTheme.primaryColor}
+                            style={classes.leftText as StyleProp<TextStyle>}
+                            underlineColorAndroid={
+                                error ? appTheme.errorColor : appTheme.textInputUnderlineColor
+                            }
                             value={(value && value.toString()) || ''}
                         />
                     </View>
