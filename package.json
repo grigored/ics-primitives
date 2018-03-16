@@ -16,6 +16,8 @@
     "@types/react-native": "*",
     "@types/react-sketchapp": "^0.12.2",
     "material-ui": "1.0.0-beta.29",
+    "moment": "^2.21.0",
+    "moment-timezone": "^0.5.14",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
@@ -26,14 +28,13 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "react-redux": "5.0.6",
-    "redux-form": "^7.2.1",
-    "@types/redux-form": "^7.0.13",
+    "@storybook/react": "^3.3.15",
     "@types/enzyme": "^3.1.6",
     "@types/enzyme-adapter-react-16": "^1.0.1",
     "@types/enzyme-to-json": "^1.5.0",
     "@types/jest": "^22.0.1",
     "@types/react-redux": "^5.0.15",
+    "@types/redux-form": "^7.0.13",
     "awesome-typescript-loader": "^3.4.1",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
@@ -45,7 +46,9 @@
     "jest": "^22.1.4",
     "react-docgen": "^2.20.0",
     "react-docgen-typescript": "^1.2.3",
+    "react-redux": "5.0.6",
     "react-styleguidist": "^6.2.2",
+    "redux-form": "^7.2.1",
     "source-map-loader": "^0.2.3",
     "ts-jest": "^22.0.1",
     "webpack": "^3.10.0"
@@ -57,7 +60,9 @@
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "styleguidist:build": "styleguidist build",
     "styleguidist:server": "styleguidist server",
-    "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json"
+    "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json",
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "build-storybook": "build-storybook"
   },
   "jest": {
     "preset": "jest-expo",

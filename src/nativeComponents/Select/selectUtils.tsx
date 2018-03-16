@@ -1,10 +1,11 @@
-import { SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
+import { Option, SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
 import { _t } from "src/utils/common";
 
 export const NOT_AVAILABLE_FIELD_VALUE = 'select component field unavailable';
 export const NOT_AVAILABLE = 'not available';
 
-export function getSelectData(props: SelectProps & FieldStatePropsNoParams<SelectDBValue>) {
+// export function getSelectData(props: SelectProps & FieldStatePropsNoParams<SelectDBValue>) {
+export function getSelectData(props: any) {
 
     let {nullName, options, nullable, error, value,} = props,
         optionsValues = options.map((option: any) => option.value);

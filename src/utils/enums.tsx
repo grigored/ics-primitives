@@ -19,3 +19,42 @@ export enum SELECT_INPUT_TYPES {
     INT,
     FLOAT,
 }
+
+export enum MOMENT_FORMAT {
+    LT = 'LT', // 8:30 PM
+    L = 'L', // 09/04/1986
+    l = 'l', // 9/4/1986
+    l_LTS = 'l LTS', // 9/4/1986 08:03:00 AM
+    l_LT = 'l LT', // 9/4/1986 08:03 AM
+    L_LTS = 'L LTS', // 09/04/1986 08:03:00 AM
+    L_LT = 'L LT', // 09/04/1986 08:03 AM
+}
+
+export enum LOCALES {
+    en_US = 'en_US',
+}
+
+export enum DATE_FORMATS {
+    yyyymmdd = 'yyyymmdd',
+    ddmm = 'ddmm',
+    ddmmyy = 'ddmmyy',
+    ddmmyyyy = 'ddmmyyyy',
+    ddmmyy_hm = 'ddmmyy hm',
+    ddmmyy_hms = 'ddmmyy hms',
+    ddmm_hms = 'ddmm hms',
+    hm = 'hm',
+    ddd_ddmm = 'ddd ddmm',
+    mmm_dd = 'ddd_ddmm',
+    mmm_dd_hm = 'mmm dd, hm',
+    ddd_dd_mmm = 'ddd, dd mmm',
+    MM_DD_YYYY = 'MM/DD/YYYY',
+    YYYY_MM_DD = 'YYYY/MM/DD',
+    DD_MM_YYYY = 'DD-MM-YYYY',
+}
+
+export enum TIMEZONES {
+    UTC = 'UTC',
+    EUROPE_BUCHAREST = 'Europe/Bucharest',
+    LOS_ANGELES_AMERICA = 'LosAngeles/America',
+    AFRICA_CASABLANCA = 'Africa/Casablanca',
+}

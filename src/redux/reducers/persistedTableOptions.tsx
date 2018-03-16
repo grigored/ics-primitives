@@ -1,18 +1,18 @@
-enum TypeKeys {
+export enum TypeKeys {
     SAVE_TABLE_OPTIONS = 'instacar/persistedTableOptions/SAVE_TABLE_OPTIONS',
 }
 
-interface Options {
+export interface Options {
 
 }
 
-interface SaveTableOptionsAction {
+export interface SaveTableOptionsAction {
     type: TypeKeys.SAVE_TABLE_OPTIONS,
     options: Options,
     tableId: string
 }
 
-type ActionTypes =
+export type ActionTypes =
     | SaveTableOptionsAction
 
 
@@ -20,7 +20,7 @@ export interface PersistedTableOptionsState {
     [tableId: string]: Options
 }
 
-export default function reducer(state: PersistedTableOptionsState = {}, action: ActionTypes) {
+export const persistedTableOptions = (state: PersistedTableOptionsState = {}, action: ActionTypes) => {
     let {tableId} = action;
 
     switch (action.type) {

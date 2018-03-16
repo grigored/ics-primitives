@@ -1,4 +1,3 @@
-
 export { createStyles } from './primitives/createStyles/createStyles';
 export { Link } from './primitives/Link/Link';
 export { Image } from './primitives/Image/Image';
@@ -31,4 +30,6 @@ export {
     formHelpers,
     sendFormData,
 } from './redux/reducers/formHelpers';
+export { table } from './redux/reducers/table';
+export { persistedTableOptions } from './redux/reducers/persistedTableOptions';
 export { FieldDefinition } from './redux/FormComponents/FormComponents.types'

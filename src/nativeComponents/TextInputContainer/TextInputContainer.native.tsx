@@ -51,7 +51,7 @@ let styles = () => ( {
 
 } );
 
-interface Props {
+export interface Props {
     error?: string,
     labelPositionLeft: boolean,
     onPress: () => void,

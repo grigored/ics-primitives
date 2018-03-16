@@ -6,20 +6,17 @@ import {
     defaultDbToRaw, defaultRawToDb, getError,
     getKeyboardType
 } from "src/nativeComponents/TextInput/textInputUtils";
+import { createStyles } from '../../primitives/createStyles/createStyles';
+import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from "../../utils/enums";
-import { TextInputProps } from "./TextInput.types";
+import { appTheme } from '../../utils/theme';
+import { WithStyles } from '../../utils/theme.types';
+import { TextInputDBValue, TextInputProps } from "./TextInput.types";
+import { parseValue } from './TextInput.utils';
 
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
-import { appTheme } from '../../utils/theme';
-import { WithStyles } from '../../utils/theme.types';
-import { createStyles } from '../../primitives/createStyles/createStyles';
-import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
-import { TEXT_INPUT_TYPES } from '../../utils/enums';
-import { TextInputDBValue, TextInputProps } from './TextInput.types';
-import { parseValue } from './TextInput.utils';
-
-const styles = () => ({
+const styles = () => ( {
     underline: {
         '&:after': {
             backgroundColor: appTheme.textInputUnderlineColor,
@@ -34,15 +31,14 @@ const styles = () => ({
             backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
         },
     },
-    underlineError: {
-    },
+    underlineError: {},
     input: {
         color: appTheme.textColor,
     },
-});
+} );
 
 export class CTextInput extends React.PureComponent<TextInputProps & WithStyles & FieldStateProps<TextInputDBValue>, { rawValue: string, }> {
-    componentWillMount(){
+    componentWillMount() {
         let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
         if (value !== null && value !== undefined) {
             this.setState( {
@@ -57,8 +53,8 @@ export class CTextInput extends React.PureComponent<TextInputProps & WithStyles 
 
     render() {
         let {
-            value, onChange, placeholder, inputType, onBlur, onFocus, title, error, id, multiline,
-            disableUnderline, classes,
+            onChange, placeholder, inputType, onBlur, title, error, id, multiline,
+            disableUnderline, classes, rawToDb,
         } = this.props;
         return (
             <FormControl fullWidth>

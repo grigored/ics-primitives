@@ -1,5 +1,5 @@
 
-enum TypeKeys {
+export enum TypeKeys {
     GET_TABLE_DATA = 'instacar/table/GET_TABLE_DATA',
     GET_TABLE_DATA_SUCCESS = 'instacar/table/GET_TABLE_DATA_SUCCESS',
     GET_TABLE_DATA_FAIL = 'instacar/table/GET_TABLE_DATA_FAIL',
@@ -18,63 +18,63 @@ enum TypeKeys {
     CHANGE_GPS_DATA_VIEW_MODE = 'instacar/table/CHANGE_GPS_DATA_VIEW_MODE',
 }
 
-interface GetTableDataAction {
+export interface GetTableDataAction {
     type: TypeKeys.GET_TABLE_DATA,
     tableId: string,
 }
 
-interface GetTableDataSuccessFailAction {
+export interface GetTableDataSuccessFailAction {
     type: TypeKeys.GET_TABLE_DATA_SUCCESS | TypeKeys.GET_TABLE_DATA_FAIL,
     response: any,
     tableId: string,
 }
 
-interface DeleteTableEntryAction {
+export interface DeleteTableEntryAction {
     type: TypeKeys.DELETE_TABLE_ENTRY,
     tableId: string,
     itemId: string | number,
 }
 
-interface DeleteTableEntrySuccessFailAction {
+export interface DeleteTableEntrySuccessFailAction {
     type: TypeKeys.DELETE_TABLE_ENTRY_SUCCESS | TypeKeys.DELETE_TABLE_ENTRY_FAIL,
     response: any,
     tableId: string,
 }
 
-interface RefreshTableAction {
+export interface RefreshTableAction {
     type: TypeKeys.REFRESH_TABLE,
     tableId: string,
 }
 
-interface ShowMenuAction {
+export interface ShowMenuAction {
     type: TypeKeys.SHOW_MENU,
     menuRow: any,
     menuShown: boolean,
     tableId: string,
 }
 
-interface ClearTableDataAction {
+export interface ClearTableDataAction {
     type: TypeKeys.CLEAR_TABLE_DATA,
     tableId: string,
 }
 
-interface ChangeGpsDataViewMode {
+export interface ChangeGpsDataViewMode {
     type: TypeKeys.CHANGE_GPS_DATA_VIEW_MODE,
     isTableView: boolean,
 }
 
-interface ShowEntryDetails {
+export interface ShowEntryDetails {
     type: TypeKeys.SHOW_ENTRY_DETAILS,
     details?: Array<TableEntryDetail>,
     itemName?: string | number,
 }
 
-interface InitEntryDetails {
+export interface InitEntryDetails {
     type: TypeKeys.INIT_ENTRY_DETAILS,
     componentName: string,
 }
 
-type ActionTypes =
+export type ActionTypes =
     | GetTableDataAction
     | GetTableDataSuccessFailAction
     | DeleteTableEntryAction
@@ -110,7 +110,7 @@ export interface TableEntryDetail {
 
 const initialState = {};
 
-export default function reducer(state: TableState = initialState, action: ActionTypes): TableState {
+export const table = (state: TableState = initialState, action: ActionTypes): TableState => {
     switch (action.type) {
         case TypeKeys.GET_TABLE_DATA:
             return {

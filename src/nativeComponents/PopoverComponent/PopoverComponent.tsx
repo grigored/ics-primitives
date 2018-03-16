@@ -2,7 +2,7 @@ import Popover from "material-ui/Popover";
 import { Button, createStyles, View, WithStyles } from "src";
 import { Action } from "src/nativeComponents/TableComponent/TableComponent.types";
 import { StyleRules } from "src/utils/theme.types";
-import * as React from "react
+import * as React from "react";
 
 const styles: StyleRules = {
     container: {},

@@ -21,6 +21,9 @@ import { DBValue, Option } from "src/redux/FormComponents/FormComponents.types";
 import { FormItem } from "src/redux/FormComponents/FormItem";
 import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "src/redux/reducers/table";
 import { _t, getNestedField, shallowEqual } from "src/utils/common";
+import { MOMENT_FORMAT } from "src/utils/enums";
+import { formatDate } from "src/utils/i18n";
+import { REFRESH } from "src/utils/strings";
 import { setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
 
 export const ACTIONS_COLUMN = 'admin_actions',
@@ -818,7 +821,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             exportToCsv.bind(
                                 this,
                                 params,
-                                _t( title ) + '_' + formatDate( params.locale, MOMENT_FORMAT.ddmmyy_hm, new Date() ) + '.csv',
+                                _t( title ) + '_' + formatDate( params.locale, MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
                                 this.columns,
                                 tableData,
                             )
