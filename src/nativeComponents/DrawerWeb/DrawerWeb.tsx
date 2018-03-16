@@ -28,7 +28,7 @@ const CDrawerWeb: React.StatelessComponent<DrawerProps & WithStyles> = ({
     persistent
 }) => (
     <Drawer
-        type={persistent ? "persistent" : "temporary"}
+        variant={persistent ? "persistent" : "temporary"}
         classes={{
             paper: classes.drawerPaper as any,
             docked: classes.drawerDocked as any,

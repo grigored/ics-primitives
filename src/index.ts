@@ -31,4 +31,9 @@ export {
     formHelpers,
     sendFormData,
 } from './redux/reducers/formHelpers';
+
+export {
+    navigation,
+    toggleDrawer,
+} from './redux/reducers/navigation';
 export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
