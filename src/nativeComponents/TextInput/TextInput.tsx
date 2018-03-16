@@ -1,13 +1,18 @@
-import * as React from 'react';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormHelperText } from "material-ui";
+import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
-import { appTheme } from '../../utils/theme';
-import { WithStyles } from '../../utils/theme.types';
-import { createStyles } from '../../primitives/createStyles/createStyles';
-import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
-import { TEXT_INPUT_TYPES } from '../../utils/enums';
-import { TextInputDBValue, TextInputProps } from './TextInput.types';
-import { parseValue } from './TextInput.utils';
+import * as React from 'react';
+import {
+    defaultDbToRaw, getKeyboardType, defaultRawToDb,
+    getError
+} from "./TextInput.utils";
+import { appTheme, createStyles, WithStyles } from "../../";
+import { FieldStateProps } from "../../redux/FormComponents/FormComponents.types";
+import { TEXT_INPUT_TYPES } from "../../utils/enums";
+import { TextInputDBValue, TextInputProps } from "./TextInput.types";
+
+export const INVALID_JSON_STRING = 'Invalid JSON string';
+export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 
 const styles = () => ({
     underline: {
@@ -31,45 +36,60 @@ const styles = () => ({
     },
 });
 
-const getKeyboardType = ( inputType: TEXT_INPUT_TYPES ): string => {
-    switch (inputType) {
-        case TEXT_INPUT_TYPES.PASSWORD:
-            return 'password';
-        case TEXT_INPUT_TYPES.EMAIL:
-            return 'email';
-        case TEXT_INPUT_TYPES.PHONE:
-            return 'tel';
-        default:
-            return 'text';
+export class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles, { rawValue: string, }> {
+    componentWillMount() {
+        let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
+        if (value !== null && value !== undefined) {
+            this.setState( {
+                rawValue: !!dbToRaw
+                    ? dbToRaw( value )
+                    : defaultDbToRaw( inputType, value )
+            } )
+        } else {
+            this.setState( { rawValue: '' } )
+        }
     }
-};
 
-class CTextInput extends React.PureComponent<TextInputProps & WithStyles & FieldStateProps<TextInputDBValue>, {}> {
     render() {
-        const {
-            value, onChange, placeholder, inputType, onBlur, onFocus, title, error, id, multiline,
-            disableUnderline, classes,
+        let {
+            placeholder,
+            inputType = TEXT_INPUT_TYPES.TEXT,
+            onBlur,
+            title,
+            error,
+            id,
+            multiline,
+            onChange,
+            rawToDb,
+            disableUnderline,
+            classes,
         } = this.props;
-
         return (
             <FormControl fullWidth>
                 <TextField
                     id={id}
-                    value={(value && value.toString()) || ''}
+                    value={this.state.rawValue || ''}
                     error={!!error}
-                    multiline={multiline || inputType === TEXT_INPUT_TYPES.JSON}
+                    multiline={multiline}
                     placeholder={placeholder || ''}
                     label={title || ''}
-                    type={getKeyboardType(inputType)}
-                    onChange={( event: any ) => {
-                        const dbValue = parseValue(inputType, event.target.value);
-                        onChange && onChange(dbValue);
+                    type={getKeyboardType( inputType )}
+                    onChange={( ev: React.ChangeEvent<HTMLInputElement> ) => {
+                        let rawValue = ev.target.value;
+                        let dbValue = !!rawToDb
+                            ? rawToDb( rawValue )
+                            : defaultRawToDb( inputType, rawValue );
+                        this.setState( { rawValue: rawValue } );
+                        let fieldError = getError( inputType, rawValue );
+                        !!onChange && onChange(
+                            !!fieldError
+                                ? { value: dbValue, error: fieldError }
+                                : dbValue
+                        )
+
                     }}
                     onBlur={() => {
                         onBlur && onBlur();
-                    }}
-                    onFocus={() => {
-                        onFocus && onFocus();
                     }}
                     helperText={error}
                     InputProps={{
