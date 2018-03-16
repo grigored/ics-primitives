@@ -41,7 +41,7 @@ const styles = {
 
 
 # How to use the lib locally
-1. Install yalc:
+1. Install yacc:
     ```bash
     yarn global add yalc
     ```
