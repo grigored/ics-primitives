@@ -32,3 +32,4 @@ export {
     sendFormData,
 } from './redux/reducers/formHelpers';
 export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
+export * from './primitives/platform/platform';
