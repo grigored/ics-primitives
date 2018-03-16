@@ -3,7 +3,7 @@ import { android, appTheme, Button, createStyles, ios, isXs, Text, View, WithSty
 import { StyleRules } from "src/utils/theme.types";
 
 
-const styles = () => ({
+const styles = () => ( {
     container: {
         marginTop: appTheme.defaultVerticalMargin,
         marginBottom: appTheme.defaultVerticalMargin,
@@ -40,86 +40,82 @@ const styles = () => ({
             tintColor: null,
         },
     }
-});
+} );
 
-interface Props {
-    style: StyleRules,
+export interface Props {
+    style?: StyleRules,
     itemsCount: number,
     itemsLowerLimit: number,
     itemsUpperLimit: number,
     currentPage: number,
     pagesCount: number,
-    changePage: (page: number) => void,
+    changePage: ( page: number ) => void,
 }
 
-const CTablePageNavigator = ({
-                                 classes,
-                                 style,
-                                 itemsCount,
-                                 itemsLowerLimit,
-                                 itemsUpperLimit,
-                                 currentPage,
-                                 pagesCount,
-                                 changePage
-                             } : Props & WithStyles) => {
+class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
 
-    return (
-        <View style={[classes.container, classes.buttonsContainers, style]}>
-            {!isXs() &&
-            <Text style={classes.initialTextStyle}>
-                Items {itemsLowerLimit} to {itemsUpperLimit} of {itemsCount}
-            </Text>
-            }
-            {
-                pagesCount > 1 && currentPage > 1 &&
-                <Button
-                    onPress={changePage.bind(this, 1)}
-                    // icon={iconList.fastRewind}
-                    // iconStyle={classes.iconStyle}
-                    // style={classes.buttonStyle}
-                    // touchableStyle={classes.buttonsTouchableStyle}
-                />
-            }
-            {
-                pagesCount > 1 && currentPage > 1 &&
-                <Button
-                    onPress={changePage.bind(this, currentPage - 1)}
-                    title={(currentPage - 1).toString()}
-                    // style={classes.buttonStyle}
-                    // touchableStyle={classes.buttonsTouchableStyle}
-                />
-            }
-            {
-                pagesCount > 1 &&
-                <Button
-                    title={currentPage.toString()}
-                    // style={classes.buttonStyle}
-                    disabled={true}
-                    // touchableStyle={classes.buttonsTouchableStyle}
-                />
-            }
-            {
-                pagesCount > 1 && currentPage < pagesCount &&
-                <Button
-                    onPress={changePage.bind(this, currentPage + 1)}
-                    title={(currentPage + 1).toString()}
-                    // style={classes.buttonStyle}
-                    // touchableStyle={classes.buttonsTouchableStyle}
-                />
-            }
-            {
-                pagesCount > 1 && currentPage < pagesCount &&
-                <Button
-                    onPress={changePage.bind(this, pagesCount)}
-                    // icon={iconList.fastForward}
-                    // iconStyle={classes.iconStyle}
-                    // style={classes.buttonStyle}
-                    // touchableStyle={classes.buttonsTouchableStyle}
-                />
-            }
-        </View>
-    )
+    render() {
+        let {
+            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage
+        } = this.props;
+        return (
+            <View style={[classes.container, classes.buttonsContainers, style || {}]}>
+                {!isXs() &&
+                <Text style={classes.initialTextStyle}>
+                    Items {itemsLowerLimit} to {itemsUpperLimit} of {itemsCount}
+                </Text>
+                }
+                {
+                    pagesCount > 1 && currentPage > 1 &&
+                    <Button
+                        onPress={changePage.bind( this, 1 )}
+                        // icon={iconList.fastRewind}
+                        // iconStyle={classes.iconStyle}
+                        // style={classes.buttonStyle}
+                        // touchableStyle={classes.buttonsTouchableStyle}
+                    />
+                }
+                {
+                    pagesCount > 1 && currentPage > 1 &&
+                    <Button
+                        onPress={changePage.bind( this, currentPage - 1 )}
+                        title={( currentPage - 1 ).toString()}
+                        // style={classes.buttonStyle}
+                        // touchableStyle={classes.buttonsTouchableStyle}
+                    />
+                }
+                {
+                    pagesCount > 1 &&
+                    <Button
+                        title={currentPage.toString()}
+                        // style={classes.buttonStyle}
+                        disabled={true}
+                        // touchableStyle={classes.buttonsTouchableStyle}
+                    />
+                }
+                {
+                    pagesCount > 1 && currentPage < pagesCount &&
+                    <Button
+                        onPress={changePage.bind( this, currentPage + 1 )}
+                        title={( currentPage + 1 ).toString()}
+                        // style={classes.buttonStyle}
+                        // touchableStyle={classes.buttonsTouchableStyle}
+                    />
+                }
+                {
+                    pagesCount > 1 && currentPage < pagesCount &&
+                    <Button
+                        onPress={changePage.bind( this, pagesCount )}
+                        // icon={iconList.fastForward}
+                        // iconStyle={classes.iconStyle}
+                        // style={classes.buttonStyle}
+                        // touchableStyle={classes.buttonsTouchableStyle}
+                    />
+                }
+            </View>
+        );
+    }
 }
 
 const componentName = 'TablePageNavigator';
-export const TablePageNavigator = createStyles<Props>(styles, componentName, CTablePageNavigator);
+export const TablePageNavigator = createStyles<Props>( styles, componentName, CTablePageNavigator );

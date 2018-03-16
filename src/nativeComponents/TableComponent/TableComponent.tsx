@@ -3,12 +3,11 @@ import { ScrollView } from "react-native";
 import { connect } from "react-redux";
 import { destroy, initialize } from 'redux-form';
 import {
-    all, appTheme, Button, createStyles, FORM_INPUT_TYPES, isXs, native, Text, TEXT_INPUT_TYPES, View, View, web,
+    all, appTheme, Button, createStyles, FORM_INPUT_TYPES, isXs, native, Text, TEXT_INPUT_TYPES, View, web,
     webDesktop,
     webMobile,
     WithStyles
 } from "src";
-import { PopoverComponent } from "src/nativeComponents/PopoverComponent/PopoverComponent";
 import { Select } from "src/nativeComponents/Select/Select";
 import {
     Column,
@@ -22,7 +21,6 @@ import { DBValue, Option } from "src/redux/FormComponents/FormComponents.types";
 import { FormItem } from "src/redux/FormComponents/FormItem";
 import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "src/redux/reducers/table";
 import { _t, getNestedField, shallowEqual } from "src/utils/common";
-import { StyleRules } from "src/utils/theme.types";
 import { setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
 
 export const ACTIONS_COLUMN = 'admin_actions',
@@ -47,11 +45,11 @@ export const ACTIONS_COLUMN = 'admin_actions',
         { value: 1 << 30, text: 'Show All' },
     ];
 
-const styles: StyleRules = () => ( {
+const styles = () => ( {
     container: {
         flexDirection: 'column',
         flexShrink: 0,
-        padding: appTheme.defaultMargin,
+        // padding: appTheme.defaultMargin,
         [web]: {
             width: '100%',
             boxSizing: 'border-box',
@@ -123,7 +121,7 @@ const styles: StyleRules = () => ( {
         minWidth: 180,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginRight: appTheme.defaultMargin,
+        // marginRight: appTheme.defaultMargin,
     },
     tableCellNormalWidth: {
         maxWidth: 180,
@@ -208,7 +206,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     constructor( props: OwnProps & WithStyles & ConnectedProps ) {
         super( props );
-        let { tableDefinition, tableId, params, tableFilterPersistentData } = props;
+        let { tableDefinition, params, tableFilterPersistentData } = props;
         this.tableDefinitionData = tableDefinition;
         this.rowStyle = this.tableDefinitionData.rowStyle;
         this.columns = this.tableDefinitionData.columns( params, null )
@@ -462,7 +460,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getFilterComponentForColumn( column: Column ) {
-        let { tableFilterFormData, tableId, params, classes } = this.props;
+        let { tableFilterFormData, params } = this.props;
 
         if (column.type === FORM_INPUT_TYPES.TEXT) {
             let showClear = tableFilterFormData[column.field];
@@ -692,8 +690,8 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     render() {
         let {
-                classes, hasNew, title, tableFilterFormData, params, tableData, refreshMethod, navigation, pushScreen,
-                tableFilterPersistentData, loadingData, url, mixRows, hideRefreshButton, hideItemsPerPageButton, tableId
+                classes, hasNew, title, tableFilterFormData, params, tableData, refreshMethod,
+                tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
             actionsColumn = this.getActionsColumn(),
@@ -710,14 +708,14 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             itemsPerPage = -1,
             currentPage = -1,
             wrapRows = tableFilterPersistentData && tableFilterPersistentData.wrapRows,
-            columnOptions = columns.map(
-                column => {
-                    return {
-                        value: column.field,
-                        text: column.title!,
-                    };
-                }
-            ),
+            // columnOptions = columns.map(
+            //     column => {
+            //         return {
+            //             value: column.field,
+            //             text: column.title!,
+            //         };
+            //     }
+            // ),
             visibleColumns = tableFilterPersistentData && tableFilterPersistentData.visibleColumns,
             visibleTableColumns: Array<Column> = !!visibleColumns && visibleColumns.length > 0
                 ? tableColumns.filter( column => visibleColumns.indexOf( column.field ) !== -1 )
@@ -827,23 +825,23 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         }
                     />
                     }
-                    <MultipleSelect
-                        title={isXs() ? undefined : _t( COLUMNS )}
-                        isButton={true}
-                        buttonProps={{
-                            icon: iconList.columns,
-                            iconStyle: classes.optionsIconStyle,
-                            labelStyle: classes.optionsTitleStyle,
-                            touchableStyle: classes.optionsTouchableStyle,
-                            style: classes.optionsTouchableStyle,
-                        }}
-                        options={columnOptions}
-                        onChange={( newColumns: Array<string> ) => {
-                            this.changeVisibleColumns( newColumns );
-                        }}
-                        value={visibleColumns}
-                        navigation={navigation}
-                    />
+                    {/*<MultipleSelect*/}
+                        {/*title={isXs() ? undefined : _t( COLUMNS )}*/}
+                        {/*isButton={true}*/}
+                        {/*buttonProps={{*/}
+                            {/*icon: iconList.columns,*/}
+                            {/*iconStyle: classes.optionsIconStyle,*/}
+                            {/*labelStyle: classes.optionsTitleStyle,*/}
+                            {/*touchableStyle: classes.optionsTouchableStyle,*/}
+                            {/*style: classes.optionsTouchableStyle,*/}
+                        {/*}}*/}
+                        {/*options={columnOptions}*/}
+                        {/*onChange={( newColumns: Array<string> ) => {*/}
+                            {/*this.changeVisibleColumns( newColumns );*/}
+                        {/*}}*/}
+                        {/*value={visibleColumns}*/}
+                        {/*navigation={navigation}*/}
+                    {/*/>*/}
                     <Button
                         // icon={iconList.wrap}
                         title={isXs() ? undefined : _t( 'wrap_rows' )}
@@ -918,7 +916,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         {
                             extraData &&
                             <TablePageNavigator
-                                style={{ marginLeft: appTheme.defaultMargin }}
+                                // style={{ marginLeft: appTheme.defaultMargin }}
                                 itemsCount={totalItems}
                                 itemsLowerLimit={itemsPerPage * ( currentPage - 1 ) + 1}
                                 itemsUpperLimit={Math.min( itemsPerPage * currentPage, totalItems )}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from "src";
 import { getSelectData } from "src/nativeComponents/Select/selectUtils";
+import { CustomPicker } from "src/nativeComponents/TextInputContainer/CustomPicker";
 import { TextInputContainer } from "src/nativeComponents/TextInputContainer/TextInputContainer.native";
 import { isIOS } from "src/primitives/platform/platform";
 import { FieldStateProps, SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
