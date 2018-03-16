@@ -29,7 +29,7 @@ let styles = () => ({
         color: appTheme.textInputLabelColor,
     },
     leftText: {
-        // flex: 1,
+        flex: 1,
         height: appTheme.inputHeight,
         color: appTheme.textColor,
         [android]: {
