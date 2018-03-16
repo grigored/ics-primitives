@@ -1,132 +1,166 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TextInput /> renders 1`] = `
-<CTextInput
+<WithStyles(CTextInput)
   inputType={0}
   onChange={[Function]}
 >
-  <WithStyles(FormControl)
-    fullWidth={true}
-  >
-    <FormControl
-      classes={
-        Object {
-          "fullWidth": "MuiFormControl-fullWidth-4",
-          "marginDense": "MuiFormControl-marginDense-3",
-          "marginNormal": "MuiFormControl-marginNormal-2",
-          "root": "MuiFormControl-root-1",
-        }
+  <CTextInput
+    classes={
+      Object {
+        "input": "CTextInput-input-3",
+        "underline": "CTextInput-underline-1",
+        "underlineError": "CTextInput-underlineError-2",
       }
-      component="div"
-      disabled={false}
-      error={false}
+    }
+    inputType={0}
+    onChange={[Function]}
+  >
+    <WithStyles(FormControl)
       fullWidth={true}
-      margin="none"
-      required={false}
     >
-      <div
-        className="MuiFormControl-root-1 MuiFormControl-fullWidth-4"
-        onBlur={[Function]}
-        onFocus={[Function]}
+      <FormControl
+        classes={
+          Object {
+            "fullWidth": "MuiFormControl-fullWidth-7",
+            "marginDense": "MuiFormControl-marginDense-6",
+            "marginNormal": "MuiFormControl-marginNormal-5",
+            "root": "MuiFormControl-root-4",
+          }
+        }
+        component="div"
+        disabled={false}
+        error={false}
+        fullWidth={true}
+        margin="none"
         required={false}
       >
-        <TextField
-          error={false}
-          label=""
+        <div
+          className="MuiFormControl-root-4 MuiFormControl-fullWidth-7"
           onBlur={[Function]}
-          onChange={[Function]}
-          placeholder=""
+          onFocus={[Function]}
           required={false}
-          select={false}
-          type="text"
-          value=""
         >
-          <WithStyles(FormControl)
-            error={false}
-            onBlur={[Function]}
-            required={false}
-          >
-            <FormControl
-              classes={
-                Object {
-                  "fullWidth": "MuiFormControl-fullWidth-4",
-                  "marginDense": "MuiFormControl-marginDense-3",
-                  "marginNormal": "MuiFormControl-marginNormal-2",
-                  "root": "MuiFormControl-root-1",
-                }
+          <TextField
+            InputLabelProps={
+              Object {
+                "style": Object {
+                  "color": "#000",
+                },
               }
-              component="div"
-              disabled={false}
+            }
+            InputProps={
+              Object {
+                "classes": Object {
+                  "input": "CTextInput-input-3",
+                  "underline": "CTextInput-underline-1",
+                },
+                "disableUnderline": undefined,
+              }
+            }
+            error={false}
+            label=""
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder=""
+            required={false}
+            select={false}
+            type="text"
+            value=""
+          >
+            <WithStyles(FormControl)
               error={false}
-              fullWidth={false}
-              margin="none"
               onBlur={[Function]}
               required={false}
             >
-              <div
-                className="MuiFormControl-root-1"
+              <FormControl
+                classes={
+                  Object {
+                    "fullWidth": "MuiFormControl-fullWidth-7",
+                    "marginDense": "MuiFormControl-marginDense-6",
+                    "marginNormal": "MuiFormControl-marginNormal-5",
+                    "root": "MuiFormControl-root-4",
+                  }
+                }
+                component="div"
+                disabled={false}
+                error={false}
+                fullWidth={false}
+                margin="none"
                 onBlur={[Function]}
-                onFocus={[Function]}
                 required={false}
               >
-                <WithStyles(Input)
-                  onChange={[Function]}
-                  placeholder=""
-                  type="text"
-                  value=""
+                <div
+                  className="MuiFormControl-root-4"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  required={false}
                 >
-                  <Input
+                  <WithStyles(Input)
                     classes={
                       Object {
-                        "disabled": "MuiInput-disabled-10",
-                        "error": "MuiInput-error-8",
-                        "focused": "MuiInput-focused-9",
-                        "formControl": "MuiInput-formControl-6",
-                        "fullWidth": "MuiInput-fullWidth-13",
-                        "inkbar": "MuiInput-inkbar-7",
-                        "input": "MuiInput-input-14",
-                        "inputDense": "MuiInput-inputDense-15",
-                        "inputDisabled": "MuiInput-inputDisabled-16",
-                        "inputMultiline": "MuiInput-inputMultiline-18",
-                        "inputSearch": "MuiInput-inputSearch-19",
-                        "inputSingleline": "MuiInput-inputSingleline-17",
-                        "multiline": "MuiInput-multiline-12",
-                        "root": "MuiInput-root-5",
-                        "underline": "MuiInput-underline-11",
+                        "input": "CTextInput-input-3",
+                        "underline": "CTextInput-underline-1",
                       }
                     }
-                    disableUnderline={false}
-                    fullWidth={false}
-                    multiline={false}
                     onChange={[Function]}
                     placeholder=""
                     type="text"
                     value=""
                   >
-                    <div
-                      className="MuiInput-root-5 MuiInput-formControl-6 MuiInput-inkbar-7 MuiInput-underline-11"
-                      onBlur={[Function]}
-                      onFocus={[Function]}
+                    <Input
+                      classes={
+                        Object {
+                          "disabled": "MuiInput-disabled-13",
+                          "error": "MuiInput-error-11",
+                          "focused": "MuiInput-focused-12",
+                          "formControl": "MuiInput-formControl-9",
+                          "fullWidth": "MuiInput-fullWidth-16",
+                          "inkbar": "MuiInput-inkbar-10",
+                          "input": "MuiInput-input-17 CTextInput-input-3",
+                          "inputDense": "MuiInput-inputDense-18",
+                          "inputDisabled": "MuiInput-inputDisabled-19",
+                          "inputMultiline": "MuiInput-inputMultiline-21",
+                          "inputSearch": "MuiInput-inputSearch-22",
+                          "inputSingleline": "MuiInput-inputSingleline-20",
+                          "multiline": "MuiInput-multiline-15",
+                          "root": "MuiInput-root-8",
+                          "underline": "MuiInput-underline-14 CTextInput-underline-1",
+                        }
+                      }
+                      disableUnderline={false}
+                      fullWidth={false}
+                      multiline={false}
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                      value=""
                     >
-                      <input
-                        aria-invalid={false}
-                        aria-required={false}
-                        className="MuiInput-input-14 MuiInput-inputSingleline-17"
-                        disabled={false}
-                        onChange={[Function]}
-                        placeholder=""
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </Input>
-                </WithStyles(Input)>
-              </div>
-            </FormControl>
-          </WithStyles(FormControl)>
-        </TextField>
-      </div>
-    </FormControl>
-  </WithStyles(FormControl)>
-</CTextInput>
+                      <div
+                        className="MuiInput-root-8 MuiInput-formControl-9 MuiInput-inkbar-10 MuiInput-underline-14 CTextInput-underline-1"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                      >
+                        <input
+                          aria-invalid={false}
+                          aria-required={false}
+                          className="MuiInput-input-17 CTextInput-input-3 MuiInput-inputSingleline-20"
+                          disabled={false}
+                          onChange={[Function]}
+                          placeholder=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </Input>
+                  </WithStyles(Input)>
+                </div>
+              </FormControl>
+            </WithStyles(FormControl)>
+          </TextField>
+        </div>
+      </FormControl>
+    </WithStyles(FormControl)>
+  </CTextInput>
+</WithStyles(CTextInput)>
 `;
