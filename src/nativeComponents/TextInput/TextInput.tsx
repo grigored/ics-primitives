@@ -11,10 +11,38 @@ import { TextInputProps } from "./TextInput.types";
 
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
+import { appTheme } from '../../utils/theme';
+import { WithStyles } from '../../utils/theme.types';
+import { createStyles } from '../../primitives/createStyles/createStyles';
+import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
+import { TEXT_INPUT_TYPES } from '../../utils/enums';
+import { TextInputDBValue, TextInputProps } from './TextInput.types';
+import { parseValue } from './TextInput.utils';
 
+const styles = () => ({
+    underline: {
+        '&:after': {
+            backgroundColor: appTheme.textInputUnderlineColor,
+        },
+        '&:before': {
+            backgroundColor: appTheme.textInputUnderlineColor,
+        },
+        '&:hover:not($disabled):before': {
+            backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
+        },
+        '&:hover:not($disabled):after': {
+            backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
+        },
+    },
+    underlineError: {
+    },
+    input: {
+        color: appTheme.textColor,
+    },
+});
 
-export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: string, }> {
-    componentWillMount() {
+export class CTextInput extends React.PureComponent<TextInputProps & WithStyles & FieldStateProps<TextInputDBValue>, { rawValue: string, }> {
+    componentWillMount(){
         let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
         if (value !== null && value !== undefined) {
             this.setState( {
@@ -29,15 +57,8 @@ export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: 
 
     render() {
         let {
-            placeholder,
-            inputType = TEXT_INPUT_TYPES.TEXT,
-            onBlur,
-            title,
-            error,
-            id,
-            multiline,
-            onChange,
-            rawToDb,
+            value, onChange, placeholder, inputType, onBlur, onFocus, title, error, id, multiline,
+            disableUnderline, classes,
         } = this.props;
         return (
             <FormControl fullWidth>
@@ -66,6 +87,19 @@ export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: 
                         onBlur && onBlur();
                     }}
                     helperText={error}
+                    InputProps={{
+                        disableUnderline,
+                        classes: {
+                            input: classes.input as any,
+                            underline: !!error ? classes.underlineError : classes.underline as any,
+                        },
+                    }}
+                    InputLabelProps={{
+                        // shrink: true,
+                        style: {
+                            color: appTheme.textInputLabelColor,
+                        },
+                    }}
                 />
                 {false && <FormHelperText>some helping text here</FormHelperText>}
             </FormControl>
@@ -73,4 +107,8 @@ export class CTextInput extends React.PureComponent<TextInputProps, { rawValue: 
     }
 }
 
-export const TextInput = CTextInput;
+export const TextInput: React.ComponentType<TextInputProps & FieldStateProps<TextInputDBValue>> = createStyles(
+    styles,
+    'TextInput',
+    CTextInput
+);

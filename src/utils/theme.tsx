@@ -17,12 +17,17 @@ export const appTheme: AppTheme = {
     primaryTextColor: '#fff',
     backgroundColor: '#fff',
     textColor: '#000',
+    placeholderColor: '#555',
+    cursorColor: '#000',
     errorColor: '#f44336',
+    textInputUnderlineColor: '#000',
+    textInputLabelColor: '#000',
     horizontalMargin: 16,
     defaultVerticalMargin: 8,
-    inputHeight: {
-        [ios]: 28
-    },
+    inputHeight: 28,
+    // inputHeight: {
+    //     [ios]: 28,
+    // },
     fontSizeS: 12,
     fontSizeM: 14,
     fontSizeL: 18,

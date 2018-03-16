@@ -11,7 +11,7 @@ export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from './utils/enums';
 export { WithStyles, Classes } from './utils/theme.types';
 export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from './utils/theme';
 
-export { Button } from './nativeComponents/Button/Button';
+export { Button, fade } from './nativeComponents/Button/Button';
 // export { Dialog } from './nativeComponents/Dialog/Dialog';
 export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 // export { TextInput } from './nativeComponents/Form/TextInput/TextInput';

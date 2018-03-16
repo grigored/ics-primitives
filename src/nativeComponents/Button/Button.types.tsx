@@ -1,16 +1,23 @@
-import {StyleSheetClass} from "../../utils/theme.types";
+// import {StyleSheetClass} from "../../utils/theme.types";
 
 export interface ButtonProps {
     disabled?: boolean,
-    icon?: string,
+    iconLeft?: string,
+    iconRight?: string,
     href?: string,
     onPress?: () => void,
     primary?: boolean,
     raised?: boolean,
-    styles?: {
-        icon?: StyleSheetClass,
-        label?: StyleSheetClass,
-        root?: StyleSheetClass,
-    },
+    backgroundColor?: string,
+    labelColor?: string,
+    // styles?: {
+    //     iconLeft?: StyleSheetClass,
+    //     iconRight?: StyleSheetClass,
+    //     label?: StyleSheetClass,
+    //     root?: StyleSheetClass,
+    //     raised?: StyleSheetClass,
+    // },
+    styles?: any,
+    className?: any,
     title?: string,
 }

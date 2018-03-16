@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
 import { defaultDbToRaw, getError } from "src/nativeComponents/TextInput/textInputUtils";
 import { appTheme, createStyles, Text, View, WithStyles } from '../../';
+import { appTheme, createStyles, Text, View, WithStyles, ios } from '../../';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
@@ -12,19 +13,23 @@ import { defaultRawToDb } from './textInputUtils';
 let styles = () => ({
     containerLeft: {
         flexDirection: 'row',
-        height: appTheme.inputHeight,
+        [ios]: {
+            height: appTheme.inputHeight,
+        },
         alignItems: 'center',
     },
     leftLabel: {
         fontWeight: "500",
         minWidth: 150,
+        color: appTheme.textInputLabelColor,
     },
     topLabel: {
         marginBottom: -10,
-        color: appTheme.primaryColor,
+        color: appTheme.textInputLabelColor,
     },
     leftText: {
         flex: 1,
+        color: appTheme.textColor,
     },
     error: {
         marginTop: -5,
@@ -106,10 +111,14 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                             }}
                             onFocus={onFocus}
                             placeholder={placeholder}
+                            selectionColor={appTheme.cursorColor}
+                            placeholderTextColor={appTheme.placeholderColor}
                             ref={input => this.inputRef = input}
                             secureTextEntry={inputType === TEXT_INPUT_TYPES.PASSWORD}
-                            style={labelPositionLeft ? classes.leftText as StyleProp<TextStyle>: null}
-                            underlineColorAndroid={appTheme.primaryColor}
+                            style={classes.leftText as StyleProp<TextStyle>}
+                            underlineColorAndroid={
+                                error ? appTheme.errorColor : appTheme.textInputUnderlineColor
+                            }
                             value={(value && value.toString()) || ''}
                         />
                     </View>

@@ -15,6 +15,7 @@ export interface TextInputProps {
     input?: any
     rawToDb?: (value: string) => any,
     dbToRaw?: (value: any) => string,
+    disableUnderline?: boolean,
 }
 
 export type TextInputDBValue = any;// string | number | {[field: string]: any};
