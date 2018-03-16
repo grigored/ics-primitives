@@ -24,7 +24,7 @@ export const appTheme: AppTheme = {
     textInputLabelColor: '#000',
     horizontalMargin: 16,
     defaultVerticalMargin: 8,
-    inputHeight: 28,
+    inputHeight: 40,
     // inputHeight: {
     //     [ios]: 28,
     // },

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { appTheme, createStyles, Text, View, WithStyles, ios } from '../../';
+import { appTheme, createStyles, Text, View, WithStyles, ios, android } from '../../';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
@@ -16,18 +16,29 @@ let styles = () => ({
         },
         alignItems: 'center',
     },
+    containerTop: {
+        // flex: 1,
+        flexDirection: 'column',
+    },
     leftLabel: {
         fontWeight: "500",
         minWidth: 150,
         color: appTheme.textInputLabelColor,
     },
     topLabel: {
-        marginBottom: -10,
         color: appTheme.textInputLabelColor,
     },
     leftText: {
-        flex: 1,
+        // flex: 1,
+        height: appTheme.inputHeight,
         color: appTheme.textColor,
+        [android]: {
+            // textAlignVertical: 'top',
+            fontSize: 16,
+            // padding: 0,
+            // margin: 0,
+        },
+        // height: appTheme.inputHeight,
     },
     error: {
         marginTop: -5,
@@ -72,7 +83,7 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                 onPress={() => this.inputRef.focus()}
             >
                 <View>
-                    <View style={labelPositionLeft ? classes.containerLeft : undefined}>
+                    <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
                         <Text style={labelPositionLeft ? classes.leftLabel: classes.topLabel}>
                             {title}
                         </Text>
