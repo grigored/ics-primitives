@@ -46,7 +46,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
                 disabled={disabled}
                 href={href}
                 onClick={onPress}
-                raised={raised}
+                variant={raised? 'raised': 'flat'}
             >
                 {
                     iconLeft &&

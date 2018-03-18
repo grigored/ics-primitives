@@ -19,3 +19,10 @@ export enum SELECT_INPUT_TYPES {
     INT,
     FLOAT,
 }
+
+export enum PUSH_TYPES {
+    DEEP_LINKS,
+    MODAL,
+    REGULAR,
+    CLEAR_STACK,
+}

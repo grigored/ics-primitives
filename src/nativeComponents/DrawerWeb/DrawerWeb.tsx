@@ -4,7 +4,6 @@ import {appTheme, createStyles, WithStyles} from "../..";
 
 const styles = {
     drawerPaper: {
-        position: 'relative',
         height: '100%',
         width: appTheme.drawerWidth,
         overflow: 'hidden',
@@ -29,7 +28,7 @@ const CDrawerWeb: React.StatelessComponent<DrawerProps & WithStyles> = ({
     persistent
 }) => (
     <Drawer
-        type={persistent ? "persistent" : "temporary"}
+        variant={persistent ? "persistent" : "temporary"}
         classes={{
             paper: classes.drawerPaper as any,
             docked: classes.drawerDocked as any,
