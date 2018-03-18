@@ -38,3 +38,5 @@ export {
 } from './redux/reducers/navigation';
 export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
 export * from './primitives/platform/platform';
+export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
+

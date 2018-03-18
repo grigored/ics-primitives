@@ -5,4 +5,5 @@ export interface TouchableProps extends ViewProps{
     activeOpacity?: number,
     onPress?: () => void,
     underlayColor?: string,
+    useForeground?: boolean
 }
