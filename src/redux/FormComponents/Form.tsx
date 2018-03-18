@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { ScrollView } from '../../primitives/ScrollView/ScrollView';
 import { appTheme, web } from '../../utils/theme';
 import { createStyles } from '../../primitives/createStyles/createStyles';
@@ -72,6 +73,12 @@ class CForm extends React.PureComponent<Props, {}> {
             if (props.allRequired || field.isRequired) {
                 this._fieldErrorCheckers[field.field].push(
                     ( value: DBValue ) => !!value && value !== 0 ? undefined : REQUIRED_FIELD
+                );
+            }
+
+            if (field.type === FORM_INPUT_TYPES.TEXT) {
+                this._fieldErrorCheckers[field.field].push(
+                    (value: any) => !!value && !!value.error ? value.error : undefined
                 );
             }
 

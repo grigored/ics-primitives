@@ -12,7 +12,9 @@ export interface TextInputProps {
     title?: string,
     value?: string,
     multiline?: boolean,
-    input?: any,
+    input?: any
+    rawToDb?: (value: string) => any,
+    dbToRaw?: (value: any) => string,
     disableUnderline?: boolean,
 }
 
