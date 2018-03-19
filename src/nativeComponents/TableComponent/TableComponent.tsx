@@ -50,6 +50,7 @@ export const ACTIONS_COLUMN = 'admin_actions',
 
 const styles = () => ( {
     container: {
+        display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
         // padding: appTheme.defaultMargin,
@@ -209,10 +210,10 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     constructor( props: OwnProps & WithStyles & ConnectedProps ) {
         super( props );
-        let { tableDefinition, params, tableFilterPersistentData } = props;
+        let { tableDefinition, tableFilterPersistentData } = props;
         this.tableDefinitionData = tableDefinition;
         this.rowStyle = this.tableDefinitionData.rowStyle;
-        this.columns = this.tableDefinitionData.columns( params, null )
+        this.columns = this.tableDefinitionData.columns( null )
             .filter( column => !!column ) as Array<Column>;
 
         this.defaultVisibleColumns = [
@@ -252,8 +253,8 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         }
 
         if (nextProps.tableData && nextProps.tableData.data && nextProps.tableData.data.extra_data) {
-            let { tableDefinition, params } = this.props;
-            this.columns = tableDefinition.columns( params, nextProps.tableData.data.extra_data )
+            let { tableDefinition } = this.props;
+            this.columns = tableDefinition.columns( nextProps.tableData.data.extra_data )
                 .filter( column => !!column ) as Array<Column>;
             ;
         }
@@ -321,7 +322,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     getActionsColumn(): Column | null {
         // let {
-        //         params, extraActions, hasEdit, hasDelete, editFunc, navigation, tableId, pushScreen, showEntryDetails,
+        //         extraActions, hasEdit, hasDelete, editFunc, navigation, tableId, pushScreen, showEntryDetails,
         //         title, tableDetailsEntry,
         //     } = this.props,
         //     tableDefinitionData = this.tableDefinitionData;
@@ -400,7 +401,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         //                             this.columns.map( column => ( {
         //                                 title: column.title || 'unknown',
         //                                 value: getFormattedValue(
-        //                                     params,
         //                                     row,
         //                                     column
         //                                 ),
@@ -463,7 +463,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getFilterComponentForColumn( column: Column ) {
-        let { tableFilterFormData, params } = this.props;
+        let { tableFilterFormData } = this.props;
 
         if (column.type === FORM_INPUT_TYPES.TEXT) {
             let showClear = tableFilterFormData[column.field];
@@ -495,7 +495,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 ? tableFilterFormData[column.field]
                                 : ''
                         }}
-                        params={params}
                     />
                 </View>
             )
@@ -534,7 +533,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                     ? tableFilterFormData[fromField]
                                     : ''
                             }}
-                            params={params}
                         />
                     </View>
                     <View>
@@ -564,7 +562,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                     ? tableFilterFormData[toField]
                                     : ''
                             }}
-                            params={params}
                         />
                     </View>
                 </View>
@@ -621,7 +618,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                  wrapRows: boolean,
                  fullRowColumnIndex: number,
                  rowIndex: number ) {
-        let { classes, params, } = this.props,
+        let { classes, } = this.props,
             isFullRow = (
                 fullRowColumnIndex != -1 &&
                 this.columns[fullRowColumnIndex].fullRow &&
@@ -641,7 +638,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 {
                     visibleTableColumns.map( ( column: Column ) => {
                         let cellValue = getFormattedValue(
-                            params,
                             row,
                             column
                             ),
@@ -651,7 +647,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         if (isFullRow && COLUMNS_VISIBLE_IN_FULL_ROW.indexOf( column.field ) < 0) {
                             if (!fullRowValuePrinted) {
                                 cellValue = getFormattedValue(
-                                    params,
                                     row,
                                     this.columns[fullRowColumnIndex]
                                 );
@@ -693,7 +688,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     render() {
         let {
-                classes, hasNew, title, tableFilterFormData, params, tableData, refreshMethod,
+                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod,
                 tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
@@ -820,8 +815,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         onPress={
                             exportToCsv.bind(
                                 this,
-                                params,
-                                _t( title ) + '_' + formatDate( params.locale, MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
+                                _t( title ) + '_' + formatDate( MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
                                 this.columns,
                                 tableData,
                             )
@@ -857,7 +851,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     {/*{loadingData && <CircularProgressComponent/>}*/}
                 </View>
                 <ScrollView
-                    // style={classes.tableContainer}
+                    style={classes.tableContainer}
                     // horizontal={true}
                     // vertical={false}
                 >
@@ -882,7 +876,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         {
                             tableItems &&
                             <ScrollView
-                                // style={classes.tableBody}
+                                style={classes.tableBody}
                                 // horizontal={false}
                                 // vertical={true}
                             >
@@ -953,7 +947,6 @@ export const TableComponent: any = connect(
             loadingData: getNestedField( state.table, [tableId, 'loading'] ),
             openedTableRow: getNestedField( state.table, [tableId, 'menuRow'] ),
             refreshTable: getNestedField( state.table, [tableId, 'refresh'] ),
-            params: state.persisted.params,
             tableData: state.table[tableId],
             tableFilterFormData: getNestedField( state.form, [getTableFormId( tableId ), 'values'] ) || {},
             tableFilterPersistentData: state.persistedTableOptions[getTableFormId( tableId )],

@@ -5,15 +5,15 @@ import { Option } from "../../redux/FormComponents/FormComponents.types";
 import { getNestedField } from "../../utils/common";
 import { FROM_EXTENSION, ITEMS_PER_PAGE_FIELD, ORDER_FIELD, PAGE_FIELD, TO_EXTENSION } from "./TableComponent";
 
-export function exportToCsv( params: any, fileName: string, columns: Column[], tableData: TableData ) {
-    const separator = params.locale === 'cs_CZ' ? ';' : ',';
+export function exportToCsv(  fileName: string, columns: Column[], tableData: TableData ) {
+    const separator = ',';
     const replacer = ( key: string, value: string ) => value === null ? '' : value;
     const header = columns.map( column => column.title );
     let items: Array<Row> = getNestedField( tableData, ['data', 'items'] );
     if (!!items) {
         let csv = items.map( ( row: Row ) =>
             columns
-                .map( column => JSON.stringify( getExportFormattedValue( params, row, column ), replacer ) )
+                .map( column => JSON.stringify( getExportFormattedValue( row, column ), replacer ) )
                 .join( separator )
         );
         csv.unshift( header.join( separator ) );
@@ -61,7 +61,7 @@ export function getFilterString( tableFilterFormData?: TableFilterFormData ) {
     return filterStrings.filter( filterString => !!filterString ).join( '&' );
 }
 
-export function getExportFormattedValue( params: any, row: Row, column: Column ) {
+export function getExportFormattedValue( row: Row, column: Column ) {
     let dataFormatter = column.dataFormat || ( ( value: any, row: Row ) => value );
     if (column.field.indexOf( '!' ) !== -1) {
         return dataFormatter( getNestedField( row, column.field.split( '!' ) ), row );
@@ -69,7 +69,7 @@ export function getExportFormattedValue( params: any, row: Row, column: Column )
     return dataFormatter( row[column.field], row );
 }
 
-export function getFormattedValue( params: any, row: Row, column: Column ) {
+export function getFormattedValue( row: Row, column: Column ) {
     if (column.type === FORM_INPUT_TYPES.SELECT) {
         if (!( column as { options: Array<Option> } ).options) {
             return '';
@@ -79,5 +79,5 @@ export function getFormattedValue( params: any, row: Row, column: Column ) {
         } );
         return selectedOption.length === 0 ? '-' : selectedOption[0].text;
     }
-    return getExportFormattedValue( params, row, column );
+    return getExportFormattedValue( row, column );
 }

@@ -1,7 +1,7 @@
 import * as moment from "moment-timezone";
 import { DATE_FORMATS, LOCALES, MOMENT_FORMAT, TIMEZONES } from "src/utils/enums";
 
-export function formatDate(locale: LOCALES, format: MOMENT_FORMAT, date: Date): string {
+export function formatDate( format: MOMENT_FORMAT, date: Date): string {
     return moment(date).format(format);
 }
 
@@ -60,7 +60,7 @@ export function formatTs(timezone: TIMEZONES, locale: LOCALES, format: MOMENT_FO
     if (!date) {
         return '';
     }
-    return formatDate(locale, format, date);
+    return formatDate(format, date);
 }
 
 export function formatDateInterval(timezone: TIMEZONES, locale: LOCALES, dateStart: number, dateEnd: number): string | undefined {

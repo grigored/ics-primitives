@@ -37,7 +37,7 @@ export type Column = (FieldDefinition | {
 }) & BaseColumn
 
 export interface TableDefinitionData {
-    columns: ( params: any, extraData: any ) => Array<Column | null>,
+    columns: (( extraData: any ) => Array<Column | null>),
     dataName: string,
     tableName: string,
     url?: string,
@@ -115,8 +115,6 @@ export interface ConnectedProps {
     loadingData: boolean,
     openedTableRow: Row,
     refreshTable: boolean,
-    // params: Params,
-    params: any,
     tableData: TableData,
     tableFilterFormData: {
         order: string,
