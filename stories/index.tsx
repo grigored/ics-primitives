@@ -189,7 +189,7 @@ let store = createStore(
     compose(...[])
 );
 
-const Comp = ({children}) => {
+const Comp = ({children}:any) => {
     return (
         <Provider store={store}>
             {children}
