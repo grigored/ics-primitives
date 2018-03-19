@@ -33,10 +33,10 @@ export type ClassValues = {
 
 export type StyleRules = {
     [className: string]: ClassValues
-};
+}
 
 export type PlatformClassValues = {
-    [cssPropOrPlatform: string]: CssPropValue | {[platform: string]: CssPropValue} | ClassValues,
+    [cssPropOrPlatform: string]: CssPropValue | { [platform: string]: CssPropValue } | ClassValues,
 }
 
 export type PlatformStyleRules = {
