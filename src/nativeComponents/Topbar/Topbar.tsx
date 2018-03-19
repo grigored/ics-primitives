@@ -54,7 +54,7 @@ const CTopBar = ({
                 </IconButton>
             }
 
-            <Typography type="title" color="inherit" className={classes.flex as string}>
+            <Typography variant="title" color="inherit" className={classes.flex as string}>
                 {title || ''}
             </Typography>
 

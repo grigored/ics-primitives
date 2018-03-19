@@ -24,3 +24,10 @@ export enum CIRCULAR_PROGRESS_SIZE {
     SMALL,
     LARGE,
 }
+
+export enum PUSH_TYPES {
+    DEEP_LINKS,
+    MODAL,
+    REGULAR,
+    CLEAR_STACK,
+}
