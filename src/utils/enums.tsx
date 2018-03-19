@@ -19,3 +19,8 @@ export enum SELECT_INPUT_TYPES {
     INT,
     FLOAT,
 }
+
+export enum CIRCULAR_PROGRESS_SIZE {
+    SMALL,
+    LARGE,
+}

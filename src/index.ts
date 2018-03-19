@@ -19,7 +19,7 @@ export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainer
 // export { FieldDefinition } from './nativeComponents/Form/form.types';
 
 // export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from './utils/enums';
-export { isXs } from './utils/common';
+export { isXs, getNestedField } from './utils/common';
 
 export { apiClientMiddleware } from './redux/apiClientMiddleware';
 
@@ -31,5 +31,7 @@ export {
     formHelpers,
     sendFormData,
 } from './redux/reducers/formHelpers';
-export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
+export { FieldDefinition, FormHelpersState } from './redux/FormComponents/FormComponents.types'
 export * from './primitives/platform/platform';
+export {CircularProgressComponent} from './primitives/CircularProgressComponent/CircularProgressComponent'
+export {LoadingContainer} from './primitives/LoadingContainer'
