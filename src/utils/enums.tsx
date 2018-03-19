@@ -69,3 +69,11 @@ export enum PUSH_TYPES {
     REGULAR,
     CLEAR_STACK,
 }
+
+export const MODAL_DISPLAY = {
+    HIDDEN: 0,
+    DISABLED: 1,
+    OK: 2,
+    HIDDEN_EDIT: 3,
+    HIDDEN_NEW: 4,
+};

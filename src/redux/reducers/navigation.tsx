@@ -58,3 +58,15 @@ export const toggleDrawer = (navigation: any, drawerOpen?: boolean) => {
         drawerOpen
     }
 };
+
+export const pushScreen = (
+    navigation: any,
+    history: any,
+    routeDefinition: any,
+    title: string | null,
+    pushType: any | null,
+    urlProps: any | null,
+    nonUrlProps: any | null,
+) => {return{};}
+
+export const popScreen = (navigation: any, history: any) => {return{};}

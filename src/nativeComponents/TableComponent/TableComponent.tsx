@@ -1,4 +1,5 @@
 import * as React from "react";
+import { pushScreen } from "src/redux/reducers/navigation";
 import { ScrollView } from "../../primitives/ScrollView/ScrollView";
 import { connect } from "react-redux";
 import { destroy, initialize } from 'redux-form';
@@ -21,9 +22,9 @@ import { DBValue, Option } from "../../redux/FormComponents/FormComponents.types
 import { FormItem } from "../../redux/FormComponents/FormItem";
 import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "../../redux/reducers/table";
 import { _t, getNestedField, shallowEqual } from "../../utils/common";
-import { MOMENT_FORMAT } from "../../utils/enums";
+import { MODAL_DISPLAY, MOMENT_FORMAT, PUSH_TYPES } from "../../utils/enums";
 import { formatDate } from "../../utils/i18n";
-import { REFRESH } from "../../utils/strings";
+import { ADD_ITEM, REFRESH } from "../../utils/strings";
 import { setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
 
 export const ACTIONS_COLUMN = 'admin_actions',
@@ -688,7 +689,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     render() {
         let {
-                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod,
+                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod, tableId,
                 tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
@@ -761,27 +762,27 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}
                             // style={classes.optionsTouchableStyle}
-                            // onPress={() => pushScreen(
-                            //     navigation,
-                            //     null,
-                            //     routeDefinitions.NEW_EDIT_DIALOG,
-                            //     _t( ADD_ITEM ),
-                            //     PUSH_TYPES.MODAL,
-                            //     {},
-                            //     {
-                            //         tableId,
-                            //         isEdit: false,
-                            //         tableDefinitionDataColumns: (
-                            //             this.columns.filter( ( col: Column ) =>
-                            //                 col.modalDisplay !== MODAL_DISPLAY.HIDDEN
-                            //             )
-                            //         ),
-                            //         defaultValues: null,
-                            //         url: tableDefinitionData.url,
-                            //         method: 'put',
-                            //         formErrorChecker: this.tableDefinitionData.formErrorChecker,
-                            //     },
-                            // )}
+                            onPress={() => pushScreen(
+                                navigation,
+                                null,
+                                routeDefinitions.NEW_EDIT_DIALOG,
+                                ADD_ITEM,
+                                PUSH_TYPES.MODAL,
+                                {},
+                                {
+                                    tableId,
+                                    isEdit: false,
+                                    tableDefinitionDataColumns: (
+                                        this.columns.filter( ( col: Column ) =>
+                                            col.modalDisplay !== MODAL_DISPLAY.HIDDEN
+                                        )
+                                    ),
+                                    defaultValues: null,
+                                    url: tableDefinitionData.url,
+                                    method: 'put',
+                                    formErrorChecker: this.tableDefinitionData.formErrorChecker,
+                                },
+                            )}
                         />
                     }
                     {

@@ -110,7 +110,7 @@ const hasErrors = ( formFields: Array<any> | null ) => {
 export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
                               url: string,
                               method: string,
-                              forceSend = false,
+                              forceSend? = false,
                               types?: [string, string, string] ) => {
     return ( dispatch: any, getState: () => GlobalState ) => {
         let formData: any = getState().form[formName];
