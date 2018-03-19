@@ -5,6 +5,7 @@ export enum TypeKeys {
     POP_PAGE = 'instacar/navigation/POP',
     WEB_ROUTE_CHANGED = 'instacar/navigation/WEB_ROUTE_CHANGED',
     SHOW_DIALOG = 'instacar/navigation/SHOW_DIALOG',
+    HIDE_DIALOG = 'instacar/navigation/HIDE_DIALOG',
     PUSH_SCREEN = 'instacar/navigation/PUSH_SCREEN',
 }
 
@@ -15,9 +16,9 @@ export enum PushTypes {
 }
 
 export interface RouteDefintion {
-    path: string,
+    screen: string,
     container: React.ComponentClass,
-    pushType: PushTypes,
+    pushType?: PushTypes,
     title: string,
 }
 
@@ -45,7 +46,20 @@ export interface WebRouteChangedAction {
 
 export interface PushScreenAction {
     type: TypeKeys.PUSH_SCREEN,
-    path: string,
+    screen: string,
+    props: any,
+}
+
+export interface ShowDialogAction {
+    type: TypeKeys.SHOW_DIALOG,
+    dialogId: string,
+    fullScreen: boolean,
+    props: any,
+}
+
+export interface HideDialogAction {
+    type: TypeKeys.HIDE_DIALOG,
+    dialogId: string,
     props: any,
 }
 
@@ -53,16 +67,30 @@ export type ActionTypes =
     | ToggleDrawerAction
     | PopPageAction
     | WebRouteChangedAction
+    | PushScreenAction
+    | ShowDialogAction
+    | HideDialogAction
+
+export interface DialogData {
+    dialogId: string,
+    visible: boolean,
+    fullScreen: boolean,
+    props: any,
+}
 
 export interface NavigationState {
     screen: string,
     drawerOpen: boolean,
     screenProps?: any,
+    props: any,
+    dialogs: Array<DialogData>,
 }
 
 const initialState = {
     screen: isWeb ? location.pathname.substring(1): '',
     drawerOpen: false,
+    props: null,
+    dialogs: []
 };
 
 export const navigation = function(state: NavigationState = initialState, action: ActionTypes): NavigationState {
@@ -70,9 +98,37 @@ export const navigation = function(state: NavigationState = initialState, action
         case TypeKeys.TOGGLE_DRAWER:
             return {
                 ...state,
-                drawerOpen: action.drawerOpen !== null && action.drawerOpen !== undefined ? action.drawerOpen : !state.drawerOpen,
+                drawerOpen: (
+                    action.drawerOpen !== null && action.drawerOpen !== undefined
+                        ? action.drawerOpen
+                        : !state.drawerOpen
+                ),
             };
+        case TypeKeys.PUSH_SCREEN:
+            return {
+                ...state,
+                screen: action.screen,
+                props: action.props,
+            };
+        case TypeKeys.SHOW_DIALOG:
+            return {
+                ...state,
+                dialogs: [
+                    ...state.dialogs,
+                    {
+                        dialogId: action.dialogId,
+                        visible: true,
+                        fullScreen: action.fullScreen,
+                        props: action.props,
+                    },
+                ]
+            };
+        case TypeKeys.HIDE_DIALOG:
+            return {
+                ...state,
+                dialogs: hideDialogFromList(state.dialogs, action.dialogId),
 
+            };
         default:
             return state;
     }
@@ -84,7 +140,7 @@ export const toggleDrawer = (navigation: any, drawerOpen?: boolean) => {
     }
     return {
         type: TypeKeys.TOGGLE_DRAWER,
-        drawerOpen
+        drawerOpen,
     }
 };
 
@@ -95,36 +151,66 @@ export const pushScreen = (
     routeDefinition: RouteDefintion,
     props: any | null,
 ) => {
+    const {screen, pushType, title} = routeDefinition;
     if (isWeb) {
-        switch (routeDefinition.pushType) {
+        switch (pushType) {
             case PushTypes.MODAL:
                 return {
                     type: TypeKeys.SHOW_DIALOG,
-                    dialogId: routeDefinition.path,
+                    dialogId: screen,
                     fullScreen: false,
                     props,
                 };
             case PushTypes.MODAL_FULL_SCREEN:
                 return {
                     type: TypeKeys.SHOW_DIALOG,
-                    dialogId: routeDefinition.path,
-                    fullScreen: false,
+                    dialogId: screen,
+                    fullScreen: true,
                     props,
                 };
             default:
-                history.push('/' + routeDefinition.path);
+                history.push('/' + screen);
                 return {
                     type: TypeKeys.PUSH_SCREEN,
-                    path: routeDefinition.path,
+                    screen,
                     props,
                 }
         }
     } else {
-        navigation.navigate(screen, props);
+        navigation.navigate(title, props);
         return {
             type: TypeKeys.PUSH_SCREEN,
-            path: routeDefinition.path,
+            screen,
             props,
         }
     }
 };
+
+
+export function hideDialog(dialogId: string) {
+    // if dialogIndex is null, clear all dialogs
+    return {
+        type: TypeKeys.HIDE_DIALOG,
+        dialogId,
+    }
+}
+
+
+function hideDialogFromList(dialogs: Array<any>, dialogId: string) {
+
+    let found = false, newDialogs = [];
+    const reversedDialogs = [...dialogs].reverse();
+    for (let dialog of reversedDialogs) {
+        if (!found && dialog.dialogId === dialogId) {
+            found = true;
+            newDialogs.push({
+                ...dialog,
+                visible: false,
+            })
+        }
+        else {
+            newDialogs.push(dialog);
+        }
+    }
+    return newDialogs.reverse();
+}

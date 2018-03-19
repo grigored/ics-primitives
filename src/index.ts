@@ -1,4 +1,3 @@
-
 export { createStyles } from './primitives/createStyles/createStyles';
 export { Link } from './primitives/Link/Link';
 export { Image } from './primitives/Image/Image';
@@ -36,8 +35,18 @@ export {
     navigation,
     toggleDrawer,
     pushScreen,
+    hideDialog,
+    PushTypes,
+    NavigationState,
 } from './redux/reducers/navigation';
 export { FieldDefinition } from './redux/FormComponents/FormComponents.types'
-export * from './primitives/platform/platform';
+export {
+    isWeb,
+    isIOS,
+    isAndroid,
+    isSketch,
+    getWindowHeight,
+    getWindowWidth,
+} from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
 
