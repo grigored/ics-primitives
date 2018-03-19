@@ -47,6 +47,7 @@
     "react-docgen": "^2.20.0",
     "react-docgen-typescript": "^1.2.3",
     "react-styleguidist": "^6.2.2",
+    "react-router": "^4.2.0",
     "source-map-loader": "^0.2.3",
     "react-router-dom": "4.2.2",
     "ts-jest": "^22.0.1",
