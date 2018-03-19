@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {DatePickerIOS, StyleSheet, TouchableHighlight, Picker} from 'react-native';
-import { createStyles, Text, View, WithStyles } from "src";
-import { Option } from "src/redux/FormComponents/FormComponents.types";
-import { _t } from "src/utils/common";
+import { createStyles, Text, View, WithStyles } from "../../";
+import { Option } from "../../redux/FormComponents/FormComponents.types";
+import { _t } from "../../utils/common";
 import ReactNativeModal from 'react-native-modal';
 
 

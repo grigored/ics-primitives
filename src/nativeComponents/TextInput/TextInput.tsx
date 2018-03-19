@@ -12,7 +12,6 @@ import { TEXT_INPUT_TYPES } from "../../utils/enums";
 import { appTheme } from '../../utils/theme';
 import { WithStyles } from '../../utils/theme.types';
 import { TextInputDBValue, TextInputProps } from "./TextInput.types";
-import { parseValue } from './TextInput.utils';
 
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';

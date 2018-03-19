@@ -1,7 +1,8 @@
-import { FORM_INPUT_TYPES } from "src";
-import { Column, Row, TableData, TableFilterFormData } from "src/nativeComponents/TableComponent/TableComponent.types";
-import { Option } from "src/redux/FormComponents/FormComponents.types";
-import { getNestedField } from "src/utils/common";
+import * as FileSaver from "file-saver";
+import { FORM_INPUT_TYPES } from "../..";
+import { Column, Row, TableData, TableFilterFormData } from "./TableComponent.types";
+import { Option } from "../../redux/FormComponents/FormComponents.types";
+import { getNestedField } from "../../utils/common";
 import { FROM_EXTENSION, ITEMS_PER_PAGE_FIELD, ORDER_FIELD, PAGE_FIELD, TO_EXTENSION } from "./TableComponent";
 
 export function exportToCsv( params: any, fileName: string, columns: Column[], tableData: TableData ) {
@@ -18,7 +19,7 @@ export function exportToCsv( params: any, fileName: string, columns: Column[], t
         csv.unshift( header.join( separator ) );
         let processedCsv = csv.join( '\r\n' );
         let blob = new Blob( [processedCsv], { type: "text/csv;charset=utf-8" } );
-        // FileSaver.saveAs( blob, fileName );
+        FileSaver.saveAs( blob, fileName );
     }
 }
 

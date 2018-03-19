@@ -1,24 +1,27 @@
-import {destroy, initialize} from 'redux-form';
-import { FieldDefinition, FORM_INPUT_TYPES } from "src";
-import { FormErrorChecker } from "src/redux/FormComponents/Form";
-import { FieldReduxData } from "src/redux/FormComponents/FormComponents.types";
-import { TableEntryDetail, clearTableData, setRefreshTable, showMenu, showEntryDetails, loadTableData } from "src/redux/reducers/table";
-import { setPersistentTableOptions } from "src/redux/reducers/persistedTableOptions";
+import { destroy, initialize } from 'redux-form';
+import { FieldDefinition, FORM_INPUT_TYPES } from "../../";
+import { FormErrorChecker } from "../../redux/FormComponents/Form";
+import { FieldReduxData } from "../../redux/FormComponents/FormComponents.types";
+import { setPersistentTableOptions } from "../../redux/reducers/persistedTableOptions";
+import {
+    clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu,
+    TableEntryDetail
+} from "../../redux/reducers/table";
 
 export interface Action {
     title: string,
     icon: any,
-    onClick: (row?: Row) => void,
+    onClick: ( row?: Row ) => void,
 }
 
 export interface BaseColumn {
-    dataFormat?: (cell: any, row: any) => any,
+    dataFormat?: ( cell: any, row: any ) => any,
     preferredWidth?: number,
     notSortable?: boolean,
     hiddenInTable?: boolean,
     visibleByDefault?: boolean,
     modalDisplay?: number,
-    fullRow?: (row: Row) => boolean,
+    fullRow?: ( row: Row ) => boolean,
     description?: string,
 }
 
@@ -34,13 +37,13 @@ export type Column = (FieldDefinition | {
 }) & BaseColumn
 
 export interface TableDefinitionData {
-    columns: (params: any, extraData: any) => Array<Column | null>,
+    columns: ( params: any, extraData: any ) => Array<Column | null>,
     dataName: string,
     tableName: string,
     url?: string,
     allowFilters: boolean,
-    mixRows?: (response: any) => Array<Row>,
-    rowStyle?: (row: any) => any,
+    mixRows?: ( response: any ) => Array<Row>,
+    rowStyle?: ( row: any ) => any,
     formErrorChecker?: FormErrorChecker,
 }
 
@@ -94,13 +97,13 @@ export interface OwnProps {
     hasNew: boolean,
     hasEdit: boolean,
     hasDelete: boolean,
-    editFunc: (row: Row) => void,
+    editFunc: ( row: Row ) => void,
     navigation: NavigationType,
     pageId: string,
     title: string,
     refreshMethod: () => void,
     url?: string,
-    mixRows?: (response: any) => Array<Row>,
+    mixRows?: ( response: any ) => Array<Row>,
     clearDataOnUnmount?: boolean,
     hideRefreshButton?: boolean,
     hideItemsPerPageButton?: boolean,

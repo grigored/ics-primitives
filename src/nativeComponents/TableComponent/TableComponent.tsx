@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView } from "../../primitives/ScrollView/ScrollView";
 import { connect } from "react-redux";
 import { destroy, initialize } from 'redux-form';
 import {
@@ -7,23 +7,23 @@ import {
     webDesktop,
     webMobile,
     WithStyles
-} from "src";
-import { Select } from "src/nativeComponents/Select/Select";
+} from "../../";
+import { Select } from "../Select/Select";
 import {
     Column,
     ConnectedProps, OwnProps,
     TableDefinitionData, TableFilterFormData, TableFormData, Row
-} from "src/nativeComponents/TableComponent/TableComponent.types";
-import { TablePageNavigator } from "src/nativeComponents/TableComponent/TablePageNavigator";
-import { exportToCsv, getFilterString, getFormattedValue } from "src/nativeComponents/TableComponent/tableUtils";
-import { isWeb } from "src/primitives/platform/platform";
-import { DBValue, Option } from "src/redux/FormComponents/FormComponents.types";
-import { FormItem } from "src/redux/FormComponents/FormItem";
-import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "src/redux/reducers/table";
-import { _t, getNestedField, shallowEqual } from "src/utils/common";
-import { MOMENT_FORMAT } from "src/utils/enums";
-import { formatDate } from "src/utils/i18n";
-import { REFRESH } from "src/utils/strings";
+} from "./TableComponent.types";
+import { TablePageNavigator } from "./TablePageNavigator";
+import { exportToCsv, getFilterString, getFormattedValue } from "./tableUtils";
+import { isWeb } from "../../primitives/platform/platform";
+import { DBValue, Option } from "../../redux/FormComponents/FormComponents.types";
+import { FormItem } from "../../redux/FormComponents/FormItem";
+import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "../../redux/reducers/table";
+import { _t, getNestedField, shallowEqual } from "../../utils/common";
+import { MOMENT_FORMAT } from "../../utils/enums";
+import { formatDate } from "../../utils/i18n";
+import { REFRESH } from "../../utils/strings";
 import { setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
 
 export const ACTIONS_COLUMN = 'admin_actions',

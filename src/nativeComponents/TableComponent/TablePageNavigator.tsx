@@ -1,6 +1,6 @@
 import * as React from "react";
-import { android, appTheme, Button, createStyles, ios, isXs, Text, View, WithStyles } from "src";
-import { StyleRules } from "src/utils/theme.types";
+import { android, appTheme, Button, createStyles, ios, isXs, Text, View, WithStyles } from "../../";
+import { StyleRules } from "../../utils/theme.types";
 
 
 const styles = () => ( {

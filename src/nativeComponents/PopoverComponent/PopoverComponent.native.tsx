@@ -1,7 +1,10 @@
 import * as React from "react";
-import { OwnProps } from "src/nativeComponents/PopoverComponent/PopoverComponent";
+import { OwnProps } from "./PopoverComponent.types";
+import { connectActionSheet } from "src/utils/addActionSheet.native";
+import { _t } from "src/utils/common";
+import { ACTION_SHEETS_IDS } from "src/utils/enums";
 
-class CPopoverComponent2 extends React.PureComponent<OwnProps, {}> {
+class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
 
     static actionSheetData = (props: OwnProps) => {
         let {actions} = props,
@@ -37,4 +40,4 @@ class CPopoverComponent2 extends React.PureComponent<OwnProps, {}> {
     }
 }
 
-export const PopoverComponent2: React.ComponentType<OwnProps> = connectActionSheet(CPopoverComponent2);
+export const PopoverComponent: React.ComponentType<OwnProps> = connectActionSheet(CPopoverComponent) as any;

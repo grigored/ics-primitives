@@ -3,13 +3,13 @@ import {MenuItem} from 'material-ui/Menu';
 import SelectMaterial from 'material-ui/Select';
 import {InputLabel} from 'material-ui/Input';
 import {FormControl, FormHelperText} from 'material-ui/Form';
-import { isXs } from "src";
-import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "src/nativeComponents/Select/selectUtils";
-import { SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
-import { _t } from "src/utils/common";
-import { SELECT_INPUT_TYPES } from "src/utils/enums";
+import { isXs } from "../../";
+import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "./selectUtils";
+import { FieldStateProps, Option, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
+import { _t } from "../../utils/common";
+import { SELECT_INPUT_TYPES } from "../../utils/enums";
 
-class SelectOption extends React.PureComponent<SelectOptionProps, {}> {
+class SelectOption extends React.PureComponent<Option, {}> {
     render() {
         const {children, ...other} = this.props;
         return isXs
@@ -29,7 +29,7 @@ const raw2db = (rawValue: string, selectInputType?: SELECT_INPUT_TYPES): string 
     }
 };
 
-export const Select = (props: SelectProps & FieldStatePropsNoParams<SelectDBValue>) => {
+export const Select = (props: SelectProps & FieldStateProps<SelectDBValue>) => {
     const {title, onChange, disabled, selectInputType} = props;
     let {error, selectedValue, optionsList} = getSelectData(props);
 
@@ -52,7 +52,7 @@ export const Select = (props: SelectProps & FieldStatePropsNoParams<SelectDBValu
             >
                 {optionsList.map((option) =>
                     <SelectOption
-                        key={option.key}
+                        text={option.label}
                         value={option.value}
                     >
                         {option.label}

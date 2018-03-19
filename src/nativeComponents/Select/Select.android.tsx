@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Picker } from "react-native";
-import { appTheme, createStyles, Text, View, WithStyles } from "src";
-import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "src/nativeComponents/Select/selectUtils";
-import { FieldStateProps, SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
+import { appTheme, createStyles, Text, View, WithStyles } from "../../";
+import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "../../nativeComponents/Select/selectUtils";
+import { FieldStateProps, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
 import { _t } from "src/utils/common";
+
 const styles = () => ( {
     container: {
         paddingTop: 2,
@@ -40,7 +41,7 @@ class CSelect extends React.PureComponent<Props, { itemValue?: number }> {
 
     render() {
         const { title, onChange, classes } = this.props;
-        let { error, selectedValue, selectedIndex, optionsList } = getSelectData( this.props );
+        let { error, selectedValue, optionsList } = getSelectData( this.props );
         return (
             <View style={classes.container}>
                 <Text style={classes.label}>{_t( title ) || " "}</Text>

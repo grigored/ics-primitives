@@ -1,6 +1,6 @@
 import * as React from "react";
-import { all, android, appTheme, Button, createStyles, Text, View, WithStyles } from "src";
-import { _t } from "src/utils/common";
+import { all, android, appTheme, Button, createStyles, Text, View, WithStyles } from "../../";
+import { _t } from "../../utils/common";
 
 
 let styles = () => ( {

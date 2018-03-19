@@ -58,3 +58,8 @@ export enum TIMEZONES {
     LOS_ANGELES_AMERICA = 'LosAngeles/America',
     AFRICA_CASABLANCA = 'Africa/Casablanca',
 }
+
+export enum ACTION_SHEETS_IDS {
+    IMAGE_CLICK = 'IMAGE_CLICK',
+    POPOVER_ITEM_CLICK = 'POPOVER_ITEM_CLICK',
+}

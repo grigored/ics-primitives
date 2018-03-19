@@ -1,7 +1,8 @@
 import Popover from "material-ui/Popover";
-import { Button, createStyles, View, WithStyles } from "src";
-import { Action } from "src/nativeComponents/TableComponent/TableComponent.types";
-import { StyleRules } from "src/utils/theme.types";
+import { Button, createStyles, View, WithStyles } from "../../";
+import { OwnProps } from "../PopoverComponent/PopoverComponent.types";
+import { Action } from "../TableComponent/TableComponent.types";
+import { StyleRules } from "../../utils/theme.types";
 import * as React from "react";
 
 const styles: StyleRules = {
@@ -11,14 +12,6 @@ const styles: StyleRules = {
     },
 };
 
-export interface OwnProps {
-    children: JSX.Element,
-    containerStyle?: StyleRules,
-    actions: Array<{
-        title: string,
-        onClick: () => void,
-    }>
-}
 
 
 class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { popOverVisible: boolean }> {
@@ -43,7 +36,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
         const { classes, children, actions, containerStyle } = this.props,
             { popOverVisible } = this.state,
             enhancedChild = React.cloneElement(
-                children,
+                children as any,
                 {
                     onPress: ( event: React.MouseEvent<HTMLElement> ) => {
                         this.handleClick( event );
@@ -65,7 +58,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
                         actions.map( ( action: Action ) =>
                             <Button
                                 key={`action_${action.title}`}
-                                icon={action.icon}
+                                // icon={action.icon}
                                 // iconStyle={{ position: 'absolute', left: 0, tintColor: null, alignSelf: 'center', }}
                                 title={action.title}
                                 onPress={() => {

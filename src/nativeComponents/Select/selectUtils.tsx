@@ -1,4 +1,4 @@
-import { Option, SelectDBValue, SelectProps } from "src/redux/FormComponents/FormComponents.types";
+import { Option } from "src/redux/FormComponents/FormComponents.types";
 import { _t } from "src/utils/common";
 
 export const NOT_AVAILABLE_FIELD_VALUE = 'select component field unavailable';
