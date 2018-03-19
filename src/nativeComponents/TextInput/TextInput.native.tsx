@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { defaultDbToRaw, getError } from "src/nativeComponents/TextInput/textInputUtils";
-import { appTheme, createStyles, ios, Text, View, WithStyles } from '../../';
+import { defaultDbToRaw, defaultRawToDb, getError } from '../../nativeComponents/TextInput/TextInput.utils';
+import { android, appTheme, createStyles, ios, Text, View, WithStyles } from '../../';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 import { TextInputDBValue, TextInputProps } from './TextInput.types';
-import { defaultRawToDb } from './textInputUtils';
 
 
-let styles = () => ( {
+let styles = () => ({
     containerLeft: {
         flexDirection: 'row',
         [ios]: {
@@ -17,25 +16,36 @@ let styles = () => ( {
         },
         alignItems: 'center',
     },
+    containerTop: {
+        // flex: 1,
+        flexDirection: 'column',
+    },
     leftLabel: {
-        fontWeight: "500",
+        fontWeight: '500',
         minWidth: 150,
         color: appTheme.textInputLabelColor,
     },
     topLabel: {
-        marginBottom: -10,
         color: appTheme.textInputLabelColor,
     },
     leftText: {
         flex: 1,
+        height: appTheme.inputHeight,
         color: appTheme.textColor,
+        [android]: {
+            // textAlignVertical: 'top',
+            fontSize: 16,
+            // padding: 0,
+            // margin: 0,
+        },
+        // height: appTheme.inputHeight,
     },
     error: {
         marginTop: -5,
         zIndex: 0,
         color: appTheme.errorColor,
     },
-} );
+});
 
 const getKeyboardType = ( inputType: TEXT_INPUT_TYPES ) => {
     switch (inputType) {
@@ -56,17 +66,18 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
     private inputRef: any;
 
     componentWillMount() {
-        let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
+        let {value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw,} = this.props;
         if (value !== null && value !== undefined) {
-            this.setState( {
+            this.setState({
                 rawValue: !!dbToRaw
-                    ? dbToRaw( value )
-                    : defaultDbToRaw( inputType, value )
-            } )
+                    ? dbToRaw(value)
+                    : defaultDbToRaw(inputType, value)
+            })
         } else {
-            this.setState( { rawValue: '' } )
+            this.setState({rawValue: ''})
         }
     }
+
 
     render() {
         let {
@@ -78,7 +89,6 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
             onFocus,
             placeholder,
             title,
-            value,
             rawToDb,
         } = this.props;
 
@@ -87,24 +97,24 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                 onPress={() => this.inputRef.focus()}
             >
                 <View>
-                    <View style={labelPositionLeft ? classes.containerLeft : undefined}>
+                    <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
                         <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>
                             {title}
                         </Text>
                         <TextInputNative
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            keyboardType={getKeyboardType( inputType )}
+                            keyboardType={getKeyboardType(inputType)}
                             onChangeText={( text: string ) => {
                                 let rawValue = text;
                                 let dbValue = !!rawToDb
-                                    ? rawToDb( rawValue )
-                                    : defaultRawToDb( inputType, rawValue );
-                                this.setState( { rawValue: rawValue } );
-                                let fieldError = getError( inputType, rawValue );
+                                    ? rawToDb(rawValue)
+                                    : defaultRawToDb(inputType, rawValue);
+                                this.setState({rawValue: rawValue});
+                                let fieldError = getError(inputType, rawValue);
                                 !!onChange && onChange(
                                     !!fieldError
-                                        ? { value: dbValue, error: fieldError }
+                                        ? {value: dbValue, error: fieldError}
                                         : dbValue
                                 )
                             }}
@@ -118,7 +128,7 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                             underlineColorAndroid={
                                 error ? appTheme.errorColor : appTheme.textInputUnderlineColor
                             }
-                            value={( value && value.toString() ) || ''}
+                            value={!!this.state ? (this.state.rawValue || '') : ''}
                         />
                     </View>
                     {!!error && <Text style={classes.error}>{error}</Text>}
@@ -129,4 +139,4 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
 }
 
 const componentName = 'TextInput';
-export const TextInput: React.ComponentType<TextInputProps> = createStyles( styles, componentName, CTextInput );
+export const TextInput: React.ComponentType<TextInputProps> = createStyles(styles, componentName, CTextInput);
