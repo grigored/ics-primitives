@@ -33,4 +33,4 @@ const CPaper: React.StatelessComponent<Props & WithStyles> = ({children, classes
     </View>
 );
 
-export const Paper = createStyles(styles, 'Paper', CPaper);
+export const Paper: React.ComponentType<Props> = createStyles(styles, 'Paper')(CPaper);

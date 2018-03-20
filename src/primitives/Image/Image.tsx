@@ -64,4 +64,4 @@ class CImage extends React.PureComponent<ImageProps & WithStyles, {}> {
 }
 
 const componentName = 'Image';
-export const Image = createStyles<ImageProps>(styles, componentName, CImage);
+export const Image: React.ComponentType<ImageProps> = createStyles(styles, componentName)(CImage);

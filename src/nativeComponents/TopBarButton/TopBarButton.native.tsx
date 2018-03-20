@@ -86,4 +86,4 @@ export const TopBarButton: React.ComponentType<TopBarButtonProps> = connect(
             dispatch(returnValue);
         }
     })
-)(createStyles(styles, componentName, CTopBarButton));
+)(createStyles(styles, componentName)(CTopBarButton));
