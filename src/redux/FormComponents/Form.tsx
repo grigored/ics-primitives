@@ -152,11 +152,10 @@ class CForm extends React.PureComponent<Props, {}> {
 
 const componentName = 'Form';
 let FormComponent: any = reduxForm( {} )(
-    createStyles<Props>(
+    createStyles(
         styles,
-        componentName,
-        CForm,
-    )
+        componentName
+    )(CForm)
 );
 
 export const Form = connect( ( state: GlobalState, ownProps: FormProps ) => {

@@ -42,4 +42,4 @@ class CLoadingContainer extends React.PureComponent<Props & WithStyles, {}> {
 }
 
 const componentName = 'LoadingContainer';
-export const LoadingContainer: React.ComponentType<Props> = createStyles(styles, componentName, CLoadingContainer);
+export const LoadingContainer: React.ComponentType<Props> = createStyles(styles, componentName)(CLoadingContainer);

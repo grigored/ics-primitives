@@ -40,4 +40,4 @@ const CDrawerWeb: React.StatelessComponent<DrawerProps & WithStyles> = ({
     </Drawer>
 );
 
-export const DrawerWeb = createStyles<DrawerProps>(styles, 'DrawerWeb', CDrawerWeb);
+export const DrawerWeb: React.ComponentType<DrawerProps> = createStyles(styles, 'DrawerWeb')(CDrawerWeb);

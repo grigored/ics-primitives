@@ -126,12 +126,12 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
 
 
 
-export const AppContainerWeb = connect(
+export const AppContainerWeb: React.ComponentType<AppProps> = connect(
     (state: any) => ({
         drawerOpen: state.navigation.drawerOpen,
     }), {
         toggleDrawer,
     }
 )(
-    createStyles<AppProps & ConnectedProps>(styles, "AppContainerWeb", CAppContainerWeb)
+    createStyles(styles, "AppContainerWeb")(CAppContainerWeb)
 );

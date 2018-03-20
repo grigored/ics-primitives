@@ -43,4 +43,6 @@ class CCircularProgressComponent extends React.PureComponent<Props & WithStyles,
 }
 
 const componentName = 'CircularProgressComponent';
-export const CircularProgressComponent = createStyles<Props>(styles, componentName, CCircularProgressComponent);
+export const CircularProgressComponent: React.ComponentType<Props> = createStyles(
+    styles, componentName
+)(CCircularProgressComponent);

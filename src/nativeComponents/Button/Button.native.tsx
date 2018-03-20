@@ -131,4 +131,4 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
 }
 
 const componentName = 'Button';
-export const Button = createStyles(styles, componentName, CButton);
+export const Button = createStyles(styles, componentName)(CButton);
