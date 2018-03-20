@@ -1,13 +1,14 @@
 import * as React from 'react';
 import MenuIcon from 'material-ui-icons/Menu';
-import {connect} from 'react-redux';
-import {appTheme, createStyles, View, WithStyles} from "../..";
-import {Topbar} from "../Topbar/Topbar";
-import {DrawerWeb} from '../DrawerWeb/DrawerWeb';
-import {web} from "../../utils/theme";
-import {ThemeProvider} from "../ThemeProvider/ThemeProvider";
-import {TopbarListButtonData, TopbarSimpleButtonData} from "../Topbar/Topbar.types";
-import {toggleDrawer} from "../../redux/reducers/navigation";
+import { connect } from 'react-redux';
+import { appTheme, createStyles, View, WithStyles } from "../..";
+import { Topbar } from "../Topbar/Topbar";
+import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
+import { web } from "../../utils/theme";
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider";
+import { TopbarListButtonData, TopbarSimpleButtonData } from "../Topbar/Topbar.types";
+import { hideDialog, toggleDrawer, DialogData } from "../../redux/reducers/navigation";
+import { Dialog } from "../Dialog/Dialog";
 
 const styles = () => ({
     appFrame: {
@@ -67,9 +68,15 @@ export interface AppProps {
 }
 
 export interface ConnectedProps {
+    dialogs: Array<DialogData>,
     drawerOpen: boolean,
+
+    hideDialog: typeof hideDialog,
     toggleDrawer: typeof toggleDrawer,
+
 }
+
+const DialogContainer = () => <div>ASD2</div>;
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & ConnectedProps> {
 
@@ -77,6 +84,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
         const {
             classes,
             children,
+            dialogs,
             drawerContent,
             drawerOpen,
             drawerPersistent,
@@ -109,16 +117,40 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         drawerPersistent && classes.contentPersistent,
                     ]}>
                         {children}
-                        {/*{Object.values(routeDefinitions).map(routeData =>*/}
-                        {/*<Route*/}
-                        {/*key={routeData.screen}*/}
-                        {/*path={'/' + routeData.screen + (routeData.webRouteParam || '')}*/}
-                        {/*component={routeData.container}*/}
-                        {/*/>*/}
-                        {/*)}*/}
-                        {/*{!routeDefinition && "unknown route"}*/}
                     </View>
                 </View>
+                {dialogs.map(dialog => {
+                    // let routeName = Object.keys(routeDefinitions).filter(routeName => routeDefinitions[routeName].screen === dialog.dialogId)[0],
+                    //     dialogData = routeDefinitions[routeName],
+                    //     fullScreen = dialog.fullScreen;
+
+                    // if (fullScreen === false && !isXs()) {
+                    //     const Body = dialogData.container;
+                    //     return (
+                    //         <AlertComponent
+                    //             key={dialog.dialogId}
+                    //             visible={dialog.visible}
+                    //             title={dialog.nonUrlProps && dialog.nonUrlProps.title}
+                    //             body={<Body
+                    //                 urlProps={dialog.urlProps}
+                    //                 nonUrlProps={dialog.nonUrlProps}
+                    //             />}
+                    //             hideAlert={() => hideDialog(dialog.dialogId)}
+                    //             showButtons={false}
+                    //         />
+                    //     );
+                    // }
+                    return (
+                        <Dialog
+                            fullScreen={dialog.fullScreen}
+                            key={dialog.dialogId}
+                            visible={dialog.visible}
+                            body={DialogContainer}
+                            hideDialog={() => hideDialog(dialog.dialogId)}
+                            // removeDialog={() => removeDialog(dialog.dialogId)}
+                        />
+                    );
+                })}
             </ThemeProvider>
         );
     }
@@ -129,8 +161,10 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
 export const AppContainerWeb: React.ComponentType<AppProps> = connect(
     (state: any) => ({
         drawerOpen: state.navigation.drawerOpen,
+        dialogs: state.navigation.dialogs,
     }), {
         toggleDrawer,
+        hideDialog,
     }
 )(
     createStyles(styles, "AppContainerWeb")(CAppContainerWeb)
