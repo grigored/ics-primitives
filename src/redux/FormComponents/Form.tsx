@@ -131,7 +131,7 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexGrow: 1, flexShrink: 0, }}
+                                // style={{ flexGrow: 1, flexShrink: 0, }}
                                 onTouch={this._bindedOnTouchDict[formField.field]}
                             />
                         )
