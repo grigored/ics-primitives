@@ -139,4 +139,4 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
 }
 
 const componentName = 'TextInput';
-export const TextInput: React.ComponentType<TextInputProps> = createStyles(styles, componentName, CTextInput);
+export const TextInput: React.ComponentType<TextInputProps> = createStyles(styles, componentName)(CTextInput);

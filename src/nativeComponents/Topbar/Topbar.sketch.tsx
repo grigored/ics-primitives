@@ -60,4 +60,4 @@ const CTopbar: React.StatelessComponent<TopbarProps & WithStyles> = ({classes, t
     </Paper>
 );
 
-export const Topbar = createStyles(styles, 'Topbar', CTopbar);
+export const Topbar = createStyles(styles, 'Topbar')(CTopbar);

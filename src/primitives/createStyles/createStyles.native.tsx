@@ -1,14 +1,11 @@
-import * as React from "react";
-import {StyleSheet} from 'react-native';
-import { StyleRules, WithStyles } from "../../utils/theme.types";
-import {createStylesGeneric} from "./utils";
+import { StyleSheet } from 'react-native';
+import { StyleRules } from '../../utils/theme.types';
+import { returnType } from './createStyles.types';
+import { createStylesGeneric } from './utils';
 
 
-export function createStyles<T>(
-    styles: StyleRules | (() => StyleRules),
-    componentName: string,
-    WrappedComponent: React.ComponentType<T & WithStyles>,
-): React.ComponentType<T> {
-    return createStylesGeneric(styles, componentName, WrappedComponent, StyleSheet.create);
-
+export function createStyles( styles: StyleRules | (() => StyleRules),
+                              componentName: string, ): returnType {
+    // @ts-ignore
+    return WrappedComponent => createStylesGeneric(styles, componentName, WrappedComponent, StyleSheet.create);
 }

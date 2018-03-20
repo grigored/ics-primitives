@@ -20,6 +20,11 @@ export enum SELECT_INPUT_TYPES {
     FLOAT,
 }
 
+export enum CIRCULAR_PROGRESS_SIZE {
+    SMALL,
+    LARGE,
+}
+
 export enum PUSH_TYPES {
     DEEP_LINKS,
     MODAL,
