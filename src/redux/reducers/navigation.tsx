@@ -17,7 +17,7 @@ export enum PushTypes {
 
 export interface RouteDefintion {
     screen: string,
-    container: React.ComponentClass,
+    container: React.ComponentType,
     pushType?: PushTypes,
     title: string,
 }
