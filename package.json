@@ -5,23 +5,29 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "peerDependencies": {
-    "react": "^16.2.0",
+    "localforage": "^1.5.5",
     "material-ui": "1.0.0-beta.37",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
-    "react-dom": "^16.2.0"
+    "redux-persist": "4.10.1"
   },
   "dependencies": {
-    "react": "^16.2.0",
+    "localforage": "^1.5.5",
     "material-ui": "1.0.0-beta.37",
+    "react": "^16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-fbsdk": "https://github.com/AndrewJack/react-native-fbsdk/tarball/rn_0.47_backward_compat",
     "react-dom": "^16.2.0",
     "react-sketchapp": "^1.0.0",
     "react-test-renderer": "^16.2.0",
+    "redux-persist": "4.10.1",
     "typescript": "^2.6.2",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
     "@types/react-sketchapp": "^0.12.2",
     "@types/react-native": "*",
+    "@types/react-native-fbsdk": "^0.6.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

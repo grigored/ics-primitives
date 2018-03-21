@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { StyleRules } from '../../utils/theme.types';
 import { returnType } from './createStyles.types';
-import { createStylesGeneric } from './utils';
+import { createStylesGeneric } from './createStyles.utils';
 
 
 export function createStyles( styles: StyleRules | (() => StyleRules),

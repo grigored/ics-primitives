@@ -23,6 +23,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
             types,
             method,
             url,
+            extraHeaders,
             body,
             queryParameters,
             requestPayload = {},
@@ -55,7 +56,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
         let fetchParams = {
             method,
             body: JSON.stringify(body),
-            headers: baseHeaders,
+            headers: {...baseHeaders, ...(extraHeaders || {})},
         };
 
         return fetch(baseUrl + encodeParametersInUrl(url, queryParameters), fetchParams)
