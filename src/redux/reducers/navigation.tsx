@@ -93,6 +93,8 @@ const initialState = {
     dialogs: []
 };
 
+export const routes: {LOGIN?: any} = {};
+
 export const navigation = function(state: NavigationState = initialState, action: ActionTypes): NavigationState {
     switch (action.type) {
         case TypeKeys.TOGGLE_DRAWER:
@@ -214,3 +216,7 @@ function hideDialogFromList(dialogs: Array<any>, dialogId: string) {
     }
     return newDialogs.reverse();
 }
+
+export const setLoginRoute = (route: any) => {
+    routes.LOGIN = route
+};

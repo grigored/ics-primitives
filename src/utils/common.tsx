@@ -1,5 +1,8 @@
-import { getWindowWidth } from '../primitives/platform/platform';
+import { getStorage, getWindowWidth } from '../primitives/platform/platform';
+import { persistStore } from 'redux-persist'
 import { XS_BREAKING_POINT } from './theme';
+
+export { autoRehydrate } from 'redux-persist'
 
 export function isObject( obj: any ): boolean {
     return obj && obj instanceof Object && obj.constructor === Object;
@@ -56,3 +59,11 @@ function arraysEqual( arr1: Array<any>, arr2: Array<any> ) {
     }
     return true;
 }
+
+export const getPersistStore = (store: any) => {
+    persistStore(store, {
+        storage: getStorage(),
+        whitelist: ['persisted'],
+        blacklist: ['map'],
+    });
+};

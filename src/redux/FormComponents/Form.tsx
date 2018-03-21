@@ -4,7 +4,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { ScrollView } from '../../primitives/ScrollView/ScrollView';
 import { appTheme, web } from '../../utils/theme';
-import { createStyles } from '../../primitives/createStyles/createStyles';
+import { createStyles } from '../../decorators/createStyles/createStyles';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';

@@ -6,7 +6,7 @@ import * as React from 'react';
 import { appTheme, Classes, WithStyles } from '../';
 import { CIRCULAR_PROGRESS_SIZE } from '../utils/enums';
 import { CircularProgressComponent } from './CircularProgressComponent/CircularProgressComponent';
-import { createStyles } from './createStyles/createStyles';
+import { createStyles } from '../decorators/createStyles/createStyles';
 import { View } from './View/View';
 
 const styles = () => ({

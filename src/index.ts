@@ -1,4 +1,15 @@
-export { createStyles } from './primitives/createStyles/createStyles';
+
+declare global {
+    interface Window {
+        opera?: string;
+        MSStream?: string;
+        INSTACAR_LOCALE?: string;
+        googleMapsCallback?: Function;
+        fbAsyncInit?: any
+    }
+}
+
+export { createStyles } from './decorators/createStyles/createStyles';
 export { Link } from './primitives/Link/Link';
 export { Image } from './primitives/Image/Image';
 export { ScrollView } from './primitives/ScrollView/ScrollView';
@@ -18,7 +29,7 @@ export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainer
 // export { FieldDefinition } from './nativeComponents/Form/form.types';
 
 // export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from './utils/enums';
-export { isXs, getNestedField } from './utils/common';
+export { isXs, getNestedField, getPersistStore, autoRehydrate } from './utils/common';
 
 export { apiClientMiddleware } from './redux/apiClientMiddleware';
 
@@ -30,6 +41,23 @@ export {
     formHelpers,
     sendFormData,
 } from './redux/reducers/formHelpers';
+export {
+    auth,
+    AuthState,
+    signup,
+    login,
+    socialLogin,
+    logout,
+    fbLoadSdk,
+    loadGoogleSdk,
+    loadedGoogleSdk,
+} from './redux/reducers/auth';
+export {
+    persisted,
+    PersistedState,
+    updatePersist,
+    setCodePushChecked,
+} from './redux/reducers/persisted';
 export { FieldDefinition, FormHelpersState } from './redux/FormComponents/FormComponents.types'
 export * from './primitives/platform/platform';
 export {CircularProgressComponent} from './primitives/CircularProgressComponent/CircularProgressComponent'
@@ -42,6 +70,7 @@ export {
     hideDialog,
     PushTypes,
     NavigationState,
+    setLoginRoute,
 } from './redux/reducers/navigation';
 export {
     isWeb,
