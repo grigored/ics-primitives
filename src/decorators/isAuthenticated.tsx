@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { getNestedField } from '../';
+import { getNestedField, isWeb } from '../';
 import { hoistNonReactStatics } from '../lib/hoist-non-react-statics';
 import { History, Navigation, pushScreen, routes, } from '../redux/reducers/navigation';
 
@@ -19,6 +19,9 @@ export const isAuthenticated = <T extends Object>(check2FA: boolean) => {
         class CEnhance extends React.Component<AllProps, {}> {
 
             static checkRedirect(props: Readonly<AllProps>) {
+                if (!isWeb) {
+                    return;
+                }
                 if (!routes.LOGIN) {
                     console.log('Error: LOGIN route not set use "setRoutes(routes)"');
                     return;
@@ -38,6 +41,13 @@ export const isAuthenticated = <T extends Object>(check2FA: boolean) => {
             }
 
             render() {
+                const {userData, validated2FA} = this.props;
+                if (!isWeb) {
+                    if (!userData || (check2FA && !validated2FA)) {
+                        const LoginBody = routes.LOGIN.container;
+                        return <LoginBody/>
+                    }
+                }
                 return (
                     <WrappedComponent
                         {...this.props}
