@@ -82,13 +82,20 @@ export const persisted = ( state: PersistedState<any> = initialState,
             };
         case CommonTypeKeys.LOGIN:
         case CommonTypeKeys.SIGNUP:
-        case CommonTypeKeys.VALIDATE_2FA:
         case CommonTypeKeys.LOGIN_FAIL:
         case CommonTypeKeys.SIGNUP_FAIL:
         case CommonTypeKeys.LOGOUT:
             return {
                 ...state,
                 login: {},
+            };
+        case CommonTypeKeys.VALIDATE_2FA:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: undefined,
+                }
             };
         case CommonTypeKeys.VALIDATE_2FA_SUCCESS:
             return {

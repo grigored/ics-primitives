@@ -77,7 +77,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 ...successPayload,
                             });
                             dispatchOnSuccess && dispatch(dispatchOnSuccess);
-                        } else if (status === 401) {
+                        // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
                         }
