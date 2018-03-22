@@ -72,6 +72,7 @@ export interface AppProps {
 export interface ConnectedProps {
     dialogs: Array<DialogData>,
     drawerOpen: boolean,
+    persistComplete: boolean,
 
     toggleDrawer: typeof toggleDrawer,
     hideDialog: typeof hideDialog,
@@ -94,7 +95,13 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             toggleDrawer,
             hideDialog,
             removeDialog,
+            persistComplete,
         } = this.props;
+
+        if (!persistComplete) {
+            return null;
+        }
+
         return (
             <ThemeProvider>
                 <View style={classes.appFrame} name={'AppFrame'}>
@@ -165,6 +172,7 @@ export const AppContainerWeb: React.ComponentType<AppProps> = connect(
     ( state: any ) => ({
         drawerOpen: state.navigation.drawerOpen,
         dialogs: state.navigation.dialogs,
+        persistComplete: state.persisted.persistComplete,
     }), {
         toggleDrawer,
         hideDialog,

@@ -14,17 +14,27 @@ export const isAuthenticated = <T extends Object>(check2FA: boolean) => {
             pushScreen: typeof pushScreen,
         }
 
-        class CEnhance extends React.Component<T & Navigation & History & ConnectedProps> {
+        type AllProps = T & Navigation & History & ConnectedProps;
 
-            componentWillReceiveProps(nextProps: T & Navigation & History & ConnectedProps) {
+        class CEnhance extends React.Component<AllProps, {}> {
+
+            static checkRedirect(props: Readonly<AllProps>) {
                 if (!routes.LOGIN) {
                     console.log('Error: LOGIN route not set use "setRoutes(routes)"');
                     return;
                 }
-                let {userData, pushScreen, navigation, history, validated2FA} = nextProps;
+                let {userData, pushScreen, navigation, history, validated2FA} = props;
                 if (!userData || (check2FA && !validated2FA)) {
                     pushScreen(navigation, history, routes.LOGIN, null);
                 }
+            }
+
+            componentWillMount() {
+                CEnhance.checkRedirect(this.props);
+            }
+
+            componentWillReceiveProps(nextProps: AllProps) {
+                CEnhance.checkRedirect(nextProps);
             }
 
             render() {
