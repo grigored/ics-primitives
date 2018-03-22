@@ -31,3 +31,20 @@ export enum PUSH_TYPES {
     REGULAR,
     CLEAR_STACK,
 }
+
+export enum HTTP_METHOD {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    DELETE = 'DELETE',
+    OPTIONS = 'OPTIONS',
+}
+
+export enum PLATFORM {
+    WEB = 1,
+    ANDROID,
+    IOS,
+    WEB_ANDROID,
+    WEB_IOS,
+    WEB_WINDOWS_PHONE,
+}

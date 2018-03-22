@@ -12,6 +12,9 @@ export enum CommonTypeKeys {
     LOGOUT = 'react-web-native-sketch/auth/LOGOUT',
     LOGOUT_SUCCESS = 'react-web-native-sketch/auth/LOGOUT_SUCCESS',
     LOGOUT_FAIL = 'react-web-native-sketch/auth/LOGOUT_FAIL',
+    VALIDATE_2FA = 'react-web-native-sketch/auth/VALIDATE_2FA',
+    VALIDATE_2FA_SUCCESS = 'react-web-native-sketch/auth/VALIDATE_2FA_SUCCESS',
+    VALIDATE_2FA_FAIL = 'react-web-native-sketch/auth/VALIDATE_2FA_FAIL',
 }
 
 export interface LoginAction {
@@ -47,5 +50,14 @@ export interface LogoutAction {
 
 export interface LogoutSuccessFailAction {
     type: CommonTypeKeys.LOGOUT_SUCCESS | CommonTypeKeys.LOGOUT_FAIL,
+    response: any,
+}
+
+export interface Validate2FAAction {
+    type: CommonTypeKeys.VALIDATE_2FA,
+}
+
+export interface Validate2FASuccessFailAction {
+    type: CommonTypeKeys.VALIDATE_2FA_SUCCESS | CommonTypeKeys.VALIDATE_2FA_FAIL,
     response: any,
 }

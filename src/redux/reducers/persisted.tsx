@@ -1,12 +1,13 @@
 import {
     CommonTypeKeys, LoginAction, LoginSuccessFailAction, LogoutAction, SignupAction, SignupSuccessFailAction,
     SocialLoginAction,
-    SocialLoginSuccessFailAction
+    SocialLoginSuccessFailAction, Validate2FAAction, Validate2FASuccessFailAction
 } from './commonActions';
 
 export enum TypeKeys {
     SET_CODE_PUSH_CHECKED = 'react-web-native-sketch/persisted/SET_CODE_PUSH_CHECKED',
     UPDATE_PERSIST = 'react-web-native-sketch/persisted/UPDATE_PERSIST',
+    SET_HEADERS = 'react-web-native-sketch/persisted/SET_HEADERS',
     REHYDRATE = 'persist/REHYDRATE'
 }
 
@@ -16,6 +17,12 @@ export interface SetCodePushAction {
 
 export interface UpdatePersistAction {
     type: TypeKeys.UPDATE_PERSIST,
+    data: any,
+}
+
+export interface SetHeadersAction {
+    type: TypeKeys.SET_HEADERS,
+    headers: any,
 }
 
 export interface RehydrateAction {
@@ -28,6 +35,7 @@ export interface RehydrateAction {
 export type ActionTypes =
     | SetCodePushAction
     | UpdatePersistAction
+    | SetHeadersAction
     | RehydrateAction
     | LoginAction
     | LoginSuccessFailAction
@@ -36,6 +44,8 @@ export type ActionTypes =
     | SocialLoginAction
     | SocialLoginSuccessFailAction
     | LogoutAction
+    | Validate2FAAction
+    | Validate2FASuccessFailAction
 
 export interface PersistedState<T> {
     codePush: {
@@ -43,7 +53,9 @@ export interface PersistedState<T> {
     }
     login?: {
         userData?: any
+        validated2FA?: boolean
     }
+    headers?: any
     other?: T
 }
 
@@ -65,14 +77,41 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 ...state,
                 login: {
                     userData: action.response,
+                    validated2FA: undefined,
                 }
             };
+        case CommonTypeKeys.LOGIN:
+        case CommonTypeKeys.SIGNUP:
         case CommonTypeKeys.LOGIN_FAIL:
         case CommonTypeKeys.SIGNUP_FAIL:
         case CommonTypeKeys.LOGOUT:
             return {
                 ...state,
                 login: {},
+            };
+        case CommonTypeKeys.VALIDATE_2FA:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: undefined,
+                }
+            };
+        case CommonTypeKeys.VALIDATE_2FA_SUCCESS:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: true,
+                }
+            };
+        case CommonTypeKeys.VALIDATE_2FA_FAIL:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: false,
+                }
             };
         case TypeKeys.REHYDRATE:
             if (action.payload.persisted) {
@@ -92,19 +131,40 @@ export const persisted = ( state: PersistedState<any> = initialState,
                     codePushChecked: true
                 },
             };
+        case TypeKeys.UPDATE_PERSIST:
+            return {
+                ...state,
+                other: {
+                    ...(state.other || {}),
+                    ...action.data,
+                },
+            };
+        case TypeKeys.SET_HEADERS:
+            return {
+                ...state,
+                headers: action.headers,
+            };
         default:
             return state;
     }
 };
 
-export const updatePersist = () => {
+export const updatePersist = (data: any): UpdatePersistAction => {
     return {
-        type: TypeKeys.UPDATE_PERSIST
+        type: TypeKeys.UPDATE_PERSIST,
+        data,
     }
 };
 
-export function setCodePushChecked() {
+export const setCodePushChecked = (): SetCodePushAction => {
     return {
         type: TypeKeys.SET_CODE_PUSH_CHECKED
     }
-}
+};
+
+export const setHeaders = (headers: any): SetHeadersAction => {
+    return {
+        type: TypeKeys.SET_HEADERS,
+        headers,
+    }
+} ;

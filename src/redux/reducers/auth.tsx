@@ -1,8 +1,8 @@
 import {
     CommonTypeKeys, LoginAction, LoginSuccessFailAction, LogoutAction, LogoutSuccessFailAction, SignupAction,
-    SignupSuccessFailAction, SocialLoginAction, SocialLoginSuccessFailAction
+    SignupSuccessFailAction, SocialLoginAction, SocialLoginSuccessFailAction, Validate2FAAction,
+    Validate2FASuccessFailAction
 } from './commonActions';
-import { fbSignOut } from '../../nativeComponents/ButtonFacebookComponent/utils';
 import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
 import { isWeb } from '../../primitives/platform/platform';
 import { getUserDataLocalStorageName } from './utils';
@@ -50,6 +50,8 @@ export type ActionTypes =
     | SocialLoginSuccessFailAction
     | LogoutAction
     | LogoutSuccessFailAction
+    | Validate2FAAction
+    | Validate2FASuccessFailAction
 
 export interface AuthState {
     forgotSuccess?: boolean,
@@ -116,7 +118,7 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
             };
         case CommonTypeKeys.SOCIAL_LOGIN_FAIL:
 
-            fbSignOut();
+            // fbSignOut();
             googleSignOut();
             return {
                 ...state,
@@ -139,6 +141,22 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
                 signingUp: false,
             };
 
+        case CommonTypeKeys.VALIDATE_2FA:
+            return {
+                ...state,
+                validating: true
+            };
+        case CommonTypeKeys.VALIDATE_2FA_SUCCESS:
+            return {
+                ...state,
+                validating: false,
+            };
+        case CommonTypeKeys.VALIDATE_2FA_FAIL:
+            return {
+                ...state,
+                validating: false,
+            };
+
         case CommonTypeKeys.LOGOUT:
             return {
                 ...state,
@@ -150,7 +168,7 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
                 document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
             googleSignOut();
-            fbSignOut();
+            // fbSignOut();
             return {
                 ...state,
                 loggingOut: false,
@@ -296,6 +314,15 @@ export const signup = ( body: any, url: string, method: string ) => {
     }
 };
 
+export const validate2FA = ( body: any, url: string, method: string ) => {
+    return {
+        types: [CommonTypeKeys.VALIDATE_2FA, CommonTypeKeys.VALIDATE_2FA_SUCCESS, CommonTypeKeys.VALIDATE_2FA_FAIL],
+        method,
+        url,
+        body,
+    }
+};
+
 export const logout = (body: any, url: string, method: string) => {
     return {
         types: [CommonTypeKeys.LOGOUT, CommonTypeKeys.LOGOUT_SUCCESS, CommonTypeKeys.LOGOUT_FAIL],
@@ -311,7 +338,7 @@ export const logoutLocal = () => {
         document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
     googleSignOut();
-    fbSignOut();
+    // fbSignOut();
     return {
         type: CommonTypeKeys.LOGOUT
     }

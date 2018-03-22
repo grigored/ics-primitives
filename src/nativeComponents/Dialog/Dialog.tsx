@@ -20,6 +20,7 @@ export interface Props {
     nonUrlProps?: any,
     urlProps?: any,
     hideDialog: () => void,
+    removeDialog: () => void,
 }
 
 export class Dialog extends React.PureComponent<Props, {}> {
@@ -29,7 +30,7 @@ export class Dialog extends React.PureComponent<Props, {}> {
     constructor(props: Props) {
         super(props);
         this.hideDialog = this.props.hideDialog.bind(this);
-        this.onExited = this.props.hideDialog.bind(this);
+        this.onExited = this.props.removeDialog.bind(this);
     }
 
     render() {

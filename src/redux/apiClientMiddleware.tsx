@@ -53,10 +53,13 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
             ...requestPayload
         });
 
+        // @ts-ignore
+        const persistedHeaders = (getState().persisted && getState().persisted.headers) || {};
+
         let fetchParams = {
             method,
             body: JSON.stringify(body),
-            headers: {...baseHeaders, ...(extraHeaders || {})},
+            headers: {...baseHeaders, ...persistedHeaders, ...(extraHeaders || {})},
         };
 
         return fetch(baseUrl + encodeParametersInUrl(url, queryParameters), fetchParams)
@@ -74,7 +77,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 ...successPayload,
                             });
                             dispatchOnSuccess && dispatch(dispatchOnSuccess);
-                        } else if (status === 401) {
+                        // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
                         }
