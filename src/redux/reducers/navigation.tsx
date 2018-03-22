@@ -6,6 +6,7 @@ export enum TypeKeys {
     WEB_ROUTE_CHANGED = 'instacar/navigation/WEB_ROUTE_CHANGED',
     SHOW_DIALOG = 'instacar/navigation/SHOW_DIALOG',
     HIDE_DIALOG = 'instacar/navigation/HIDE_DIALOG',
+    REMOVE_DIALOG = 'instacar/navigation/REMOVE_DIALOG',
     PUSH_SCREEN = 'instacar/navigation/PUSH_SCREEN',
 }
 
@@ -63,6 +64,11 @@ export interface HideDialogAction {
     props: any,
 }
 
+export interface RemoveDialogAction {
+    type: TypeKeys.REMOVE_DIALOG,
+    dialogId: string, //DIALOG_IDS,
+}
+
 export type ActionTypes =
     | ToggleDrawerAction
     | PopPageAction
@@ -70,6 +76,7 @@ export type ActionTypes =
     | PushScreenAction
     | ShowDialogAction
     | HideDialogAction
+    | RemoveDialogAction
 
 export interface DialogData {
     dialogId: string,
@@ -131,6 +138,11 @@ export const navigation = function(state: NavigationState = initialState, action
                 dialogs: hideDialogFromList(state.dialogs, action.dialogId),
 
             };
+        case TypeKeys.REMOVE_DIALOG:
+            return {
+                ...state,
+                dialogs: removeDialogFromList(state.dialogs, action.dialogId)
+            };
         default:
             return state;
     }
@@ -188,11 +200,39 @@ export const pushScreen = (
     }
 };
 
+export const popScreen = (navigation: any, history: any) => {
+    return (dispatch: any, getState: () => {navigation: NavigationState}) => {
+        let state = getState(), visibleDialogs = state.navigation.dialogs.filter(dialog => dialog.visible);
+        if (isWeb) {
+            if (visibleDialogs.length > 0) {
+                dispatch({
+                    type: TypeKeys.HIDE_DIALOG,
+                    dialogId: visibleDialogs.slice(-1)[0].dialogId,  // get last visible dialog
+                });
+                return;
+            }
+            // pushWebScreen(history, routeDefinitions.RESERVE);
+        } else {
+            navigation.goBack()
+        }
+        dispatch({
+            type: TypeKeys.POP_PAGE,
+        })
+    }
+};
 
 export function hideDialog(dialogId: string) {
     // if dialogIndex is null, clear all dialogs
     return {
         type: TypeKeys.HIDE_DIALOG,
+        dialogId,
+    }
+}
+
+export function removeDialog(dialogId: string) {
+    // if dialogIndex is null, clear all dialogs
+    return {
+        type: TypeKeys.REMOVE_DIALOG,
         dialogId,
     }
 }
@@ -209,6 +249,21 @@ function hideDialogFromList(dialogs: Array<any>, dialogId: string) {
                 ...dialog,
                 visible: false,
             })
+        }
+        else {
+            newDialogs.push(dialog);
+        }
+    }
+    return newDialogs.reverse();
+}
+
+function removeDialogFromList(dialogs: Array<any>, dialogId: string) {
+
+    let found = false, newDialogs = [];
+    const reversedDialogs = [...dialogs].reverse();
+    for (let dialog of reversedDialogs) {
+        if (!found && dialog.dialogId === dialogId) {
+            found = true;
         }
         else {
             newDialogs.push(dialog);

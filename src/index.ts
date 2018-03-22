@@ -23,7 +23,7 @@ export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from
 
 export { Button, fade } from './nativeComponents/Button/Button';
 // export { Dialog } from './nativeComponents/Dialog/Dialog';
-export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
+export { AppContainerWeb, setRoutes } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 // export { TextInput } from './nativeComponents/Form/TextInput/TextInput';
 // export { Form } from './nativeComponents/Form/Form';
 // export { FieldDefinition } from './nativeComponents/Form/form.types';
@@ -48,9 +48,11 @@ export {
     login,
     socialLogin,
     logout,
+    logoutLocal,
     fbLoadSdk,
     loadGoogleSdk,
     loadedGoogleSdk,
+    validate2FA,
 } from './redux/reducers/auth';
 export {
     persisted,
@@ -68,9 +70,12 @@ export {
     navigation,
     toggleDrawer,
     pushScreen,
+    popScreen,
     hideDialog,
     PushTypes,
     NavigationState,
+    Navigation,
+    History,
     setLoginRoute,
 } from './redux/reducers/navigation';
 export {

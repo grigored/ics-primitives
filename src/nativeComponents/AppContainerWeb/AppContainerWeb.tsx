@@ -1,19 +1,21 @@
-import * as React from 'react';
 import MenuIcon from 'material-ui-icons/Menu';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { appTheme, createStyles, View, WithStyles } from "../..";
-import { Topbar } from "../Topbar/Topbar";
+import { appTheme, createStyles, PushTypes, View, WithStyles } from '../..';
+import { DialogData, hideDialog, removeDialog, toggleDrawer } from '../../redux/reducers/navigation';
+import { web } from '../../utils/theme';
+import { Dialog } from '../Dialog/Dialog';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
-import { web } from "../../utils/theme";
-import { ThemeProvider } from "../ThemeProvider/ThemeProvider";
-import { TopbarListButtonData, TopbarSimpleButtonData } from "../Topbar/Topbar.types";
-import { hideDialog, toggleDrawer, DialogData } from "../../redux/reducers/navigation";
-import { Dialog } from "../Dialog/Dialog";
+import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
+import { Topbar } from '../Topbar/Topbar';
+import { TopbarListButtonData, TopbarSimpleButtonData } from '../Topbar/Topbar.types';
 
 const styles = () => ({
     appFrame: {
         fontFamily: 'Roboto',
         flex: 1,
+        width: '100vw',
+        height: '100vh',
     },
     appBarShift: {
         marginLeft: appTheme.drawerWidth,
@@ -71,12 +73,21 @@ export interface ConnectedProps {
     dialogs: Array<DialogData>,
     drawerOpen: boolean,
 
-    hideDialog: typeof hideDialog,
     toggleDrawer: typeof toggleDrawer,
-
+    hideDialog: typeof hideDialog,
+    removeDialog: typeof removeDialog,
 }
 
-const DialogContainer = () => <div>ASD2</div>;
+export interface Route {
+    screen: string,
+    container: React.ComponentType,
+    title: string,
+    pushType?: PushTypes,
+}
+let routes: {[route: string]: Route} = {};
+export const setRoutes = (targetRoutes: {[route: string]: Route}) => {
+    routes = targetRoutes;
+};
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & ConnectedProps> {
 
@@ -92,6 +103,8 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             rightButtonsData,
             title,
             toggleDrawer,
+            hideDialog,
+            removeDialog,
         } = this.props;
         return (
             <ThemeProvider>
@@ -119,53 +132,55 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         {children}
                     </View>
                 </View>
-                {dialogs.map(dialog => {
-                    // let routeName = Object.keys(routeDefinitions).filter(routeName => routeDefinitions[routeName].screen === dialog.dialogId)[0],
-                    //     dialogData = routeDefinitions[routeName],
-                    //     fullScreen = dialog.fullScreen;
+                {
+                    dialogs.map(dialog => {
+                        let routeName = Object.keys(routes).filter(routeName => routes[routeName].screen === dialog.dialogId)[0],
+                            dialogData = routes[routeName];
+                            // fullScreen = dialog.fullScreen;
 
-                    // if (fullScreen === false && !isXs()) {
-                    //     const Body = dialogData.container;
-                    //     return (
-                    //         <AlertComponent
-                    //             key={dialog.dialogId}
-                    //             visible={dialog.visible}
-                    //             title={dialog.nonUrlProps && dialog.nonUrlProps.title}
-                    //             body={<Body
-                    //                 urlProps={dialog.urlProps}
-                    //                 nonUrlProps={dialog.nonUrlProps}
-                    //             />}
-                    //             hideAlert={() => hideDialog(dialog.dialogId)}
-                    //             showButtons={false}
-                    //         />
-                    //     );
-                    // }
-                    return (
-                        <Dialog
-                            fullScreen={dialog.fullScreen}
-                            key={dialog.dialogId}
-                            visible={dialog.visible}
-                            body={DialogContainer}
-                            hideDialog={() => hideDialog(dialog.dialogId)}
-                            // removeDialog={() => removeDialog(dialog.dialogId)}
-                        />
-                    );
-                })}
+                        // if (fullScreen === false && !isXs()) {
+                        //     const Body = dialogData.container;
+                        //     return (
+                        //         <AlertComponent
+                        //             key={dialog.dialogId}
+                        //             visible={dialog.visible}
+                        //             title={dialog.nonUrlProps && dialog.nonUrlProps.title}
+                        //             body={<Body
+                        //                 urlProps={dialog.urlProps}
+                        //                 nonUrlProps={dialog.nonUrlProps}
+                        //             />}
+                        //             hideAlert={() => hideDialog(dialog.dialogId)}
+                        //             showButtons={false}
+                        //         />
+                        //     );
+                        // }
+                        return (
+                            <Dialog
+                                fullScreen={dialog.fullScreen}
+                                key={dialog.dialogId}
+                                visible={dialog.visible}
+                                body={dialogData.container}
+                                hideDialog={() => hideDialog(dialog.dialogId)}
+                                removeDialog={() => removeDialog(dialog.dialogId)}
+                            />
+                        );
+                    })
+                }
             </ThemeProvider>
         );
     }
 }
 
 
-
 export const AppContainerWeb: React.ComponentType<AppProps> = connect(
-    (state: any) => ({
+    ( state: any ) => ({
         drawerOpen: state.navigation.drawerOpen,
         dialogs: state.navigation.dialogs,
     }), {
         toggleDrawer,
         hideDialog,
+        removeDialog,
     }
 )(
-    createStyles(styles, "AppContainerWeb")(CAppContainerWeb)
+    createStyles(styles, 'AppContainerWeb')(CAppContainerWeb)
 );

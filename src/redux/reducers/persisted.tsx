@@ -1,7 +1,7 @@
 import {
     CommonTypeKeys, LoginAction, LoginSuccessFailAction, LogoutAction, SignupAction, SignupSuccessFailAction,
     SocialLoginAction,
-    SocialLoginSuccessFailAction
+    SocialLoginSuccessFailAction, Validate2FAAction, Validate2FASuccessFailAction
 } from './commonActions';
 
 export enum TypeKeys {
@@ -44,6 +44,8 @@ export type ActionTypes =
     | SocialLoginAction
     | SocialLoginSuccessFailAction
     | LogoutAction
+    | Validate2FAAction
+    | Validate2FASuccessFailAction
 
 export interface PersistedState<T> {
     codePush: {
@@ -51,6 +53,7 @@ export interface PersistedState<T> {
     }
     login?: {
         userData?: any
+        validated2FA?: boolean
     }
     headers?: any
     other?: T
@@ -74,14 +77,34 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 ...state,
                 login: {
                     userData: action.response,
+                    validated2FA: undefined,
                 }
             };
+        case CommonTypeKeys.LOGIN:
+        case CommonTypeKeys.SIGNUP:
+        case CommonTypeKeys.VALIDATE_2FA:
         case CommonTypeKeys.LOGIN_FAIL:
         case CommonTypeKeys.SIGNUP_FAIL:
         case CommonTypeKeys.LOGOUT:
             return {
                 ...state,
                 login: {},
+            };
+        case CommonTypeKeys.VALIDATE_2FA_SUCCESS:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: true,
+                }
+            };
+        case CommonTypeKeys.VALIDATE_2FA_FAIL:
+            return {
+                ...state,
+                login: {
+                    ...(state.login || {}),
+                    validated2FA: false,
+                }
             };
         case TypeKeys.REHYDRATE:
             if (action.payload.persisted) {
