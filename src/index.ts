@@ -23,7 +23,7 @@ export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from
 
 export { Button, fade } from './nativeComponents/Button/Button';
 // export { Dialog } from './nativeComponents/Dialog/Dialog';
-export { AppContainerWeb, setRoutes } from './nativeComponents/AppContainerWeb/AppContainerWeb';
+export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 // export { TextInput } from './nativeComponents/Form/TextInput/TextInput';
 // export { Form } from './nativeComponents/Form/Form';
 // export { FieldDefinition } from './nativeComponents/Form/form.types';
@@ -76,7 +76,7 @@ export {
     NavigationState,
     Navigation,
     History,
-    setLoginRoute,
+    setRoutes,
 } from './redux/reducers/navigation';
 export {
     isWeb,
@@ -88,3 +88,4 @@ export {
 } from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
 export { getFormDbValue } from './redux/FormComponents/Form.utils'
+export { isAuthenticated } from './decorators/isAuthenticated'

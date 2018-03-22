@@ -1,8 +1,8 @@
 import MenuIcon from 'material-ui-icons/Menu';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { appTheme, createStyles, PushTypes, View, WithStyles } from '../..';
-import { DialogData, hideDialog, removeDialog, toggleDrawer } from '../../redux/reducers/navigation';
+import { appTheme, createStyles, View, WithStyles } from '../..';
+import { DialogData, hideDialog, removeDialog, toggleDrawer, routes } from '../../redux/reducers/navigation';
 import { web } from '../../utils/theme';
 import { Dialog } from '../Dialog/Dialog';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
@@ -77,17 +77,6 @@ export interface ConnectedProps {
     hideDialog: typeof hideDialog,
     removeDialog: typeof removeDialog,
 }
-
-export interface Route {
-    screen: string,
-    container: React.ComponentType,
-    title: string,
-    pushType?: PushTypes,
-}
-let routes: {[route: string]: Route} = {};
-export const setRoutes = (targetRoutes: {[route: string]: Route}) => {
-    routes = targetRoutes;
-};
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & ConnectedProps> {
 

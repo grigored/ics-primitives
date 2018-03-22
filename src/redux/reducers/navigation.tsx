@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { isWeb } from "../../primitives/platform/platform";
 
 export enum TypeKeys {
@@ -100,7 +101,14 @@ const initialState = {
     dialogs: []
 };
 
-export const routes: {LOGIN?: any} = {};
+export interface Route {
+    screen: string,
+    container: React.ComponentType,
+    title: string,
+    pushType?: PushTypes,
+}
+
+export let routes: {[route: string]: Route} = {};
 
 export const navigation = function(state: NavigationState = initialState, action: ActionTypes): NavigationState {
     switch (action.type) {
@@ -272,6 +280,6 @@ function removeDialogFromList(dialogs: Array<any>, dialogId: string) {
     return newDialogs.reverse();
 }
 
-export const setLoginRoute = (route: any) => {
-    routes.LOGIN = route
+export const setRoutes = (targetRoutes: {[route: string]: Route}) => {
+    routes = targetRoutes;
 };
