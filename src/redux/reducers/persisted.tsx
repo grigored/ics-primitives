@@ -7,6 +7,7 @@ import {
 export enum TypeKeys {
     SET_CODE_PUSH_CHECKED = 'react-web-native-sketch/persisted/SET_CODE_PUSH_CHECKED',
     UPDATE_PERSIST = 'react-web-native-sketch/persisted/UPDATE_PERSIST',
+    SET_HEADERS = 'react-web-native-sketch/persisted/SET_HEADERS',
     REHYDRATE = 'persist/REHYDRATE'
 }
 
@@ -16,6 +17,12 @@ export interface SetCodePushAction {
 
 export interface UpdatePersistAction {
     type: TypeKeys.UPDATE_PERSIST,
+    data: any,
+}
+
+export interface SetHeadersAction {
+    type: TypeKeys.SET_HEADERS,
+    headers: any,
 }
 
 export interface RehydrateAction {
@@ -28,6 +35,7 @@ export interface RehydrateAction {
 export type ActionTypes =
     | SetCodePushAction
     | UpdatePersistAction
+    | SetHeadersAction
     | RehydrateAction
     | LoginAction
     | LoginSuccessFailAction
@@ -44,6 +52,7 @@ export interface PersistedState<T> {
     login?: {
         userData?: any
     }
+    headers?: any
     other?: T
 }
 
@@ -92,19 +101,40 @@ export const persisted = ( state: PersistedState<any> = initialState,
                     codePushChecked: true
                 },
             };
+        case TypeKeys.UPDATE_PERSIST:
+            return {
+                ...state,
+                other: {
+                    ...(state.other || {}),
+                    ...action.data,
+                },
+            };
+        case TypeKeys.SET_HEADERS:
+            return {
+                ...state,
+                headers: action.headers,
+            };
         default:
             return state;
     }
 };
 
-export const updatePersist = () => {
+export const updatePersist = (data: any): UpdatePersistAction => {
     return {
-        type: TypeKeys.UPDATE_PERSIST
+        type: TypeKeys.UPDATE_PERSIST,
+        data,
     }
 };
 
-export function setCodePushChecked() {
+export const setCodePushChecked = (): SetCodePushAction => {
     return {
         type: TypeKeys.SET_CODE_PUSH_CHECKED
     }
-}
+};
+
+export const setHeaders = (headers: any): SetHeadersAction => {
+    return {
+        type: TypeKeys.SET_HEADERS,
+        headers,
+    }
+} ;

@@ -17,7 +17,7 @@ export { Text } from './primitives/Text/Text';
 export { Touchable } from './primitives/Touchable/Touchable';
 export { View } from './primitives/View/View';
 export { Form } from './redux/FormComponents/Form';
-export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES } from './utils/enums';
+export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES, HTTP_METHOD, PLATFORM } from './utils/enums';
 export { WithStyles, Classes } from './utils/theme.types';
 export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from './utils/theme';
 
@@ -57,8 +57,9 @@ export {
     PersistedState,
     updatePersist,
     setCodePushChecked,
+    setHeaders,
 } from './redux/reducers/persisted';
-export { FieldDefinition, FormHelpersState } from './redux/FormComponents/FormComponents.types'
+export { FieldDefinition, FormHelpersState, FormState } from './redux/FormComponents/FormComponents.types'
 export * from './primitives/platform/platform';
 export {CircularProgressComponent} from './primitives/CircularProgressComponent/CircularProgressComponent'
 export {LoadingContainer} from './primitives/LoadingContainer'
@@ -81,4 +82,4 @@ export {
     getWindowWidth,
 } from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
-
+export { getFormDbValue } from './redux/FormComponents/Form.utils'

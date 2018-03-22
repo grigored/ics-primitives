@@ -53,10 +53,13 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
             ...requestPayload
         });
 
+        // @ts-ignore
+        const persistedHeaders = (getState().persisted && getState().persisted.headers) || {};
+
         let fetchParams = {
             method,
             body: JSON.stringify(body),
-            headers: {...baseHeaders, ...(extraHeaders || {})},
+            headers: {...baseHeaders, ...persistedHeaders, ...(extraHeaders || {})},
         };
 
         return fetch(baseUrl + encodeParametersInUrl(url, queryParameters), fetchParams)
