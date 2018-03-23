@@ -54,9 +54,11 @@ export interface PersistedState<T> {
     login?: {
         userData?: any
         validated2FA?: boolean
+        isLoggedIn?: boolean
     }
     headers?: any
     other?: T
+    persistComplete?: boolean
 }
 
 
@@ -78,6 +80,7 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 login: {
                     userData: action.response,
                     validated2FA: undefined,
+                    isLoggedIn: !action.response.uses2fa,
                 }
             };
         case CommonTypeKeys.LOGIN:
@@ -103,6 +106,7 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 login: {
                     ...(state.login || {}),
                     validated2FA: true,
+                    isLoggedIn: true,
                 }
             };
         case CommonTypeKeys.VALIDATE_2FA_FAIL:
@@ -111,6 +115,7 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 login: {
                     ...(state.login || {}),
                     validated2FA: false,
+                    isLoggedIn: false,
                 }
             };
         case TypeKeys.REHYDRATE:
