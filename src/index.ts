@@ -88,4 +88,4 @@ export {
 } from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
 export { getFormDbValue } from './redux/FormComponents/Form.utils'
-export { isAuthenticated } from './decorators/isAuthenticated'
+export { requireAuthentication } from './decorators/requireAuthentication'
