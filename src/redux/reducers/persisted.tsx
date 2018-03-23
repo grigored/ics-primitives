@@ -57,6 +57,7 @@ export interface PersistedState<T> {
     }
     headers?: any
     other?: T
+    persistComplete?: boolean
 }
 
 
