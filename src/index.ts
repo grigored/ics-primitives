@@ -87,5 +87,6 @@ export {
     getWindowWidth,
 } from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
-export { getFormDbValue } from './redux/FormComponents/Form.utils'
 export { requireAuthentication } from './decorators/requireAuthentication'
+export { getFormDbValue } from './redux/FormComponents/Form.utils';
+export { addTopbar } from './decorators/addTopbar/addTopbar';
