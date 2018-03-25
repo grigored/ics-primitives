@@ -77,6 +77,8 @@ export {
     Navigation,
     History,
     setRoutes,
+    showAlert,
+    hideAlert,
 } from './redux/reducers/navigation';
 export {
     isWeb,
@@ -90,3 +92,4 @@ export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.nativ
 export { requireAuthentication } from './decorators/requireAuthentication'
 export { getFormDbValue } from './redux/FormComponents/Form.utils';
 export { addTopbar } from './decorators/addTopbar/addTopbar';
+export { Alert } from './nativeComponents/Alert/Alert';
