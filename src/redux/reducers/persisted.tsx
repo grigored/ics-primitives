@@ -68,14 +68,6 @@ export const initialState: PersistedState<any> = {
     },
 };
 
-export const removeHeader = (header: string, headers?: any): any => {
-    if (!headers || Object.keys(headers).indexOf(header) === -1) {
-        return headers;
-    }
-    delete headers[header];
-    return {...headers};
-};
-
 export const persisted = ( state: PersistedState<any> = initialState,
                            action: ActionTypes, ): PersistedState<any> => {
     switch (action.type) {
@@ -103,7 +95,8 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 ...state,
                 login: {},
                 headers: {
-                    ...removeHeader('Authorization', state.headers),
+                    ...(state.headers || {}),
+                    Authorization: undefined,
                 }
             };
         case CommonTypeKeys.VALIDATE_2FA:
