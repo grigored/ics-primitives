@@ -68,6 +68,13 @@ export const initialState: PersistedState<any> = {
     },
 };
 
+export const removeHeader = (header: string, headers?: any): any => {
+    if (!headers || Object.keys(headers).indexOf(header) === -1) {
+        return headers;
+    }
+    delete headers[header];
+    return {...headers};
+};
 
 export const persisted = ( state: PersistedState<any> = initialState,
                            action: ActionTypes, ): PersistedState<any> => {
@@ -81,6 +88,10 @@ export const persisted = ( state: PersistedState<any> = initialState,
                     userData: action.response,
                     validated2FA: undefined,
                     isLoggedIn: !action.response.uses2fa,
+                },
+                headers: {
+                    ...(state.headers || {}),
+                    Authorization: `Bearer ${action.response.accessToken}`,
                 }
             };
         case CommonTypeKeys.LOGIN:
@@ -91,6 +102,9 @@ export const persisted = ( state: PersistedState<any> = initialState,
             return {
                 ...state,
                 login: {},
+                headers: {
+                    ...removeHeader('Authorization', state.headers),
+                }
             };
         case CommonTypeKeys.VALIDATE_2FA:
             return {
