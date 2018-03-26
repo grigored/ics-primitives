@@ -2,9 +2,13 @@ import MenuIcon from 'material-ui-icons/Menu';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { appTheme, createStyles, View, WithStyles } from '../..';
-import { DialogData, hideDialog, removeDialog, toggleDrawer, routes } from '../../redux/reducers/navigation';
+import {
+    DialogData, hideDialog, removeDialog, toggleDrawer, routes,
+    DEFAULT_ALERT_ID
+} from '../../redux/reducers/navigation';
 import { web } from '../../utils/theme';
 import { Dialog } from '../Dialog/Dialog';
+import { Alert } from '../Alert/Alert';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Topbar } from '../Topbar/Topbar';
@@ -130,26 +134,9 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                 </View>
                 {
                     dialogs.map(dialog => {
-                        let routeName = Object.keys(routes).filter(routeName => routes[routeName].screen === dialog.dialogId)[0],
+                        let routeName = Object.keys(routes)
+                                .filter(routeName => routes[routeName].screen === dialog.dialogId)[0],
                             dialogData = routes[routeName];
-                            // fullScreen = dialog.fullScreen;
-
-                        // if (fullScreen === false && !isXs()) {
-                        //     const Body = dialogData.container;
-                        //     return (
-                        //         <AlertComponent
-                        //             key={dialog.dialogId}
-                        //             visible={dialog.visible}
-                        //             title={dialog.nonUrlProps && dialog.nonUrlProps.title}
-                        //             body={<Body
-                        //                 urlProps={dialog.urlProps}
-                        //                 nonUrlProps={dialog.nonUrlProps}
-                        //             />}
-                        //             hideAlert={() => hideDialog(dialog.dialogId)}
-                        //             showButtons={false}
-                        //         />
-                        //     );
-                        // }
                         return (
                             <Dialog
                                 fullScreen={dialog.fullScreen}
@@ -162,6 +149,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         );
                     })
                 }
+                <Alert alertId={DEFAULT_ALERT_ID} leftButtonText={"OK"}/>
             </ThemeProvider>
         );
     }
