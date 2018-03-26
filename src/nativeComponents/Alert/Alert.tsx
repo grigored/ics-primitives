@@ -2,19 +2,20 @@ import * as React from 'react';
 import Dialog, { DialogContent, DialogContentText, DialogTitle, DialogActions } from 'material-ui/Dialog';
 import { connect } from 'react-redux';
 import { View } from "../../primitives/View/View";
-import { AlertData, showAlert, hideAlert } from "../../redux/reducers/navigation";
+import { AlertData, hideAlert } from "../../redux/reducers/navigation";
 import { appTheme} from '../../utils/theme';
 import { WithStyles } from "../../utils/theme.types";
 import {Button, createStyles} from "../..";
+import { AlertProps } from "./Alert.types";
 
 const styles = () => ({
     dataContainer: {
         flexDirection: 'column',
     },
     title: {
-        marginTop: appTheme.defaultMargin,
-        marginLeft: appTheme.defaultMargin,
-        marginRight: appTheme.defaultMargin,
+        marginTop: appTheme.horizontalMargin,
+        marginLeft: appTheme.horizontalMargin,
+        marginRight: appTheme.horizontalMargin,
     },
     titleText: {
         fontSize: 16,
@@ -39,20 +40,10 @@ const styles = () => ({
 export interface ConnectedProps {
     alerts: Array<AlertData>,
 
-    showAlert: typeof showAlert,
     hideAlert: typeof hideAlert,
 }
 
-export interface Props {
-    alertId: string,
-    title?: string,
-    leftButtonText?: string, // if leftButtonText is passed in showDialog action, it will overwrite this prop
-    rightButtonText?: string, // if rightButtonText is passed in showDialog action, it will overwrite this prop
-    leftButtonOnPress?: () => void,
-    rightButtonOnPress?: () => void,
-}
-
-class CAlert extends React.Component<Props & ConnectedProps & WithStyles, {}> {
+class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {}> {
     render() {
         const {
             classes,
@@ -132,11 +123,10 @@ class CAlert extends React.Component<Props & ConnectedProps & WithStyles, {}> {
     }
 }
 
-export const Alert: React.ComponentType<Props> = connect(
+export const Alert: React.ComponentType<AlertProps> = connect(
     ( state: any) => ({
         alerts: state.navigation.alerts,
     }), {
-        showAlert,
         hideAlert,
     }
 )(
