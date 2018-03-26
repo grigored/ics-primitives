@@ -123,12 +123,13 @@ class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {
     }
 }
 
+const StyledAlert: React.ComponentType<AlertProps & ConnectedProps> = createStyles(styles, 'Alert')(CAlert);
+export default StyledAlert;
+
 export const Alert: React.ComponentType<AlertProps> = connect(
     ( state: any) => ({
         alerts: state.navigation.alerts,
     }), {
         hideAlert,
     }
-)(
-    createStyles(styles, 'Alert')(CAlert)
-);
+)(StyledAlert);

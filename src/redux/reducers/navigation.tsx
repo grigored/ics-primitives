@@ -125,7 +125,7 @@ export interface NavigationState {
     alerts: Array<AlertData>,
 }
 
-const initialState = {
+export const initialState = {
     screen: isWeb ? location.pathname.substring(1): '',
     drawerOpen: false,
     props: null,

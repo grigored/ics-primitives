@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19002,
-  "packagerPid": 30134,
-  "expoServerNgrokUrl": "https://z5-r9b.grigored.ics-primitives.exp.direct",
-  "packagerNgrokUrl": "https://packager.z5-r9b.grigored.ics-primitives.exp.direct",
-  "ngrokPid": 30149
+  "packagerPort": 19001,
+  "packagerPid": 839,
+  "expoServerNgrokUrl": "https://9j-vsk.grigored.ics-primitives.exp.direct",
+  "packagerNgrokUrl": "https://packager.9j-vsk.grigored.ics-primitives.exp.direct",
+  "ngrokPid": 878
 }

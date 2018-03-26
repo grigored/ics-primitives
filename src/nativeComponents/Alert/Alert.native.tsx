@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Modal} from 'react-native';
+import {connect} from "react-redux";
 import {android, appTheme, ios} from "../../utils/theme";
 import { WithStyles } from "../../utils/theme.types";
 import {Button} from "../Button/Button";
@@ -7,8 +8,7 @@ import {View} from "../../primitives/View/View";
 import { Text } from '../../primitives/Text/Text';
 import { AlertProps } from "./Alert.types";
 import { createStyles, isIOS } from "../..";
-import {AlertData, hideAlert} from "src/redux/reducers/navigation";
-import {connect} from "react-redux";
+import {AlertData, hideAlert} from "../../redux/reducers/navigation";
 
 let styles = () => ({
     dialog: {
@@ -140,88 +140,97 @@ class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {
             children
         } = this.props;
 
-        return alerts
-            .filter( alert => alert.alertId === alertId)
-            .map( ({visible, body, bodyData}, index) => (
-                <Modal
-                    key={index}
-                    transparent={true}
-                    visible={visible}
-                    onRequestClose={hideAlert.bind(this, body, alertId)}
-                    animationType={'fade'}
-                >
-                    <View style={classes.dialog}>
-                        <View style={classes.dataContainer}>
+        return (
+            <View>
+            {
+                alerts
+                    .filter(alert => alert.alertId === alertId)
+                    .map(({visible, body, bodyData}, index) => (
+                            <Modal
+                                key={index}
+                                transparent={true}
+                                visible={visible}
+                                onRequestClose={hideAlert.bind(this, body, alertId)}
+                                animationType={'fade'}
+                            >
+                                <View style={classes.dialog}>
+                                    <View style={classes.dataContainer}>
 
-                            {
-                                title &&
-                                <View style={classes.title}>
-                                    {
-                                        getTextComponent(title, classes.titleText)
-                                    }
+                                        {
+                                            title &&
+                                            <View style={classes.title}>
+                                                {
+                                                    getTextComponent(title, classes.titleText)
+                                                }
+                                            </View>
+                                        }
+                                        {
+                                            body &&
+                                            <View style={classes.body}>
+                                                {
+                                                    getTextComponent(body, classes.bodyText)
+                                                }
+                                            </View>
+                                        }
+                                        {isIOS && <View style={classes.buttonHorizontalDivider}/>}
+                                        <View style={classes.buttonsContainer}>
+                                            {
+                                                leftButtonText &&
+                                                <Button
+                                                    // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                    // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                    // labelStyle={classes.buttonLabel}
+                                                    styles={styles}
+                                                    title={leftButtonText}
+                                                    labelColor={appTheme.primaryColor}
+                                                    onPress={() => {
+                                                        leftButtonOnPress && leftButtonOnPress();
+                                                        hideAlert(body, alertId);
+                                                    }}
+                                                />
+                                            }
+                                            {
+                                                isIOS && leftButtonText && rightButtonText &&
+                                                <View style={classes.buttonVerticalDivider}/>
+                                            }
+                                            {
+                                                rightButtonText &&
+                                                <Button
+                                                    // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                    // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                    // labelStyle={classes.buttonLabel}
+                                                    title={rightButtonText}
+                                                    styles={styles}
+                                                    labelColor={appTheme.primaryColor}
+                                                    onPress={() => {
+                                                        rightButtonOnPress && rightButtonOnPress();
+                                                        hideAlert(body, alertId);
+                                                    }}
+                                                />
+                                            }
+                                            {children}
+                                        </View>
+                                    </View>
                                 </View>
-                            }
-                            {
-                                body &&
-                                <View style={classes.body}>
-                                    {
-                                        getTextComponent(body, classes.bodyText)
-                                    }
-                                </View>
-                            }
-                            {isIOS && <View style={classes.buttonHorizontalDivider}/>}
-                            <View style={classes.buttonsContainer}>
-                                {
-                                    leftButtonText &&
-                                    <Button
-                                        // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                        // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                        // labelStyle={classes.buttonLabel}
-                                        styles={styles}
-                                        title={leftButtonText}
-                                        labelColor={appTheme.primaryColor}
-                                        onPress={() => {
-                                            leftButtonOnPress && leftButtonOnPress();
-                                            hideAlert(body, alertId);
-                                        }}
-                                    />
-                                }
-                                {
-                                    isIOS && leftButtonText && rightButtonText &&
-                                    <View style={classes.buttonVerticalDivider}/>
-                                }
-                                {
-                                    rightButtonText &&
-                                    <Button
-                                        // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                        // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                        // labelStyle={classes.buttonLabel}
-                                        title={rightButtonText}
-                                        styles={styles}
-                                        labelColor={appTheme.primaryColor}
-                                        onPress={() => {
-                                            rightButtonOnPress && rightButtonOnPress();
-                                            hideAlert(body, alertId);
-                                        }}
-                                    />
-                                }
-                                {children}
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            )
+                            </Modal>
+                        )
+                    )
+            }
+            </View>
         );
     }
 }
 
 const componentName = 'Alert';
-export const Alert: React.ComponentType<AlertProps> = connect(
+const StyledAlert: React.ComponentType<AlertProps & ConnectedProps> = createStyles(styles, componentName)(CAlert);
+export default StyledAlert;
+
+export const Alert = connect(
     ( state: any) => ({
         alerts: state.navigation.alerts,
-    }), {
-        hideAlert,
+    }),
+    {
+        hideAlert
     }
-)(
-    createStyles(styles, componentName)(CAlert)
-);
+
+)(StyledAlert) as React.ComponentType<AlertProps>;
