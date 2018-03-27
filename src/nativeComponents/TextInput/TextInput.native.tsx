@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { shallowEqual } from "src/utils/common";
+import { shallowEqual } from "../../utils/common";
 import { android, appTheme, createStyles, ios, Text, View, WithStyles } from '../../';
 import { defaultDbToRaw, defaultGetError, defaultRawToDb } from '../../nativeComponents/TextInput/TextInput.utils';
 import { isIOS } from '../../primitives/platform/platform';
