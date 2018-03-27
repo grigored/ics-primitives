@@ -1,4 +1,5 @@
 import "whatwg-fetch";
+import {showAlert} from "./reducers/navigation";
 
 const encodeParametersInUrl = (url: string, queryParameters: {[key: string]: string}) => {
     if (!queryParameters) {
@@ -80,25 +81,23 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                         // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
-                        }
-                        else {
+                        } else {
                             dispatch({
                                 type: failureType,
                                 response: json,
                                 ...failurePayload,
                             });
                             dispatchOnFailure && dispatch(dispatchOnFailure);
-
+                            if (json.error) {
+                                // let translatedError = _t(json.error, {message: json.message, ...(json.extra_details || {})});
+                                // if (translatedError === json.error) {
+                                //     // TODO send json.error to bugsnag
+                                // }
+                                dispatch(showAlert(json.error));
+                            } else {
+                                dispatch(showAlert("API_ERROR"));
+                            }
                         }
-                        // if (json.error) {
-                        //     let translatedError = _t(json.error, {message: json.message, ...(json.extra_details || {})});
-                        //     if (translatedError === json.error) {
-                        //         // TODO send json.error to bugsnag
-                        //     }
-                        //     dispatch(showAlert("RootWorker", DIALOG_IDS.API_ERROR, translatedError));
-                        // }
-                        // dispatch(showAlert("RootWorker", DIALOG_IDS.API_ERROR, url));
-
                     })
             ).catch(error => {
                 console.log(error);

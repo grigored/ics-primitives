@@ -68,7 +68,6 @@ export const initialState: PersistedState<any> = {
     },
 };
 
-
 export const persisted = ( state: PersistedState<any> = initialState,
                            action: ActionTypes, ): PersistedState<any> => {
     switch (action.type) {
@@ -81,6 +80,10 @@ export const persisted = ( state: PersistedState<any> = initialState,
                     userData: action.response,
                     validated2FA: undefined,
                     isLoggedIn: !action.response.uses2fa,
+                },
+                headers: {
+                    ...(state.headers || {}),
+                    Authorization: `Bearer ${action.response.accessToken}`,
                 }
             };
         case CommonTypeKeys.LOGIN:
@@ -91,6 +94,10 @@ export const persisted = ( state: PersistedState<any> = initialState,
             return {
                 ...state,
                 login: {},
+                headers: {
+                    ...(state.headers || {}),
+                    Authorization: undefined,
+                }
             };
         case CommonTypeKeys.VALIDATE_2FA:
             return {

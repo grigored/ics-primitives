@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { isWeb } from "../../primitives/platform/platform";
 
+export const DEFAULT_ALERT_ID = 'DEFAULT_ALERT_ID';
+
 export enum TypeKeys {
     TOGGLE_DRAWER = 'instacar/navigation/TOGGLE_DRAWER',
     POP_PAGE = 'instacar/navigation/POP',
@@ -9,6 +11,8 @@ export enum TypeKeys {
     HIDE_DIALOG = 'instacar/navigation/HIDE_DIALOG',
     REMOVE_DIALOG = 'instacar/navigation/REMOVE_DIALOG',
     PUSH_SCREEN = 'instacar/navigation/PUSH_SCREEN',
+    SHOW_ALERT = 'instacar/navigation/SHOW_ALERT',
+    HIDE_ALERT = 'instacar/navigation/HIDE_ALERT',
 }
 
 export enum PushTypes {
@@ -70,6 +74,21 @@ export interface RemoveDialogAction {
     dialogId: string, //DIALOG_IDS,
 }
 
+export interface ShowAlertAction {
+    type: TypeKeys.SHOW_ALERT,
+    alertId: string,
+    body: string,
+    bodyData: Object,
+    leftButtonText?: string,
+    rightButtonText?: string,
+}
+
+export interface HideAlertAction {
+    type: TypeKeys.HIDE_ALERT,
+    alertId: string,
+    body: string,
+}
+
 export type ActionTypes =
     | ToggleDrawerAction
     | PopPageAction
@@ -78,6 +97,8 @@ export type ActionTypes =
     | ShowDialogAction
     | HideDialogAction
     | RemoveDialogAction
+    | ShowAlertAction
+    | HideAlertAction
 
 export interface DialogData {
     dialogId: string,
@@ -86,19 +107,30 @@ export interface DialogData {
     props: any,
 }
 
+export interface AlertData {
+    alertId: string,
+    body: string,
+    bodyData: Object,
+    visible: boolean,
+    leftButtonText?: string,
+    rightButtonText?: string,
+}
+
 export interface NavigationState {
     screen: string,
     drawerOpen: boolean,
     screenProps?: any,
     props: any,
     dialogs: Array<DialogData>,
+    alerts: Array<AlertData>,
 }
 
-const initialState = {
+export const initialState = {
     screen: isWeb ? location.pathname.substring(1): '',
     drawerOpen: false,
     props: null,
-    dialogs: []
+    dialogs: [],
+    alerts: [],
 };
 
 export interface Route {
@@ -150,6 +182,33 @@ export const navigation = function(state: NavigationState = initialState, action
             return {
                 ...state,
                 dialogs: removeDialogFromList(state.dialogs, action.dialogId)
+            };
+        case TypeKeys.SHOW_ALERT:
+            return {
+                ...state,
+                alerts: [
+                    ...state.alerts, {
+                        body: action.body,
+                        bodyData: action.bodyData,
+                        alertId: action.alertId,
+                        visible: true,
+                        leftButtonText: action.leftButtonText,
+                        rightButtonText: action.rightButtonText,
+                    }],
+            };
+        case TypeKeys.HIDE_ALERT:
+            return {
+                ...state,
+                alerts: state.alerts
+                    .filter(alert => alert.visible)
+                    .map(alert => (
+                        alert.alertId === action.alertId && alert.body === action.body
+                        ? {
+                            ...alert,
+                            visible: false,
+                        }
+                        : alert
+                    )),
             };
         default:
             return state;
@@ -219,7 +278,6 @@ export const popScreen = (navigation: any, history: any) => {
                 });
                 return;
             }
-            // pushWebScreen(history, routeDefinitions.RESERVE);
         } else {
             navigation.goBack()
         }
@@ -283,3 +341,29 @@ function removeDialogFromList(dialogs: Array<any>, dialogId: string) {
 export const setRoutes = (targetRoutes: {[route: string]: Route}) => {
     routes = targetRoutes;
 };
+
+export const showAlert = (
+    body: string,
+    bodyData: Object | undefined = undefined,
+    alertId: string = DEFAULT_ALERT_ID,
+    leftButtonText?: string,
+    rightButtonText?: string,
+) => {
+    return {
+        type: TypeKeys.SHOW_ALERT,
+        body,
+        bodyData,
+        alertId,
+        leftButtonText,
+        rightButtonText,
+    }
+};
+
+export const hideAlert = (body: string, alertId: string = DEFAULT_ALERT_ID) => {
+    return {
+        type: TypeKeys.HIDE_ALERT,
+        alertId,
+        body,
+    }
+};
+

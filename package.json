@@ -16,6 +16,7 @@
     "localforage": "^1.5.5",
     "material-ui": "1.0.0-beta.37",
     "react": "^16.2.0",
+    "expo": "25.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-fbsdk": "https://github.com/AndrewJack/react-native-fbsdk/tarball/rn_0.47_backward_compat",
     "react-dom": "^16.2.0",
@@ -57,16 +58,27 @@
     "source-map-loader": "^0.2.3",
     "react-router-dom": "4.2.2",
     "ts-jest": "^22.0.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "@storybook/react": "^3.3.15",
+    "@storybook/addon-actions": "^3.3.15",
+    "@storybook/addon-links": "^3.3.15",
+    "@storybook/addons": "^3.3.15",
+    "@storybook/react-native": "^3.3.15",
+    "babel-core": "^6.26.0",
+    "react-scripts-ts": "2.12.0"
   },
   "scripts": {
+    "ios": "react-scripts-ts ios",
     "prepublish": "npm run build",
     "build": "tsc -m CommonJS",
     "test": "cross-env NODE_ENV=test jest --config config/jest.desktop.json",
     "test-ios": "cross-env NODE_ENV=test jest --config config/jest.ios.json",
     "styleguidist:build": "styleguidist build",
     "styleguidist:server": "styleguidist server",
-    "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json"
+    "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "storybook-native": "storybook start -p 7007"
   },
   "jest": {
     "preset": "jest-expo",

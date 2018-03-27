@@ -27,6 +27,10 @@ export function shallowEqual( a: { [key: string]: any }, b: { [key: string]: any
 }
 
 function objectsEqual( a: { [key: string]: any }, b: { [key: string]: any } ): boolean {
+    if (!!a !== !!b) {
+        return false;
+    }
+
     for (let key in a) {
         if (!(key in b) || a[key] !== b[key]) {
             if (isObject(a[key]) && isObject(b[key])) {
