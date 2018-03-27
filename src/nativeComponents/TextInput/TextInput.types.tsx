@@ -1,4 +1,4 @@
-import {TEXT_INPUT_TYPES} from "../../utils/enums";
+import { TEXT_INPUT_TYPES } from "../../utils/enums";
 
 export interface TextInputProps {
     error?: string,
@@ -13,8 +13,9 @@ export interface TextInputProps {
     value?: string,
     multiline?: boolean,
     input?: any
-    rawToDb?: (value: string) => any,
-    dbToRaw?: (value: any) => string,
+    rawToDb?: ( value: string ) => any,
+    dbToRaw?: ( value: any ) => string,
+    extraErrorChecker?: ( value: string ) => string | undefined,
     disableUnderline?: boolean,
 }
 
