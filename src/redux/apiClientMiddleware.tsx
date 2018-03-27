@@ -72,7 +72,6 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
 
 
                         if (status >= 200 && status < 300) {
-                            dispatch(showAlert("WORKS"));
                             dispatch({
                                 type: successType,
                                 response: json,
@@ -89,18 +88,16 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 ...failurePayload,
                             });
                             dispatchOnFailure && dispatch(dispatchOnFailure);
-
+                            if (json.error) {
+                                // let translatedError = _t(json.error, {message: json.message, ...(json.extra_details || {})});
+                                // if (translatedError === json.error) {
+                                //     // TODO send json.error to bugsnag
+                                // }
+                                dispatch(showAlert(json.error));
+                            } else {
+                                dispatch(showAlert("API_ERROR"));
+                            }
                         }
-                        if (json.error) {
-                            // let translatedError = _t(json.error, {message: json.message, ...(json.extra_details || {})});
-                            // if (translatedError === json.error) {
-                            //     // TODO send json.error to bugsnag
-                            // }
-                            dispatch(showAlert(json.error));
-                        } else {
-                            dispatch(showAlert("API_ERROR"));
-                        }
-
                     })
             ).catch(error => {
                 console.log(error);
