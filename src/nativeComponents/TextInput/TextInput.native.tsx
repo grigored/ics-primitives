@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { defaultDbToRaw, defaultRawToDb, getError } from '../../nativeComponents/TextInput/TextInput.utils';
+import { shallowEqual } from "src/utils/common";
 import { android, appTheme, createStyles, ios, Text, View, WithStyles } from '../../';
+import { defaultDbToRaw, defaultGetError, defaultRawToDb } from '../../nativeComponents/TextInput/TextInput.utils';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 import { TextInputDBValue, TextInputProps } from './TextInput.types';
 
 
-let styles = () => ({
+let styles = () => ( {
     containerLeft: {
         flexDirection: 'row',
         [ios]: {
@@ -45,7 +46,7 @@ let styles = () => ({
         zIndex: 0,
         color: appTheme.errorColor,
     },
-});
+} );
 
 const getKeyboardType = ( inputType: TEXT_INPUT_TYPES ) => {
     switch (inputType) {
@@ -58,23 +59,66 @@ const getKeyboardType = ( inputType: TEXT_INPUT_TYPES ) => {
     }
 };
 
+type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
 
-class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles, { rawValue: string }> {
+class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
     static defaultProps = {
         labelPositionLeft: isIOS,
     };
+    _rawValue: string = '';
     private inputRef: any;
 
-    componentWillMount() {
-        let {value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw,} = this.props;
-        if (value !== null && value !== undefined) {
-            this.setState({
-                rawValue: !!dbToRaw
-                    ? dbToRaw(value)
-                    : defaultDbToRaw(inputType, value)
-            })
-        } else {
-            this.setState({rawValue: ''})
+    constructor( props: Props ) {
+        super( props );
+        let { value } = this.props;
+        this._rawValue = ( value !== null && value !== undefined )
+            ? this.getRawValue( value )
+            : '';
+    }
+
+    getRawValue( dbValue: TextInputDBValue ) {
+        let { dbToRaw, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
+        return !!dbToRaw
+            ? dbToRaw( dbValue )
+            : defaultDbToRaw( inputType, dbValue );
+    }
+
+    getDbValue( rawValue: string ) {
+        let { rawToDb, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
+        return !!rawToDb
+            ? rawToDb( rawValue )
+            : defaultRawToDb( inputType, rawValue );
+    }
+
+    getError( rawValue: string ): string | undefined {
+        let { extraErrorChecker, inputType } = this.props;
+        return !!extraErrorChecker
+            ? extraErrorChecker( rawValue )
+            : defaultGetError( inputType, rawValue );
+    }
+
+    componentWillReceiveProps( nextProps: Props ) {
+        let { value } = nextProps,
+            dbValue = ( value !== null && value !== undefined && value.value !== null && value.value !== undefined )
+                ? value.value
+                : value,
+            parsedRawValue = this.getDbValue( this._rawValue );
+
+        let shouldChangeRawValue: boolean = ( typeof parsedRawValue !== typeof dbValue );
+
+        if (typeof parsedRawValue == typeof dbValue) {
+            if (typeof dbValue === 'object') {
+                shouldChangeRawValue = !shallowEqual( parsedRawValue, dbValue );
+            } else {
+                shouldChangeRawValue = parsedRawValue !== dbValue;
+            }
+        }
+
+        if (shouldChangeRawValue) {
+            // this.props.field == 'theme' && console.log("SHOULD CHANGE RAW VALUE 'CUZ Y NOT");
+            this._rawValue = ( dbValue !== null && dbValue !== undefined )
+                ? this.getRawValue( dbValue )
+                : '';
         }
     }
 
@@ -89,7 +133,6 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
             onFocus,
             placeholder,
             title,
-            rawToDb,
         } = this.props;
 
         return (
@@ -104,19 +147,14 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                         <TextInputNative
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            keyboardType={getKeyboardType(inputType)}
-                            onChangeText={( text: string ) => {
-                                let rawValue = text;
-                                let dbValue = !!rawToDb
-                                    ? rawToDb(rawValue)
-                                    : defaultRawToDb(inputType, rawValue);
-                                this.setState({rawValue: rawValue});
-                                let fieldError = getError(inputType, rawValue);
-                                !!onChange && onChange(
-                                    !!fieldError
-                                        ? {value: dbValue, error: fieldError}
-                                        : dbValue
-                                )
+                            keyboardType={getKeyboardType( inputType )}
+                            onChangeText={( rawValue: string ) => {
+                                let dbValue = this.getDbValue( rawValue );
+                                this._rawValue = rawValue;
+                                this.forceUpdate();
+                                let fieldError = this.getError( rawValue );
+                                onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
+
                             }}
                             onFocus={onFocus}
                             placeholder={placeholder}
@@ -128,7 +166,7 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
                             underlineColorAndroid={
                                 error ? appTheme.errorColor : appTheme.textInputUnderlineColor
                             }
-                            value={!!this.state ? (this.state.rawValue || '') : ''}
+                            value={this._rawValue}
                         />
                     </View>
                     {!!error && <Text style={classes.error}>{error}</Text>}
@@ -139,4 +177,4 @@ class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<Te
 }
 
 const componentName = 'TextInput';
-export const TextInput: React.ComponentType<TextInputProps> = createStyles(styles, componentName)(CTextInput);
+export const TextInput: React.ComponentType<TextInputProps> = createStyles( styles, componentName )( CTextInput );

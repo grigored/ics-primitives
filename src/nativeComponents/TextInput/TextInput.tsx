@@ -2,19 +2,17 @@ import { FormHelperText } from "material-ui";
 import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import {
-    defaultDbToRaw, getKeyboardType, defaultRawToDb,
-    getError
-} from "./TextInput.utils";
 import { appTheme, createStyles, WithStyles } from "../../";
 import { FieldStateProps } from "../../redux/FormComponents/FormComponents.types";
+import { shallowEqual } from "../../utils/common";
 import { TEXT_INPUT_TYPES } from "../../utils/enums";
 import { TextInputDBValue, TextInputProps } from "./TextInput.types";
+import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType } from "./TextInput.utils";
 
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 
-const styles = () => ({
+const styles = () => ( {
     underline: {
         '&:after': {
             backgroundColor: appTheme.textInputUnderlineColor,
@@ -29,24 +27,67 @@ const styles = () => ({
             backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
         },
     },
-    underlineError: {
-    },
+    underlineError: {},
     input: {
         color: appTheme.textColor,
     },
-});
+} );
 
-export class CTextInput extends React.PureComponent<TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles, { rawValue: string, }> {
-    componentWillMount() {
-        let { value, inputType = TEXT_INPUT_TYPES.TEXT, dbToRaw, } = this.props;
-        if (value !== null && value !== undefined) {
-            this.setState( {
-                rawValue: !!dbToRaw
-                    ? dbToRaw( value )
-                    : defaultDbToRaw( inputType, value )
-            } )
-        } else {
-            this.setState( { rawValue: '' } )
+
+export type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
+
+export class CTextInput extends React.PureComponent<Props, { rawValue: string, }> {
+    _rawValue: string = '';
+
+    constructor( props: Props ) {
+        super( props );
+        let { value } = this.props;
+        this._rawValue = ( value !== null && value !== undefined )
+            ? this.getRawValue( value )
+            : '';
+    }
+
+    getRawValue( dbValue: TextInputDBValue ): string {
+        let { dbToRaw, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
+        return !!dbToRaw
+            ? dbToRaw( dbValue )
+            : defaultDbToRaw( inputType, dbValue );
+    }
+
+    getDbValue( rawValue: string ): TextInputDBValue {
+        let { rawToDb, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
+        return !!rawToDb
+            ? rawToDb( rawValue )
+            : defaultRawToDb( inputType, rawValue );
+    }
+
+    getError( rawValue: string ): string | undefined {
+        let { extraErrorChecker, inputType } = this.props;
+        return ( !!extraErrorChecker && extraErrorChecker( rawValue ) ) || defaultGetError( inputType, rawValue );
+    }
+
+    componentWillReceiveProps( nextProps: Props ) {
+        let { value } = nextProps,
+            dbValue = ( value !== null && value !== undefined && value.value !== null && value.value !== undefined )
+                ? value.value
+                : value,
+            parsedRawValue = this.getDbValue( this._rawValue );
+
+        let shouldChangeRawValue: boolean = ( typeof parsedRawValue !== typeof dbValue );
+
+        if (typeof parsedRawValue == typeof dbValue) {
+            if (typeof dbValue === 'object') {
+                shouldChangeRawValue = !shallowEqual( parsedRawValue, dbValue );
+            } else {
+                shouldChangeRawValue = parsedRawValue !== dbValue;
+            }
+        }
+
+        if (shouldChangeRawValue) {
+            // this.props.field == 'theme' && console.log("SHOULD CHANGE RAW VALUE 'CUZ Y NOT");
+            this._rawValue = ( dbValue !== null && dbValue !== undefined )
+                ? this.getRawValue( dbValue )
+                : '';
         }
     }
 
@@ -60,7 +101,6 @@ export class CTextInput extends React.PureComponent<TextInputProps & FieldStateP
             id,
             multiline,
             onChange,
-            rawToDb,
             disableUnderline,
             classes,
         } = this.props;
@@ -68,7 +108,7 @@ export class CTextInput extends React.PureComponent<TextInputProps & FieldStateP
             <FormControl fullWidth>
                 <TextField
                     id={id}
-                    value={this.state.rawValue || ''}
+                    value={this._rawValue}
                     error={!!error}
                     multiline={multiline}
                     placeholder={placeholder || ''}
@@ -76,16 +116,11 @@ export class CTextInput extends React.PureComponent<TextInputProps & FieldStateP
                     type={getKeyboardType( inputType )}
                     onChange={( ev: React.ChangeEvent<HTMLInputElement> ) => {
                         let rawValue = ev.target.value;
-                        let dbValue = !!rawToDb
-                            ? rawToDb( rawValue )
-                            : defaultRawToDb( inputType, rawValue );
-                        this.setState( { rawValue: rawValue } );
-                        let fieldError = getError( inputType, rawValue );
-                        !!onChange && onChange(
-                            !!fieldError
-                                ? { value: dbValue, error: fieldError }
-                                : dbValue
-                        )
+                        let dbValue = this.getDbValue( rawValue );
+                        this._rawValue = rawValue;
+                        this.forceUpdate();
+                        let fieldError = this.getError( rawValue );
+                        onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
 
                     }}
                     onBlur={() => {
@@ -115,4 +150,4 @@ export class CTextInput extends React.PureComponent<TextInputProps & FieldStateP
 export const TextInput: React.ComponentType<TextInputProps & FieldStateProps<TextInputDBValue>> = createStyles(
     styles,
     'TextInput'
-)(CTextInput);
+)( CTextInput );

@@ -33,7 +33,7 @@ export const getKeyboardType = ( inputType?: TEXT_INPUT_TYPES ): string => {
     }
 };
 
-export const getError = ( textInputType: TEXT_INPUT_TYPES, rawValue: string ): string | undefined => {
+export const defaultGetError = ( textInputType: TEXT_INPUT_TYPES, rawValue: string ): string | undefined => {
     switch (textInputType) {
         case TEXT_INPUT_TYPES.INT:
             if (rawValue.indexOf( '.' ) !== -1) {
