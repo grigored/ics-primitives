@@ -93,6 +93,7 @@ const styles = () => ({
         fontWeight: '700',
         flexGrow: 0,
         flexShrink: 0,
+        color: appTheme.textColor,
     },
     table: {
         flexDirection: 'column',
