@@ -1,30 +1,28 @@
-import * as React from "react";
-import { ScrollView } from "../../primitives/ScrollView/ScrollView";
-import { connect } from "react-redux";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { destroy, initialize } from 'redux-form';
 import {
     all, appTheme, Button, createStyles, FORM_INPUT_TYPES, isXs, native, Text, TEXT_INPUT_TYPES, View, web,
-    webDesktop,
-    webMobile,
-    WithStyles
-} from "../../";
-import { Select } from "../Select/Select";
+    webDesktop, webMobile, WithStyles
+} from '../../';
+import { isWeb } from '../../primitives/platform/platform';
+import { ScrollView } from '../../primitives/ScrollView/ScrollView';
+import { DBValue, Option } from '../../redux/FormComponents/FormComponents.types';
+import { FormItem } from '../../redux/FormComponents/FormItem';
+import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
+import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from '../../redux/reducers/table';
+import { getNestedField, shallowEqual } from '../../utils/common';
+import { MOMENT_FORMAT } from '../../utils/enums';
+import { formatDate } from '../../utils/i18n';
+import { REFRESH } from '../../utils/strings';
+import { Select } from '../Select/Select';
 import {
-    Column,
-    ConnectedProps, OwnProps,
-    TableDefinitionData, TableFilterFormData, TableFormData, Row
-} from "./TableComponent.types";
-import { TablePageNavigator } from "./TablePageNavigator";
-import { exportToCsv, getFilterString, getFormattedValue } from "./tableUtils";
-import { isWeb } from "../../primitives/platform/platform";
-import { DBValue, Option } from "../../redux/FormComponents/FormComponents.types";
-import { FormItem } from "../../redux/FormComponents/FormItem";
-import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showMenu } from "../../redux/reducers/table";
-import { _t, getNestedField, shallowEqual } from "../../utils/common";
-import { MOMENT_FORMAT } from "../../utils/enums";
-import { formatDate } from "../../utils/i18n";
-import { REFRESH } from "../../utils/strings";
-import { setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
+    Column, ConnectedProps, OwnProps, Row, TableDefinitionData, TableFilterFormData,
+    TableFormData
+} from './TableComponent.types';
+import { TablePageNavigator } from './TablePageNavigator';
+import { exportToCsv, getFilterString, getFormattedValue } from './tableUtils';
 
 export const ACTIONS_COLUMN = 'admin_actions',
     FROM_EXTENSION = '_from',
@@ -41,14 +39,14 @@ export const ACTIONS_COLUMN = 'admin_actions',
     EVEN_ROW_COLOR = '#ffffff',
     ITEMS_PER_PAGE = 'Items per page',
     ITEMS_PER_PAGE_OPTIONS = (): Array<Option> => [
-        { value: 5, text: '5 ' + ( !isXs() ?  ITEMS_PER_PAGE  : '' ) },
-        { value: 10, text: '10 ' + ( !isXs() ?  ITEMS_PER_PAGE  : '' ) },
-        { value: 50, text: '50 ' + ( !isXs() ?  ITEMS_PER_PAGE  : '' ) },
-        { value: 500, text: '500 ' + ( !isXs() ?  ITEMS_PER_PAGE  : '' ) },
-        { value: 1 << 30, text: 'Show All' },
+        {value: 5, text: '5 ' + (!isXs() ? ITEMS_PER_PAGE : '')},
+        {value: 10, text: '10 ' + (!isXs() ? ITEMS_PER_PAGE : '')},
+        {value: 50, text: '50 ' + (!isXs() ? ITEMS_PER_PAGE : '')},
+        {value: 500, text: '500 ' + (!isXs() ? ITEMS_PER_PAGE : '')},
+        {value: 1 << 30, text: 'Show All'},
     ];
 
-const styles = () => ( {
+const styles = () => ({
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -91,7 +89,7 @@ const styles = () => ( {
     },
     tableTitle: {
         fontSize: 32,
-        fontWeight: "700",
+        fontWeight: '700',
         flexGrow: 0,
         flexShrink: 0,
     },
@@ -198,7 +196,7 @@ const styles = () => ( {
     itemsPerPage: {
         flexBasis: 160,
     }
-} );
+});
 
 
 class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & WithStyles, {}> {
@@ -209,105 +207,105 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     private columns: Array<Column>;
 
     constructor( props: OwnProps & WithStyles & ConnectedProps ) {
-        super( props );
-        let { tableDefinition, tableFilterPersistentData } = props;
+        super(props);
+        let {tableDefinition, tableFilterPersistentData} = props;
         this.tableDefinitionData = tableDefinition;
         this.rowStyle = this.tableDefinitionData.rowStyle;
-        this.columns = this.tableDefinitionData.columns( null )
-            .filter( column => !!column ) as Array<Column>;
+        this.columns = this.tableDefinitionData.columns(null)
+            .filter(column => !!column) as Array<Column>;
 
         this.defaultVisibleColumns = [
             ACTIONS_COLUMN,
             ...this.columns
-                .filter( column => !column.hiddenInTable )
-                .map( column => column.field )
+                .filter(column => !column.hiddenInTable)
+                .map(column => column.field)
         ];
         if (!tableFilterPersistentData || !tableFilterPersistentData.visibleColumns
             || tableFilterPersistentData.visibleColumns.length === 0) {
-            this.changeTablePersistentData( { visibleColumns: this.defaultVisibleColumns } );
+            this.changeTablePersistentData({visibleColumns: this.defaultVisibleColumns});
         }
         this.tableReloadTimeout = null;
     }
 
     componentDidMount() {
-        let { tableData, tableFilterFormData, url } = this.props;
+        let {tableData, tableFilterFormData, url} = this.props;
 
         if (tableData === null || tableData === undefined) {
-            this.reloadTableData( tableFilterFormData, url || this.tableDefinitionData.url!, true );
+            this.reloadTableData(tableFilterFormData, url || this.tableDefinitionData.url!, true);
         }
     }
 
     componentWillUnmount() {
-        let { destroy, clearTableData, tableId, clearDataOnUnmount } = this.props;
+        let {destroy, clearTableData, tableId, clearDataOnUnmount} = this.props;
         if (clearDataOnUnmount !== false) {
-            destroy( getTableFormId( tableId ) );
-            clearTableData( tableId );
+            destroy(getTableFormId(tableId));
+            clearTableData(tableId);
         }
     }
 
     componentWillReceiveProps( nextProps: OwnProps & WithStyles & ConnectedProps ) {
-        let { tableFilterFormData } = nextProps;
+        let {tableFilterFormData} = nextProps;
 
-        if (!shallowEqual( tableFilterFormData, this.props.tableFilterFormData )) {
-            this.reloadTableData( tableFilterFormData, nextProps.url || this.tableDefinitionData.url!, true );
+        if (!shallowEqual(tableFilterFormData, this.props.tableFilterFormData)) {
+            this.reloadTableData(tableFilterFormData, nextProps.url || this.tableDefinitionData.url!, true);
         }
 
         if (nextProps.tableData && nextProps.tableData.data && nextProps.tableData.data.extra_data) {
-            let { tableDefinition } = this.props;
-            this.columns = tableDefinition.columns( nextProps.tableData.data.extra_data )
-                .filter( column => !!column ) as Array<Column>;
+            let {tableDefinition} = this.props;
+            this.columns = tableDefinition.columns(nextProps.tableData.data.extra_data)
+                .filter(column => !!column) as Array<Column>;
             ;
         }
         if (!this.props.refreshTable && nextProps.refreshTable) {
-            this.reloadTableData( tableFilterFormData, nextProps.url || this.tableDefinitionData.url!, true );
+            this.reloadTableData(tableFilterFormData, nextProps.url || this.tableDefinitionData.url!, true);
         }
     }
 
     changeTableFormData( newData: TableFormData ) {
-        let { initialize, tableId, tableFilterFormData, } = this.props;
+        let {initialize, tableId, tableFilterFormData,} = this.props;
 
         initialize(
-            getTableFormId( tableId ),
+            getTableFormId(tableId),
             {
-                ...( tableFilterFormData || {} ),
+                ...(tableFilterFormData || {}),
                 ...newData
             }
         );
     }
 
     changeTablePersistentData( newData: TableFormData ) {
-        let { setPersistentTableOptions, tableId, tableFilterPersistentData, } = this.props;
-        setPersistentTableOptions( getTableFormId( tableId ), { ...tableFilterPersistentData, ...newData } );
+        let {setPersistentTableOptions, tableId, tableFilterPersistentData,} = this.props;
+        setPersistentTableOptions(getTableFormId(tableId), {...tableFilterPersistentData, ...newData});
     }
 
     reloadTableData( tableFilterFormData: TableFilterFormData, url: string, isFirst: boolean ) {
-        let { tableId } = this.props;
-        clearTimeout( this.tableReloadTimeout );
+        let {tableId} = this.props;
+        clearTimeout(this.tableReloadTimeout);
 
         if (url) {
-            this.tableReloadTimeout = setTimeout( () => {
-                let { loadTableData } = this.props;
+            this.tableReloadTimeout = setTimeout(() => {
+                let {loadTableData} = this.props;
                 if (isFirst) {
-                    if (url.indexOf( '?' ) === -1) {
+                    if (url.indexOf('?') === -1) {
                         url += '?query=';
                     }
                     else {
-                        if (url.indexOf( '?' ) === url.length - 1) {
+                        if (url.indexOf('?') === url.length - 1) {
                             url += url + 'query=';
                         }
                         else {
                             url += '&query=';
                         }
                     }
-                    url += encodeURIComponent( getFilterString( tableFilterFormData ) );
-                    loadTableData( url, tableId );
+                    url += encodeURIComponent(getFilterString(tableFilterFormData));
+                    loadTableData(url, tableId);
                 }
-            }, MIN_REFRESH_INTERVAL_MILLIS );
+            }, MIN_REFRESH_INTERVAL_MILLIS);
         }
     }
 
     changeOrder( column: Column ) {
-        let { tableFilterFormData } = this.props;
+        let {tableFilterFormData} = this.props;
         let newOrder = '';
         if (!tableFilterFormData || !tableFilterFormData.order
             || tableFilterFormData.order === column.field + '.' + DESCENDING_ORDER) {
@@ -317,7 +315,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         } else {
             newOrder = column.field + '.' + ASCENDING_ORDER;
         }
-        this.changeTableFormData( { order: newOrder } );
+        this.changeTableFormData({order: newOrder});
     }
 
     getActionsColumn(): Column | null {
@@ -442,28 +440,28 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     changeVisibleColumns( newColumns: Array<string> ) {
-        let { tableFilterPersistentData, tableFilterFormData } = this.props,
+        let {tableFilterPersistentData, tableFilterFormData} = this.props,
             filtersToRemove: TableFormData = {},
             hasRemovableFilters: boolean = false;
         for (let column of tableFilterPersistentData.visibleColumns) {
-            if (newColumns.indexOf( column ) === -1) {
+            if (newColumns.indexOf(column) === -1) {
                 for (let field of [column, column + FROM_EXTENSION, column + TO_EXTENSION]) {
                     if (!!tableFilterFormData[field]) {
-                        filtersToRemove[field] = { dbValue: '', rawValue: '' };
+                        filtersToRemove[field] = {dbValue: '', rawValue: ''};
                         hasRemovableFilters = true;
                     }
                 }
             }
         }
-        this.changeTablePersistentData( { visibleColumns: newColumns } );
+        this.changeTablePersistentData({visibleColumns: newColumns});
 
         if (hasRemovableFilters) {
-            this.changeTableFormData( filtersToRemove );
+            this.changeTableFormData(filtersToRemove);
         }
     }
 
     getFilterComponentForColumn( column: Column ) {
-        let { tableFilterFormData } = this.props;
+        let {tableFilterFormData} = this.props;
 
         if (column.type === FORM_INPUT_TYPES.TEXT) {
             let showClear = tableFilterFormData[column.field];
@@ -474,7 +472,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         <Button
                             // icon={iconList.cancel}
                             onPress={() =>
-                                this.changeTableFormData( { [column.field]: '' } )
+                                this.changeTableFormData({[column.field]: ''})
                             }
                             // touchableStyle={classes.filtersClearButton}
                         />
@@ -482,15 +480,15 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     <FormItem
                         fieldDefinition={{
                             field: column.field,
-                            placeholder:  'Filter',
+                            placeholder: 'Filter',
                             type: FORM_INPUT_TYPES.TEXT,
                             textInputType: TEXT_INPUT_TYPES.TEXT,
                         }}
                         input={{
-                            onChange: ( newData: DBValue ) => this.changeTableFormData( {
+                            onChange: ( newData: DBValue ) => this.changeTableFormData({
                                 [column.field]: newData,
                                 [PAGE_FIELD]: 1
-                            } ),
+                            }),
                             value: tableFilterFormData && tableFilterFormData[column.field]
                                 ? tableFilterFormData[column.field]
                                 : ''
@@ -506,13 +504,13 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 showToClear = tableFilterFormData[toField];
             return (
                 <View>
-                    <View style={{ marginRight: 16, }}>
+                    <View style={{marginRight: 16,}}>
                         {
                             showFromClear &&
                             <Button
                                 // icon={iconList.cancel}
                                 onPress={() =>
-                                    this.changeTableFormData( { [fromField]: '' } )
+                                    this.changeTableFormData({[fromField]: ''})
                                 }
                                 // touchableStyle={classes.filtersClearButton}
                             />
@@ -522,13 +520,13 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 type: FORM_INPUT_TYPES.DATE,
                                 // mode: DATE_TIME_TYPE.DATE,
                                 field: fromField,
-                                placeholder:'From',
+                                placeholder: 'From',
                             }}
                             input={{
-                                onChange: ( newData: DBValue ) => this.changeTableFormData( {
+                                onChange: ( newData: DBValue ) => this.changeTableFormData({
                                     [fromField]: newData,
                                     [PAGE_FIELD]: 1
-                                } ),
+                                }),
                                 value: tableFilterFormData && tableFilterFormData[fromField]
                                     ? tableFilterFormData[fromField]
                                     : ''
@@ -541,7 +539,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             <Button
                                 // icon={iconList.cancel}
                                 onPress={() =>
-                                    this.changeTableFormData( { [toField]: '' } )
+                                    this.changeTableFormData({[toField]: ''})
                                 }
                                 // touchableStyle={classes.filtersClearButton}
                             />
@@ -554,10 +552,10 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 placeholder: 'To',
                             }}
                             input={{
-                                onChange: ( newData: DBValue ) => this.changeTableFormData( {
+                                onChange: ( newData: DBValue ) => this.changeTableFormData({
                                     [toField]: newData,
                                     [PAGE_FIELD]: 1
-                                } ),
+                                }),
                                 value: tableFilterFormData && tableFilterFormData[toField]
                                     ? tableFilterFormData[toField]
                                     : ''
@@ -570,9 +568,9 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getHeaderForColumn( column: Column, sortOrder: string | undefined, allowFilters: boolean ) {
-        let { classes } = this.props,
+        let {classes} = this.props,
             widthStyle = !!column.preferredWidth
-                ? { minWidth: column.preferredWidth, maxWidth: column.preferredWidth }
+                ? {minWidth: column.preferredWidth, maxWidth: column.preferredWidth}
                 : {};
         return (
             <View
@@ -582,12 +580,12 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 <View style={classes.tableHeaderDivider}>
                     {
                         column.notSortable
-                            ? <Text style={{ width: '100%', }}>
+                            ? <Text style={{width: '100%',}}>
                                 {column.title}
                             </Text>
                             : <Button
-                                title={_t( column.title )}
-                                onPress={this.changeOrder.bind( this, column )}
+                                title={column.title}
+                                onPress={this.changeOrder.bind(this, column)}
                                 // icon={
                                 //     sortOrder && (
                                 //         sortOrder === ASCENDING_ORDER
@@ -605,7 +603,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 {allowFilters &&
                 <View style={classes.tableHeaderDivider}>
                     {
-                        this.getFilterComponentForColumn( column )
+                        this.getFilterComponentForColumn(column)
                     }
                 </View>
                 }
@@ -618,11 +616,11 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                  wrapRows: boolean,
                  fullRowColumnIndex: number,
                  rowIndex: number ) {
-        let { classes, } = this.props,
+        let {classes,} = this.props,
             isFullRow = (
                 fullRowColumnIndex != -1 &&
                 this.columns[fullRowColumnIndex].fullRow &&
-                this.columns[fullRowColumnIndex].fullRow!( row )
+                this.columns[fullRowColumnIndex].fullRow!(row)
             );
         let fullRowValuePrinted = false;
         return (
@@ -630,21 +628,21 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 key={'cell_' + row.id}
                 style={[
                     classes.tableRow,
-                    wrapRows ? { flexWrap: 'wrap' } : {},
-                    { backgroundColor: ( rowIndex % 2 === 0 ? EVEN_ROW_COLOR : ODD_ROW_COLOR ) },
-                    this.rowStyle && this.rowStyle( row ),
+                    wrapRows ? {flexWrap: 'wrap'} : {},
+                    {backgroundColor: (rowIndex % 2 === 0 ? EVEN_ROW_COLOR : ODD_ROW_COLOR)},
+                    this.rowStyle && this.rowStyle(row),
                 ]}
             >
                 {
-                    visibleTableColumns.map( ( column: Column ) => {
+                    visibleTableColumns.map(( column: Column ) => {
                         let cellValue = getFormattedValue(
                             row,
                             column
                             ),
                             widthStyle = !!column.preferredWidth
-                                ? { minWidth: column.preferredWidth, maxWidth: column.preferredWidth }
+                                ? {minWidth: column.preferredWidth, maxWidth: column.preferredWidth}
                                 : {};
-                        if (isFullRow && COLUMNS_VISIBLE_IN_FULL_ROW.indexOf( column.field ) < 0) {
+                        if (isFullRow && COLUMNS_VISIBLE_IN_FULL_ROW.indexOf(column.field) < 0) {
                             if (!fullRowValuePrinted) {
                                 cellValue = getFormattedValue(
                                     row,
@@ -658,15 +656,15 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         if (isFullRow && !cellValue) {
                             return null;
                         }
-                        if (typeof cellValue !== 'object' || ( cellValue && cellValue.constructor === Array )) {
+                        if (typeof cellValue !== 'object' || (cellValue && cellValue.constructor === Array)) {
                             return (
                                 <View
                                     key={'cell_' + column.field}
-                                    style={[classes.tableCell, ( !fullRowValuePrinted || !cellValue ) && classes.tableCellNormalWidth, widthStyle]}
+                                    style={[classes.tableCell, (!fullRowValuePrinted || !cellValue) && classes.tableCellNormalWidth, widthStyle]}
                                 >
                                     <Text style={classes.tableCellText}>
                                         {
-                                            ( ( cellValue && cellValue.toString() ) || '-' )
+                                            ((cellValue && cellValue.toString()) || '-')
                                         }
                                     </Text>
                                 </View>
@@ -675,12 +673,12 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         return (
                             <View
                                 key={'cell_' + column.field}
-                                style={[classes.tableCell, ( !fullRowValuePrinted || !cellValue ) && classes.tableCellNormalWidth, widthStyle]}
+                                style={[classes.tableCell, (!fullRowValuePrinted || !cellValue) && classes.tableCellNormalWidth, widthStyle]}
                             >
                                 {cellValue}
                             </View>
                         );
-                    } )
+                    })
                 }
             </View>
         );
@@ -716,11 +714,11 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             // ),
             visibleColumns = tableFilterPersistentData && tableFilterPersistentData.visibleColumns,
             visibleTableColumns: Array<Column> = !!visibleColumns && visibleColumns.length > 0
-                ? tableColumns.filter( column => visibleColumns.indexOf( column.field ) !== -1 )
+                ? tableColumns.filter(column => visibleColumns.indexOf(column.field) !== -1)
                 : tableColumns,
             [sortedColumn, sortedOrder] = tableFilterFormData && tableFilterFormData.order
-            && tableFilterFormData.order.indexOf( '.' ) > -1
-                ? tableFilterFormData.order.split( '.' )
+            && tableFilterFormData.order.indexOf('.') > -1
+                ? tableFilterFormData.order.split('.')
                 : [null, null],
             allowFilters = tableDefinitionData.allowFilters;
         if (!!extraData) {
@@ -730,26 +728,26 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         }
 
         if (tableData && tableData.data && mixRows) {
-            tableItems = mixRows( tableData.data );
+            tableItems = mixRows(tableData.data);
         }
 
         let fullRowColumnIndex: number = -1;
         if (!!tableDefinitionData && !!tableItems) {
             for (let i in this.columns) {
                 if (!!this.columns[i].fullRow) {
-                    fullRowColumnIndex = parseInt( i );
+                    fullRowColumnIndex = parseInt(i);
                 }
             }
         }
 
         if (tableData && tableData.data && mixRows) {
-            tableItems = mixRows( tableData.data );
+            tableItems = mixRows(tableData.data);
         }
 
         return (
             <View style={classes.container}>
                 <Text style={classes.tableTitle}>
-                    {_t( title )}
+                    {title}
                 </Text>
                 <View style={classes.tableOptions}>
                     {
@@ -788,14 +786,14 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         !hideRefreshButton &&
                         <Button
                             // icon={iconList.refresh}
-                            title={isXs() ? undefined : _t( REFRESH )}
+                            title={isXs() ? undefined : REFRESH}
                             // iconStyle={classes.optionsIconStyle}
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}
                             // style={classes.optionsTouchableStyle}
                             onPress={
                                 !!refreshMethod
-                                    ? refreshMethod.bind( this )
+                                    ? refreshMethod.bind(this)
                                     : this.reloadTableData.bind(
                                     this,
                                     tableFilterFormData,
@@ -815,7 +813,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         onPress={
                             exportToCsv.bind(
                                 this,
-                                _t( title ) + '_' + formatDate( MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
+                                title + '_' + formatDate(MOMENT_FORMAT.L_LT, new Date()) + '.csv',
                                 this.columns,
                                 tableData,
                             )
@@ -823,30 +821,30 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     />
                     }
                     {/*<MultipleSelect*/}
-                        {/*title={isXs() ? undefined : _t( COLUMNS )}*/}
-                        {/*isButton={true}*/}
-                        {/*buttonProps={{*/}
-                            {/*icon: iconList.columns,*/}
-                            {/*iconStyle: classes.optionsIconStyle,*/}
-                            {/*labelStyle: classes.optionsTitleStyle,*/}
-                            {/*touchableStyle: classes.optionsTouchableStyle,*/}
-                            {/*style: classes.optionsTouchableStyle,*/}
-                        {/*}}*/}
-                        {/*options={columnOptions}*/}
-                        {/*onChange={( newColumns: Array<string> ) => {*/}
-                            {/*this.changeVisibleColumns( newColumns );*/}
-                        {/*}}*/}
-                        {/*value={visibleColumns}*/}
-                        {/*navigation={navigation}*/}
+                    {/*title={isXs() ? undefined : _t( COLUMNS )}*/}
+                    {/*isButton={true}*/}
+                    {/*buttonProps={{*/}
+                    {/*icon: iconList.columns,*/}
+                    {/*iconStyle: classes.optionsIconStyle,*/}
+                    {/*labelStyle: classes.optionsTitleStyle,*/}
+                    {/*touchableStyle: classes.optionsTouchableStyle,*/}
+                    {/*style: classes.optionsTouchableStyle,*/}
+                    {/*}}*/}
+                    {/*options={columnOptions}*/}
+                    {/*onChange={( newColumns: Array<string> ) => {*/}
+                    {/*this.changeVisibleColumns( newColumns );*/}
+                    {/*}}*/}
+                    {/*value={visibleColumns}*/}
+                    {/*navigation={navigation}*/}
                     {/*/>*/}
                     <Button
                         // icon={iconList.wrap}
-                        title={isXs() ? undefined : _t( 'wrap_rows' )}
+                        title={isXs() ? undefined : 'wrap rows'}
                         // iconStyle={classes.optionsIconStyle}
                         // labelStyle={classes.optionsTitleStyle}
                         // touchableStyle={classes.optionsTouchableStyle}
                         // style={classes.optionsTouchableStyle}
-                        onPress={this.changeTablePersistentData.bind( this, { wrapRows: !wrapRows } )}
+                        onPress={this.changeTablePersistentData.bind(this, {wrapRows: !wrapRows})}
                     />
                     {/*{loadingData && <CircularProgressComponent/>}*/}
                 </View>
@@ -859,10 +857,10 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         <View style={[
                             classes.tableRow,
                             classes.tableHeader,
-                            wrapRows ? { flexWrap: 'wrap' } : {}
+                            wrapRows ? {flexWrap: 'wrap'} : {}
                         ]}>
                             {
-                                visibleTableColumns.map( ( column: Column ) =>
+                                visibleTableColumns.map(( column: Column ) =>
                                     this.getHeaderForColumn(
                                         column,
                                         sortedColumn === column.field
@@ -881,7 +879,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 // vertical={true}
                             >
                                 {
-                                    tableItems.map( ( tableItem: Row, index: number ) =>
+                                    tableItems.map(( tableItem: Row, index: number ) =>
                                         this.getTableRow(
                                             tableItem,
                                             visibleTableColumns,
@@ -903,10 +901,10 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             <Select
                                 options={ITEMS_PER_PAGE_OPTIONS()}
                                 onChange={( value: number ) => {
-                                    this.changeTableFormData( { [ITEMS_PER_PAGE_FIELD]: value, [PAGE_FIELD]: 1 } );
+                                    this.changeTableFormData({[ITEMS_PER_PAGE_FIELD]: value, [PAGE_FIELD]: 1});
                                 }}
                                 value={!!itemsPerPage ? itemsPerPage : 5}
-                                title={isWeb ? undefined : ( !!itemsPerPage ? itemsPerPage.toString() : '5' )}
+                                title={isWeb ? undefined : (!!itemsPerPage ? itemsPerPage.toString() : '5')}
                                 nullable={false}
                             />
                         </View>
@@ -915,17 +913,17 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             <TablePageNavigator
                                 // style={{ marginLeft: appTheme.defaultMargin }}
                                 itemsCount={totalItems}
-                                itemsLowerLimit={itemsPerPage * ( currentPage - 1 ) + 1}
-                                itemsUpperLimit={Math.min( itemsPerPage * currentPage, totalItems )}
+                                itemsLowerLimit={itemsPerPage * (currentPage - 1) + 1}
+                                itemsUpperLimit={Math.min(itemsPerPage * currentPage, totalItems)}
                                 currentPage={currentPage}
                                 pagesCount={
                                     totalItems % itemsPerPage === 0
                                         ? totalItems / itemsPerPage
-                                        : Math.floor( totalItems / itemsPerPage ) + 1
+                                        : Math.floor(totalItems / itemsPerPage) + 1
                                 }
                                 changePage={
                                     ( value ) => {
-                                        this.changeTableFormData( { [PAGE_FIELD]: value } );
+                                        this.changeTableFormData({[PAGE_FIELD]: value});
                                     }
                                 }
                             />
@@ -938,38 +936,40 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 }
 
 const componentName = 'TableComponent';
-export const TableComponent: any = connect(
-    ( state: any, ownProps: OwnProps ) => {
-        let tableId: string = ownProps.tableContainerName !== null && ownProps.tableContainerName !== undefined
-            ? ownProps.tableContainerName + '_' + ownProps.tableDefinition.dataName
-            : ownProps.tableDefinition.dataName;
-        return {
-            loadingData: getNestedField( state.table, [tableId, 'loading'] ),
-            openedTableRow: getNestedField( state.table, [tableId, 'menuRow'] ),
-            refreshTable: getNestedField( state.table, [tableId, 'refresh'] ),
-            tableData: state.table[tableId],
-            tableFilterFormData: getNestedField( state.form, [getTableFormId( tableId ), 'values'] ) || {},
-            tableFilterPersistentData: state.persistedTableOptions[getTableFormId( tableId )],
-            tableId: tableId,
-            // tableDetailsEntry: state.table[TABLE_PAGES_ENUM.TABLE_NETRY_DETAILS],
+export const TableComponent: any = compose(
+    connect(
+        ( state: any, ownProps: OwnProps ) => {
+            let tableId: string = ownProps.tableContainerName !== null && ownProps.tableContainerName !== undefined
+                ? ownProps.tableContainerName + '_' + ownProps.tableDefinition.dataName
+                : ownProps.tableDefinition.dataName;
+            return {
+                loadingData: getNestedField(state.table, [tableId, 'loading']),
+                openedTableRow: getNestedField(state.table, [tableId, 'menuRow']),
+                refreshTable: getNestedField(state.table, [tableId, 'refresh']),
+                tableData: state.table[tableId],
+                tableFilterFormData: getNestedField(state.form, [getTableFormId(tableId), 'values']) || {},
+                tableFilterPersistentData: state.persistedTableOptions[getTableFormId(tableId)],
+                tableId: tableId,
+                // tableDetailsEntry: state.table[TABLE_PAGES_ENUM.TABLE_NETRY_DETAILS],
+            }
+        }, {
+            destroy,
+            clearTableData,
+            initialize,
+            loadTableData,
+            // pushScreen,
+            setPersistentTableOptions,
+            setRefreshTable,
+            showMenu,
+            showEntryDetails,
         }
-    }, {
-        destroy,
-        clearTableData,
-        initialize,
-        loadTableData,
-        // pushScreen,
-        setPersistentTableOptions,
-        setRefreshTable,
-        showMenu,
-        showEntryDetails,
-    }
-)(
+    ),
     createStyles(
         styles,
-        componentName,
-        CTableComponent
-    )
+        componentName
+    ),
+)(
+    CTableComponent
 );
 
 export function getTableFormId( tableId: string ): string {

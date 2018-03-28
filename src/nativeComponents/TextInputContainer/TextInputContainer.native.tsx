@@ -1,9 +1,8 @@
-import * as React from "react";
-import { all, android, appTheme, Button, createStyles, Text, View, WithStyles } from "../../";
-import { _t } from "../../utils/common";
+import * as React from 'react';
+import { all, android, appTheme, Button, createStyles, Text, View, WithStyles } from '../../';
 
 
-let styles = () => ( {
+let styles = () => ({
     containerLeft: {
         flexDirection: 'row',
         height: appTheme.inputHeight,
@@ -12,7 +11,7 @@ let styles = () => ( {
     },
     leftLabel: {
         minWidth: 150,
-        fontWeight: "500",
+        fontWeight: '500',
     },
     topLabel: {
         marginBottom: -10,
@@ -44,12 +43,12 @@ let styles = () => ( {
         paddingTop: 12,
     },
     leftValue: {
-        fontWeight: "500",
+        fontWeight: '500',
         fontSize: 15,
         flex: 1,
     }
 
-} );
+});
 
 export interface Props {
     error?: string,
@@ -73,7 +72,7 @@ const CTextInputContainer = ( {
     >
         <View>
             <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
-                <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>{_t( title )}</Text>
+                <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>{title}</Text>
                 <Text style={labelPositionLeft ? classes.leftValue : classes.topValue}>{value}</Text>
             </View>
             {!!error && <Text style={classes.error}>{error}</Text>}
@@ -82,4 +81,4 @@ const CTextInputContainer = ( {
 );
 
 const componentName = 'TextInputContainer';
-export const TextInputContainer = createStyles<Props>( styles, componentName, CTextInputContainer );
+export const TextInputContainer: React.ComponentType<Props> = createStyles(styles, componentName)(CTextInputContainer);

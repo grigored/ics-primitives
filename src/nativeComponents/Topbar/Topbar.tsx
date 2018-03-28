@@ -7,7 +7,7 @@ import {Button} from "../Button/Button";
 import {appTheme, createStyles, WithStyles} from "../..";
 import {getStyleProps} from "../../utils/web";
 import {TopbarProps} from "./Topbar.types";
-import {TopbarListButtonData, TopbarSimpleButtonData} from "src/nativeComponents/Topbar/Topbar.types";
+import {TopbarListButtonData, TopbarSimpleButtonData} from "../../nativeComponents/Topbar/Topbar.types";
 
 const styles = () => ({
     root: {
@@ -87,4 +87,4 @@ const CTopBar = ({
     </AppBar>
 );
 
-export const Topbar = createStyles<TopbarProps>(styles, 'Topbar', CTopBar);
+export const Topbar: React.ComponentType<TopbarProps> = createStyles(styles, 'Topbar')(CTopBar);

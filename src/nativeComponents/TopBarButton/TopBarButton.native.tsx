@@ -8,7 +8,7 @@ import { isIOS } from "../../primitives/platform/platform";
 import { WithStyles } from "../../utils/theme.types";
 import { Image } from "../../primitives/Image/Image";
 import { Button } from "../Button/Button";
-import { createStyles } from "../../primitives/createStyles/createStyles";
+import { createStyles } from "../../decorators/createStyles/createStyles";
 
 const styles = () => ({
     containerImg: {
@@ -86,4 +86,4 @@ export const TopBarButton: React.ComponentType<TopBarButtonProps> = connect(
             dispatch(returnValue);
         }
     })
-)(createStyles(styles, componentName, CTopBarButton));
+)(createStyles(styles, componentName)(CTopBarButton));

@@ -63,9 +63,32 @@ export enum ACTION_SHEETS_IDS {
     IMAGE_CLICK = 'IMAGE_CLICK',
     POPOVER_ITEM_CLICK = 'POPOVER_ITEM_CLICK',
 }
+
+export enum CIRCULAR_PROGRESS_SIZE {
+    SMALL,
+    LARGE,
+}
+
 export enum PUSH_TYPES {
     DEEP_LINKS,
     MODAL,
     REGULAR,
     CLEAR_STACK,
+}
+
+export enum HTTP_METHOD {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    DELETE = 'DELETE',
+    OPTIONS = 'OPTIONS',
+}
+
+export enum PLATFORM {
+    WEB = 1,
+    ANDROID,
+    IOS,
+    WEB_ANDROID,
+    WEB_IOS,
+    WEB_WINDOWS_PHONE,
 }

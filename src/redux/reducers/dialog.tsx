@@ -1,4 +1,4 @@
-import { ACTION_SHEETS_IDS } from "src/utils/enums";
+import { ACTION_SHEETS_IDS } from "../../utils/enums";
 
 export enum TypeKeys {
     SHOW_ACTION_SHEET = 'instacar/dialog/SHOW_ACTION_SHEET',

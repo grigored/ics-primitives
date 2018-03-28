@@ -1,19 +1,20 @@
-import * as React from "react";
+import * as React from 'react';
+import { compose } from 'redux';
 import { ActionSheetIOS, Modal } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, createStyles, View } from "../";
-import { hoistNonReactStatics } from "../lib/hoist-non-react-statics";
-import { isIOS } from "../primitives/platform/platform";
-import { showActionSheet } from "../redux/reducers/dialog";
-import { ACTION_SHEETS_IDS } from "../utils/enums";
-import { android, ios } from "./theme";
-import { StyleRules, WithStyles } from "./theme.types";
+import { Button, createStyles, View } from '../';
+import { hoistNonReactStatics } from '../lib/hoist-non-react-statics';
+import { isIOS } from '../primitives/platform/platform';
+import { showActionSheet } from '../redux/reducers/dialog';
+import { ACTION_SHEETS_IDS } from '../utils/enums';
+import { android, ios } from './theme';
+import { StyleRules, WithStyles } from './theme.types';
 
 export function connectActionSheet( WrappedComponent: any ) {
     if (isIOS) {
-        return connectActionSheetIos( WrappedComponent );
+        return connectActionSheetIos(WrappedComponent);
     }
-    return connectActionSheetAndroid( WrappedComponent );
+    return connectActionSheetAndroid(WrappedComponent);
 }
 
 export interface ConnectedPropsAndroid {
@@ -23,7 +24,7 @@ export interface ConnectedPropsAndroid {
 
 function connectActionSheetAndroid( WrappedComponent: any ) {
 
-    const styles: () => StyleRules = () => ( {
+    const styles: () => StyleRules = () => ({
         dialog: {
             width: '100%',
             height: '100%',
@@ -40,16 +41,16 @@ function connectActionSheetAndroid( WrappedComponent: any ) {
             backgroundColor: 'rgb(255,255,255)',
             flexDirection: 'column',
         }
-    } );
+    });
 
     class CEnhance extends React.PureComponent<ConnectedPropsAndroid & WithStyles, { visible: boolean, sheetId?: ACTION_SHEETS_IDS }> {
         private onClose: () => void;
 
         constructor( props: ConnectedPropsAndroid & WithStyles ) {
-            super( props );
+            super(props);
             this.onClose = () => {
-                props.showActionSheet( this.state.sheetId, false );
-                this.setState( { visible: false } );
+                props.showActionSheet(this.state.sheetId, false);
+                this.setState({visible: false});
             };
             this.state = {
                 visible: false,
@@ -58,19 +59,19 @@ function connectActionSheetAndroid( WrappedComponent: any ) {
         }
 
         render() {
-            const { classes, showActionSheet } = this.props,
-                { visible, sheetId } = this.state;
+            const {classes, showActionSheet} = this.props,
+                {visible, sheetId} = this.state;
             let sheetData: { options: Array<string>, optionClick: ( index: number ) => void } | undefined = undefined;
             if (sheetId) {
-                sheetData = WrappedComponent.actionSheetData( this.props )[sheetId];
+                sheetData = WrappedComponent.actionSheetData(this.props)[sheetId];
             }
             return (
                 <View>
                     <WrappedComponent
                         {...this.props}
                         connectedShowActionSheet={( sheetId: ACTION_SHEETS_IDS ) => {
-                            showActionSheet( sheetId );
-                            this.setState( { sheetId, visible: true } )
+                            showActionSheet(sheetId);
+                            this.setState({sheetId, visible: true})
                         }}
                     />
                     {
@@ -84,12 +85,12 @@ function connectActionSheetAndroid( WrappedComponent: any ) {
                             <View style={classes.dialog}>
                                 <View style={classes.dataContainer}>
                                     {
-                                        sheetData && sheetData.options.map( ( option: string, index: number ) =>
+                                        sheetData && sheetData.options.map(( option: string, index: number ) =>
                                             <Button
                                                 title={option}
                                                 onPress={() => {
                                                     this.onClose();
-                                                    sheetData && sheetData.optionClick( index );
+                                                    sheetData && sheetData.optionClick(index);
                                                 }}
                                                 // dividerBottom={index !== (sheetData && sheetData.options.length) ? DIVIDER_TYPE.FULL_WIDTH : undefined}
                                             />
@@ -104,9 +105,12 @@ function connectActionSheetAndroid( WrappedComponent: any ) {
         }
     }
 
-    const Enhance = connect( null, { showActionSheet } )( createStyles( styles, 'EnhanceSheet', CEnhance ) );
+    const Enhance = compose(
+        connect(null, {showActionSheet}),
+        createStyles(styles, 'EnhanceSheet'),
+    )(CEnhance);
     // need this for statics like react-native-navigation navigatorStyle/ navigatorButtons
-    hoistNonReactStatics( Enhance, WrappedComponent, null );
+    hoistNonReactStatics(Enhance, WrappedComponent, null);
     return Enhance;
 }
 
@@ -115,17 +119,15 @@ export interface ConnectedPropsIos {
 }
 
 function connectActionSheetIos( WrappedComponent: any ) {
-
-
     class CEnhance extends React.PureComponent<ConnectedPropsIos, {}> {
         render() {
-            const { showActionSheet } = this.props;
+            const {showActionSheet} = this.props;
             return (
                 <WrappedComponent
                     {...this.props}
                     connectedShowActionSheet={( sheetId: ACTION_SHEETS_IDS ) => {
-                        showActionSheet( sheetId );
-                        const sheetData = WrappedComponent.actionSheetData( this.props )[sheetId];
+                        showActionSheet(sheetId);
+                        const sheetData = WrappedComponent.actionSheetData(this.props)[sheetId];
                         ActionSheetIOS.showActionSheetWithOptions(
                             {
                                 options: sheetData.options,
@@ -133,7 +135,7 @@ function connectActionSheetIos( WrappedComponent: any ) {
                                 destructiveButtonIndex: -1,
                             },
                             ( buttonIndex: any ) => {
-                                sheetData.optionClick( buttonIndex )
+                                sheetData.optionClick(buttonIndex)
                                 // Do something here depending on the button index selected
                             }
                         );
@@ -144,8 +146,8 @@ function connectActionSheetIos( WrappedComponent: any ) {
         }
     }
 
-    const Enhance = connect( null, { showActionSheet } )( CEnhance );
+    const Enhance = connect(null, {showActionSheet})(CEnhance);
     // need this for statics like react-native-navigation navigatorStyle/ navigatorButtons
-    hoistNonReactStatics( Enhance, WrappedComponent, null );
+    hoistNonReactStatics(Enhance, WrappedComponent, null);
     return Enhance;
 }

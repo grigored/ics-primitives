@@ -1,9 +1,9 @@
-import * as React from "react";
-import { android, appTheme, Button, createStyles, ios, isXs, Text, View, WithStyles } from "../../";
-import { StyleRules } from "../../utils/theme.types";
+import * as React from 'react';
+import { android, appTheme, Button, createStyles, ios, isXs, Text, View, WithStyles } from '../../';
+import { StyleRules } from '../../utils/theme.types';
 
 
-const styles = () => ( {
+const styles = () => ({
     container: {
         marginTop: appTheme.defaultVerticalMargin,
         marginBottom: appTheme.defaultVerticalMargin,
@@ -40,7 +40,7 @@ const styles = () => ( {
             tintColor: null,
         },
     }
-} );
+});
 
 export interface Props {
     style?: StyleRules,
@@ -68,7 +68,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 {
                     pagesCount > 1 && currentPage > 1 &&
                     <Button
-                        onPress={changePage.bind( this, 1 )}
+                        onPress={changePage.bind(this, 1)}
                         // icon={iconList.fastRewind}
                         // iconStyle={classes.iconStyle}
                         // style={classes.buttonStyle}
@@ -78,8 +78,8 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 {
                     pagesCount > 1 && currentPage > 1 &&
                     <Button
-                        onPress={changePage.bind( this, currentPage - 1 )}
-                        title={( currentPage - 1 ).toString()}
+                        onPress={changePage.bind(this, currentPage - 1)}
+                        title={(currentPage - 1).toString()}
                         // style={classes.buttonStyle}
                         // touchableStyle={classes.buttonsTouchableStyle}
                     />
@@ -96,8 +96,8 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 {
                     pagesCount > 1 && currentPage < pagesCount &&
                     <Button
-                        onPress={changePage.bind( this, currentPage + 1 )}
-                        title={( currentPage + 1 ).toString()}
+                        onPress={changePage.bind(this, currentPage + 1)}
+                        title={(currentPage + 1).toString()}
                         // style={classes.buttonStyle}
                         // touchableStyle={classes.buttonsTouchableStyle}
                     />
@@ -105,7 +105,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 {
                     pagesCount > 1 && currentPage < pagesCount &&
                     <Button
-                        onPress={changePage.bind( this, pagesCount )}
+                        onPress={changePage.bind(this, pagesCount)}
                         // icon={iconList.fastForward}
                         // iconStyle={classes.iconStyle}
                         // style={classes.buttonStyle}
@@ -118,4 +118,4 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
 }
 
 const componentName = 'TablePageNavigator';
-export const TablePageNavigator = createStyles<Props>( styles, componentName, CTablePageNavigator );
+export const TablePageNavigator: React.ComponentType<Props> = createStyles(styles, componentName)(CTablePageNavigator);

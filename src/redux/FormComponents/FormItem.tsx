@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Select } from "src/nativeComponents/Select/Select";
+import { Select } from "../../nativeComponents/Select/Select";
 import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';

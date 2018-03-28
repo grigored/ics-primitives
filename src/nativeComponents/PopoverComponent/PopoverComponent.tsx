@@ -1,9 +1,9 @@
-import Popover from "material-ui/Popover";
-import { Button, createStyles, View, WithStyles } from "../../";
-import { OwnProps } from "../PopoverComponent/PopoverComponent.types";
-import { Action } from "../TableComponent/TableComponent.types";
-import { StyleRules } from "../../utils/theme.types";
-import * as React from "react";
+import Popover from 'material-ui/Popover';
+import * as React from 'react';
+import { Button, createStyles, View, WithStyles } from '../../';
+import { StyleRules } from '../../utils/theme.types';
+import { OwnProps } from '../PopoverComponent/PopoverComponent.types';
+import { Action } from '../TableComponent/TableComponent.types';
 
 const styles: StyleRules = {
     container: {},
@@ -13,19 +13,18 @@ const styles: StyleRules = {
 };
 
 
-
 class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { popOverVisible: boolean }> {
     handleClick = ( event: React.MouseEvent<HTMLElement> ) => {
         event.preventDefault();
         this.anchorEl = event.currentTarget;
     };
     handleRequestClose = () => {
-        this.setState( { popOverVisible: false } )
+        this.setState({popOverVisible: false})
     };
     private anchorEl: any;
 
     constructor( props: OwnProps & WithStyles ) {
-        super( props );
+        super(props);
         this.anchorEl = null;
         this.state = {
             popOverVisible: false,
@@ -33,14 +32,14 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
     }
 
     render() {
-        const { classes, children, actions, containerStyle } = this.props,
-            { popOverVisible } = this.state,
+        const {classes, children, actions, containerStyle} = this.props,
+            {popOverVisible} = this.state,
             enhancedChild = React.cloneElement(
                 children as any,
                 {
                     onPress: ( event: React.MouseEvent<HTMLElement> ) => {
-                        this.handleClick( event );
-                        this.setState( { popOverVisible: !popOverVisible } );
+                        this.handleClick(event);
+                        this.setState({popOverVisible: !popOverVisible});
                     }
                 }
             );
@@ -51,11 +50,11 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
                 <Popover
                     open={popOverVisible}
                     anchorEl={this.anchorEl}
-                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     onClose={this.handleRequestClose}
                 >
                     {
-                        actions.map( ( action: Action ) =>
+                        actions.map(( action: Action ) =>
                             <Button
                                 key={`action_${action.title}`}
                                 // icon={action.icon}
@@ -63,7 +62,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
                                 title={action.title}
                                 onPress={() => {
                                     action.onClick();
-                                    this.setState( { popOverVisible: false } );
+                                    this.setState({popOverVisible: false});
                                 }}
                                 // touchableStyle={{ minWidth: 300 }}
                             />
@@ -76,4 +75,4 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
 }
 
 const componentName = 'PopoverComponent';
-export const PopoverComponent: React.ComponentType<OwnProps> = createStyles( styles, componentName, CPopoverComponent );
+export const PopoverComponent: React.ComponentType<OwnProps> = createStyles(styles, componentName)(CPopoverComponent);

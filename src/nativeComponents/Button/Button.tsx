@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { fade } from 'material-ui/styles/colorManipulator';
 import MaterialButton from 'material-ui/Button';
-import { Image } from '../../';
+import { appTheme, Image } from '../../';
 import { ButtonProps } from './Button.types';
 
 export { fade } from 'material-ui/styles/colorManipulator';
@@ -9,20 +8,19 @@ export { fade } from 'material-ui/styles/colorManipulator';
 const getUpdatedRoot = (backgroundColor?: string, labelColor?: string): any => {
     let root: any = {};
     if (backgroundColor) {
-        root = {
-            backgroundColor,
-            // TODO this doesn't work when set in inline style, it must be used with classnames;
-            // also we cannot use inline styles to set backgroundColor and then use classnames to set hover color
-            // https://stackoverflow.com/a/48829870/1651296
-            // I think we should use JSS to generate classnames from the auto generated inline style
-            '&:hover': {
-                backgroundColor: `${fade('#f00', 0.12)} !important`,
-            }
-        }
+        // root = {
+        //     backgroundColor,
+        //     // TODO this doesn't work when set in inline style, it must be used with classnames;
+        //     // also we cannot use inline styles to set backgroundColor and then use classnames to set hover color
+        //     // https://stackoverflow.com/a/48829870/1651296
+        //     // I think we should use JSS to generate classnames from the auto generated inline style
+        //     '&:hover': {
+        //         backgroundColor: `${fade('#f00', 0.12)} !important`,
+        //     }
+        // }
     }
-    if (labelColor) {
-        root.color = labelColor
-    }
+    root.backgroundColor = backgroundColor || appTheme.primaryColor;
+    root.color = labelColor || appTheme.primaryTextColor;
     return root;
 };
 

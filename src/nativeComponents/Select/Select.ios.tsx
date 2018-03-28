@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { CustomPicker } from "../TextInputContainer/CustomPicker";
-import { View } from "../../";
-import { getSelectData } from "./selectUtils";
-import { TextInputContainer } from "../TextInputContainer/TextInputContainer.native";
-import { isIOS } from "../../primitives/platform/platform";
-import { FieldStateProps, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
-import { _t } from "../../utils/common";
+import { View } from '../../';
+import { isIOS } from '../../primitives/platform/platform';
+import { FieldStateProps, SelectDBValue, SelectProps } from '../../redux/FormComponents/FormComponents.types';
+import { CustomPicker } from '../TextInputContainer/CustomPicker';
+import { TextInputContainer } from '../TextInputContainer/TextInputContainer.native';
+import { getSelectData } from './selectUtils';
 
 export class Select extends React.PureComponent<SelectProps & FieldStateProps<SelectDBValue>, { isModalVisible: boolean }> {
     state = {
@@ -14,17 +13,17 @@ export class Select extends React.PureComponent<SelectProps & FieldStateProps<Se
     };
 
     _hideModal = () => {
-        this.setState( { isModalVisible: false } );
+        this.setState({isModalVisible: false});
     };
 
     _showModal = () => {
-        this.setState( { isModalVisible: true } );
+        this.setState({isModalVisible: true});
     };
 
     _onConfirm = ( value: any ) => {
-        const { onChange } = this.props;
-        onChange( value );
-        this.setState( { isModalVisible: false } );
+        const {onChange} = this.props;
+        onChange(value);
+        this.setState({isModalVisible: false});
     };
 
     render() {
@@ -33,14 +32,14 @@ export class Select extends React.PureComponent<SelectProps & FieldStateProps<Se
             title,
             value,
         } = this.props;
-        let { selectedTitle, } = getSelectData( this.props );
+        let {selectedTitle,} = getSelectData(this.props);
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
                 <TextInputContainer
                     title={title}
                     labelPositionLeft={isIOS}
                     onPress={this._showModal}
-                    value={_t( selectedTitle )}
+                    value={selectedTitle}
                 />
                 <CustomPicker
                     isVisible={this.state.isModalVisible}

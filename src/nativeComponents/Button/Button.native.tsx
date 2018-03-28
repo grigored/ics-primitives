@@ -66,7 +66,8 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
             backgroundColor, labelColor, className,
         } = this.props;
-        let buttonStyle = (styles && styles.root) || {}, labelStyle = (styles && styles.label) || {};
+        let buttonStyle = (styles && styles.root) || {},
+            labelStyle = (styles && styles.label) || {};
         if (backgroundColor) {
             buttonStyle.backgroundColor = backgroundColor;
         }
@@ -103,18 +104,18 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                             source={iconLeft}
                         />
                     }
-                    {!!title
-                        ? <Text
+                    {!!title &&
+                        <Text
                             style={[
                                 classes.text,
                                 primary && classes.primaryText,
                                 disabled && classes.disabledText,
                                 labelStyle,
                                 className && className.label,
-                            ]}>
+                            ]}
+                        >
                             {title}
                         </Text>
-                        : null
                     }
                     {
                         iconRight &&
@@ -131,4 +132,4 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
 }
 
 const componentName = 'Button';
-export const Button = createStyles(styles, componentName, CButton);
+export const Button = createStyles(styles, componentName)(CButton);

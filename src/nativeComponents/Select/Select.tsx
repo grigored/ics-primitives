@@ -6,7 +6,6 @@ import {FormControl, FormHelperText} from 'material-ui/Form';
 import { isXs } from "../../";
 import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "./selectUtils";
 import { FieldStateProps, Option, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
-import { _t } from "../../utils/common";
 import { SELECT_INPUT_TYPES } from "../../utils/enums";
 
 class SelectOption extends React.PureComponent<Option, {}> {
@@ -35,7 +34,7 @@ export const Select = (props: SelectProps & FieldStateProps<SelectDBValue>) => {
 
     return (
         <FormControl error={!!error} fullWidth>
-            {title && <InputLabel>{_t(title)}</InputLabel>}
+            {title && <InputLabel>{title}</InputLabel>}
             <SelectMaterial
                 native={isXs()}
                 value={selectedValue}

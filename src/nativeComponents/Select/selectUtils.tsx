@@ -1,5 +1,4 @@
-import { Option } from "src/redux/FormComponents/FormComponents.types";
-import { _t } from "src/utils/common";
+import { Option } from "../../redux/FormComponents/FormComponents.types";
 
 export const NOT_AVAILABLE_FIELD_VALUE = 'select component field unavailable';
 export const NOT_AVAILABLE = 'not available';
@@ -10,7 +9,7 @@ export function getSelectData(props: any) {
     let {nullName, options, nullable, error, value,} = props,
         optionsValues = options.map((option: any) => option.value);
 
-    let translatedError = _t(error);
+    let translatedError = error;
     let selectedValue = null; //can't be undefined on web
     if (value !== undefined){
         selectedValue = value;
@@ -19,13 +18,13 @@ export function getSelectData(props: any) {
         selectedValue = nullable ? NOT_AVAILABLE_FIELD_VALUE : optionsValues[0];
     }
     let selectedIndex = optionsValues.indexOf(selectedValue);
-    let selectedTitle = String(_t(nullName || NOT_AVAILABLE));
+    let selectedTitle = String(nullName || NOT_AVAILABLE);
     if(selectedIndex !== -1) {
         selectedTitle = options[selectedIndex].text;
     }
 
     let optionsList = (!nullable ? [...options] : [{
-        text: String(_t(nullName || NOT_AVAILABLE)),
+        text: String(nullName || NOT_AVAILABLE),
         value: NOT_AVAILABLE_FIELD_VALUE
     }, ...options]).map((option, index) => ({
         key: index,
@@ -46,5 +45,5 @@ function getLabel(option: Option) {
     if (!option) {
         return '';
     }
-    return String(_t(option.text) || option.value);
+    return String(option.text || option.value);
 }

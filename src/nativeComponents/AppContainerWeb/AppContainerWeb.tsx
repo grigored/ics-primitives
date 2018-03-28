@@ -1,18 +1,25 @@
-import * as React from 'react';
 import MenuIcon from 'material-ui-icons/Menu';
-import {connect} from 'react-redux';
-import {appTheme, createStyles, View, WithStyles} from "../..";
-import {Topbar} from "../Topbar/Topbar";
-import {DrawerWeb} from '../DrawerWeb/DrawerWeb';
-import {web} from "../../utils/theme";
-import {ThemeProvider} from "../ThemeProvider/ThemeProvider";
-import {TopbarListButtonData, TopbarSimpleButtonData} from "../Topbar/Topbar.types";
-import {toggleDrawer} from "../../redux/reducers/navigation";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { appTheme, createStyles, View, WithStyles } from '../..';
+import {
+    DialogData, hideDialog, removeDialog, toggleDrawer, routes,
+    DEFAULT_ALERT_ID
+} from '../../redux/reducers/navigation';
+import { web } from '../../utils/theme';
+import { Dialog } from '../Dialog/Dialog';
+import { Alert } from '../Alert/Alert';
+import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
+import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
+import { Topbar } from '../Topbar/Topbar';
+import { TopbarListButtonData, TopbarSimpleButtonData } from '../Topbar/Topbar.types';
 
 const styles = () => ({
     appFrame: {
         fontFamily: 'Roboto',
         flex: 1,
+        width: '100vw',
+        height: '100vh',
     },
     appBarShift: {
         marginLeft: appTheme.drawerWidth,
@@ -67,8 +74,13 @@ export interface AppProps {
 }
 
 export interface ConnectedProps {
+    dialogs: Array<DialogData>,
     drawerOpen: boolean,
+    persistComplete: boolean,
+
     toggleDrawer: typeof toggleDrawer,
+    hideDialog: typeof hideDialog,
+    removeDialog: typeof removeDialog,
 }
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & ConnectedProps> {
@@ -77,6 +89,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
         const {
             classes,
             children,
+            dialogs,
             drawerContent,
             drawerOpen,
             drawerPersistent,
@@ -84,7 +97,15 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             rightButtonsData,
             title,
             toggleDrawer,
+            hideDialog,
+            removeDialog,
+            persistComplete,
         } = this.props;
+
+        if (!persistComplete) {
+            return null;
+        }
+
         return (
             <ThemeProvider>
                 <View style={classes.appFrame} name={'AppFrame'}>
@@ -109,29 +130,42 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         drawerPersistent && classes.contentPersistent,
                     ]}>
                         {children}
-                        {/*{Object.values(routeDefinitions).map(routeData =>*/}
-                        {/*<Route*/}
-                        {/*key={routeData.screen}*/}
-                        {/*path={'/' + routeData.screen + (routeData.webRouteParam || '')}*/}
-                        {/*component={routeData.container}*/}
-                        {/*/>*/}
-                        {/*)}*/}
-                        {/*{!routeDefinition && "unknown route"}*/}
                     </View>
                 </View>
+                {
+                    dialogs.map(dialog => {
+                        let routeName = Object.keys(routes)
+                                .filter(routeName => routes[routeName].screen === dialog.dialogId)[0],
+                            dialogData = routes[routeName];
+                        return (
+                            <Dialog
+                                fullScreen={dialog.fullScreen}
+                                key={dialog.dialogId}
+                                visible={dialog.visible}
+                                body={dialogData.container}
+                                hideDialog={() => hideDialog(dialog.dialogId)}
+                                removeDialog={() => removeDialog(dialog.dialogId)}
+                            />
+                        );
+                    })
+                }
+                <Alert alertId={DEFAULT_ALERT_ID} leftButtonText={"OK"}/>
             </ThemeProvider>
         );
     }
 }
 
 
-
-export const AppContainerWeb = connect(
-    (state: any) => ({
+export const AppContainerWeb: React.ComponentType<AppProps> = connect(
+    ( state: any ) => ({
         drawerOpen: state.navigation.drawerOpen,
+        dialogs: state.navigation.dialogs,
+        persistComplete: state.persisted.persistComplete,
     }), {
         toggleDrawer,
+        hideDialog,
+        removeDialog,
     }
 )(
-    createStyles<AppProps & ConnectedProps>(styles, "AppContainerWeb", CAppContainerWeb)
+    createStyles(styles, 'AppContainerWeb')(CAppContainerWeb)
 );

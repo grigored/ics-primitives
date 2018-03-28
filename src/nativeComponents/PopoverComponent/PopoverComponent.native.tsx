@@ -1,8 +1,7 @@
 import * as React from "react";
 import { OwnProps } from "./PopoverComponent.types";
-import { connectActionSheet } from "src/utils/addActionSheet.native";
-import { _t } from "src/utils/common";
-import { ACTION_SHEETS_IDS } from "src/utils/enums";
+import { connectActionSheet } from "../../utils/addActionSheet.native";
+import { ACTION_SHEETS_IDS } from "../../utils/enums";
 
 class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
 
@@ -19,7 +18,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
             ];
         return {
             [ACTION_SHEETS_IDS.POPOVER_ITEM_CLICK]: {
-                options: sheetActions.map(option => _t(option.title)),
+                options: sheetActions.map(option => option.title),
                 optionClick: (index: number) => {
                     sheetActions[index] && sheetActions[index].onClick();
                 }

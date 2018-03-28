@@ -1,4 +1,4 @@
-import { FIELD_MUST_BE_NUMBER, INVALID_JSON_STRING } from "src/nativeComponents/TextInput/TextInput";
+import { FIELD_MUST_BE_NUMBER, INVALID_JSON_STRING } from "../../nativeComponents/TextInput/TextInput";
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 
 

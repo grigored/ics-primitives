@@ -1,4 +1,4 @@
-import { StyleRules } from "src/utils/theme.types";
+import { StyleRules } from "../../utils/theme.types";
 
 export interface OwnProps {
     children: JSX.Element,

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleRules, WithStyles, StyleSheetClasses } from "../../utils/theme.types";
-import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics";
+import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics/index";
 import {combineStyles } from "../../utils/combineStyles";
 
 /**

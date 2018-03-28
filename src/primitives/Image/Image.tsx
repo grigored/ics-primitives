@@ -1,6 +1,6 @@
 import * as React from "react";
 import {getStyleProps} from "../../utils/web";
-import {createStyles} from "../createStyles/createStyles";
+import {createStyles} from "../../decorators/createStyles/createStyles";
 import {WithStyles} from "../../utils/theme.types";
 import { ImageProps } from './Image.types';
 
@@ -64,4 +64,4 @@ class CImage extends React.PureComponent<ImageProps & WithStyles, {}> {
 }
 
 const componentName = 'Image';
-export const Image = createStyles<ImageProps>(styles, componentName, CImage);
+export const Image: React.ComponentType<ImageProps> = createStyles(styles, componentName)(CImage);

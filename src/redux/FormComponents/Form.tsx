@@ -4,7 +4,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { ScrollView } from '../../primitives/ScrollView/ScrollView';
 import { appTheme, web } from '../../utils/theme';
-import { createStyles } from '../../primitives/createStyles/createStyles';
+import { createStyles } from '../../decorators/createStyles/createStyles';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';
@@ -131,7 +131,7 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexGrow: 1, flexShrink: 0, }}
+                                // style={{ flexGrow: 1, flexShrink: 0, }}
                                 onTouch={this._bindedOnTouchDict[formField.field]}
                             />
                         )
@@ -152,11 +152,10 @@ class CForm extends React.PureComponent<Props, {}> {
 
 const componentName = 'Form';
 let FormComponent: any = reduxForm( {} )(
-    createStyles<Props>(
+    createStyles(
         styles,
-        componentName,
-        CForm,
-    )
+        componentName
+    )(CForm)
 );
 
 export const Form = connect( ( state: GlobalState, ownProps: FormProps ) => {

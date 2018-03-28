@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {DatePickerIOS, StyleSheet, TouchableHighlight, Picker} from 'react-native';
-import { createStyles, Text, View, WithStyles } from "../../";
-import { Option } from "../../redux/FormComponents/FormComponents.types";
-import { _t } from "../../utils/common";
+import { DatePickerIOS, Picker, StyleSheet, TouchableHighlight } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
+import { createStyles, Text, View, WithStyles } from '../../';
+import { Option } from '../../redux/FormComponents/FormComponents.types';
 
 
 const BORDER_RADIUS = 13;
@@ -76,10 +75,10 @@ export interface CustomPickerProps {
     maximumDate?: Date
     minimumDate?: Date
     minuteInterval?: 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30
-    mode?: "date" | "time" | "datetime"
+    mode?: 'date' | 'time' | 'datetime'
     neverDisableConfirmIOS?: boolean
     onCancel: () => void
-    onConfirm: (value: any) => void
+    onConfirm: ( value: any ) => void
     options?: Array<Option>
     title?: string
     value: any,
@@ -106,7 +105,7 @@ class CCustomPicker extends React.PureComponent<CustomPickerProps & WithStyles, 
     _handleConfirm = () => {
         this.props.onConfirm(this.state.value);
     };
-    _handleValueChange = (value: any) => {
+    _handleValueChange = ( value: any ) => {
         this.setState({
             value,
             userIsInteractingWithPicker: false,
@@ -119,7 +118,7 @@ class CCustomPicker extends React.PureComponent<CustomPickerProps & WithStyles, 
         return false;
     };
 
-    componentWillReceiveProps(nextProps: Readonly<CustomPickerProps>) {
+    componentWillReceiveProps( nextProps: Readonly<CustomPickerProps> ) {
         if (this.props.value !== nextProps.value) {
             this.setState({
                 value: nextProps.value,
@@ -150,7 +149,7 @@ class CCustomPicker extends React.PureComponent<CustomPickerProps & WithStyles, 
             >
                 <View style={classes.datepickerContainer}>
                     <View style={classes.titleContainer}>
-                        <Text style={classes.title}>{_t(title)}</Text>
+                        <Text style={classes.title}>{title}</Text>
                     </View>
                     <View /*onStartShouldSetResponderCapture={this._handleUserTouchInit}*/>
                         {isSelect
@@ -158,8 +157,8 @@ class CCustomPicker extends React.PureComponent<CustomPickerProps & WithStyles, 
                                 selectedValue={this.state.value}
                                 onValueChange={this._handleValueChange}
                             >
-                                {options!.map((option: any) =>
-                                    <Picker.Item key={option.value} label={_t(option.text)} value={option.value}/>
+                                {options!.map(( option: any ) =>
+                                    <Picker.Item key={option.value} label={option.text} value={option.value}/>
                                 )}
                             </Picker>
                             : <DatePickerIOS
@@ -198,4 +197,4 @@ class CCustomPicker extends React.PureComponent<CustomPickerProps & WithStyles, 
 }
 
 const componentName = 'CustomPicker';
-export const CustomPicker = createStyles<CustomPickerProps>(styles, componentName, CCustomPicker);
+export const CustomPicker: React.ComponentType<CustomPickerProps> = createStyles(styles, componentName)(CCustomPicker);

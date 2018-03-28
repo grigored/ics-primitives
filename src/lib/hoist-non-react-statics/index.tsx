@@ -1,5 +1,3 @@
-'use strict';
-
 const REACT_STATICS: {[key: string]: boolean} = {
     childContextTypes: true,
     contextTypes: true,
