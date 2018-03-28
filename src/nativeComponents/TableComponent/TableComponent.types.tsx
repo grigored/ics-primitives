@@ -25,7 +25,7 @@ export interface BaseColumn {
     description?: string,
 }
 
-export type Column = (FieldDefinition | {
+export type TableColumn = (FieldDefinition | {
     type: any,
     field: string,
     title: string,
@@ -37,7 +37,7 @@ export type Column = (FieldDefinition | {
 }) & BaseColumn
 
 export interface TableDefinitionData {
-    columns: (( extraData: any ) => Array<Column | null>),
+    columns: (( extraData: any ) => Array<TableColumn | null>),
     dataName: string,
     tableName: string,
     url?: string,
@@ -92,16 +92,15 @@ export interface Row {
 
 export interface OwnProps {
     tableDefinition: TableDefinitionData,
-    showActionSheetWithOptions: Function,
-    extraActions: Array<Action>,
-    hasNew: boolean,
-    hasEdit: boolean,
-    hasDelete: boolean,
-    editFunc: ( row: Row ) => void,
-    navigation: NavigationType,
-    pageId: string,
+    extraActions?: Array<Action>,
+    hasNew?: boolean,
+    hasEdit?: boolean,
+    hasDelete?: boolean,
+    editFunc?: ( row: Row ) => void,
+    // navigation: NavigationType,
+    // pageId: string,
     title: string,
-    refreshMethod: () => void,
+    refreshMethod?: () => void,
     url?: string,
     mixRows?: ( response: any ) => Array<Row>,
     clearDataOnUnmount?: boolean,

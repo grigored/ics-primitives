@@ -1,28 +1,8 @@
-import * as FileSaver from "file-saver";
 import { FORM_INPUT_TYPES } from "../..";
-import { Column, Row, TableData, TableFilterFormData } from "./TableComponent.types";
+import { TableColumn, Row, TableFilterFormData } from "./TableComponent.types";
 import { Option } from "../../redux/FormComponents/FormComponents.types";
 import { getNestedField } from "../../utils/common";
 import { FROM_EXTENSION, ITEMS_PER_PAGE_FIELD, ORDER_FIELD, PAGE_FIELD, TO_EXTENSION } from "./TableComponent";
-
-export function exportToCsv(  fileName: string, columns: Column[], tableData: TableData ) {
-    const separator = ',';
-    const replacer = ( key: string, value: string ) => value === null ? '' : value;
-    const header = columns.map( column => column.title );
-    let items: Array<Row> = getNestedField( tableData, ['data', 'items'] );
-    if (!!items) {
-        let csv = items.map( ( row: Row ) =>
-            columns
-                .map( column => JSON.stringify( getExportFormattedValue( row, column ), replacer ) )
-                .join( separator )
-        );
-        csv.unshift( header.join( separator ) );
-        let processedCsv = csv.join( '\r\n' );
-        let blob = new Blob( [processedCsv], { type: "text/csv;charset=utf-8" } );
-        FileSaver.saveAs( blob, fileName );
-    }
-}
-
 
 export function getFilterString( tableFilterFormData?: TableFilterFormData ) {
     if (!tableFilterFormData) {
@@ -61,7 +41,7 @@ export function getFilterString( tableFilterFormData?: TableFilterFormData ) {
     return filterStrings.filter( filterString => !!filterString ).join( '&' );
 }
 
-export function getExportFormattedValue( row: Row, column: Column ) {
+export function getExportFormattedValue( row: Row, column: TableColumn ) {
     let dataFormatter = column.dataFormat || ( ( value: any, row: Row ) => value );
     if (column.field.indexOf( '!' ) !== -1) {
         return dataFormatter( getNestedField( row, column.field.split( '!' ) ), row );
@@ -69,7 +49,7 @@ export function getExportFormattedValue( row: Row, column: Column ) {
     return dataFormatter( row[column.field], row );
 }
 
-export function getFormattedValue( row: Row, column: Column ) {
+export function getFormattedValue( row: Row, column: TableColumn ) {
     if (column.type === FORM_INPUT_TYPES.SELECT) {
         if (!( column as { options: Array<Option> } ).options) {
             return '';

@@ -18,11 +18,12 @@ import { formatDate } from '../../utils/i18n';
 import { REFRESH } from '../../utils/strings';
 import { Select } from '../Select/Select';
 import {
-    Column, ConnectedProps, OwnProps, Row, TableDefinitionData, TableFilterFormData,
+    TableColumn, ConnectedProps, OwnProps, Row, TableDefinitionData, TableFilterFormData,
     TableFormData
 } from './TableComponent.types';
 import { TablePageNavigator } from './TablePageNavigator';
-import { exportToCsv, getFilterString, getFormattedValue } from './tableUtils';
+import { getFilterString, getFormattedValue } from './tableUtils';
+import { exportToCsv } from './tableExport';
 
 export const ACTIONS_COLUMN = 'admin_actions',
     FROM_EXTENSION = '_from',
@@ -95,6 +96,7 @@ const styles = () => ({
     },
     table: {
         flexDirection: 'column',
+        width: '100%',
         [web]: {
             border: '1px solid #000000',
         },
@@ -120,6 +122,8 @@ const styles = () => ({
             whiteSpace: 'normal',
             wordBreak: 'break-all',
         },
+        paddingLeft: 16,
+        paddingRight: 16,
         minWidth: 180,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -146,7 +150,7 @@ const styles = () => ({
         width: '100%',
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         overflow: 'hidden',
         marginBottom: -5,
         marginTop: -5,
@@ -204,7 +208,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     rowStyle?: ( row: any ) => any;
     tableReloadTimeout: any;
     defaultVisibleColumns: Array<string>;
-    private columns: Array<Column>;
+    private columns: Array<TableColumn>;
 
     constructor( props: OwnProps & WithStyles & ConnectedProps ) {
         super(props);
@@ -212,7 +216,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         this.tableDefinitionData = tableDefinition;
         this.rowStyle = this.tableDefinitionData.rowStyle;
         this.columns = this.tableDefinitionData.columns(null)
-            .filter(column => !!column) as Array<Column>;
+            .filter(column => !!column) as Array<TableColumn>;
 
         this.defaultVisibleColumns = [
             ACTIONS_COLUMN,
@@ -253,7 +257,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         if (nextProps.tableData && nextProps.tableData.data && nextProps.tableData.data.extra_data) {
             let {tableDefinition} = this.props;
             this.columns = tableDefinition.columns(nextProps.tableData.data.extra_data)
-                .filter(column => !!column) as Array<Column>;
+                .filter(column => !!column) as Array<TableColumn>;
             ;
         }
         if (!this.props.refreshTable && nextProps.refreshTable) {
@@ -304,7 +308,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         }
     }
 
-    changeOrder( column: Column ) {
+    changeOrder( column: TableColumn ) {
         let {tableFilterFormData} = this.props;
         let newOrder = '';
         if (!tableFilterFormData || !tableFilterFormData.order
@@ -318,7 +322,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         this.changeTableFormData({order: newOrder});
     }
 
-    getActionsColumn(): Column | null {
+    getActionsColumn(): TableColumn | null {
         // let {
         //         extraActions, hasEdit, hasDelete, editFunc, navigation, tableId, pushScreen, showEntryDetails,
         //         title, tableDetailsEntry,
@@ -340,7 +344,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         //                 isEdit: true,
         //                 tableDefinitionDataColumns: (
         //                     tableDefinitionData &&
-        //                     this.columns.filter( ( col: Column ) =>
+        //                     this.columns.filter( ( col: TableColumn ) =>
         //                         col.modalDisplay !== MODAL_DISPLAY.HIDDEN
         //                     )
         //                 ),
@@ -460,7 +464,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         }
     }
 
-    getFilterComponentForColumn( column: Column ) {
+    getFilterComponentForColumn( column: TableColumn ) {
         let {tableFilterFormData} = this.props;
 
         if (column.type === FORM_INPUT_TYPES.TEXT) {
@@ -567,7 +571,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         } else return null;
     }
 
-    getHeaderForColumn( column: Column, sortOrder: string | undefined, allowFilters: boolean ) {
+    getHeaderForColumn( column: TableColumn, sortOrder: string | undefined, allowFilters: boolean ) {
         let {classes} = this.props,
             widthStyle = !!column.preferredWidth
                 ? {minWidth: column.preferredWidth, maxWidth: column.preferredWidth}
@@ -612,7 +616,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getTableRow( row: Row,
-                 visibleTableColumns: Array<Column>,
+                 visibleTableColumns: Array<TableColumn>,
                  wrapRows: boolean,
                  fullRowColumnIndex: number,
                  rowIndex: number ) {
@@ -634,7 +638,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 ]}
             >
                 {
-                    visibleTableColumns.map(( column: Column ) => {
+                    visibleTableColumns.map(( column: TableColumn ) => {
                         let cellValue = getFormattedValue(
                             row,
                             column
@@ -695,7 +699,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 ? [actionsColumn, ...this.columns]
                 : this.columns,
             tableColumns = columns.filter(
-                ( column: Column ) =>
+                ( column: TableColumn ) =>
                     !column.hiddenInTable
             ),
             tableItems = tableData && tableData.data && tableData.data.items,
@@ -713,7 +717,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             //     }
             // ),
             visibleColumns = tableFilterPersistentData && tableFilterPersistentData.visibleColumns,
-            visibleTableColumns: Array<Column> = !!visibleColumns && visibleColumns.length > 0
+            visibleTableColumns: Array<TableColumn> = !!visibleColumns && visibleColumns.length > 0
                 ? tableColumns.filter(column => visibleColumns.indexOf(column.field) !== -1)
                 : tableColumns,
             [sortedColumn, sortedOrder] = tableFilterFormData && tableFilterFormData.order
@@ -770,7 +774,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             //         tableId,
                             //         isEdit: false,
                             //         tableDefinitionDataColumns: (
-                            //             this.columns.filter( ( col: Column ) =>
+                            //             this.columns.filter( ( col: TableColumn ) =>
                             //                 col.modalDisplay !== MODAL_DISPLAY.HIDDEN
                             //             )
                             //         ),
@@ -860,7 +864,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             wrapRows ? {flexWrap: 'wrap'} : {}
                         ]}>
                             {
-                                visibleTableColumns.map(( column: Column ) =>
+                                visibleTableColumns.map(( column: TableColumn ) =>
                                     this.getHeaderForColumn(
                                         column,
                                         sortedColumn === column.field
@@ -936,7 +940,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 }
 
 const componentName = 'TableComponent';
-export const TableComponent: any = compose(
+export const TableComponent: React.ComponentType<OwnProps> = compose(
     connect(
         ( state: any, ownProps: OwnProps ) => {
             let tableId: string = ownProps.tableContainerName !== null && ownProps.tableContainerName !== undefined

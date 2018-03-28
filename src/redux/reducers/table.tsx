@@ -203,9 +203,12 @@ export function loadTableData(url: string, tableId: string) {
         types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
         method: 'get',
         url,
-        extraData: {
+        successPayload: {
             tableId
-        }
+        },
+        failPayload: {
+            tableId
+        },
     }
 }
 
@@ -214,9 +217,12 @@ export function deleteTableEntry(url: string, itemId: string | number, tableId: 
         types: [TypeKeys.DELETE_TABLE_ENTRY, TypeKeys.DELETE_TABLE_ENTRY_SUCCESS, TypeKeys.DELETE_TABLE_ENTRY_FAIL],
         method: 'delete',
         url: `${url}/${itemId}`,
-        extraData: {
+        successPayload: {
             tableId
-        }
+        },
+        failPayload: {
+            tableId
+        },
     }
 }
 
