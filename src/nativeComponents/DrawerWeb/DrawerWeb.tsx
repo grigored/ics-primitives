@@ -20,24 +20,29 @@ export interface DrawerProps {
     onDrawerClose?: () => void,
 }
 
-const CDrawerWeb: React.StatelessComponent<DrawerProps & WithStyles> = ({
-    children,
-    classes,
-    open,
-    onDrawerClose,
-    persistent
-}) => (
-    <Drawer
-        variant={persistent ? "persistent" : "temporary"}
-        classes={{
-            paper: classes.drawerPaper as any,
-            docked: classes.drawerDocked as any,
-        }}
-        open={open}
-        onClose={onDrawerClose}
-    >
-        {children}
-    </Drawer>
-);
+class CDrawerWeb extends React.PureComponent<DrawerProps & WithStyles, {}>{
+    render() {
+        const {
+            children,
+            classes,
+            open,
+            onDrawerClose,
+            persistent
+        } = this.props;
+        return (
+            <Drawer
+                variant={persistent ? "persistent" : "temporary"}
+                classes={{
+                    paper: classes.drawerPaper as any,
+                    docked: classes.drawerDocked as any,
+                }}
+                open={open}
+                onClose={onDrawerClose}
+            >
+                {children}
+            </Drawer>
+        );
+    }
+}
 
 export const DrawerWeb: React.ComponentType<DrawerProps> = createStyles(styles, 'DrawerWeb')(CDrawerWeb);

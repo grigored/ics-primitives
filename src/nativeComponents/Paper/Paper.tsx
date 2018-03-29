@@ -27,7 +27,7 @@ export interface Props {
     name?: string,
 }
 
-const CPaper: React.StatelessComponent<Props & WithStyles> = ({children, classes, style, name}) => (
+const CPaper: React.PureComponent<Props & WithStyles> = ({children, classes, style, name}) => (
     <View name={name} style={[classes.elevation, style]}>
         {children}
     </View>
