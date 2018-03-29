@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Select } from "../../nativeComponents/Select/Select";
 import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
@@ -35,8 +36,8 @@ const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
         //     return DateMultiTimePicker;
         // case FORM_INPUT_TYPES.PHOTO_UPLOAD:
         //     return S3PhotoInputComponent;
-        // case FORM_INPUT_TYPES.SELECT:
-        //     return Select;
+        case FORM_INPUT_TYPES.SELECT:
+            return Select;
         case FORM_INPUT_TYPES.TEXT:
             return TextInput;
         // case FORM_INPUT_TYPES.RADIO:

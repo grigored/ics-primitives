@@ -39,7 +39,6 @@ exports[`<TextInput /> renders 1`] = `
           className="MuiFormControl-root-4 MuiFormControl-fullWidth-7"
           onBlur={[Function]}
           onFocus={[Function]}
-          required={false}
         >
           <TextField
             InputLabelProps={
@@ -94,7 +93,6 @@ exports[`<TextInput /> renders 1`] = `
                   className="MuiFormControl-root-4"
                   onBlur={[Function]}
                   onFocus={[Function]}
-                  required={false}
                 >
                   <WithStyles(Input)
                     classes={
@@ -111,21 +109,20 @@ exports[`<TextInput /> renders 1`] = `
                     <Input
                       classes={
                         Object {
-                          "disabled": "MuiInput-disabled-13",
-                          "error": "MuiInput-error-11",
-                          "focused": "MuiInput-focused-12",
+                          "disabled": "MuiInput-disabled-11",
+                          "error": "MuiInput-error-13",
+                          "focused": "MuiInput-focused-10",
                           "formControl": "MuiInput-formControl-9",
-                          "fullWidth": "MuiInput-fullWidth-16",
-                          "inkbar": "MuiInput-inkbar-10",
-                          "input": "MuiInput-input-17 CTextInput-input-3",
-                          "inputDense": "MuiInput-inputDense-18",
-                          "inputDisabled": "MuiInput-inputDisabled-19",
-                          "inputMultiline": "MuiInput-inputMultiline-21",
-                          "inputSearch": "MuiInput-inputSearch-22",
-                          "inputSingleline": "MuiInput-inputSingleline-20",
-                          "multiline": "MuiInput-multiline-15",
+                          "fullWidth": "MuiInput-fullWidth-15",
+                          "input": "MuiInput-input-16 CTextInput-input-3",
+                          "inputDisabled": "MuiInput-inputDisabled-18",
+                          "inputMarginDense": "MuiInput-inputMarginDense-17",
+                          "inputMultiline": "MuiInput-inputMultiline-19",
+                          "inputType": "MuiInput-inputType-20",
+                          "inputTypeSearch": "MuiInput-inputTypeSearch-21",
+                          "multiline": "MuiInput-multiline-14",
                           "root": "MuiInput-root-8",
-                          "underline": "MuiInput-underline-14 CTextInput-underline-1",
+                          "underline": "MuiInput-underline-12 CTextInput-underline-1",
                         }
                       }
                       disableUnderline={false}
@@ -137,16 +134,16 @@ exports[`<TextInput /> renders 1`] = `
                       value=""
                     >
                       <div
-                        className="MuiInput-root-8 MuiInput-formControl-9 MuiInput-inkbar-10 MuiInput-underline-14 CTextInput-underline-1"
-                        onBlur={[Function]}
-                        onFocus={[Function]}
+                        className="MuiInput-root-8 MuiInput-formControl-9 MuiInput-underline-12 CTextInput-underline-1"
                       >
                         <input
                           aria-invalid={false}
                           aria-required={false}
-                          className="MuiInput-input-17 CTextInput-input-3 MuiInput-inputSingleline-20"
+                          className="MuiInput-input-16 CTextInput-input-3"
                           disabled={false}
+                          onBlur={[Function]}
                           onChange={[Function]}
+                          onFocus={[Function]}
                           placeholder=""
                           type="text"
                           value=""

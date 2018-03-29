@@ -4,7 +4,7 @@ import { Paper } from '../Paper/Paper';
 import {appTheme, Text, View} from '../..';
 import {createStyles, WithStyles} from "../..";
 import { Button } from '../Button/Button';
-import {TopbarListButtonData, TopbarSimpleButtonData} from "src/nativeComponents/Topbar/Topbar.types";
+import {TopbarListButtonData, TopbarSimpleButtonData} from "../../nativeComponents/Topbar/Topbar.types";
 
 const styles = () => ({
     container: {
