@@ -1,11 +1,20 @@
+import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import * as React from 'react';
-import {createMuiTheme, MuiThemeProvider} from "material-ui/styles";
-import {getMuiTheme} from "../../utils/web";
-import {appTheme} from "../..";
+import { appTheme } from '../..';
+import { getMuiTheme } from '../../utils/web';
 
-
-export const ThemeProvider: React.StatelessComponent<{}> = ({children}) => (
-    <MuiThemeProvider theme={createMuiTheme(getMuiTheme(appTheme))}>
-        {children}
-    </MuiThemeProvider>
-);
+export class ThemeProvider extends React.PureComponent<{}, {}> {
+    private theme: any;
+    constructor(props: {}) {
+        super(props);
+        this.theme = createMuiTheme(getMuiTheme(appTheme));
+    }
+    render() {
+        const {children} = this.props;
+        return (
+            <MuiThemeProvider theme={this.theme}>
+                {children}
+            </MuiThemeProvider>
+        );
+    }
+}
