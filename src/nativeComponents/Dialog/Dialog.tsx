@@ -35,7 +35,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
         }
 
         // noinspection JSUnusedLocalSymbols
-        const BodyComponent: React.ComponentType<BodyProps & {navigation?: {state: {params: {props: any}}}}> = body;
+        const BodyComponent: React.ComponentType<BodyProps & {navigation?: {state: {params: any}}}> = body;
 
         return (
             <MaterialDialog
@@ -47,7 +47,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
             >
                 <BodyComponent
                     displayTopbar={true}
-                    navigation={{state:{params:{props}}}}
+                    navigation={{state:{params: props}}}
                 />
             </MaterialDialog>
         );
