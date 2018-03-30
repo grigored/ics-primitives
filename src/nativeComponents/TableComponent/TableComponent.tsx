@@ -691,7 +691,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     render() {
         let {
-                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod,
+                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod, tableActions,
                 tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
@@ -851,6 +851,19 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         // style={classes.optionsTouchableStyle}
                         onPress={this.changeTablePersistentData.bind(this, {wrapRows: !wrapRows})}
                     />
+                    {
+                        (tableActions || []).map(action => (
+                            <Button
+                                iconLeft={isXs() ? action.iconXs : action.icon}
+                                title={isXs() ? action.titleXs : action.title}
+                                // iconStyle={classes.optionsIconStyle}
+                                // labelStyle={classes.optionsTitleStyle}
+                                // touchableStyle={classes.optionsTouchableStyle}
+                                // style={classes.optionsTouchableStyle}
+                                onPress={action.onPress}
+                            />
+                        ))
+                    }
                     {/*{loadingData && <CircularProgressComponent/>}*/}
                 </View>
                 <ScrollView

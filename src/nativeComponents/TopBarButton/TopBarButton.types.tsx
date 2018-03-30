@@ -1,6 +1,6 @@
 export interface TopBarButtonProps {
     onPress: (args?: any) => void,
-    imgSrc: any,
+    imgSrc?: any,
     text?: string,
     goBack?: () => void,
     testProps?: any,

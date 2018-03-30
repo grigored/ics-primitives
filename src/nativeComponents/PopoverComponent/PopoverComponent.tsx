@@ -61,7 +61,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
                                 // iconStyle={{ position: 'absolute', left: 0, tintColor: null, alignSelf: 'center', }}
                                 title={action.title}
                                 onPress={() => {
-                                    action.onClick();
+                                    action.onPress();
                                     this.setState({popOverVisible: false});
                                 }}
                                 // touchableStyle={{ minWidth: 300 }}

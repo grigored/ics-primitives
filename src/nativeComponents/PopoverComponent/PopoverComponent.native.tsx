@@ -11,7 +11,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
                 ...actions,
                 {
                     title: 'Cancel',
-                    onClick: () => {
+                    onPress: () => {
                     },
                     // icon: iconList.cancel,
                 }
@@ -20,7 +20,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
             [ACTION_SHEETS_IDS.POPOVER_ITEM_CLICK]: {
                 options: sheetActions.map(option => option.title),
                 optionClick: (index: number) => {
-                    sheetActions[index] && sheetActions[index].onClick();
+                    sheetActions[index] && sheetActions[index].onPress();
                 }
             }
         };

@@ -9,9 +9,11 @@ import {
 } from "../../redux/reducers/table";
 
 export interface Action {
-    title: string,
-    icon: any,
-    onClick: ( row?: Row ) => void,
+    title?: string,
+    titleXs?: string,
+    icon?: any,
+    iconXs?: any,
+    onPress: ( row?: Row ) => void,
 }
 
 export interface BaseColumn {
@@ -93,6 +95,7 @@ export interface Row {
 export interface OwnProps {
     tableDefinition: TableDefinitionData,
     extraActions?: Array<Action>,
+    tableActions?: Array<Action>,
     hasNew?: boolean,
     hasEdit?: boolean,
     hasDelete?: boolean,

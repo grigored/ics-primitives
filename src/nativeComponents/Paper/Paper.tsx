@@ -27,10 +27,15 @@ export interface Props {
     name?: string,
 }
 
-const CPaper: React.PureComponent<Props & WithStyles> = ({children, classes, style, name}) => (
-    <View name={name} style={[classes.elevation, style]}>
-        {children}
-    </View>
-);
+class CPaper extends React.PureComponent<Props & WithStyles>{
+    render() {
+        const {children, classes, style, name} = this.props;
+        return (
+            <View name={name} style={[classes.elevation, style]}>
+                {children}
+            </View>
+        );
+    }
+}
 
 export const Paper: React.ComponentType<Props> = createStyles(styles, 'Paper')(CPaper);
