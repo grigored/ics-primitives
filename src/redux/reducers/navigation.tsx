@@ -58,27 +58,26 @@ export interface PushScreenAction {
 
 export interface ShowDialogAction {
     type: TypeKeys.SHOW_DIALOG,
-    dialogId: string,
+    id: string,
     fullScreen: boolean,
     props: any,
 }
 
 export interface HideDialogAction {
     type: TypeKeys.HIDE_DIALOG,
-    dialogId: string,
-    props: any,
+    id: string,
 }
 
 export interface RemoveDialogAction {
     type: TypeKeys.REMOVE_DIALOG,
-    dialogId: string, //DIALOG_IDS,
+    id: string, //DIALOG_IDS,
 }
 
 export interface ShowAlertAction {
     type: TypeKeys.SHOW_ALERT,
     alertId: string,
     body: string,
-    bodyData: Object,
+    bodyData?: Object,
     leftButtonText?: string,
     rightButtonText?: string,
 }
@@ -101,7 +100,7 @@ export type ActionTypes =
     | HideAlertAction
 
 export interface DialogData {
-    dialogId: string,
+    id: string,
     visible: boolean,
     fullScreen: boolean,
     props: any,
@@ -110,7 +109,7 @@ export interface DialogData {
 export interface AlertData {
     alertId: string,
     body: string,
-    bodyData: Object,
+    bodyData?: Object,
     visible: boolean,
     leftButtonText?: string,
     rightButtonText?: string,
@@ -165,7 +164,7 @@ export const navigation = function(state: NavigationState = initialState, action
                 dialogs: [
                     ...state.dialogs,
                     {
-                        dialogId: action.dialogId,
+                        id: action.id,
                         visible: true,
                         fullScreen: action.fullScreen,
                         props: action.props,
@@ -175,13 +174,13 @@ export const navigation = function(state: NavigationState = initialState, action
         case TypeKeys.HIDE_DIALOG:
             return {
                 ...state,
-                dialogs: hideDialogFromList(state.dialogs, action.dialogId),
+                dialogs: hideDialogFromList(state.dialogs, action.id),
 
             };
         case TypeKeys.REMOVE_DIALOG:
             return {
                 ...state,
-                dialogs: removeDialogFromList(state.dialogs, action.dialogId)
+                dialogs: removeDialogFromList(state.dialogs, action.id)
             };
         case TypeKeys.SHOW_ALERT:
             return {
@@ -231,21 +230,21 @@ export const pushScreen = (
     history: any,
     routeDefinition: RouteDefintion,
     props: any | null,
-) => {
+): ShowDialogAction | PushScreenAction => {
     const {screen, pushType, title} = routeDefinition;
     if (isWeb) {
         switch (pushType) {
             case PushTypes.MODAL:
                 return {
                     type: TypeKeys.SHOW_DIALOG,
-                    dialogId: screen,
+                    id: screen,
                     fullScreen: false,
                     props,
                 };
             case PushTypes.MODAL_FULL_SCREEN:
                 return {
                     type: TypeKeys.SHOW_DIALOG,
-                    dialogId: screen,
+                    id: screen,
                     fullScreen: true,
                     props,
                 };
@@ -274,7 +273,7 @@ export const popScreen = (navigation: any, history: any) => {
             if (visibleDialogs.length > 0) {
                 dispatch({
                     type: TypeKeys.HIDE_DIALOG,
-                    dialogId: visibleDialogs.slice(-1)[0].dialogId,  // get last visible dialog
+                    id: visibleDialogs.slice(-1)[0].id,  // get last visible dialog
                 });
                 return;
             }
@@ -287,29 +286,29 @@ export const popScreen = (navigation: any, history: any) => {
     }
 };
 
-export function hideDialog(dialogId: string) {
+export function hideDialog(id: string): HideDialogAction {
     // if dialogIndex is null, clear all dialogs
     return {
         type: TypeKeys.HIDE_DIALOG,
-        dialogId,
+        id,
     }
 }
 
-export function removeDialog(dialogId: string) {
+export function removeDialog(id: string): RemoveDialogAction {
     // if dialogIndex is null, clear all dialogs
     return {
         type: TypeKeys.REMOVE_DIALOG,
-        dialogId,
+        id,
     }
 }
 
 
-function hideDialogFromList(dialogs: Array<any>, dialogId: string) {
+function hideDialogFromList(dialogs: Array<DialogData>, id: string) {
 
     let found = false, newDialogs = [];
     const reversedDialogs = [...dialogs].reverse();
     for (let dialog of reversedDialogs) {
-        if (!found && dialog.dialogId === dialogId) {
+        if (!found && dialog.id === id) {
             found = true;
             newDialogs.push({
                 ...dialog,
@@ -323,12 +322,12 @@ function hideDialogFromList(dialogs: Array<any>, dialogId: string) {
     return newDialogs.reverse();
 }
 
-function removeDialogFromList(dialogs: Array<any>, dialogId: string) {
+function removeDialogFromList(dialogs: Array<DialogData>, id: string) {
 
     let found = false, newDialogs = [];
     const reversedDialogs = [...dialogs].reverse();
     for (let dialog of reversedDialogs) {
-        if (!found && dialog.dialogId === dialogId) {
+        if (!found && dialog.id === id) {
             found = true;
         }
         else {
@@ -348,7 +347,7 @@ export const showAlert = (
     alertId: string = DEFAULT_ALERT_ID,
     leftButtonText?: string,
     rightButtonText?: string,
-) => {
+): ShowAlertAction => {
     return {
         type: TypeKeys.SHOW_ALERT,
         body,
