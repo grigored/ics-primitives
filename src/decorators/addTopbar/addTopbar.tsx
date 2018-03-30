@@ -17,12 +17,12 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
         return WrappedComponent;
     }
 
-    class Enhance extends React.PureComponent<T, {}> {
+    class Enhance extends React.PureComponent<T & {navigation: any}, {}> {
 
         render() {
             const navigationOptions: NavigationOptions = (
                 typeof WrappedComponent.navigationOptions === 'function'
-                    ? WrappedComponent.navigationOptions({})
+                    ? WrappedComponent.navigationOptions({navigation: this.props.navigation})
                     : WrappedComponent.navigationOptions
             );
             return (

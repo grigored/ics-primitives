@@ -8,8 +8,6 @@ function Transition(props: FadeProps) {
 
 export interface BodyProps {
     displayTopbar?: boolean,
-    nonUrlProps?: any,
-    urlProps?: any,
     hideDialog?: Function,
 }
 
@@ -17,8 +15,7 @@ export interface Props {
     body: React.ComponentType<BodyProps>,
     fullScreen: boolean,
     visible: boolean,
-    nonUrlProps?: any,
-    urlProps?: any,
+    props?: any,
     hideDialog: () => void,
     removeDialog: () => void,
 }
@@ -34,9 +31,9 @@ export class Dialog extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { body, fullScreen, visible, nonUrlProps, urlProps } = this.props;
+        let { body, fullScreen, visible, props} = this.props;
         // noinspection JSUnusedLocalSymbols
-        const BodyComponent = body;
+        const BodyComponent: React.ComponentType<BodyProps & {navigation?: {state: {params: {props: any}}}}> = body;
 
         return (
             <MaterialDialog
@@ -48,8 +45,7 @@ export class Dialog extends React.PureComponent<Props, {}> {
             >
                 <BodyComponent
                     displayTopbar={true}
-                    nonUrlProps={nonUrlProps}
-                    urlProps={urlProps}
+                    navigation={{state:{params:{props}}}}
                     hideDialog={this.hideDialog}
                 />
             </MaterialDialog>

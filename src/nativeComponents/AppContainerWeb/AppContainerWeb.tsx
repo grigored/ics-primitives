@@ -143,6 +143,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                                 key={dialog.dialogId}
                                 visible={dialog.visible}
                                 body={dialogData.container}
+                                props={dialog.props}
                                 hideDialog={() => hideDialog(dialog.dialogId)}
                                 removeDialog={() => removeDialog(dialog.dialogId)}
                             />
