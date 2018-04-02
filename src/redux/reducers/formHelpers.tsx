@@ -114,6 +114,10 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
                               types?: [string, string, string] ) => {
     return ( dispatch: any, getState: () => GlobalState ) => {
         let formData: any = getState().form[formName];
+        if (formData && formData.sendingForm) {
+            console.log('already sending form');
+            return
+        }
         let formFields = (formData && formData.values) || {},
             errors = !!formData.syncErrors
                 ? Object.keys(formData.syncErrors!)

@@ -3,11 +3,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { appTheme, createStyles, View, WithStyles } from '../..';
 import {
-    DialogData, hideDialog, removeDialog, toggleDrawer, routes,
-    DEFAULT_ALERT_ID
+    toggleDrawer, DEFAULT_ALERT_ID
 } from '../../redux/reducers/navigation';
 import { web } from '../../utils/theme';
-import { Dialog } from '../Dialog/Dialog';
 import { Alert } from '../Alert/Alert';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -74,13 +72,10 @@ export interface AppProps {
 }
 
 export interface ConnectedProps {
-    dialogs: Array<DialogData>,
     drawerOpen: boolean,
     persistComplete: boolean,
 
     toggleDrawer: typeof toggleDrawer,
-    hideDialog: typeof hideDialog,
-    removeDialog: typeof removeDialog,
 }
 
 class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & ConnectedProps> {
@@ -89,7 +84,6 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
         const {
             classes,
             children,
-            dialogs,
             drawerContent,
             drawerOpen,
             drawerPersistent,
@@ -97,8 +91,6 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             rightButtonsData,
             title,
             toggleDrawer,
-            hideDialog,
-            removeDialog,
             persistComplete,
         } = this.props;
 
@@ -132,24 +124,6 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         {children}
                     </View>
                 </View>
-                {
-                    dialogs.map(dialog => {
-                        let routeName = Object.keys(routes)
-                                .filter(routeName => routes[routeName].screen === dialog.dialogId)[0],
-                            dialogData = routes[routeName];
-                        return (
-                            <Dialog
-                                fullScreen={dialog.fullScreen}
-                                key={dialog.dialogId}
-                                visible={dialog.visible}
-                                body={dialogData.container}
-                                props={dialog.props}
-                                hideDialog={() => hideDialog(dialog.dialogId)}
-                                removeDialog={() => removeDialog(dialog.dialogId)}
-                            />
-                        );
-                    })
-                }
                 <Alert alertId={DEFAULT_ALERT_ID} leftButtonText={"OK"}/>
             </ThemeProvider>
         );
@@ -160,12 +134,9 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
 export const AppContainerWeb: React.ComponentType<AppProps> = connect(
     ( state: any ) => ({
         drawerOpen: state.navigation.drawerOpen,
-        dialogs: state.navigation.dialogs,
         persistComplete: state.persisted.persistComplete,
     }), {
         toggleDrawer,
-        hideDialog,
-        removeDialog,
     }
 )(
     createStyles(styles, 'AppContainerWeb')(CAppContainerWeb)
