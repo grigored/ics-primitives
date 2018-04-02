@@ -202,7 +202,7 @@ storiesOf('TableComponent', module)
 
         let tableDefinition = {
             url: 'table',
-            tableName: 'Table Name',
+            title: 'Table Name',
             dataName: 'test_table',
             allowFilters: false,
             columns: () => [

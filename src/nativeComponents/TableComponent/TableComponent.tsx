@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { destroy, initialize } from 'redux-form';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 import {
     all, appTheme, Button, createStyles, FORM_INPUT_TYPES, isXs, native, Text, TEXT_INPUT_TYPES, View, web,
     webDesktop, webMobile, WithStyles
@@ -15,15 +16,15 @@ import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showM
 import { getNestedField, shallowEqual } from '../../utils/common';
 import { MOMENT_FORMAT } from '../../utils/enums';
 import { formatDate } from '../../utils/i18n';
-import { REFRESH } from '../../utils/strings';
+import { EXPORT, REFRESH } from '../../utils/strings';
 import { Select } from '../Select/Select';
 import {
-    TableColumn, ConnectedProps, OwnProps, Row, TableDefinitionData, TableFilterFormData,
+    ConnectedProps, OwnProps, Row, TableColumn, TableDefinitionData, TableFilterFormData,
     TableFormData
 } from './TableComponent.types';
+import { exportToCsv } from './tableExport';
 import { TablePageNavigator } from './TablePageNavigator';
 import { getFilterString, getFormattedValue } from './tableUtils';
-import { exportToCsv } from './tableExport';
 
 export const ACTIONS_COLUMN = 'admin_actions',
     FROM_EXTENSION = '_from',
@@ -145,7 +146,6 @@ const styles = () => ({
     },
     tableCellHeader: {
         flexDirection: 'column',
-        paddingBottom: 8,
     },
     tableHeaderDivider: {
         width: '100%',
@@ -204,14 +204,14 @@ const styles = () => ({
 });
 
 
-class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & WithStyles, {}> {
+class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & WithStyles & InjectedTranslateProps, {}> {
     tableDefinitionData: TableDefinitionData;
     rowStyle?: ( row: any ) => any;
     tableReloadTimeout: any;
     defaultVisibleColumns: Array<string>;
     private columns: Array<TableColumn>;
 
-    constructor( props: OwnProps & WithStyles & ConnectedProps ) {
+    constructor( props: OwnProps & WithStyles & ConnectedProps & InjectedTranslateProps ) {
         super(props);
         let {tableDefinition, tableFilterPersistentData} = props;
         this.tableDefinitionData = tableDefinition;
@@ -573,7 +573,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getHeaderForColumn( column: TableColumn, sortOrder: string | undefined, allowFilters: boolean ) {
-        let {classes} = this.props,
+        let {classes, t} = this.props,
             widthStyle = !!column.preferredWidth
                 ? {minWidth: column.preferredWidth, maxWidth: column.preferredWidth}
                 : {};
@@ -586,11 +586,13 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     {
                         column.notSortable
                             ? <Text style={{width: '100%',}}>
-                                {column.title}
+                                {t(column.title || '')}
                             </Text>
                             : <Button
-                                title={column.title}
+                                title={t(column.title || '')}
                                 onPress={this.changeOrder.bind(this, column)}
+                                primary={false}
+                                raised={false}
                                 // icon={
                                 //     sortOrder && (
                                 //         sortOrder === ASCENDING_ORDER
@@ -616,7 +618,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         )
     }
 
-    getTableRow( row: Row,
+    getTableRow( row: Row | undefined,
                  visibleTableColumns: Array<TableColumn>,
                  wrapRows: boolean,
                  fullRowColumnIndex: number,
@@ -630,7 +632,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         let fullRowValuePrinted = false;
         return (
             <View
-                key={'cell_' + row.id}
+                key={'cell_' + (row && row.id)}
                 style={[
                     classes.tableRow,
                     wrapRows ? {flexWrap: 'wrap'} : {},
@@ -647,33 +649,35 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             widthStyle = !!column.preferredWidth
                                 ? {minWidth: column.preferredWidth, maxWidth: column.preferredWidth}
                                 : {};
-                        if (isFullRow && COLUMNS_VISIBLE_IN_FULL_ROW.indexOf(column.field) < 0) {
-                            if (!fullRowValuePrinted) {
-                                cellValue = getFormattedValue(
-                                    row,
-                                    this.columns[fullRowColumnIndex]
-                                );
-                                fullRowValuePrinted = true;
-                            } else {
-                                cellValue = '';
+                        if (row) {
+                            if (isFullRow && COLUMNS_VISIBLE_IN_FULL_ROW.indexOf(column.field) < 0) {
+                                if (!fullRowValuePrinted) {
+                                    cellValue = getFormattedValue(
+                                        row,
+                                        this.columns[fullRowColumnIndex]
+                                    );
+                                    fullRowValuePrinted = true;
+                                } else {
+                                    cellValue = '';
+                                }
                             }
-                        }
-                        if (isFullRow && !cellValue) {
-                            return null;
-                        }
-                        if (typeof cellValue !== 'object' || (cellValue && cellValue.constructor === Array)) {
-                            return (
-                                <View
-                                    key={'cell_' + column.field}
-                                    style={[classes.tableCell, (!fullRowValuePrinted || !cellValue) && classes.tableCellNormalWidth, widthStyle]}
-                                >
-                                    <Text style={classes.tableCellText}>
-                                        {
-                                            ((cellValue && cellValue.toString()) || '-')
-                                        }
-                                    </Text>
-                                </View>
-                            )
+                            if (isFullRow && !cellValue) {
+                                return null;
+                            }
+                            if (typeof cellValue !== 'object' || (cellValue && cellValue.constructor === Array)) {
+                                return (
+                                    <View
+                                        key={'cell_' + column.field}
+                                        style={[classes.tableCell, (!fullRowValuePrinted || !cellValue) && classes.tableCellNormalWidth, widthStyle]}
+                                    >
+                                        <Text style={classes.tableCellText}>
+                                            {
+                                                ((cellValue && cellValue.toString()) || '-')
+                                            }
+                                        </Text>
+                                    </View>
+                                )
+                            }
                         }
                         return (
                             <View
@@ -691,8 +695,8 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     render() {
         let {
-                classes, hasNew, title, tableFilterFormData, tableData, refreshMethod, tableActions,
-                tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton,
+                classes, title, tableFilterFormData, tableData, refreshMethod, tableActions,
+                tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton, t,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
             actionsColumn = this.getActionsColumn(),
@@ -752,46 +756,14 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         return (
             <View style={classes.container}>
                 <Text style={classes.tableTitle}>
-                    {title}
+                    {title !== undefined ? title : tableDefinitionData.title}
                 </Text>
                 <View style={classes.tableOptions}>
-                    {
-                        hasNew &&
-                        <Button
-                            // icon={iconList.add}
-                            title={'New'}
-                            // iconStyle={classes.optionsIconStyle}
-                            // labelStyle={classes.optionsTitleStyle}
-                            // touchableStyle={classes.optionsTouchableStyle}
-                            // style={classes.optionsTouchableStyle}
-                            // onPress={() => pushScreen(
-                            //     navigation,
-                            //     null,
-                            //     routeDefinitions.NEW_EDIT_DIALOG,
-                            //     _t( ADD_ITEM ),
-                            //     PUSH_TYPES.MODAL,
-                            //     {},
-                            //     {
-                            //         tableId,
-                            //         isEdit: false,
-                            //         tableDefinitionDataColumns: (
-                            //             this.columns.filter( ( col: TableColumn ) =>
-                            //                 col.modalDisplay !== MODAL_DISPLAY.HIDDEN
-                            //             )
-                            //         ),
-                            //         defaultValues: null,
-                            //         url: tableDefinitionData.url,
-                            //         method: 'put',
-                            //         formErrorChecker: this.tableDefinitionData.formErrorChecker,
-                            //     },
-                            // )}
-                        />
-                    }
                     {
                         !hideRefreshButton &&
                         <Button
                             // icon={iconList.refresh}
-                            title={isXs() ? undefined : REFRESH}
+                            title={isXs() ? undefined : t(REFRESH)}
                             // iconStyle={classes.optionsIconStyle}
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}
@@ -810,7 +782,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     {isWeb &&
                     <Button
                         // icon={iconList.download}
-                        title={'Export'}
+                        title={t(EXPORT)}
                         // iconStyle={classes.optionsIconStyle}
                         // labelStyle={classes.optionsTitleStyle}
                         // touchableStyle={classes.optionsTouchableStyle}
@@ -855,7 +827,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                         (tableActions || []).map(action => (
                             <Button
                                 iconLeft={isXs() ? action.iconXs : action.icon}
-                                title={isXs() ? action.titleXs : action.title}
+                                title={isXs() ? t(action.titleXs || '') : t(action.title || '')}
                                 // iconStyle={classes.optionsIconStyle}
                                 // labelStyle={classes.optionsTitleStyle}
                                 // touchableStyle={classes.optionsTouchableStyle}
@@ -890,22 +862,29 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             }
                         </View>
                         {
-                            tableItems &&
                             <ScrollView
                                 style={classes.tableBody}
                                 // horizontal={false}
                                 // vertical={true}
                             >
                                 {
-                                    tableItems.map(( tableItem: Row, index: number ) =>
-                                        this.getTableRow(
-                                            tableItem,
-                                            visibleTableColumns,
-                                            wrapRows,
-                                            fullRowColumnIndex,
-                                            index
+                                    tableItems
+                                        ? tableItems.map(( tableItem: Row, index: number ) =>
+                                            this.getTableRow(
+                                                tableItem,
+                                                visibleTableColumns,
+                                                wrapRows,
+                                                fullRowColumnIndex,
+                                                index
+                                            )
                                         )
-                                    )
+                                        : this.getTableRow(
+                                        undefined,
+                                        visibleTableColumns,
+                                        wrapRows,
+                                        fullRowColumnIndex,
+                                        0
+                                        )
                                 }
                             </ScrollView>
                         }
@@ -954,7 +933,8 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 }
 
 const componentName = 'TableComponent';
-export const TableComponent: React.ComponentType<OwnProps> = compose(
+export const TableComponent = compose(
+    translate(),
     connect(
         ( state: any, ownProps: OwnProps ) => {
             let tableId: string = ownProps.tableContainerName !== null && ownProps.tableContainerName !== undefined
@@ -988,7 +968,7 @@ export const TableComponent: React.ComponentType<OwnProps> = compose(
     ),
 )(
     CTableComponent
-);
+) as React.ComponentType<OwnProps>;
 
 export function getTableFormId( tableId: string ): string {
     return tableId + '_TABLE_FORM';

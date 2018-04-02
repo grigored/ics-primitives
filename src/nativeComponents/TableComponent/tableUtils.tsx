@@ -49,7 +49,11 @@ export function getExportFormattedValue( row: Row, column: TableColumn ) {
     return dataFormatter( row[column.field], row );
 }
 
-export function getFormattedValue( row: Row, column: TableColumn ) {
+export function getFormattedValue( row: Row | undefined, column: TableColumn ) {
+    if (!row) {
+        return '-';
+    }
+
     if (column.type === FORM_INPUT_TYPES.SELECT) {
         if (!( column as { options: Array<Option> } ).options) {
             return '';
