@@ -52,15 +52,18 @@ const styles = () => ({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        flexShrink: 0,
+        flex: 1,
+        // flexShrink: 0,
         // padding: appTheme.defaultMargin,
         [web]: {
-            width: '100%',
             boxSizing: 'border-box',
         },
     },
     tableContainer: {
         width: '100%',
+        position: 'relative',
+        flex: 1,
+        backgroundColor: '#fff',
         maxHeight: {
             [web]: 'calc(100vh - 220px)',
             [all]: 360, // TODO: is this right?
@@ -76,6 +79,7 @@ const styles = () => ({
     },
     tableBody: {
         flexDirection: 'column',
+        overflowX: 'hidden',
         [webDesktop]: {
             overflowY: 'overlay',
         },
@@ -99,6 +103,7 @@ const styles = () => ({
     table: {
         flexDirection: 'column',
         width: '100%',
+        position: 'absolute',
         [web]: {
             border: '1px solid #000000',
         },
@@ -120,13 +125,14 @@ const styles = () => ({
     },
     tableCell: {
         flexGrow: 1,
+        flexShrink: 0,
+        flexBasis: 180,
         [web]: {
             whiteSpace: 'normal',
             wordBreak: 'break-all',
         },
         paddingLeft: 16,
         paddingRight: 16,
-        minWidth: 180,
         justifyContent: 'flex-start',
         alignItems: 'center',
         // marginRight: appTheme.defaultMargin,
