@@ -5,5 +5,4 @@ export interface OwnProps {
     children: JSX.Element,
     containerStyle?: StyleRules,
     actions: Array<Action>
-    connectedShowActionSheet: Function,
 }

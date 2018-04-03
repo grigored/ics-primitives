@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { destroy, initialize } from 'redux-form';
-import { translate, InjectedTranslateProps } from 'react-i18next';
 import {
     all, appTheme, Button, createStyles, FORM_INPUT_TYPES, isXs, native, Text, TEXT_INPUT_TYPES, View, web,
     webDesktop, webMobile, WithStyles
@@ -16,14 +16,14 @@ import { clearTableData, loadTableData, setRefreshTable, showEntryDetails, showM
 import { getNestedField, shallowEqual } from '../../utils/common';
 import { MOMENT_FORMAT } from '../../utils/enums';
 import { formatDate } from '../../utils/i18n';
-import { EXPORT, REFRESH } from '../../utils/strings';
-import { Select } from '../Select/Select';
+import { ACTIONS, EXPORT, REFRESH } from '../../utils/strings';
+import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
 import {
     ConnectedProps, OwnProps, Row, TableColumn, TableDefinitionData, TableFilterFormData,
     TableFormData
 } from './TableComponent.types';
 import { exportToCsv } from './tableExport';
-import { TablePageNavigator } from './TablePageNavigator';
+import { PaginatorData, TablePaginator } from './TablePaginator';
 import { getFilterString, getFormattedValue } from './tableUtils';
 
 export const ACTIONS_COLUMN = 'admin_actions',
@@ -200,13 +200,6 @@ const styles = () => ({
         minWidth: 0,
         minHeight: 0,
     },
-    pagination: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    itemsPerPage: {
-        flexBasis: 160,
-    }
 });
 
 
@@ -216,6 +209,9 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     tableReloadTimeout: any;
     defaultVisibleColumns: Array<string>;
     private columns: Array<TableColumn>;
+    static defaultProps = {
+        paginate: true,
+    };
 
     constructor( props: OwnProps & WithStyles & ConnectedProps & InjectedTranslateProps ) {
         super(props);
@@ -330,124 +326,77 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     getActionsColumn(): TableColumn | null {
-        // let {
-        //         extraActions, hasEdit, hasDelete, editFunc, navigation, tableId, pushScreen, showEntryDetails,
-        //         title, tableDetailsEntry,
-        //     } = this.props,
-        //     tableDefinitionData = this.tableDefinitionData;
-        // let actions = [
-        //     ...( extraActions || [] ),
-        //     hasEdit && {
-        //         title: EDIT,
-        //         onClick: ( row: Row ) => editFunc ? editFunc( row ) : pushScreen(
-        //             navigation,
-        //             null,
-        //             routeDefinitions.NEW_EDIT_DIALOG,
-        //             _t( EDIT_ITEM, { id: row.id } ),
-        //             PUSH_TYPES.MODAL,
-        //             {},
-        //             {
-        //                 tableId,
-        //                 isEdit: true,
-        //                 tableDefinitionDataColumns: (
-        //                     tableDefinitionData &&
-        //                     this.columns.filter( ( col: TableColumn ) =>
-        //                         col.modalDisplay !== MODAL_DISPLAY.HIDDEN
-        //                     )
-        //                 ),
-        //                 defaultValues: row,
-        //                 url: tableDefinitionData.url + '/' + row.id,
-        //                 method: 'post',
-        //                 formErrorChecker: this.tableDefinitionData.formErrorChecker,
-        //             },
-        //         ),
-        //         icon: iconList.edit,
-        //     },
-        //     hasDelete && {
-        //         title: DELETE,
-        //         onClick: ( row: Row ) => pushScreen(
-        //             navigation,
-        //             null,
-        //             routeDefinitions.DELETE_ITEM_DIALOG,
-        //             _t( DELETE ),
-        //             PUSH_TYPES.MODAL,
-        //             {},
-        //             {
-        //                 tableId,
-        //                 itemId: row.id,
-        //                 url: tableDefinitionData.url,
-        //             },
-        //         ),
-        //         icon: iconList.delete,
-        //     },
-        // ].filter( x => !!x ) as Array<{ title: string, onClick: ( row: Row ) => void }>;
-        //
-        // if (actions.length > 0 && this.defaultVisibleColumns.indexOf( ACTIONS_COLUMN ) == -1) {
-        //     this.defaultVisibleColumns.unshift( ACTIONS_COLUMN );
-        // } else if (actions.length === 0 && this.defaultVisibleColumns.indexOf( ACTIONS_COLUMN ) != -1) {
-        //     this.defaultVisibleColumns.shift();
-        // }
-        //
-        // return {
-        //     field: ACTIONS_COLUMN,
-        //     title: ACTIONS,
-        //     type: FORM_INPUT_TYPES.TABLE_ACTIONS,
-        //     preferredWidth: 120,
-        //     dataFormat: ( cell: any, row: Row ) => {
-        //         const itemName = `${_t( title )} #${row.id}`;
-        //         return (
-        //             <View style={{ flexDirection: 'row' }}>
-        //                 <Button
-        //                     icon={tableDetailsEntry && tableDetailsEntry.itemName === itemName ? iconList.radioChecked : iconList.radioUnchecked}
-        //                     // touchableStyle={{ minWidth: 0, width: 48 }}
-        //                     onPress={() => {
-        //                         if (tableDetailsEntry && tableDetailsEntry.itemName === itemName) {
-        //                             showEntryDetails( undefined, undefined );
-        //                             return;
-        //                         }
-        //
-        //                         showEntryDetails(
-        //                             this.columns.map( column => ( {
-        //                                 title: column.title || 'unknown',
-        //                                 value: getFormattedValue(
-        //                                     row,
-        //                                     column
-        //                                 ),
-        //                             } ) ),
-        //                             itemName
-        //                         );
-        //                         if (isXs()) {
-        //                             pushScreen(
-        //                                 navigation,
-        //                                 null,
-        //                                 routeDefinitions.TABLE_ENTRY_DETAILS,
-        //                                 null,
-        //                                 PUSH_TYPES.MODAL,
-        //                                 {},
-        //                                 {}
-        //                             )
-        //                         }
-        //                     }}
-        //                 />
-        //                 {
-        //                     actions.length > 0 &&
-        //                     <PopoverComponent
-        //                         actions={actions.map( action => ( {
-        //                             ...action,
-        //                             onClick: () => action.onClick( row )
-        //                         } ) )}
-        //                     >
-        //                         <Button
-        //                             icon={iconList.build}
-        //                             // touchableStyle={{ minWidth: 0, width: 48 }}
-        //                         />
-        //                     </PopoverComponent>
-        //                 }
-        //             </View>
-        //         );
-        //     }
-        // };
-        return null;
+        let {
+            extraActions,
+        } = this.props;
+        let actions = extraActions || [];
+
+        if (actions.length > 0 && this.defaultVisibleColumns.indexOf(ACTIONS_COLUMN) == -1) {
+            this.defaultVisibleColumns.unshift(ACTIONS_COLUMN);
+        } else if (actions.length === 0 && this.defaultVisibleColumns.indexOf(ACTIONS_COLUMN) != -1) {
+            this.defaultVisibleColumns.shift();
+        }
+
+        return {
+            field: ACTIONS_COLUMN,
+            title: ACTIONS,
+            type: FORM_INPUT_TYPES.TABLE_ACTIONS,
+            preferredWidth: 120,
+            dataFormat: ( cell: any, row: Row ) => {
+                // const itemName = `${t( title )} #${row.id}`;
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        {/*<Button*/}
+                        {/*icon={tableDetailsEntry && tableDetailsEntry.itemName === itemName ? iconList.radioChecked : iconList.radioUnchecked}*/}
+                        {/*// touchableStyle={{ minWidth: 0, width: 48 }}*/}
+                        {/*onPress={() => {*/}
+                        {/*if (tableDetailsEntry && tableDetailsEntry.itemName === itemName) {*/}
+                        {/*showEntryDetails( undefined, undefined );*/}
+                        {/*return;*/}
+                        {/*}*/}
+
+                        {/*showEntryDetails(*/}
+                        {/*this.columns.map( column => ( {*/}
+                        {/*title: column.title || 'unknown',*/}
+                        {/*value: getFormattedValue(*/}
+                        {/*row,*/}
+                        {/*column*/}
+                        {/*),*/}
+                        {/*} ) ),*/}
+                        {/*itemName*/}
+                        {/*);*/}
+                        {/*if (isXs()) {*/}
+                        {/*pushScreen(*/}
+                        {/*navigation,*/}
+                        {/*null,*/}
+                        {/*routeDefinitions.TABLE_ENTRY_DETAILS,*/}
+                        {/*null,*/}
+                        {/*PUSH_TYPES.MODAL,*/}
+                        {/*{},*/}
+                        {/*{}*/}
+                        {/*)*/}
+                        {/*}*/}
+                        {/*}}*/}
+                        {/*/>*/}
+                        {
+                            actions.length > 0 &&
+                            <PopoverComponent
+                                actions={actions.map(action => ({
+                                    ...action,
+                                    onClick: () => action.onPress(row)
+                                }))}
+                            >
+                                <Button
+                                    title={'Action'}
+                                    // icon={iconList.build}
+                                    // touchableStyle={{ minWidth: 0, width: 48 }}
+                                />
+                            </PopoverComponent>
+                        }
+                    </View>
+                );
+            }
+        };
     }
 
     changeVisibleColumns( newColumns: Array<string> ) {
@@ -702,7 +651,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     render() {
         let {
                 classes, title, tableFilterFormData, tableData, refreshMethod, tableActions,
-                tableFilterPersistentData, url, mixRows, hideRefreshButton, hideItemsPerPageButton, t,
+                tableFilterPersistentData, url, mixRows, hideRefreshButton, paginate, t,
             } = this.props,
             tableDefinitionData = this.tableDefinitionData,
             actionsColumn = this.getActionsColumn(),
@@ -715,9 +664,6 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             ),
             tableItems = tableData && tableData.data && tableData.data.items,
             extraData = tableData && tableData.data && tableData.data.extra_data,
-            totalItems = -1,
-            itemsPerPage = -1,
-            currentPage = -1,
             wrapRows = tableFilterPersistentData && tableFilterPersistentData.wrapRows,
             // columnOptions = columns.map(
             //     column => {
@@ -727,20 +673,16 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             //         };
             //     }
             // ),
-            visibleColumns = tableFilterPersistentData && tableFilterPersistentData.visibleColumns,
-            visibleTableColumns: Array<TableColumn> = !!visibleColumns && visibleColumns.length > 0
-                ? tableColumns.filter(column => visibleColumns.indexOf(column.field) !== -1)
-                : tableColumns,
+            // visibleColumns = tableFilterPersistentData && tableFilterPersistentData.visibleColumns,
+            // visibleTableColumns: Array<TableColumn> = !!visibleColumns && visibleColumns.length > 0
+            //     ? tableColumns.filter(column => visibleColumns.indexOf(column.field) !== -1)
+            //     : tableColumns,
+            visibleTableColumns = tableColumns,
             [sortedColumn, sortedOrder] = tableFilterFormData && tableFilterFormData.order
             && tableFilterFormData.order.indexOf('.') > -1
                 ? tableFilterFormData.order.split('.')
                 : [null, null],
             allowFilters = tableDefinitionData.allowFilters;
-        if (!!extraData) {
-            totalItems = extraData.total_items;
-            itemsPerPage = extraData.items_per_page;
-            currentPage = extraData.page;
-        }
 
         if (tableData && tableData.data && mixRows) {
             tableItems = mixRows(tableData.data);
@@ -764,175 +706,151 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 <Text style={classes.tableTitle}>
                     {title !== undefined ? title : tableDefinitionData.title}
                 </Text>
-                <View style={classes.tableOptions}>
-                    {
-                        !hideRefreshButton &&
+                <TablePaginator
+                    paginate={paginate}
+                    totalItems={extraData && extraData.total_items}
+                    onPaginateChange={( data: PaginatorData ) => {
+                        this.changeTableFormData({
+                            [ITEMS_PER_PAGE_FIELD]: data.itemsPerPage,
+                            [PAGE_FIELD]: data.page,
+                        });
+                    }}
+                >
+                    <View style={classes.tableOptions}>
+                        {
+                            !hideRefreshButton &&
+                            <Button
+                                // icon={iconList.refresh}
+                                title={isXs() ? undefined : t(REFRESH)}
+                                // iconStyle={classes.optionsIconStyle}
+                                // labelStyle={classes.optionsTitleStyle}
+                                // touchableStyle={classes.optionsTouchableStyle}
+                                // style={classes.optionsTouchableStyle}
+                                onPress={
+                                    !!refreshMethod
+                                        ? refreshMethod.bind(this)
+                                        : this.reloadTableData.bind(
+                                        this,
+                                        tableFilterFormData,
+                                        url || this.tableDefinitionData.url,
+                                        )
+                                }
+                            />
+                        }
+                        {isWeb &&
                         <Button
-                            // icon={iconList.refresh}
-                            title={isXs() ? undefined : t(REFRESH)}
+                            // icon={iconList.download}
+                            title={t(EXPORT)}
                             // iconStyle={classes.optionsIconStyle}
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}
                             // style={classes.optionsTouchableStyle}
                             onPress={
-                                !!refreshMethod
-                                    ? refreshMethod.bind(this)
-                                    : this.reloadTableData.bind(
+                                exportToCsv.bind(
                                     this,
-                                    tableFilterFormData,
-                                    url || this.tableDefinitionData.url,
-                                    )
-                            }
-                        />
-                    }
-                    {isWeb &&
-                    <Button
-                        // icon={iconList.download}
-                        title={t(EXPORT)}
-                        // iconStyle={classes.optionsIconStyle}
-                        // labelStyle={classes.optionsTitleStyle}
-                        // touchableStyle={classes.optionsTouchableStyle}
-                        // style={classes.optionsTouchableStyle}
-                        onPress={
-                            exportToCsv.bind(
-                                this,
-                                title + '_' + formatDate(MOMENT_FORMAT.L_LT, new Date()) + '.csv',
-                                this.columns,
-                                tableData,
-                            )
-                        }
-                    />
-                    }
-                    {/*<MultipleSelect*/}
-                    {/*title={isXs() ? undefined : _t( COLUMNS )}*/}
-                    {/*isButton={true}*/}
-                    {/*buttonProps={{*/}
-                    {/*icon: iconList.columns,*/}
-                    {/*iconStyle: classes.optionsIconStyle,*/}
-                    {/*labelStyle: classes.optionsTitleStyle,*/}
-                    {/*touchableStyle: classes.optionsTouchableStyle,*/}
-                    {/*style: classes.optionsTouchableStyle,*/}
-                    {/*}}*/}
-                    {/*options={columnOptions}*/}
-                    {/*onChange={( newColumns: Array<string> ) => {*/}
-                    {/*this.changeVisibleColumns( newColumns );*/}
-                    {/*}}*/}
-                    {/*value={visibleColumns}*/}
-                    {/*navigation={navigation}*/}
-                    {/*/>*/}
-                    <Button
-                        // icon={iconList.wrap}
-                        title={isXs() ? undefined : 'wrap rows'}
-                        // iconStyle={classes.optionsIconStyle}
-                        // labelStyle={classes.optionsTitleStyle}
-                        // touchableStyle={classes.optionsTouchableStyle}
-                        // style={classes.optionsTouchableStyle}
-                        onPress={this.changeTablePersistentData.bind(this, {wrapRows: !wrapRows})}
-                    />
-                    {
-                        (tableActions || []).map(action => (
-                            <Button
-                                iconLeft={isXs() ? action.iconXs : action.icon}
-                                title={isXs() ? t(action.titleXs || '') : t(action.title || '')}
-                                // iconStyle={classes.optionsIconStyle}
-                                // labelStyle={classes.optionsTitleStyle}
-                                // touchableStyle={classes.optionsTouchableStyle}
-                                // style={classes.optionsTouchableStyle}
-                                onPress={action.onPress}
-                            />
-                        ))
-                    }
-                    {/*{loadingData && <CircularProgressComponent/>}*/}
-                </View>
-                <ScrollView
-                    style={classes.tableContainer}
-                    // horizontal={true}
-                    // vertical={false}
-                >
-                    <View style={classes.table}>
-                        <View style={[
-                            classes.tableRow,
-                            classes.tableHeader,
-                            wrapRows ? {flexWrap: 'wrap'} : {}
-                        ]}>
-                            {
-                                visibleTableColumns.map(( column: TableColumn ) =>
-                                    this.getHeaderForColumn(
-                                        column,
-                                        sortedColumn === column.field
-                                            ? sortedOrder!
-                                            : undefined,
-                                        allowFilters
-                                    )
+                                    title + '_' + formatDate(MOMENT_FORMAT.L_LT, new Date()) + '.csv',
+                                    this.columns,
+                                    tableData,
                                 )
                             }
-                        </View>
+                        />
+                        }
+                        {/*<MultipleSelect*/}
+                        {/*title={isXs() ? undefined : _t( COLUMNS )}*/}
+                        {/*isButton={true}*/}
+                        {/*buttonProps={{*/}
+                        {/*icon: iconList.columns,*/}
+                        {/*iconStyle: classes.optionsIconStyle,*/}
+                        {/*labelStyle: classes.optionsTitleStyle,*/}
+                        {/*touchableStyle: classes.optionsTouchableStyle,*/}
+                        {/*style: classes.optionsTouchableStyle,*/}
+                        {/*}}*/}
+                        {/*options={columnOptions}*/}
+                        {/*onChange={( newColumns: Array<string> ) => {*/}
+                        {/*this.changeVisibleColumns( newColumns );*/}
+                        {/*}}*/}
+                        {/*value={visibleColumns}*/}
+                        {/*navigation={navigation}*/}
+                        {/*/>*/}
+                        <Button
+                            // icon={iconList.wrap}
+                            title={isXs() ? undefined : 'wrap rows'}
+                            // iconStyle={classes.optionsIconStyle}
+                            // labelStyle={classes.optionsTitleStyle}
+                            // touchableStyle={classes.optionsTouchableStyle}
+                            // style={classes.optionsTouchableStyle}
+                            onPress={this.changeTablePersistentData.bind(this, {wrapRows: !wrapRows})}
+                        />
                         {
-                            <ScrollView
-                                style={classes.tableBody}
-                                // horizontal={false}
-                                // vertical={true}
-                            >
+                            (tableActions || []).map(action => (
+                                <Button
+                                    iconLeft={isXs() ? action.iconXs : action.icon}
+                                    title={isXs() ? t(action.titleXs || '') : t(action.title || '')}
+                                    // iconStyle={classes.optionsIconStyle}
+                                    // labelStyle={classes.optionsTitleStyle}
+                                    // touchableStyle={classes.optionsTouchableStyle}
+                                    // style={classes.optionsTouchableStyle}
+                                    onPress={action.onPress}
+                                />
+                            ))
+                        }
+                        {/*{loadingData && <CircularProgressComponent/>}*/}
+                    </View>
+                    <ScrollView
+                        style={classes.tableContainer}
+                        // horizontal={true}
+                        // vertical={false}
+                    >
+                        <View style={classes.table}>
+                            <View style={[
+                                classes.tableRow,
+                                classes.tableHeader,
+                                wrapRows ? {flexWrap: 'wrap'} : {}
+                            ]}>
                                 {
-                                    tableItems
-                                        ? tableItems.map(( tableItem: Row, index: number ) =>
-                                            this.getTableRow(
-                                                tableItem,
-                                                visibleTableColumns,
-                                                wrapRows,
-                                                fullRowColumnIndex,
-                                                index
+                                    visibleTableColumns.map(( column: TableColumn ) =>
+                                        this.getHeaderForColumn(
+                                            column,
+                                            sortedColumn === column.field
+                                                ? sortedOrder!
+                                                : undefined,
+                                            allowFilters
+                                        )
+                                    )
+                                }
+                            </View>
+                            {
+                                <ScrollView
+                                    style={classes.tableBody}
+                                    // horizontal={false}
+                                    // vertical={true}
+                                >
+                                    {
+                                        tableItems
+                                            ? tableItems.map(( tableItem: Row, index: number ) =>
+                                                this.getTableRow(
+                                                    tableItem,
+                                                    visibleTableColumns,
+                                                    wrapRows,
+                                                    fullRowColumnIndex,
+                                                    index
+                                                )
                                             )
-                                        )
-                                        : this.getTableRow(
-                                        undefined,
-                                        visibleTableColumns,
-                                        wrapRows,
-                                        fullRowColumnIndex,
-                                        0
-                                        )
-                                }
-                            </ScrollView>
-                        }
-                    </View>
-
-                </ScrollView>
-                {
-                    !hideItemsPerPageButton && extraData &&
-                    <View style={classes.pagination}>
-                        <View style={classes.itemsPerPage}>
-                            <Select
-                                options={ITEMS_PER_PAGE_OPTIONS()}
-                                onChange={( value: number ) => {
-                                    this.changeTableFormData({[ITEMS_PER_PAGE_FIELD]: value, [PAGE_FIELD]: 1});
-                                }}
-                                value={!!itemsPerPage ? itemsPerPage : 5}
-                                title={isWeb ? undefined : (!!itemsPerPage ? itemsPerPage.toString() : '5')}
-                                nullable={false}
-                            />
-                        </View>
-                        {
-                            extraData &&
-                            <TablePageNavigator
-                                // style={{ marginLeft: appTheme.defaultMargin }}
-                                itemsCount={totalItems}
-                                itemsLowerLimit={itemsPerPage * (currentPage - 1) + 1}
-                                itemsUpperLimit={Math.min(itemsPerPage * currentPage, totalItems)}
-                                currentPage={currentPage}
-                                pagesCount={
-                                    totalItems % itemsPerPage === 0
-                                        ? totalItems / itemsPerPage
-                                        : Math.floor(totalItems / itemsPerPage) + 1
-                                }
-                                changePage={
-                                    ( value ) => {
-                                        this.changeTableFormData({[PAGE_FIELD]: value});
+                                            : this.getTableRow(
+                                            undefined,
+                                            visibleTableColumns,
+                                            wrapRows,
+                                            fullRowColumnIndex,
+                                            0
+                                            )
                                     }
-                                }
-                            />
-                        }
-                    </View>
-                }
+                                </ScrollView>
+                            }
+                        </View>
+
+                    </ScrollView>
+                </TablePaginator>
+
             </View>
         );
     }

@@ -105,7 +105,7 @@ export interface OwnProps {
     mixRows?: ( response: any ) => Array<Row>,
     clearDataOnUnmount?: boolean,
     hideRefreshButton?: boolean,
-    hideItemsPerPageButton?: boolean,
+    paginate?: boolean,
     tableContainerName?: string,
 }
 

@@ -1,11 +1,13 @@
 import * as React from "react";
 import { OwnProps } from "./PopoverComponent.types";
-import { connectActionSheet } from "../../utils/addActionSheet.native";
+import { ActionSheetNativeProps, connectActionSheet } from '../../utils/addActionSheet.native';
 import { ACTION_SHEETS_IDS } from "../../utils/enums";
 
-class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
+type AllProps = OwnProps & ActionSheetNativeProps;
 
-    static actionSheetData = (props: OwnProps) => {
+class CPopoverComponent extends React.PureComponent<AllProps, {}> {
+
+    static actionSheetData = (props: AllProps) => {
         let {actions} = props,
             sheetActions = [
                 ...actions,
@@ -39,4 +41,4 @@ class CPopoverComponent extends React.PureComponent<OwnProps, {}> {
     }
 }
 
-export const PopoverComponent: React.ComponentType<OwnProps> = connectActionSheet(CPopoverComponent) as any;
+export const PopoverComponent: React.ComponentType<OwnProps> = connectActionSheet(CPopoverComponent);
