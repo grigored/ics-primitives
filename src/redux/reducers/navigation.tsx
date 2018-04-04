@@ -163,7 +163,7 @@ export const navigation = function(state: NavigationState = initialState, action
             return {
                 ...state,
                 dialogs: [
-                    ...state.dialogs,
+                    ...clearHiddenDialogs(state.dialogs || []),
                     {
                         id: action.id,
                         visible: true,
