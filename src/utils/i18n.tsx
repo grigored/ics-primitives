@@ -1,7 +1,6 @@
 import * as moment from "moment-timezone";
 import { DATE_FORMATS, LOCALES, MOMENT_FORMAT, TIMEZONES } from "./enums";
 
-
 export function formatDate( format: MOMENT_FORMAT, date: Date): string {
     return moment(date).format(format);
 }
