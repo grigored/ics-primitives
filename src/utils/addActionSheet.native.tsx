@@ -10,7 +10,7 @@ import { ACTION_SHEETS_IDS } from '../utils/enums';
 import { android, ios } from './theme';
 import { StyleRules, WithStyles } from './theme.types';
 
-export function connectActionSheet( WrappedComponent: any ) {
+export function connectActionSheet( WrappedComponent: any ): any {
     if (isIOS) {
         return connectActionSheetIos(WrappedComponent);
     }
@@ -20,6 +20,10 @@ export function connectActionSheet( WrappedComponent: any ) {
 export interface ConnectedPropsAndroid {
     sheetVisible: boolean,
     showActionSheet: typeof showActionSheet,
+}
+
+export interface ActionSheetNativeProps {
+    connectedShowActionSheet: Function,
 }
 
 function connectActionSheetAndroid( WrappedComponent: any ) {

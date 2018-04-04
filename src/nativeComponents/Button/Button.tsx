@@ -5,7 +5,7 @@ import { ButtonProps } from './Button.types';
 
 export { fade } from 'material-ui/styles/colorManipulator';
 
-const getUpdatedRoot = (backgroundColor?: string, labelColor?: string): any => {
+const getUpdatedRoot = (primary?: boolean, backgroundColor?: string, labelColor?: string): any => {
     let root: any = {};
     if (backgroundColor) {
         // root = {
@@ -19,8 +19,12 @@ const getUpdatedRoot = (backgroundColor?: string, labelColor?: string): any => {
         //     }
         // }
     }
-    root.backgroundColor = backgroundColor || appTheme.primaryColor;
-    root.color = labelColor || appTheme.primaryTextColor;
+    root.backgroundColor = backgroundColor;
+    root.color = labelColor;
+    if (primary) {
+        root.backgroundColor = backgroundColor || appTheme.primaryColor;
+        root.color = labelColor || appTheme.primaryTextColor;
+    }
     return root;
 };
 
@@ -34,7 +38,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
         // let buttonStyle = {};
         buttonStyle.root = {
             ...(buttonStyle.root || {}),
-            ...getUpdatedRoot(backgroundColor, labelColor),
+            ...getUpdatedRoot(primary, backgroundColor, labelColor),
         };
         return (
             <MaterialButton

@@ -23,7 +23,7 @@ export interface BaseColumn {
     hiddenInTable?: boolean,
     visibleByDefault?: boolean,
     modalDisplay?: number,
-    fullRow?: ( row: Row ) => boolean,
+    fullRow?: ( row: Row | undefined ) => boolean,
     description?: string,
 }
 
@@ -41,7 +41,7 @@ export type TableColumn = (FieldDefinition | {
 export interface TableDefinitionData {
     columns: (( extraData: any ) => Array<TableColumn | null>),
     dataName: string,
-    tableName: string,
+    title: string,
     url?: string,
     allowFilters: boolean,
     mixRows?: ( response: any ) => Array<Row>,
@@ -96,9 +96,6 @@ export interface OwnProps {
     tableDefinition: TableDefinitionData,
     extraActions?: Array<Action>,
     tableActions?: Array<Action>,
-    hasNew?: boolean,
-    hasEdit?: boolean,
-    hasDelete?: boolean,
     editFunc?: ( row: Row ) => void,
     // navigation: NavigationType,
     // pageId: string,
@@ -108,7 +105,7 @@ export interface OwnProps {
     mixRows?: ( response: any ) => Array<Row>,
     clearDataOnUnmount?: boolean,
     hideRefreshButton?: boolean,
-    hideItemsPerPageButton?: boolean,
+    paginate?: boolean,
     tableContainerName?: string,
 }
 
