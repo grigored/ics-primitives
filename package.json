@@ -90,7 +90,7 @@
     "styleguidist:build": "styleguidist build",
     "styleguidist:server": "styleguidist server",
     "test-android": "cross-env NODE_ENV=test jest --config config/jest.android.json",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook",
     "storybook-native": "storybook start -p 7007"
   },
