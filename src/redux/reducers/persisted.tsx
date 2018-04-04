@@ -78,7 +78,7 @@ export const persisted = ( state: PersistedState<any> = initialState,
                 ...state,
                 login: {
                     userData: action.response,
-                    validated2FA: undefined,
+                    validated2FA: !action.response.uses2fa,
                     isLoggedIn: !action.response.uses2fa,
                 },
                 headers: {
