@@ -1,5 +1,5 @@
-import {storiesOf} from '@storybook/react';
 import * as React from 'react';
+import {storiesOf} from '@storybook/react';
 import {Provider} from "react-redux";
 import {combineReducers, compose, createStore} from 'redux';
 import {reducer as formReducer} from 'redux-form';
@@ -8,6 +8,9 @@ import {formHelpers} from "../src/redux/reducers/formHelpers";
 import {persistedTableOptions} from '../src/redux/reducers/persistedTableOptions';
 import {table} from '../src/redux/reducers/table';
 import {FORM_INPUT_TYPES} from '../src/utils/enums';
+import { I18nextProvider } from 'react-i18next';
+// @ts-ignore
+import i18n from 'i18next';
 
 let store = createStore(
     combineReducers({
@@ -192,7 +195,9 @@ let store = createStore(
 const Comp = ({children}:any) => {
     return (
         <Provider store={store}>
+            <I18nextProvider i18n={i18n.init({})}>
             {children}
+            </I18nextProvider>
         </Provider>
     )
 };
@@ -226,5 +231,4 @@ storiesOf('TableComponent', module)
                 />
             </Comp>
         );
-        // return(<div>ASD</div>)
     });
