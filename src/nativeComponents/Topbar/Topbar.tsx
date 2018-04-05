@@ -65,6 +65,12 @@ const CTopBar = ({
                         <Button
                             key={bd.title}
                             title={bd.title}
+                            backgroundColor={
+                                appTheme.topbarButtonColor || appTheme.topbarColor || appTheme.primaryColor
+                            }
+                            labelColor={
+                                appTheme.topbarTextColor || appTheme.topbarContrastColor || appTheme.primaryTextColor
+                            }
                             // items={buttonData.items}
                         />
                     );
@@ -79,6 +85,12 @@ const CTopBar = ({
                             styles={{
                                 label: classes.buttonColor,
                             }}
+                            backgroundColor={
+                                appTheme.topbarButtonColor || appTheme.topbarColor || appTheme.primaryColor
+                            }
+                            labelColor={
+                                appTheme.topbarTextColor || appTheme.topbarContrastColor || appTheme.primaryTextColor
+                            }
                         />
                     );
                 }

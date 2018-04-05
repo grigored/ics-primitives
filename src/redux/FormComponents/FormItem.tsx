@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Select } from "../../nativeComponents/Select/Select";
 import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { Text } from '../../primitives/Text/Text';
@@ -8,22 +9,22 @@ import { StyleRules } from '../../utils/theme.types';
 import { DBValue, FieldDefinition, FieldReduxData } from './FormComponents.types';
 
 export interface FormItemProps {
-    handleFieldChange: ( field: string, fieldReduxData: FieldReduxData, currentRawValue?: any ) => void,
-    fieldReduxData: FieldReduxData,
+    handleFieldChange?: ( field: string, fieldReduxData: FieldReduxData, currentRawValue?: any ) => void,
+    fieldReduxData?: FieldReduxData,
     fieldDefinition: FieldDefinition,
     error?: string,
     input: {
         value: any,
         error?: string,
         onChange: Function,
-        onBlur: Function,
+        onBlur?: Function,
     },
     meta?: {
         error?: string,
         touched?: boolean,
     },
     style?: StyleRules,
-    onTouch: any,
+    onTouch?: any,
 }
 
 const UnImplemented = () => <Text>Unimplemented</Text>;
@@ -54,25 +55,29 @@ const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
     return UnImplemented;
 };
 
-export const FormItem = ( props: FormItemProps ): any => {
-    const {fieldDefinition, input, meta, onTouch, style} = props,
-        FormItemComponent = fieldDefinition && getFormItemComponent(fieldDefinition.type) as React.ComponentType<any>;
-    return (
-        <View style={style || {}}>
-            <FormItemComponent
-                {...fieldDefinition}
-                {...input}
-                onBlur={() => {
-                    onTouch && onTouch();
-                }}
-                onChange={( value: DBValue ) => {
-                    input && input.onChange && input.onChange(value);
-                    fieldDefinition.extraOnChange && fieldDefinition.extraOnChange(value, !!meta && !!meta.error);
-                    onTouch && onTouch();
-                }}
-                value={input && input.value}
-                error={meta && meta.touched && meta.error}
-            />
-        </View>
-    );
-};
+class CFormItem extends React.PureComponent<FormItemProps & InjectedTranslateProps, {}> {
+    render() {
+        const {fieldDefinition, input, meta, onTouch, style, t} = this.props,
+            FormItemComponent = fieldDefinition && getFormItemComponent(fieldDefinition.type) as React.ComponentType<any>;
+        return (
+            <View style={style || {}}>
+                <FormItemComponent
+                    {...fieldDefinition}
+                    {...input}
+                    onBlur={() => {
+                        onTouch && onTouch();
+                    }}
+                    onChange={( value: DBValue ) => {
+                        input && input.onChange && input.onChange(value);
+                        fieldDefinition.extraOnChange && fieldDefinition.extraOnChange(value, !!meta && !!meta.error);
+                        onTouch && onTouch();
+                    }}
+                    value={input && input.value}
+                    error={meta && meta.touched && t(meta.error || '')}
+                />
+            </View>
+        );
+    }
+}
+
+export const FormItem: React.ComponentType<FormItemProps> = translate()(CFormItem);

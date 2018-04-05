@@ -442,7 +442,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             field: column.field,
                             placeholder: 'Filter',
                             type: FORM_INPUT_TYPES.TEXT,
-                            textInputType: TEXT_INPUT_TYPES.TEXT,
+                            inputType: TEXT_INPUT_TYPES.TEXT,
                         }}
                         input={{
                             onChange: ( newData: DBValue ) => this.changeTableFormData({
@@ -475,23 +475,23 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 // touchableStyle={classes.filtersClearButton}
                             />
                         }
-                        <FormItem
-                            fieldDefinition={{
-                                type: FORM_INPUT_TYPES.DATE,
-                                // mode: DATE_TIME_TYPE.DATE,
-                                field: fromField,
-                                placeholder: 'From',
-                            }}
-                            input={{
-                                onChange: ( newData: DBValue ) => this.changeTableFormData({
-                                    [fromField]: newData,
-                                    [PAGE_FIELD]: 1
-                                }),
-                                value: tableFilterFormData && tableFilterFormData[fromField]
-                                    ? tableFilterFormData[fromField]
-                                    : ''
-                            }}
-                        />
+                        {/*<FormItem*/}
+                            {/*fieldDefinition={{*/}
+                                {/*type: FORM_INPUT_TYPES.DATE,*/}
+                                {/*// mode: DATE_TIME_TYPE.DATE,*/}
+                                {/*field: fromField,*/}
+                                {/*placeholder: 'From',*/}
+                            {/*}}*/}
+                            {/*input={{*/}
+                                {/*onChange: ( newData: DBValue ) => this.changeTableFormData({*/}
+                                    {/*[fromField]: newData,*/}
+                                    {/*[PAGE_FIELD]: 1*/}
+                                {/*}),*/}
+                                {/*value: tableFilterFormData && tableFilterFormData[fromField]*/}
+                                    {/*? tableFilterFormData[fromField]*/}
+                                    {/*: ''*/}
+                            {/*}}*/}
+                        {/*/>*/}
                     </View>
                     <View>
                         {
@@ -504,23 +504,23 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                                 // touchableStyle={classes.filtersClearButton}
                             />
                         }
-                        <FormItem
-                            fieldDefinition={{
-                                type: FORM_INPUT_TYPES.DATE,
-                                // mode: DATE_TIME_TYPE.DATE,
-                                field: toField,
-                                placeholder: 'To',
-                            }}
-                            input={{
-                                onChange: ( newData: DBValue ) => this.changeTableFormData({
-                                    [toField]: newData,
-                                    [PAGE_FIELD]: 1
-                                }),
-                                value: tableFilterFormData && tableFilterFormData[toField]
-                                    ? tableFilterFormData[toField]
-                                    : ''
-                            }}
-                        />
+                        {/*<FormItem*/}
+                            {/*fieldDefinition={{*/}
+                                {/*type: FORM_INPUT_TYPES.DATE,*/}
+                                {/*// mode: DATE_TIME_TYPE.DATE,*/}
+                                {/*field: toField,*/}
+                                {/*placeholder: 'To',*/}
+                            {/*}}*/}
+                            {/*input={{*/}
+                                {/*onChange: ( newData: DBValue ) => this.changeTableFormData({*/}
+                                    {/*[toField]: newData,*/}
+                                    {/*[PAGE_FIELD]: 1*/}
+                                {/*}),*/}
+                                {/*value: tableFilterFormData && tableFilterFormData[toField]*/}
+                                    {/*? tableFilterFormData[toField]*/}
+                                    {/*: ''*/}
+                            {/*}}*/}
+                        {/*/>*/}
                     </View>
                 </View>
             )
