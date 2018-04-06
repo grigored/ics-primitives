@@ -1,4 +1,5 @@
 import * as React from "react";
+import { isXs } from '../../';
 import { View } from "../../primitives/View/View";
 import { appTheme } from "../../utils/theme";
 import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics";
@@ -24,7 +25,7 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
                 typeof WrappedComponent.navigationOptions === 'function'
                     ? WrappedComponent.navigationOptions({navigation: this.props.navigation})
                     : WrappedComponent.navigationOptions
-            );
+            ), topbarHeight = isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop;
             return (
                 <View
                     style={{
@@ -35,7 +36,7 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
                 >
                     <View
                         style={{
-                            height: appTheme.topBarHeight,
+                            height: topbarHeight,
                             backgroundColor: appTheme.topbarColor,
                             zIndex: 100,
                             width: '100%',
@@ -60,7 +61,7 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
                         style={[
                             {
                                 width: '100%',
-                                top: appTheme.topBarHeight,
+                                top: topbarHeight,
                                 bottom: 0,
                                 position: 'absolute',
                             },
