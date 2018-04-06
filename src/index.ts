@@ -80,7 +80,9 @@ export {
     hideAlert,
 } from './redux/reducers/navigation';
 export { TableComponent } from './nativeComponents/TableComponent/TableComponent';
-export { TableDefinitionData, TableColumn } from './nativeComponents/TableComponent/TableComponent.types';
+export {
+    TableDefinitionData, TableColumn, TableRowAction,
+} from './nativeComponents/TableComponent/TableComponent.types';
 export { table, setRefreshTable } from './redux/reducers/table';
 export { persistedTableOptions } from './redux/reducers/persistedTableOptions';
 export * from './primitives/platform/platform';

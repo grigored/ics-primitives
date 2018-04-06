@@ -327,7 +327,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
     getActionsColumn(): TableColumn | null {
         let {
-            extraActions,
+            extraActions, t,
         } = this.props;
         let actions = extraActions || [];
 
@@ -341,6 +341,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             field: ACTIONS_COLUMN,
             title: ACTIONS,
             type: FORM_INPUT_TYPES.TABLE_ACTIONS,
+            notSortable: true,
             preferredWidth: 120,
             dataFormat: ( cell: any, row: Row ) => {
                 // const itemName = `${t( title )} #${row.id}`;
@@ -383,11 +384,11 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                             <PopoverComponent
                                 actions={actions.map(action => ({
                                     ...action,
-                                    onClick: () => action.onPress(row)
+                                    onPress: () => action.onPress(row)
                                 }))}
                             >
                                 <Button
-                                    title={'Action'}
+                                    title={t(ACTIONS)}
                                     // icon={iconList.build}
                                     // touchableStyle={{ minWidth: 0, width: 48 }}
                                 />
