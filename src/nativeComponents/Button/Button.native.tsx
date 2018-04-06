@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { compose } from 'redux';
 import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
 import { isIOS } from '../../primitives/platform/platform';
 import { all, android, appTheme } from '../../utils/theme';
@@ -60,11 +62,11 @@ const styles = () => ({
     }
 });
 
-class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
+class CButton extends React.PureComponent<ButtonProps & WithStyles & InjectedTranslateProps, {}> {
     render() {
         const {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
-            backgroundColor, labelColor, className,
+            backgroundColor, labelColor, className, t,
         } = this.props;
         let buttonStyle = (styles && styles.root) || {},
             labelStyle = (styles && styles.label) || {};
@@ -90,12 +92,12 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                     raised && classes.buttonRaised,
                     disabled && classes.disabledView,
                     raised && classes.shadowedButton,
-                    primary && classes.primaryView,
+                    isIOS && primary && classes.primaryView,
                     ...(isIOS ? containerStyle : []),
                 ]}
             >
                 <View
-                    style={isIOS ? undefined : containerStyle}
+                    style={isIOS ? undefined : [containerStyle, primary && classes.primaryView]}
                 >
                     {
                         iconLeft &&
@@ -114,7 +116,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                                 className && className.label,
                             ]}
                         >
-                            {title}
+                            {t(title)}
                         </Text>
                     }
                     {
@@ -132,4 +134,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
 }
 
 const componentName = 'Button';
-export const Button = createStyles(styles, componentName)(CButton);
+export const Button: React.ComponentType<ButtonProps> = compose(
+    translate(),
+    createStyles(styles, componentName),
+)(CButton);

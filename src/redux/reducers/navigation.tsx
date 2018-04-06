@@ -157,12 +157,13 @@ export const navigation = function(state: NavigationState = initialState, action
                 ...state,
                 screen: action.screen,
                 props: action.props,
+                dialogs: clearHiddenDialogs(state.dialogs || []),
             };
         case TypeKeys.SHOW_DIALOG:
             return {
                 ...state,
                 dialogs: [
-                    ...state.dialogs,
+                    ...clearHiddenDialogs(state.dialogs || []),
                     {
                         id: action.id,
                         visible: true,
@@ -303,7 +304,7 @@ export function removeDialog(id: string): RemoveDialogAction {
 }
 
 
-function hideDialogFromList(dialogs: Array<DialogData>, id: string) {
+const hideDialogFromList = (dialogs: Array<DialogData>, id: string) => {
 
     let found = false, newDialogs = [];
     const reversedDialogs = [...dialogs].reverse();
@@ -320,9 +321,9 @@ function hideDialogFromList(dialogs: Array<DialogData>, id: string) {
         }
     }
     return newDialogs.reverse();
-}
+};
 
-function removeDialogFromList(dialogs: Array<DialogData>, id: string) {
+const removeDialogFromList = (dialogs: Array<DialogData>, id: string) => {
 
     let found = false, newDialogs = [];
     const reversedDialogs = [...dialogs].reverse();
@@ -335,7 +336,11 @@ function removeDialogFromList(dialogs: Array<DialogData>, id: string) {
         }
     }
     return newDialogs.reverse();
-}
+};
+
+const clearHiddenDialogs = (dialogs: Array<DialogData>): Array<DialogData> => {
+    return [...dialogs.filter(dialog => dialog.visible)];
+};
 
 export const setRoutes = (targetRoutes: {[route: string]: Route}) => {
     routes = targetRoutes;

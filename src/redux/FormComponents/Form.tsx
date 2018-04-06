@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 import { ScrollView } from '../../primitives/ScrollView/ScrollView';
@@ -47,7 +49,7 @@ interface ConnectedProps {
     showErrors?: boolean,
 }
 
-type Props = FormProps & InjectedFormProps<{}, FormProps> & ConnectedProps & WithStyles
+type Props = FormProps & InjectedFormProps<{}, FormProps> & ConnectedProps & WithStyles & InjectedTranslateProps
 
 const FormField = Field as any;
 
@@ -119,7 +121,7 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError } = this.props;
+        let { classes, fieldDefinitions, containerStyle, formError, t } = this.props;
         return (
             <View style={{ width: '100%', }}>
                 <ScrollView style={[classes.container, containerStyle]}>
@@ -140,7 +142,7 @@ class CForm extends React.PureComponent<Props, {}> {
                         !!formError &&
                         <Text style={{ color: 'red', }}>
                             {
-                                formError
+                                t(formError)
                             }
                         </Text>
                     }
@@ -151,17 +153,20 @@ class CForm extends React.PureComponent<Props, {}> {
 }
 
 const componentName = 'Form';
-let FormComponent: any = reduxForm( {} )(
+export const Form = compose(
+    reduxForm( {} ) as any,
+    translate(),
+    connect( ( state: GlobalState, ownProps: FormProps ) => {
+            let formName = ownProps.form;
+            return {
+                formError: getNestedField( state.form[formName], ['syncErrors', 'form'] ),
+                showErrors: getNestedField( state.formHelpers[formName], ['showErrors'] ),
+            };
+        },
+        {}
+    ),
     createStyles(
         styles,
         componentName
-    )(CForm)
-);
-
-export const Form = connect( ( state: GlobalState, ownProps: FormProps ) => {
-    let formName = ownProps.form;
-    return {
-        formError: getNestedField( state.form[formName], ['syncErrors', 'form'] ),
-        showErrors: getNestedField( state.formHelpers[formName], ['showErrors'] ),
-    };
-}, {} )( FormComponent );
+    ),
+)(CForm) as React.ComponentType<FormProps>;

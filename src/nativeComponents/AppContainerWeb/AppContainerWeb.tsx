@@ -102,7 +102,11 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             <ThemeProvider>
                 <View style={classes.appFrame} name={'AppFrame'}>
                     <Topbar
-                        leftButtonIcon={<MenuIcon style={{color: appTheme.topbarContrastColor}}/>}
+                        leftButtonIcon={
+                            <MenuIcon
+                                style={{color: appTheme.topbarContrastColor || appTheme.primaryTextColor}}
+                            />
+                        }
                         leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
                         drawerOpen={!!drawerOpen}
                         title={title}
