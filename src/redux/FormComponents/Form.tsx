@@ -10,7 +10,7 @@ import { createStyles } from '../../decorators/createStyles/createStyles';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';
-import { StyleRules, WithStyles } from '../../utils/theme.types';
+import { ClassValues, WithStyles } from '../../utils/theme.types';
 import { DBValue, FieldDefinition, GlobalState } from './FormComponents.types';
 import { FormItem } from './FormItem';
 
@@ -33,7 +33,7 @@ export interface FormProps {
     handleSubmit?: any, // do we need this?
     fieldDefinitions: Array<FieldDefinition>,
     form: string,
-    containerStyle?: StyleRules,
+    containerStyle?: ClassValues,
     allRequired?: boolean,
     alwaysTouched?: boolean,
     destroyOnUnmount?: boolean, // do we need this?

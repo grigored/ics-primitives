@@ -77,6 +77,7 @@ export interface SelectProps {
     defaultValue?: any,
     disabled?: boolean,
     nullable?: boolean,
+    disableUnderline?: boolean,
     nullName?: string,
     options: Array<Option>,
     title?: string,

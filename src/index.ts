@@ -39,6 +39,8 @@ export {
     // SendFormDataFailAction,
     formHelpers,
     sendFormData,
+    formHasErrors,
+    displayErrors,
 } from './redux/reducers/formHelpers';
 export {
     auth,

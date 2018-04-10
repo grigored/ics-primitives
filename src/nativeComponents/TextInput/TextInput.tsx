@@ -15,7 +15,7 @@ export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 const styles = () => ( {
     underline: {
         '&:after': {
-            backgroundColor: appTheme.textInputUnderlineColor,
+            backgroundColor: appTheme.primaryColor,
         },
         '&:before': {
             backgroundColor: appTheme.textInputUnderlineColor,
@@ -23,13 +23,21 @@ const styles = () => ( {
         '&:hover:not($disabled):before': {
             backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
         },
-        '&:hover:not($disabled):after': {
-            backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
+    },
+    inkbar: {
+        '&:after': {
+            backgroundColor: appTheme.primaryColor,
         },
     },
     underlineError: {},
     input: {
         color: appTheme.textColor,
+    },
+    label: {
+        color: appTheme.textColor,
+    },
+    focusedLabel: {
+        color: appTheme.primaryColor,
     },
 } );
 
@@ -136,8 +144,11 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                     }}
                     InputLabelProps={{
                         // shrink: true,
-                        style: {
-                            color: appTheme.textInputLabelColor,
+                        FormControlClasses:{
+                            focused: classes.focusedLabel as any,
+                        },
+                        classes: {
+                            root: classes.label as any,
                         },
                     }}
                 />

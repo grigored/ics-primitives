@@ -118,14 +118,8 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
             console.log('already sending form');
             return
         }
-        let formFields = (formData && formData.values) || {},
-            errors = !!formData.syncErrors
-                ? Object.keys(formData.syncErrors!)
-                    .filter(field => !!getNestedField(formData, ['syncErrors', field]))
-                    .map(field => formData.syncErrors[field])
-                :
-                null;
-        if (hasErrors(errors) || formData.formError) {
+        let formFields = (formData && formData.values) || {};
+        if (formHasErrors(formData)) {
             dispatch(displayErrors(formName));
             return;
         }
@@ -144,4 +138,17 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
             })
         }
     }
+};
+
+export const formHasErrors = (formData: any): boolean => {
+    let errors = !!formData.syncErrors
+            ? Object.keys(formData.syncErrors!)
+                .filter(field => !!getNestedField(formData, ['syncErrors', field]))
+                .map(field => formData.syncErrors[field])
+            :
+            null;
+    if (hasErrors(errors) || formData.formError) {
+        return true;
+    }
+    return false;
 };
