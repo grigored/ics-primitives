@@ -11,7 +11,8 @@ export const webMobile = 'webMobile';
 export const webDesktop = 'webDesktop';
 
 export const appTheme: AppTheme = {
-    topBarHeight: 64,
+    topBarHeightDesktop: 64,
+    topBarHeightMobile: 50,
     drawerWidth: 250,
     primaryColor: '#000',
     primaryTextColor: '#fff',

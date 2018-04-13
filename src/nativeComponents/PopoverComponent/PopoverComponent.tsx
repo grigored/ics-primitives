@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button, createStyles, View, WithStyles } from '../../';
 import { StyleRules } from '../../utils/theme.types';
 import { OwnProps } from '../PopoverComponent/PopoverComponent.types';
-import { Action } from '../TableComponent/TableComponent.types';
+import { TableRowAction } from '../TableComponent/TableComponent.types';
 
 const styles: StyleRules = {
     container: {},
@@ -54,7 +54,7 @@ class CPopoverComponent extends React.PureComponent<OwnProps & WithStyles, { pop
                     onClose={this.handleRequestClose}
                 >
                     {
-                        actions.map(( action: Action ) =>
+                        actions.map(( action: TableRowAction ) =>
                             <Button
                                 key={`action_${action.title}`}
                                 // icon={action.icon}

@@ -1,11 +1,10 @@
 import MenuIcon from 'material-ui-icons/Menu';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { appTheme, createStyles, View, WithStyles } from '../..';
+import { appTheme, createStyles, View, webDesktop, webMobile, WithStyles } from '../..';
 import {
     toggleDrawer, DEFAULT_ALERT_ID
 } from '../../redux/reducers/navigation';
-import { web } from '../../utils/theme';
 import { Alert } from '../Alert/Alert';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -37,7 +36,8 @@ const styles = () => ({
         position: 'relative',
         overflow: 'hidden',
         marginTop: {
-            [web]: appTheme.topBarHeight
+            [webDesktop]: appTheme.topBarHeightDesktop,
+            [webMobile]: appTheme.topBarHeightMobile,
         },
     },
     drawerPaper: {

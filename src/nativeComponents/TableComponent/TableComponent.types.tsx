@@ -8,7 +8,7 @@ import {
     TableEntryDetail
 } from "../../redux/reducers/table";
 
-export interface Action {
+export interface TableRowAction {
     title?: string,
     titleXs?: string,
     icon?: any,
@@ -94,8 +94,8 @@ export interface Row {
 
 export interface OwnProps {
     tableDefinition: TableDefinitionData,
-    extraActions?: Array<Action>,
-    tableActions?: Array<Action>,
+    extraActions?: Array<TableRowAction>,
+    tableActions?: Array<TableRowAction>,
     editFunc?: ( row: Row ) => void,
     // navigation: NavigationType,
     // pageId: string,

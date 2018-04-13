@@ -47,7 +47,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
             >
                 <BodyComponent
                     displayTopbar={true}
-                    navigation={{state:{params: props}}}
+                    navigation={{state:{params: {...(props || {}), ...(dialog.props || {})}}}}
                 />
             </MaterialDialog>
         );
