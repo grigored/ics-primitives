@@ -107,6 +107,7 @@ export interface OwnProps {
     hideRefreshButton?: boolean,
     paginate?: boolean,
     tableContainerName?: string,
+    tableData?: TableData,
 }
 
 export interface ConnectedProps {
