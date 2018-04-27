@@ -869,7 +869,7 @@ export const TableComponent = compose(
                 loadingData: getNestedField(state.table, [tableId, 'loading']),
                 openedTableRow: getNestedField(state.table, [tableId, 'menuRow']),
                 refreshTable: getNestedField(state.table, [tableId, 'refresh']),
-                tableData: state.table[tableId],
+                tableData: ownProps.tableData || state.table[tableId],
                 tableFilterFormData: getNestedField(state.form, [getTableFormId(tableId), 'values']) || {},
                 tableFilterPersistentData: state.persistedTableOptions[getTableFormId(tableId)],
                 tableId: tableId,

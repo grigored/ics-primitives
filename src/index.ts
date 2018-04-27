@@ -64,8 +64,8 @@ export {
 } from './redux/reducers/persisted';
 export { FieldDefinition, FormHelpersState, FormState } from './redux/FormComponents/FormComponents.types'
 export * from './primitives/platform/platform';
-export {CircularProgressComponent} from './primitives/CircularProgressComponent/CircularProgressComponent'
-export {LoadingContainer} from './primitives/LoadingContainer'
+export { CircularProgressComponent } from './primitives/CircularProgressComponent/CircularProgressComponent'
+export { LoadingContainer } from './primitives/LoadingContainer'
 
 export {
     navigation,
@@ -83,7 +83,7 @@ export {
 } from './redux/reducers/navigation';
 export { TableComponent } from './nativeComponents/TableComponent/TableComponent';
 export {
-    TableDefinitionData, TableColumn, TableRowAction,
+    TableDefinitionData, TableColumn, TableRowAction, TableData,
 } from './nativeComponents/TableComponent/TableComponent.types';
 export { table, setRefreshTable } from './redux/reducers/table';
 export { persistedTableOptions } from './redux/reducers/persistedTableOptions';
