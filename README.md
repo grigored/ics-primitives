@@ -64,6 +64,19 @@ const styles = {
     1. Refresh web page
 
 
+# How to add sketch to a project
+1. add sketch-manifest.json (similar to the one in this repo)
+2. in package.json add   
+```
+"skpm": {
+  "main": "your_repo_name.sketchplugin",
+  "manifest": "./sketch-manifest.json"
+},
+"scripts": {
+  "render": "skpm-build --watch --run & npm run typescript",
+}
+```
+3. add `your_repo_name.sketchplugin` to .gitignore
 # TODO
 1. Add internationalization (using context maybe?)
 1. Add the rest of form components

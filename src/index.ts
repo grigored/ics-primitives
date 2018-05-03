@@ -87,15 +87,14 @@ export {
 } from './nativeComponents/TableComponent/TableComponent.types';
 export { table, setRefreshTable } from './redux/reducers/table';
 export { persistedTableOptions } from './redux/reducers/persistedTableOptions';
-export * from './primitives/platform/platform';
-export {
-    isWeb,
-    isIOS,
-    isAndroid,
-    isSketch,
-    getWindowHeight,
-    getWindowWidth,
-} from './primitives/platform/platform';
+// export {
+//     isWeb,
+//     isIOS,
+//     isAndroid,
+//     isSketch,
+//     getWindowHeight,
+//     getWindowWidth,
+// } from './primitives/platform/platform';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
 export { requireAuthentication } from './decorators/requireAuthentication'
 export { getFormDbValue } from './redux/FormComponents/Form.utils';

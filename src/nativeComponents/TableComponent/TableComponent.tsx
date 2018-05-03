@@ -103,7 +103,7 @@ const styles = () => ({
     table: {
         flexDirection: 'column',
         width: '100%',
-        position: 'absolute',
+        // position: 'absolute',
         [web]: {
             border: '1px solid #000000',
         },
@@ -588,7 +588,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         let fullRowValuePrinted = false;
         return (
             <View
-                key={'cell_' + (row && row.id)}
+                key={rowIndex}
                 style={[
                     classes.tableRow,
                     wrapRows ? {flexWrap: 'wrap'} : {},

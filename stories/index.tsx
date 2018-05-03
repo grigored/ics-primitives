@@ -9,6 +9,7 @@ import {persistedTableOptions} from '../src/redux/reducers/persistedTableOptions
 import {table} from '../src/redux/reducers/table';
 import {FORM_INPUT_TYPES} from '../src/utils/enums';
 import { I18nextProvider } from 'react-i18next';
+import { View } from '../src/primitives/View/View';
 // @ts-ignore
 import i18n from 'i18next';
 
@@ -221,14 +222,67 @@ storiesOf('TableComponent', module)
                     title: 'Last Name',
                     type: FORM_INPUT_TYPES.TEXT,
                 },
+                {
+                    field: 'fname2',
+                    title: 'First Name',
+                    type: FORM_INPUT_TYPES.TEXT,
+                },
+                {
+                    field: 'lname2',
+                    title: 'Last Name',
+                    type: FORM_INPUT_TYPES.TEXT,
+                },
+                {
+                    field: 'fname3',
+                    title: 'First Name',
+                    type: FORM_INPUT_TYPES.TEXT,
+                },
+                {
+                    field: 'lname3',
+                    title: 'Last Name',
+                    type: FORM_INPUT_TYPES.TEXT,
+                },
             ]
         };
         return (
             <Comp>
-                <TableComponent
-                    title={'Test'}
-                    tableDefinition={tableDefinition}
-                />
+                <View style={{
+                    height: 500,
+                    width: 700,
+                }}>
+                    <TableComponent
+                        title={'Test2'}
+                        tableDefinition={tableDefinition}
+                        tableData={{data: {
+                            items: [
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                                {fname: "A", lname: 'B'},
+                            ],
+
+                        }}}
+                    />
+                </View>
             </Comp>
         );
     });

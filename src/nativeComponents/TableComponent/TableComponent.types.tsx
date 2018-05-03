@@ -77,7 +77,7 @@ export interface TableData {
 
 export interface Data {
     items: Array<Row>,
-    extra_data: ExtraData,
+    extra_data?: ExtraData,
 }
 
 export interface ExtraData {
