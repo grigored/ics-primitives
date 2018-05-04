@@ -12,6 +12,7 @@ import { I18nextProvider } from 'react-i18next';
 import { View } from '../src/primitives/View/View';
 // @ts-ignore
 import i18n from 'i18next';
+import {TableInner} from "../src/nativeComponents/TableComponent/TableInner";
 
 let store = createStore(
     combineReducers({
@@ -232,25 +233,60 @@ storiesOf('TableComponent', module)
                     title: 'Last Name',
                     type: FORM_INPUT_TYPES.TEXT,
                 },
-                {
-                    field: 'fname3',
-                    title: 'First Name',
-                    type: FORM_INPUT_TYPES.TEXT,
-                },
-                {
-                    field: 'lname3',
-                    title: 'Last Name',
-                    type: FORM_INPUT_TYPES.TEXT,
-                },
             ]
-        };
+        }, tableData = [
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+            {fname: "A", lname: 'B', fname2: "X", lname2: "Y"},
+        ];
         return (
             <Comp>
                 <View style={{
-                    height: 500,
-                    width: 700,
+                    height: 200,
+                    width: '100%',
                 }}>
-                    <TableComponent
+                    <TableInner
+                        columns={tableDefinition.columns()}
+                        data={tableData}
+                    />
+                    {false && <TableComponent
                         title={'Test2'}
                         tableDefinition={tableDefinition}
                         tableData={{data: {
@@ -281,7 +317,7 @@ storiesOf('TableComponent', module)
                             ],
 
                         }}}
-                    />
+                    />}
                 </View>
             </Comp>
         );
