@@ -39,7 +39,7 @@ export type TableColumn = (FieldDefinition | {
 }) & BaseColumn
 
 export interface TableDefinitionData {
-    columns: (( extraData: any ) => Array<TableColumn | null>),
+    columns: (( extraData: any ) => Array<TableColumn>),
     dataName: string,
     title: string,
     url?: string,
