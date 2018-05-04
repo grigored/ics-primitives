@@ -2,14 +2,15 @@ import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { View } from "../../primitives/View/View";
 import {Text} from "../../primitives/Text/Text";
-import {Row, TableColumn} from "./TableComponent.types";
+import {Data, TableColumn} from "./TableComponent.types";
 import {compose} from "redux";
 import {createStyles, WithStyles} from "../../index";
+import {NO_TABLE_DATA} from "../../utils/strings";
 
 const styles = {
     horizontalScrollable: {
         borderWidth: 1,
-        borderColor: '#000',
+        borderColor: '#999',
         borderStyle: 'solid',
         flexDirection: 'column',
         overflowX: 'scroll',
@@ -52,12 +53,15 @@ const styles = {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
         padding: 5,
+    },
+    noData: {
+        margin: 'auto'
     }
 };
 
 export interface Props {
     columns: Array<TableColumn>,
-    data: Array<Row>
+    data?: Data
 }
 
 const DEFAULT_CELL_WIDTH = 200;
@@ -90,22 +94,29 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                     ]}
                 >
                     {
-                        data.map((row, index)=> (
-                            <View key={index} style={[classes.row, classes.bodyRow]}>
-                                {columns.map(column => (
-                                    <Text
-                                        key={column.field}
-                                        style={[
-                                            classes.cell,
-                                            index % 2 === 0 ? classes.evenRow: classes.oddRow,
-                                            {width: DEFAULT_CELL_WIDTH}
-                                        ]}
-                                    >
-                                        {row[column.field]}
-                                    </Text>
-                                ))}
-                            </View>
-                        ))
+                        !data
+                            ? (
+                                <View style={classes.noData}>
+                                    {t(NO_TABLE_DATA)}
+                                </View>
+                            ) : (
+                                data.items.map((row, index)=> (
+                                    <View key={index} style={[classes.row, classes.bodyRow]}>
+                                        {columns.map(column => (
+                                            <Text
+                                                key={column.field}
+                                                style={[
+                                                    classes.cell,
+                                                    index % 2 === 0 ? classes.evenRow: classes.oddRow,
+                                                    {width: DEFAULT_CELL_WIDTH}
+                                                ]}
+                                            >
+                                                {row[column.field]}
+                                            </Text>
+                                        ))}
+                                    </View>
+                                ))
+                            )
                     }
 
                 </View>
