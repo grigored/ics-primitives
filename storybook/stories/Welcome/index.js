@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import PropTypes from 'prop-types';
 
 export default class Welcome extends React.Component {
   styles = {
@@ -44,9 +43,6 @@ export default class Welcome extends React.Component {
   }
 }
 
-Welcome.propTypes = {
-  showApp: PropTypes.func,
-};
 Welcome.defaultProps = {
   showApp: () => {},
 };

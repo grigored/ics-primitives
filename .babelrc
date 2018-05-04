@@ -1,5 +1,4 @@
 {
-  // without this, test-ios complains due to flow-types
   "presets": [
     "react-native"
   ],
