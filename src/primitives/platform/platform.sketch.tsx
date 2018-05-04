@@ -1,6 +1,6 @@
 import { PLATFORM } from '../../utils/enums';
 
-let windowHeight = 767, windowWidth = 767;
+let windowHeight = 767, windowWidth = 1767;
 
 export const isWeb = false;
 export const isIOS = false;
