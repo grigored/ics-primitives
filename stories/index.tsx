@@ -318,6 +318,7 @@ storiesOf('TableComponent', module)
 
                         }}}
                     />}
+
                 </View>
             </Comp>
         );
