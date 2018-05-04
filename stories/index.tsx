@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react';
 import {Provider} from "react-redux";
 import {combineReducers, compose, createStore} from 'redux';
 import {reducer as formReducer} from 'redux-form';
-import {TableComponent} from '../src/nativeComponents/TableComponent/TableComponent3';
+import {TableComponent} from '../src/nativeComponents/TableComponent/TableComponent';
 import {formHelpers} from "../src/redux/reducers/formHelpers";
 import {persistedTableOptions} from '../src/redux/reducers/persistedTableOptions';
 import {table} from '../src/redux/reducers/table';
@@ -87,7 +87,6 @@ storiesOf('TableComponent', module)
     .add('Table', () => {
 
         let tableDefinition = {
-            url: 'table',
             title: 'Table Name',
             dataName: 'test_table',
             allowFilters: false,
@@ -112,7 +111,7 @@ storiesOf('TableComponent', module)
                     title: 'Last Name',
                     type: FORM_INPUT_TYPES.TEXT,
                 },
-            ]
+            ],
         };
         return (
             <Comp>
@@ -123,6 +122,9 @@ storiesOf('TableComponent', module)
                     <TableComponent
                         title={'Test2'}
                         tableDefinition={tableDefinition}
+                        extraActions={[
+                            {title: 'My action', onPress: () => console.log('asd')}
+                        ]}
                     />
 
                 </View>

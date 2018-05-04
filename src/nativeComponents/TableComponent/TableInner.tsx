@@ -61,14 +61,18 @@ const styles = {
 
 export interface Props {
     columns: Array<TableColumn>,
-    data?: Data
+    tableData?: Data
 }
 
 const DEFAULT_CELL_WIDTH = 200;
 
 class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTranslateProps, {}> {
     render() {
-        const { classes, columns, data, t } = this.props;
+        const { classes, columns, tableData, t } = this.props,
+            totalWidth = columns.reduce(
+                (prevSum, current) => prevSum + (current.preferredWidth || DEFAULT_CELL_WIDTH),
+                0
+            );
         return (
             <View style={classes.horizontalScrollable} >
                 <View
@@ -76,11 +80,17 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                     style={[
                         classes.header,
                         classes.row,
-                        {width: columns.length * DEFAULT_CELL_WIDTH}
+                        {width: totalWidth}
                     ]}
                 >
                     {columns.map(column => (
-                        <Text key={column.field} style={[classes.cell, {width: DEFAULT_CELL_WIDTH}]}>
+                        <Text
+                            key={column.field}
+                            style={[
+                                classes.cell,
+                                {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
+                            ]}
+                        >
                             {t(column.title || "")}
                         </Text>
                     ))}
@@ -90,35 +100,41 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                     name="body"
                     style={[
                         classes.body,
-                        {width: columns.length * DEFAULT_CELL_WIDTH}
+                        {width: totalWidth}
                     ]}
                 >
                     {
-                        !data
+                        !tableData
                             ? (
                                 <View style={classes.noData}>
                                     {t(NO_TABLE_DATA)}
                                 </View>
                             ) : (
-                                data.items.map((row, index)=> (
+                                tableData.items.map((row, index)=> (
                                     <View key={index} style={[classes.row, classes.bodyRow]}>
                                         {columns.map(column => (
-                                            <Text
+                                            <View
                                                 key={column.field}
                                                 style={[
-                                                    classes.cell,
-                                                    index % 2 === 0 ? classes.evenRow: classes.oddRow,
-                                                    {width: DEFAULT_CELL_WIDTH}
+                                                   classes.cell,
+                                                   index % 2 === 0 ? classes.evenRow: classes.oddRow,
+                                                   {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
                                                 ]}
                                             >
-                                                {row[column.field]}
-                                            </Text>
+                                                {column.dataFormat
+                                                    ? column.dataFormat(row[column.field], row)
+                                                    : <Text
+
+                                                    >
+                                                        {row[column.field]}
+                                                    </Text>
+                                                }
+                                            </View>
                                         ))}
                                     </View>
                                 ))
                             )
                     }
-
                 </View>
             </View>
         );
