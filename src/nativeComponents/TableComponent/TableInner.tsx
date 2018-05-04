@@ -46,13 +46,13 @@ const styles = {
         borderBottomStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
-        height: 30,
+        height: 34,
     },
     cell: {
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        padding: 5,
+        padding: 7,
     },
     noData: {
         margin: 'auto'
@@ -116,17 +116,14 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                                             <View
                                                 key={column.field}
                                                 style={[
-                                                   classes.cell,
                                                    index % 2 === 0 ? classes.evenRow: classes.oddRow,
                                                    {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
                                                 ]}
                                             >
                                                 {column.dataFormat
                                                     ? column.dataFormat(row[column.field], row)
-                                                    : <Text
-
-                                                    >
-                                                        {row[column.field]}
+                                                    : <Text style={classes.cell}>
+                                                        {row[column.field] || "-"}
                                                     </Text>
                                                 }
                                             </View>
