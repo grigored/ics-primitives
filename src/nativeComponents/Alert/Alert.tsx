@@ -51,6 +51,7 @@ class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {
             alerts,
             title,
             hideAlert,
+            onClose,
             leftButtonText,
             leftButtonOnPress,
             rightButtonText,
@@ -61,7 +62,10 @@ class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {
             .map( ({visible, body, bodyData}, index) => (
                 <Dialog
                     key={index}
-                    onClose={hideAlert.bind(this, body, alertId)}
+                    onClose={() => {
+                        onClose && onClose();
+                        hideAlert(body, alertId);
+                    }}
                     open={visible}
                     fullWidth={true}
                 >

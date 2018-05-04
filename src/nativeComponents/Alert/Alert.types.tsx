@@ -6,5 +6,6 @@ export interface AlertProps {
     rightButtonText?: string, // if rightButtonText is passed in showDialog action, it will overwrite this prop
     leftButtonOnPress?: () => void,
     rightButtonOnPress?: () => void,
+    onClose?: () => void,
     styles?: any,
 }
