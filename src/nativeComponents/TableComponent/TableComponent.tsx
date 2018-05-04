@@ -92,7 +92,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
 
                 <TableInner
                     columns={columns}
-                    tableData={tableData.data}
+                    tableData={tableData && tableData.data}
                 />
 
             </View>
