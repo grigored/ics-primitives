@@ -937,6 +937,12 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-dropzone@^4.1.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dropzone/-/react-dropzone-4.2.0.tgz#c4a290c784456e3c939dff75dba6b66b61f212e5"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-i18next@^7.3.2":
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.3.2.tgz#e1ae0de801e2ce5aff82191cf74949f2735920bc"
@@ -1436,6 +1442,12 @@ asynckit@^0.4.0:
 atob@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.0.tgz#ab2b150e51d7b122b9efc8d7340c06b6c41076bc"
+
+attr-accept@^1.0.3:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.2.tgz#6836bfe054e4ef1ee3076fdde56cec9bb3ffead6"
+  dependencies:
+    core-js "^2.5.0"
 
 author-regex@^1.0.0:
   version "1.0.0"
@@ -9333,7 +9345,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -9642,6 +9654,13 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-dropzone@3.13.4:
+  version "3.13.4"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-3.13.4.tgz#84da26815c40339691c49b4544c2ef7a16912ccc"
+  dependencies:
+    attr-accept "^1.0.3"
+    prop-types "^15.5.7"
+
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
@@ -9754,6 +9773,10 @@ react-native-gesture-handler@1.0.0-alpha.39:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+"react-native-image-crop-picker@git+https://github.com/ivpusic/react-native-image-crop-picker.git#8de94d0a1fc5af74a90dc5e5c1b5244869f69dc4":
+  version "0.17.2"
+  resolved "git+https://github.com/ivpusic/react-native-image-crop-picker.git#8de94d0a1fc5af74a90dc5e5c1b5244869f69dc4"
 
 react-native-iphone-x-helper@^1.0.1:
   version "1.0.2"

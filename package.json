@@ -44,6 +44,9 @@
     "redux": "3.7.2",
     "redux-persist": "4.10.1",
     "typescript": "^2.8.3",
+    "@types/react-dropzone": "^4.1.0",
+    "react-dropzone": "3.13.4",
+    "react-native-image-crop-picker": "git+https://github.com/ivpusic/react-native-image-crop-picker.git#8de94d0a1fc5af74a90dc5e5c1b5244869f69dc4",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
@@ -62,7 +65,7 @@
     "@types/redux-form": "^7.0.13",
     "@types/storybook__addon-actions": "^3.0.1",
     "@types/storybook__react": "^3.0.5",
-    "@types/react-sketchapp": "^0.12.1",
+    "@types/react-sketchapp": "^0.12.3",
     "awesome-typescript-loader": "^3.5.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^22.1.0",
