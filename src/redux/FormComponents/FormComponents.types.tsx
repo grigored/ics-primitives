@@ -1,3 +1,4 @@
+import { S3PhotoInputComponentProps } from '../../nativeComponents/S3PhotoInputComponent/S3PhotoInputComponent.types';
 import { TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
 import { FORM_INPUT_TYPES, SELECT_INPUT_TYPES } from '../../utils/enums';
 
@@ -86,3 +87,4 @@ export interface SelectProps {
 export type FieldDefinition =
     | TextInputProps & { type: FORM_INPUT_TYPES.TEXT } & FieldCommon
     | SelectProps & { type: FORM_INPUT_TYPES.SELECT } & FieldCommon
+    | S3PhotoInputComponentProps & { type: FORM_INPUT_TYPES.PHOTO_UPLOAD } & FieldCommon

@@ -3,8 +3,8 @@
  */
 
 import * as React from "react";
+import * as Dropzone from "react-dropzone";
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import Dropzone from "react-dropzone";
 import { compose } from 'redux';
 import { Button, createStyles, WithStyles } from '../../';
 import {Text} from "../../primitives/Text/Text";

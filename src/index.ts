@@ -31,7 +31,12 @@ export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainer
 export { isXs, getNestedField, getPersistStore, autoRehydrate } from './utils/common';
 
 export { apiClientMiddleware } from './redux/apiClientMiddleware';
+export { s3UploadMiddleware } from './redux/s3UploadMiddleware';
 
+export {
+    s3upload,
+    S3UploadState,
+} from './redux/reducers/s3upload';
 export {
     // DisplayErrorsAction,
     // SendFormDataAction,

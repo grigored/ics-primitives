@@ -164,7 +164,9 @@ export function postPhotoToS3( field: IField ) {
         queryParameters: {nr_of_photos: 1},
         field,
         fields: [field],
-        extraData: {field}
+        requestPayload: {field},
+        failurePayload: {field},
+        successPayload: {field},
     }
 }
 
