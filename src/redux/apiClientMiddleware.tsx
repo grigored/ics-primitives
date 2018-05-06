@@ -1,14 +1,10 @@
-import "whatwg-fetch";
-import {showAlert} from "./reducers/navigation";
+import 'whatwg-fetch';
+import { showAlert } from './reducers/navigation';
 import { encodeParametersInUrl } from './reducers/utils';
 
-export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
-    baseUrl: string,
-    baseHeaders: {[key: string]: string} = {}
-    ) => (
-    {dispatch, getState}: {dispatch: Dispatch, getState: () => GlobalState}
-) => {
-    return (next: any ) => (action: any) => {
+export const apiClientMiddleware = <Dispatch extends Function, GlobalState>( baseUrl: string,
+                                                                             baseHeaders: { [key: string]: string } = {} ) => ( {dispatch, getState}: { dispatch: Dispatch, getState: () => GlobalState } ) => {
+    return ( next: any ) => ( action: any ) => {
         const {
             types,
             method,
@@ -67,7 +63,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 ...successPayload,
                             });
                             dispatchOnSuccess && dispatch(dispatchOnSuccess);
-                        // } else if (status === 401) {
+                            // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
                         } else {
@@ -84,7 +80,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 // }
                                 dispatch(showAlert(json.error));
                             } else {
-                                dispatch(showAlert("API_ERROR"));
+                                dispatch(showAlert('API_ERROR'));
                             }
                         }
                     })

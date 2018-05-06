@@ -16,7 +16,7 @@ declare global {
 
 export function onDrop(files: Array<File>, props: S3PhotoInputComponentProps & ConnectedProps & FieldStateProps<S3PhotoComponentDBValue>) {
     let {
-        field, lastPhotoIndex, multiple, postPhotoToS3, showAlert,
+        field, lastPhotoIndex, multiple, postPhotoToS3, showAlert, presignedPostUrl,
         minWidth, maxWidth, minHeight, maxHeight, fixedWidth, fixedHeight, ratioWidthHeight,
     } = props;
     let file = files[0];
@@ -35,6 +35,7 @@ export function onDrop(files: Array<File>, props: S3PhotoInputComponentProps & C
             // do something
 
             let fieldData = {
+                url: presignedPostUrl,
                 field: multiple ? `${field},${lastPhotoIndex}.url` : field,
                 s3ExtraData: getPhotoDetails({rawValue: file}),
                 preview: getImagePreview({rawValue: file})

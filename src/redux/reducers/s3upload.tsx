@@ -13,6 +13,7 @@ export enum TypeKeys {
 export interface IField {
     field: string,
     preview: string,
+    url: string,
     s3ExtraData: {
         file: any,
         'Content-Type': string,
@@ -160,7 +161,7 @@ export function postPhotoToS3( field: IField ) {
     return {
         s3Upload: true,
         method: 'get',
-        url: 'file-upload',
+        url: field.url,
         queryParameters: {nr_of_photos: 1},
         field,
         fields: [field],

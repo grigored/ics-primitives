@@ -10,7 +10,7 @@ import { S3PhotoComponentDBValue } from './S3PhotoInputComponent.types';
 
 export function onDrop( files: Array<Image>, props: S3PhotoInputComponentProps & ConnectedProps & FieldStateProps<S3PhotoComponentDBValue> ) {
     let {
-        field, postPhotoToS3, showAlert,
+        field, postPhotoToS3, showAlert, presignedPostUrl,
         minWidth, maxWidth, minHeight, maxHeight, fixedWidth, fixedHeight, ratioWidthHeight,
     } = props;
     let error = null;
@@ -23,6 +23,7 @@ export function onDrop( files: Array<Image>, props: S3PhotoInputComponentProps &
         let fieldData = {
             // weird bug where i is a string
             field: field,
+            url: presignedPostUrl,
             s3ExtraData: getPhotoDetails( { rawValue: file } ),
             preview: getImagePreview( { rawValue: file } )
         };

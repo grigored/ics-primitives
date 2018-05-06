@@ -21,6 +21,7 @@ export interface S3PhotoInputComponentProps {
     defaultValue?: string,
     style?: StyleRules,
     field: string,
+    presignedPostUrl: string,
     minWidth?: number,
     maxWidth?: number,
     minHeight?: number,

@@ -32,6 +32,7 @@ export { isXs, getNestedField, getPersistStore, autoRehydrate } from './utils/co
 
 export { apiClientMiddleware } from './redux/apiClientMiddleware';
 export { s3UploadMiddleware } from './redux/s3UploadMiddleware';
+export { postFormDataMiddleware } from './redux/postFormDataMiddleware';
 
 export {
     s3upload,
