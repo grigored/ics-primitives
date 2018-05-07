@@ -306,7 +306,7 @@ export function removeDialog(id: string): RemoveDialogAction {
 
 const hideDialogFromList = (dialogs: Array<DialogData>, id: string) => {
 
-    let found = false, newDialogs = [];
+    let found = false, newDialogs: Array<DialogData> = [];
     const reversedDialogs = [...dialogs].reverse();
     for (let dialog of reversedDialogs) {
         if (!found && dialog.id === id) {
@@ -325,7 +325,7 @@ const hideDialogFromList = (dialogs: Array<DialogData>, id: string) => {
 
 const removeDialogFromList = (dialogs: Array<DialogData>, id: string) => {
 
-    let found = false, newDialogs = [];
+    let found = false, newDialogs: Array<DialogData> = [];
     const reversedDialogs = [...dialogs].reverse();
     for (let dialog of reversedDialogs) {
         if (!found && dialog.id === id) {

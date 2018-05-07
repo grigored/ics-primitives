@@ -3,12 +3,14 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from "react-redux";
 import { compose } from 'redux';
 import { goToSettings } from "../../primitives/Camera/utils";
+import { showAlert } from '../../redux/reducers/navigation';
 import { ImageUploadZone } from "../ImageUploadZone/ImageUploadZone";
 import { Text } from "../../primitives/Text/Text";
 import { View } from "../../primitives/View/View";
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { postPhotoToS3, removePhoto } from "../../redux/reducers/s3upload";
-import { Alert, all, CircularProgressComponent, createStyles, isWeb, Navigation, web, WithStyles } from '../../';
+import { Alert, CircularProgressComponent, createStyles, isWeb, Navigation, WithStyles } from '../../';
+import { all, web } from '../../utils/theme';
 import { CANCEL, OK, UPLOAD_FAILED } from '../../utils/strings';
 import { StyleRules } from '../../utils/theme.types';
 import { ConnectedProps, S3PhotoComponentDBValue, S3PhotoInputComponentProps } from './S3PhotoInputComponent.types';
@@ -74,7 +76,7 @@ class CS3PhotoInputComponent extends React.Component<AllProps, {}> {
             title, field, t,
             error, multiple, classes, componentStyle, containerStyle,
             uploadingPhotoToS3, uploadingPhotoToS3Success, additionalOnDrop, navigation,
-            removePhoto, value, s3url,
+            removePhoto, value, s3url, showAlert,
         } = this.props;
         let thisProps = this.props,
             isError = !!error || ( uploadingPhotoToS3Success === false && uploadingPhotoToS3 === false );
@@ -94,6 +96,7 @@ class CS3PhotoInputComponent extends React.Component<AllProps, {}> {
                             onDrop( files, thisProps );
                             additionalOnDrop && additionalOnDrop( files );
                         }}
+                        showAlert={showAlert}
                         photoPreview={value}
                         s3Url={s3url}
                         accept={ACCEPTED_MIMES}
@@ -163,7 +166,8 @@ export const S3PhotoInputComponent = compose(
             s3Url: state.s3upload[ownProps.field] && state.s3upload[ownProps.field].s3Key,
         } ), {
             postPhotoToS3,
-            removePhoto
+            removePhoto,
+            showAlert,
         }
     ),
     createStyles(styles, componentName),

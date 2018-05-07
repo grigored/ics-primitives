@@ -1,3 +1,4 @@
+import { showAlert } from '../../redux/reducers/navigation';
 import { StyleSheetClass } from '../../utils/theme.types';
 
 export interface Props {
@@ -7,6 +8,7 @@ export interface Props {
     onDrop: (files: Array<any> | any) => void,  // File on web, Image on native
     photoPreview: string,
     s3Url: string,
+    showAlert: typeof showAlert,
     accept: string,
     multiple: boolean,
     uploading: boolean,  // used on native

@@ -9756,6 +9756,12 @@ react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
 
+react-native-camera@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.10.0.tgz#5d973c9a8aab95f68aede395ba310eae0c3cecdd"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-compat@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-compat/-/react-native-compat-1.0.0.tgz#491dbd8a0105ac061b8d0d926463ce6a3dff33bc"
@@ -9773,6 +9779,10 @@ react-native-gesture-handler@1.0.0-alpha.39:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+"react-native-google-sign-in@git+https://github.com/joonhocho/react-native-google-sign-in.git#0fb103550ddd003424a619e2010f17a63849050b":
+  version "0.0.16"
+  resolved "git+https://github.com/joonhocho/react-native-google-sign-in.git#0fb103550ddd003424a619e2010f17a63849050b"
 
 "react-native-image-crop-picker@git+https://github.com/ivpusic/react-native-image-crop-picker.git#8de94d0a1fc5af74a90dc5e5c1b5244869f69dc4":
   version "0.17.2"
@@ -9792,6 +9802,10 @@ react-native-modal@^5.3.0:
   dependencies:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
+
+"react-native-permissions@https://github.com/iegik/react-native-permissions/tarball/patch-2":
+  version "1.0.0"
+  resolved "https://github.com/iegik/react-native-permissions/tarball/patch-2#a8993d1c6e0b46ce71f8c19429cac385f3772c29"
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"

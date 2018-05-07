@@ -1,23 +1,29 @@
-import {AppState, Linking, PermissionsAndroid} from 'react-native';
-import {isAndroid, isIOS} from "../../utils/platform";
-import NativeConfigs from "../../InstacarNativeModules/NativeConfigs";
-import PermissionsComponent from "react-native-permissions";
-import {DIALOG_IDS} from "../../constants/enums2";
+import {Linking, NativeModules} from 'react-native';
+// import PermissionsComponent from "react-native-permissions";
+import {isAndroid, isIOS} from '../../primitives/platform/platform';
 
 
-export async function checkForCameraPermission(permissionType, displayAlert) {
+export async function checkForCameraPermission(permissionType, showAlert) {
 
+    const {Permissions} = Expo;
 
     let check, request, requestResponse, message;
     if (permissionType === 'camera') {
-        check = () => PermissionsComponent.check('camera');
-        request = () => PermissionsComponent.request('camera');
-        message = DIALOG_IDS.PERMISSION_DENIED_CAMERA;
+        check = () => checkPermission(Permissions.CAMERA);
+        request = () => requestPermission(Permissions.CAMERA);
+        // check = () => PermissionsComponent.check('camera');
+        // request = () => PermissionsComponent.request('camera');
+        message = 'PERMISSION_DENIED_CAMERA';
     }
     else if (permissionType === 'album') {
-        check = () => PermissionsComponent.check('photo');
-        request = () => PermissionsComponent.request('photo');
-        message = DIALOG_IDS.PERMISSION_DENIED_ALBUM;
+        check = () => checkPermission(Permissions.CAMERA);
+        request = () => requestPermission(Permissions.CAMERA);
+        // expo does not support camera roll yet
+        // check = () => checkPermission(Permissions.CAMERA_ROLL);
+        // request = () => requestPermission(Permissions.CAMERA_ROLL);
+        // check = () => PermissionsComponent.check('photo');
+        // request = () => PermissionsComponent.request('photo');
+        message = 'PERMISSION_DENIED_ALBUM';
     }
     else {
         throw 'Unknown permission type';
@@ -30,22 +36,22 @@ export async function checkForCameraPermission(permissionType, displayAlert) {
     }
 
     // native dialogs for permission will be visible
-    if (result === 'undetermined' || (result === 'denied' && isAndroid())) {
+    if (result === 'undetermined' || (result === 'denied' && isAndroid)) {
         requestResponse = await request();
         return requestResponse === 'authorized';
     }
 
     // native dialogs for permission will not be visible anymore, prompt user to settings
-    displayAlert(message);
+    showAlert(message);
     return false;
 }
 
 export function goToSettings(props) {
 
-    if (isIOS()) {
+    if (isIOS) {
         Linking.canOpenURL('app-settings:').then(supported => {
             if (!supported) {
-                props.displayAlert(DIALOG_IDS.CANT_OPEN_SETTINGS);
+                props.showAlert('CANT_OPEN_SETTINGS');
                 // console.log('Can\'t handle settings url');
             } else {
                 // this.props.popScreen();
@@ -54,12 +60,30 @@ export function goToSettings(props) {
                 }
             }
         }).catch(err => {
-            props.displayAlert(DIALOG_IDS.CANT_OPEN_SETTINGS);
+            props.showAlert('CANT_OPEN_SETTINGS');
             console.log(err);
         });
     }
     else {
         props.popScreen();
-        NativeConfigs.openPermissions();
+        NativeModules.NativeConfigs.openPermissions();
     }
+}
+
+async function checkPermission(permission) {
+    const {Permissions} = Expo;
+    const {status} = await Permissions.getAsync(permission);
+    if (status === 'granted') {
+        // return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    }
+    return status
+}
+
+async function requestPermission(permission) {
+    const {Permissions} = Expo;
+    const {status} = await Permissions.askAsync(permission);
+    if (status === 'granted') {
+        // return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    }
+    return status
 }

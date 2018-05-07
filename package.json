@@ -46,7 +46,10 @@
     "typescript": "^2.8.3",
     "@types/react-dropzone": "4.1.0",
     "react-dropzone": "3.13.4",
+    "react-native-camera": "0.10.0",
+    "react-native-permissions": "https://github.com/iegik/react-native-permissions/tarball/patch-2",
     "react-native-image-crop-picker": "git+https://github.com/ivpusic/react-native-image-crop-picker.git#8de94d0a1fc5af74a90dc5e5c1b5244869f69dc4",
+    "react-native-google-sign-in": "git+https://github.com/joonhocho/react-native-google-sign-in.git#0fb103550ddd003424a619e2010f17a63849050b",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
@@ -95,7 +98,7 @@
     "build": "tsc -m CommonJS",
     "build-storybook": "build-storybook",
     "ios": "react-scripts-ts ios",
-    "postinstall": "npm run build && skpm-link",
+    "postinstall": "npm run build",
     "prepublish": "npm run build",
     "render": "skpm-build --watch --run & npm run typescript",
     "storybook": "start-storybook -p 9001 -c .storybook",

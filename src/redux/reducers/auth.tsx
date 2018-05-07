@@ -3,7 +3,7 @@ import {
     SignupSuccessFailAction, SocialLoginAction, SocialLoginSuccessFailAction, Validate2FAAction,
     Validate2FASuccessFailAction
 } from './commonActions';
-import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
+// import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
 import { isWeb } from '../../primitives/platform/platform';
 import { getUserDataLocalStorageName } from './utils';
 
@@ -119,7 +119,7 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
         case CommonTypeKeys.SOCIAL_LOGIN_FAIL:
 
             // fbSignOut();
-            googleSignOut();
+            // googleSignOut();
             return {
                 ...state,
                 loggingIn: false
@@ -167,7 +167,7 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
                 localStorage.removeItem(getUserDataLocalStorageName());
                 document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
-            googleSignOut();
+            // googleSignOut();
             // fbSignOut();
             return {
                 ...state,
@@ -337,7 +337,7 @@ export const logoutLocal = () => {
         localStorage.removeItem(getUserDataLocalStorageName());
         document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
-    googleSignOut();
+    // googleSignOut();
     // fbSignOut();
     return {
         type: CommonTypeKeys.LOGOUT

@@ -77,9 +77,9 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                     </InputLabel>}
                 <SelectMaterial
                     native={isXs()}
-                    value={selectedValue}
+                    value={selectedValue!}
                     onChange={(event) => {
-                        let value = null;
+                        let value: any = null;
                         if (event.target.value !== NOT_AVAILABLE_FIELD_VALUE) {
                             value = raw2db(event.target.value, selectInputType);
                         }
