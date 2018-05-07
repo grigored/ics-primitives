@@ -74,7 +74,7 @@ class CS3PhotoInputComponent extends React.Component<AllProps, {}> {
             title, field, t,
             error, multiple, classes, componentStyle, containerStyle,
             uploadingPhotoToS3, uploadingPhotoToS3Success, additionalOnDrop, navigation,
-            removePhoto, value,
+            removePhoto, value, s3url,
         } = this.props;
         let thisProps = this.props,
             isError = !!error || ( uploadingPhotoToS3Success === false && uploadingPhotoToS3 === false );
@@ -95,7 +95,7 @@ class CS3PhotoInputComponent extends React.Component<AllProps, {}> {
                             additionalOnDrop && additionalOnDrop( files );
                         }}
                         photoPreview={value}
-                        s3Url={value}
+                        s3Url={s3url}
                         accept={ACCEPTED_MIMES}
                         multiple={isWeb ? false : multiple}
                         removePhoto={() => {

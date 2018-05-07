@@ -10,6 +10,7 @@ import { Button, createStyles, WithStyles } from '../../';
 import {Text} from "../../primitives/Text/Text";
 import {View} from "../../primitives/View/View";
 import {Image} from "../../primitives/Image/Image";
+import { getImageUrl } from '../../utils/common';
 import { UPLOAD_PHOTO_HELPER } from '../../utils/strings';
 import { StyleRules } from '../../utils/theme.types';
 import { getStyleProps } from '../../utils/web';
@@ -65,8 +66,8 @@ class CImageUploadZone extends React.PureComponent<Props & WithStyles & Injected
                 photoPreview
                     ? <Image
                         style={classes.image}
-                        source={{uri: photoPreview}}
-                        s3Url={s3Url}
+                        source={{uri: getImageUrl(s3Url, photoPreview)}}
+                        s3Url={getImageUrl(s3Url, photoPreview)}
                         openOnClick={true}
                     />
                     : <View style={classes.helperContainer}>

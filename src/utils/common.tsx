@@ -71,3 +71,13 @@ export const getPersistStore = (store: any) => {
         blacklist: ['map'],
     });
 };
+
+export function getImageUrl(s3url: string, url: string | any): string | any {
+    if (!url) {
+        return '';
+    }
+    if (typeof(url) === "string" && !url.startsWith('blob') && !url.startsWith('http')) {
+        return s3url + url;
+    }
+    return url;
+}
