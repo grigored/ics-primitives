@@ -69,6 +69,7 @@ export interface AppProps {
     onDrawerClose?: () => void,
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     title?: React.ReactNode | string,
+    topbarContent?: Array<any>
 }
 
 export interface ConnectedProps {
@@ -92,6 +93,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             title,
             toggleDrawer,
             persistComplete,
+            topbarContent,
         } = this.props;
 
         if (!persistComplete) {
@@ -111,6 +113,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         drawerOpen={!!drawerOpen}
                         title={title}
                         rightButtonsData={rightButtonsData}
+                        topbarContent={topbarContent}
                     />
 
                     <DrawerWeb

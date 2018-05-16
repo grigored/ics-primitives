@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import * as React from 'react';
 
 export interface TopbarSimpleButtonData {
     title?: string,
@@ -16,7 +16,8 @@ export interface TopbarListButtonData {
 export interface TopbarProps {
     leftButtonIcon?: any,
     leftButtonOnPress?: () => void,
-    title: ReactNode | string,
+    title: React.ReactNode | string,
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     drawerOpen?: boolean
+    topbarContent?: Array<any>
 }
