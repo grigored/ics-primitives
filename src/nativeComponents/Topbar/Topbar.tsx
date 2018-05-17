@@ -3,7 +3,7 @@ import IconButton from 'material-ui/IconButton';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import * as React from 'react';
-import { appTheme, createStyles, WithStyles } from "../..";
+import { appTheme, createStyles, WithStyles, View } from "../..";
 import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";
 import { getStyleProps } from "../../utils/web";
 import { Button } from "../Button/Button";
@@ -19,6 +19,7 @@ const styles = () => ( {
     appBar: {
         position: 'fixed',
         backgroundColor: appTheme.primaryColor,
+        height: appTheme.topBarHeightDesktop,
         // transition: muiTheme.transitions.create(['margin', 'width'], {
         //     easing: muiTheme.transitions.easing.sharp,
         //     duration: muiTheme.transitions.duration.leavingScreen,
@@ -47,7 +48,7 @@ const CTopBar = ( {
                       topbarContent,
                   }: TopbarProps & WithStyles ) => (
     <AppBar {...getStyleProps( [classes.appBar, drawerOpen && classes.appBarShift] )}>
-        <Toolbar>
+        <Toolbar style={{minHeight: 0}}>
             {
                 leftButtonIcon &&
                 <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
@@ -59,6 +60,7 @@ const CTopBar = ( {
                 {title || ''}
             </Typography>
 
+            <View style={{position: 'absolute', right: 0, top: 0, height: '100%'}}>
             {
                 rightButtonsData && rightButtonsData.map( buttonData => {
                     if (( buttonData as TopbarListButtonData ).items) {
@@ -109,6 +111,7 @@ const CTopBar = ( {
             {
                 topbarContent && topbarContent.map( x => x )
             }
+            </View>
         </Toolbar>
     </AppBar>
 );
