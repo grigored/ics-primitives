@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface TopbarSimpleButtonData {
     title?: string,
-    icon?: string,
+    icon?: any,
     onPress?: () => void,
     href?: string,
     selected?: boolean,

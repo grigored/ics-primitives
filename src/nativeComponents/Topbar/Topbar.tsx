@@ -3,7 +3,7 @@ import IconButton from 'material-ui/IconButton';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import * as React from 'react';
-import { appTheme, createStyles, WithStyles, View } from "../..";
+import { appTheme, createStyles, isXs, View, WithStyles } from "../..";
 import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";
 import { getStyleProps } from "../../utils/web";
 import { Button } from "../Button/Button";
@@ -48,7 +48,7 @@ const CTopBar = ( {
                       topbarContent,
                   }: TopbarProps & WithStyles ) => (
     <AppBar {...getStyleProps( [classes.appBar, drawerOpen && classes.appBarShift] )}>
-        <Toolbar style={{minHeight: 0}}>
+        <Toolbar style={{ minHeight: 0 }}>
             {
                 leftButtonIcon &&
                 <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
@@ -60,57 +60,64 @@ const CTopBar = ( {
                 {title || ''}
             </Typography>
 
-            <View style={{position: 'absolute', right: 0, top: 0, height: '100%'}}>
-            {
-                rightButtonsData && rightButtonsData.map( buttonData => {
-                    if (( buttonData as TopbarListButtonData ).items) {
-                        let bd = buttonData as TopbarListButtonData;
-                        return (
-                            <Button
-                                key={bd.title}
-                                title={bd.title}
-                                backgroundColor={
-                                    appTheme.topbarButtonColor ||
-                                    appTheme.topbarColor ||
-                                    appTheme.primaryColor
-                                }
-                                labelColor={
-                                    appTheme.topbarTextColor ||
-                                    appTheme.topbarContrastColor ||
-                                    appTheme.primaryTextColor
-                                }
-                                // items={buttonData.items}
-                            />
-                        );
-                    } else {
-                        let bd = buttonData as TopbarSimpleButtonData;
-                        return (
-                            <Button
-                                key={bd.title}
-                                onPress={bd.onPress}
-                                title={bd.title}
-                                href={bd.href}
-                                styles={{
-                                    label: classes.buttonColor,
-                                }}
-                                backgroundColor={
-                                    appTheme.topbarButtonColor ||
-                                    appTheme.topbarColor ||
-                                    appTheme.primaryColor
-                                }
-                                labelColor={
-                                    appTheme.topbarTextColor ||
-                                    appTheme.topbarContrastColor ||
-                                    appTheme.primaryTextColor
-                                }
-                            />
-                        );
-                    }
-                } )
-            }
-            {
-                topbarContent && topbarContent.map( x => x )
-            }
+            <View
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
+                }}>
+                {
+                    rightButtonsData && rightButtonsData.map( buttonData => {
+                        if (( buttonData as TopbarListButtonData ).items) {
+                            let bd = buttonData as TopbarListButtonData;
+                            return (
+                                <Button
+                                    key={bd.title}
+                                    title={bd.title}
+                                    backgroundColor={
+                                        appTheme.topbarButtonColor ||
+                                        appTheme.topbarColor ||
+                                        appTheme.primaryColor
+                                    }
+                                    labelColor={
+                                        appTheme.topbarTextColor ||
+                                        appTheme.topbarContrastColor ||
+                                        appTheme.primaryTextColor
+                                    }
+                                    // items={buttonData.items}
+                                />
+                            );
+                        } else {
+                            let bd = buttonData as TopbarSimpleButtonData;
+                            return (
+                                <Button
+                                    key={bd.title}
+                                    onPress={bd.onPress}
+                                    title={bd.title}
+                                    iconLeft={bd.icon}
+                                    href={bd.href}
+                                    styles={{
+                                        label: classes.buttonColor,
+                                    }}
+                                    backgroundColor={
+                                        appTheme.topbarButtonColor ||
+                                        appTheme.topbarColor ||
+                                        appTheme.primaryColor
+                                    }
+                                    labelColor={
+                                        appTheme.topbarTextColor ||
+                                        appTheme.topbarContrastColor ||
+                                        appTheme.primaryTextColor
+                                    }
+                                />
+                            );
+                        }
+                    } )
+                }
+                {
+                    topbarContent && topbarContent.map( x => x )
+                }
             </View>
         </Toolbar>
     </AppBar>

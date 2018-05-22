@@ -2,21 +2,24 @@ import MenuIcon from 'material-ui-icons/Menu';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { appTheme, createStyles, View, webDesktop, webMobile, WithStyles } from '../..';
-import {
-    toggleDrawer, DEFAULT_ALERT_ID
-} from '../../redux/reducers/navigation';
+import { DEFAULT_ALERT_ID, toggleDrawer } from '../../redux/reducers/navigation';
 import { Alert } from '../Alert/Alert';
 import { DrawerWeb } from '../DrawerWeb/DrawerWeb';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Topbar } from '../Topbar/Topbar';
 import { TopbarListButtonData, TopbarSimpleButtonData } from '../Topbar/Topbar.types';
 
-const styles = () => ({
+const styles = () => ( {
     appFrame: {
         fontFamily: 'Roboto',
         flex: 1,
         width: '100vw',
         height: '100vh',
+        // position: 'absolute',
+        // top: 0,
+        // bottom: 0,
+        // left: 0,
+        // right: 0,
     },
     appBarShift: {
         marginLeft: appTheme.drawerWidth,
@@ -60,7 +63,7 @@ const styles = () => ({
         height: 48,
         width: 'auto',
     },
-});
+} );
 
 
 export interface AppProps {
@@ -106,10 +109,10 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                     <Topbar
                         leftButtonIcon={
                             <MenuIcon
-                                style={{color: appTheme.topbarContrastColor || appTheme.primaryTextColor}}
+                                style={{ color: appTheme.topbarContrastColor || appTheme.primaryTextColor }}
                             />
                         }
-                        leftButtonOnPress={toggleDrawer.bind(this, null, !drawerOpen)}
+                        leftButtonOnPress={toggleDrawer.bind( this, null, !drawerOpen )}
                         drawerOpen={!!drawerOpen}
                         title={title}
                         rightButtonsData={rightButtonsData}
@@ -119,7 +122,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                     <DrawerWeb
                         persistent={drawerPersistent}
                         open={drawerOpen}
-                        onDrawerClose={onDrawerClose || toggleDrawer.bind(this, null, false)}
+                        onDrawerClose={onDrawerClose || toggleDrawer.bind( this, null, false )}
                     >
                         {drawerContent}
                     </DrawerWeb>
@@ -139,12 +142,12 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
 
 
 export const AppContainerWeb: React.ComponentType<AppProps> = connect(
-    ( state: any ) => ({
+    ( state: any ) => ( {
         drawerOpen: state.navigation.drawerOpen,
         persistComplete: state.persisted.persistComplete,
-    }), {
+    } ), {
         toggleDrawer,
     }
 )(
-    createStyles(styles, 'AppContainerWeb')(CAppContainerWeb)
+    createStyles( styles, 'AppContainerWeb' )( CAppContainerWeb )
 );
