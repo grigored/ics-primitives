@@ -1,15 +1,15 @@
-import * as React from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import {Button} from "../Button/Button";
-import {appTheme, createStyles, WithStyles} from "../..";
-import {getStyleProps} from "../../utils/web";
-import {TopbarProps} from "./Topbar.types";
-import {TopbarListButtonData, TopbarSimpleButtonData} from "../../nativeComponents/Topbar/Topbar.types";
+import * as React from 'react';
+import { all, appTheme, createStyles, isXs, View, webDesktop, WithStyles } from "../..";
+import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";
+import { getStyleProps } from "../../utils/web";
+import { Button } from "../Button/Button";
+import { TopbarProps } from "./Topbar.types";
 
-const styles = () => ({
+const styles = () => ( {
     root: {
         width: '100%',
     },
@@ -19,6 +19,10 @@ const styles = () => ({
     appBar: {
         position: 'fixed',
         backgroundColor: appTheme.primaryColor,
+        height: {
+            [webDesktop]: appTheme.topBarHeightDesktop,
+            [all]: appTheme.topBarHeightMobile,
+        },
         // transition: muiTheme.transitions.create(['margin', 'width'], {
         //     easing: muiTheme.transitions.easing.sharp,
         //     duration: muiTheme.transitions.duration.leavingScreen,
@@ -34,69 +38,109 @@ const styles = () => ({
     },
     buttonColor: {
         color: appTheme.primaryTextColor,
-    }
-});
+    },
+    toolbar: {
+        minHeight: 0,
+        height: {
+            [webDesktop]: appTheme.topBarHeightDesktop,
+            [all]: appTheme.topBarHeightMobile,
+        },
+    },
+} );
 
-const CTopBar = ({
-     classes,
-     drawerOpen,
-     leftButtonIcon,
-     leftButtonOnPress,
-     rightButtonsData,
-     title,
-}: TopbarProps & WithStyles) => (
-    <AppBar {...getStyleProps([classes.appBar, drawerOpen && classes.appBarShift])}>
-        <Toolbar>
+const CTopBar = ( {
+                      classes,
+                      drawerOpen,
+                      leftButtonIcon,
+                      leftButtonOnPress,
+                      rightButtonsData,
+                      title,
+                      topbarContent,
+                  }: TopbarProps & WithStyles ) => (
+    <AppBar {...getStyleProps( [classes.appBar, drawerOpen && classes.appBarShift] )}>
+        <Toolbar
+            style={{
+                minHeight: 0,
+                height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
+            }}
+        >
             {
                 leftButtonIcon &&
                 <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
                     {leftButtonIcon}
                 </IconButton>
             }
+            {
+                typeof title === 'string'
+                    ? (
+                        <Typography variant="title" color="inherit" className={classes.flex as string}>
+                            {title || ''}
+                        </Typography>
+                    )
+                    : title
+            }
 
-            <Typography variant="title" color="inherit" className={classes.flex as string}>
-                {title || ''}
-            </Typography>
-
-            {rightButtonsData && rightButtonsData.map(buttonData => {
-                if ((buttonData as TopbarListButtonData).items) {
-                    let bd = buttonData as TopbarListButtonData;
-                    return (
-                        <Button
-                            key={bd.title}
-                            title={bd.title}
-                            backgroundColor={
-                                appTheme.topbarButtonColor || appTheme.topbarColor || appTheme.primaryColor
-                            }
-                            labelColor={
-                                appTheme.topbarTextColor || appTheme.topbarContrastColor || appTheme.primaryTextColor
-                            }
-                            // items={buttonData.items}
-                        />
-                    );
-                } else {
-                    let bd = buttonData as TopbarSimpleButtonData;
-                    return (
-                        <Button
-                            key={bd.title}
-                            onPress={bd.onPress}
-                            title={bd.title}
-                            href={bd.href}
-                            styles={{
-                                label: classes.buttonColor,
-                            }}
-                            backgroundColor={
-                                appTheme.topbarButtonColor || appTheme.topbarColor || appTheme.primaryColor
-                            }
-                            labelColor={
-                                appTheme.topbarTextColor || appTheme.topbarContrastColor || appTheme.primaryTextColor
-                            }
-                        />
-                    );
+            <View
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
+                }}>
+                {
+                    rightButtonsData && rightButtonsData.map( buttonData => {
+                        if (( buttonData as TopbarListButtonData ).items) {
+                            let bd = buttonData as TopbarListButtonData;
+                            return (
+                                <Button
+                                    key={bd.title}
+                                    title={bd.title}
+                                    backgroundColor={
+                                        appTheme.topbarButtonColor ||
+                                        appTheme.topbarColor ||
+                                        appTheme.primaryColor
+                                    }
+                                    labelColor={
+                                        appTheme.topbarTextColor ||
+                                        appTheme.topbarContrastColor ||
+                                        appTheme.primaryTextColor
+                                    }
+                                    // items={buttonData.items}
+                                />
+                            );
+                        } else {
+                            let bd = buttonData as TopbarSimpleButtonData;
+                            return (
+                                <Button
+                                    key={bd.title}
+                                    onPress={bd.onPress}
+                                    title={bd.title}
+                                    iconLeft={bd.icon}
+                                    href={bd.href}
+                                    styles={{
+                                        label: classes.buttonColor,
+                                    }}
+                                    backgroundColor={
+                                        appTheme.topbarButtonColor ||
+                                        appTheme.topbarColor ||
+                                        appTheme.primaryColor
+                                    }
+                                    labelColor={
+                                        appTheme.topbarTextColor ||
+                                        appTheme.topbarContrastColor ||
+                                        appTheme.primaryTextColor
+                                    }
+                                />
+                            );
+                        }
+                    } )
                 }
-            })}
+                {
+                    topbarContent && topbarContent.map( x => x )
+                }
+            </View>
         </Toolbar>
     </AppBar>
 );
 
-export const Topbar: React.ComponentType<TopbarProps> = createStyles(styles, 'Topbar')(CTopBar);
+export const Topbar: React.ComponentType<TopbarProps> = createStyles( styles, 'Topbar' )( CTopBar );

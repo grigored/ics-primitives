@@ -5,4 +5,5 @@ export interface TopBarButtonProps {
     goBack?: () => void,
     testProps?: any,
     navigation: any,
+    imgStyle?: any,
 }
