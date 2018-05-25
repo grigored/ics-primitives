@@ -3,7 +3,7 @@ import IconButton from 'material-ui/IconButton';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import * as React from 'react';
-import { appTheme, createStyles, isXs, View, WithStyles } from "../..";
+import { all, appTheme, createStyles, isXs, View, webDesktop, WithStyles } from "../..";
 import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";
 import { getStyleProps } from "../../utils/web";
 import { Button } from "../Button/Button";
@@ -19,7 +19,10 @@ const styles = () => ( {
     appBar: {
         position: 'fixed',
         backgroundColor: appTheme.primaryColor,
-        height: appTheme.topBarHeightDesktop,
+        height: {
+            [webDesktop]: appTheme.topBarHeightDesktop,
+            [all]: appTheme.topBarHeightMobile,
+        },
         // transition: muiTheme.transitions.create(['margin', 'width'], {
         //     easing: muiTheme.transitions.easing.sharp,
         //     duration: muiTheme.transitions.duration.leavingScreen,
@@ -35,7 +38,14 @@ const styles = () => ( {
     },
     buttonColor: {
         color: appTheme.primaryTextColor,
-    }
+    },
+    toolbar: {
+        minHeight: 0,
+        height: {
+            [webDesktop]: appTheme.topBarHeightDesktop,
+            [all]: appTheme.topBarHeightMobile,
+        },
+    },
 } );
 
 const CTopBar = ( {
@@ -48,17 +58,27 @@ const CTopBar = ( {
                       topbarContent,
                   }: TopbarProps & WithStyles ) => (
     <AppBar {...getStyleProps( [classes.appBar, drawerOpen && classes.appBarShift] )}>
-        <Toolbar style={{ minHeight: 0 }}>
+        <Toolbar
+            style={{
+                minHeight: 0,
+                height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
+            }}
+        >
             {
                 leftButtonIcon &&
                 <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
                     {leftButtonIcon}
                 </IconButton>
             }
-
-            <Typography variant="title" color="inherit" className={classes.flex as string}>
-                {title || ''}
-            </Typography>
+            {
+                typeof title === 'string'
+                    ? (
+                        <Typography variant="title" color="inherit" className={classes.flex as string}>
+                            {title || ''}
+                        </Typography>
+                    )
+                    : title
+            }
 
             <View
                 style={{
