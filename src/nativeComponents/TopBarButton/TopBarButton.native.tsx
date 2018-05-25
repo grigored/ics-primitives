@@ -41,7 +41,7 @@ const styles = () => ({
 
 class CTopBarButton extends React.PureComponent<TopBarButtonProps & WithStyles, {}> {
     render() {
-        const {onPress, imgSrc, text, goBack, navigation, classes} = this.props;
+        const {onPress, imgSrc, imgStyle, text, goBack, navigation, classes} = this.props;
         if (imgSrc) {
             return (
                 <Touchable
@@ -54,10 +54,9 @@ class CTopBarButton extends React.PureComponent<TopBarButtonProps & WithStyles, 
                     <View style={classes.containerImg}>
                         <Image
                             source={imgSrc}
-                            style={classes.imgSrc}
+                            style={[classes.imgSrc, imgStyle]}
                         />
                     </View>
-
                 </Touchable>
             )
         }
