@@ -73,6 +73,7 @@ export interface AppProps {
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     title?: React.ReactNode | string,
     topbarContent?: Array<any>
+    hideDrawer?: boolean,
 }
 
 export interface ConnectedProps {
@@ -97,6 +98,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
             toggleDrawer,
             persistComplete,
             topbarContent,
+            hideDrawer,
         } = this.props;
 
         if (!persistComplete) {
@@ -108,9 +110,13 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                 <View style={classes.appFrame} name={'AppFrame'}>
                     <Topbar
                         leftButtonIcon={
-                            <MenuIcon
-                                style={{ color: appTheme.topbarContrastColor || appTheme.primaryTextColor }}
-                            />
+                            hideDrawer == true
+                                ? null
+                                : (
+                                    <MenuIcon
+                                        style={{ color: appTheme.topbarContrastColor || appTheme.primaryTextColor }}
+                                    />
+                                )
                         }
                         leftButtonOnPress={toggleDrawer.bind( this, null, !drawerOpen )}
                         drawerOpen={!!drawerOpen}
