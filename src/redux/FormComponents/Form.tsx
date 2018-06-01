@@ -24,6 +24,7 @@ const styles = () => ( {
         },
         margin: appTheme.defaultVerticalMargin,
         flexDirection: 'column',
+        overflow: 'hidden',
     }
 } );
 
@@ -51,7 +52,7 @@ interface ConnectedProps {
 
 type Props = FormProps & InjectedFormProps<{}, FormProps> & ConnectedProps & WithStyles & InjectedTranslateProps
 
-const FormField = Field as any;
+const FormField = Field as any;3
 
 class CForm extends React.PureComponent<Props, {}> {
     _bindedOnTouchDict: { [field: string]: () => void } = {};

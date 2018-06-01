@@ -143,7 +143,7 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                         },
                     }}
                     InputLabelProps={{
-                        // shrink: true,
+                        shrink: true,
                         FormControlClasses:{
                             focused: classes.focusedLabel as any,
                         },

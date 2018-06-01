@@ -57,7 +57,7 @@ const CTopBar = ( {
                       title,
                       topbarContent,
                   }: TopbarProps & WithStyles ) => (
-    <AppBar {...getStyleProps( [classes.appBar, drawerOpen && classes.appBarShift] )}>
+    <AppBar {...getStyleProps( [classes.appBar/*, drawerOpen && classes.appBarShift*/] )}>
         <Toolbar
             style={{
                 minHeight: 0,

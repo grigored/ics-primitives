@@ -4,7 +4,7 @@ import { View } from "../../primitives/View/View";
 import { Text } from "../../primitives/Text/Text";
 import { Data, TableColumn } from "./TableComponent.types";
 import { compose } from "redux";
-import { createStyles, web, WithStyles } from "../../index";
+import { createStyles, ScrollView, web, WithStyles } from "../../index";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = {
@@ -82,7 +82,10 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                 0
             );
         return (
-            <View style={classes.horizontalScrollable}>
+            <ScrollView
+                style={classes.horizontalScrollable}
+                horizontal={true} // todo here
+            >
                 <View
                     name="header"
                     style={[
@@ -103,13 +106,12 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                         </Text>
                     ) )}
                 </View>
-
-                <View
-                    name="body"
+                <ScrollView
                     style={[
                         classes.body,
                         { width: totalWidth }
                     ]}
+                    horizontal={true} // todo also here
                 >
                     {
                         !tableData
@@ -142,8 +144,8 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                                 ) )
                             )
                     }
-                </View>
-            </View>
+                </ScrollView>
+            </ScrollView>
         );
     }
 }
