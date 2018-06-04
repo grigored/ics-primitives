@@ -94,3 +94,4 @@ export { addTopbar } from './decorators/addTopbar/addTopbar';
 export { Alert } from './nativeComponents/Alert/Alert';
 export { PlatformStyleRules } from './utils/theme.types';
 export { Select } from './nativeComponents/Select/Select';
+export { Paper } from './nativeComponents/Paper/Paper';

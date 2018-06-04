@@ -5,7 +5,7 @@ export interface ButtonProps {
     iconLeft?: string,
     iconRight?: string,
     href?: string,
-    onPress?: () => void,
+    onPress?: ( event?: any ) => void,
     primary?: boolean,
     raised?: boolean,
     backgroundColor?: string,
