@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import { View } from "../../primitives/View/View";
 import {TableInner} from "./TableInner";
 import {ConnectedProps, OwnProps, Row, TableColumn, TableRowAction} from "./TableComponent.types";
-import {appTheme, Button, createStyles, FORM_INPUT_TYPES, WithStyles} from "../../index";
+import { appTheme, Button, createStyles, FORM_INPUT_TYPES, Text, WithStyles } from "../../index";
 import {InjectedTranslateProps, translate} from "react-i18next";
 import {loadTableData, showEntryDetails} from "../../redux/reducers/table";
 import {getNestedField} from "../../utils/common";
@@ -75,7 +75,9 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
             <View style={classes.container}>
 
                 <View style={classes.title}>
+                    <Text>
                     {tableDefinition.title}
+                    </Text>
                 </View>
 
                 <TableTopActions

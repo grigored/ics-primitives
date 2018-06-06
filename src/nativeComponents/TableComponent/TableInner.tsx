@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { View } from "../../primitives/View/View";
-import {Text} from "../../primitives/Text/Text";
-import {Data, TableColumn} from "./TableComponent.types";
-import {compose} from "redux";
-import {createStyles, WithStyles} from "../../index";
-import {NO_TABLE_DATA} from "../../utils/strings";
+import { Text } from "../../primitives/Text/Text";
+import { Data, TableColumn } from "./TableComponent.types";
+import { compose } from "redux";
+import { createStyles, ScrollView, web, WithStyles } from "../../index";
+import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = {
     horizontalScrollable: {
@@ -13,18 +13,22 @@ const styles = {
         borderColor: '#999',
         borderStyle: 'solid',
         flexDirection: 'column',
-        overflowX: 'scroll',
-        overflowY: 'hidden',
+        [web]: {
+            overflowX: 'scroll',
+            overflowY: 'hidden',
+        }
     },
     header: {
         flexBasis: 50,
-        flexAlign: 'center',
+        [web]: {
+            flexAlign: 'center',
+            textTransform: 'uppercase',
+        },
         borderBottomWidth: 1,
         borderBottomColor: '#000',
-        borderBottomStyle: 'solid',
-        fontWeight: 500,
+        borderStyle: 'solid',
+        fontWeight: '500',
         backgroundColor: '#eee',
-        textTransform: 'uppercase',
     },
     row: {
         flexDirection: 'row',
@@ -37,20 +41,24 @@ const styles = {
         backgroundColor: '#fff',
     },
     body: {
-        overflowX: 'visible', /* so that the body is scrollable horizontally, and scrolls together with header in right-scrollable */
-        overflowY: 'scroll',
+        [web]: {
+            overflowX: 'visible', /* so that the body is scrollable horizontally, and scrolls together with header in right-scrollable */
+            overflowY: 'scroll',
+        },
         flexDirection: 'column',
         flexGrow: 1,
     },
     bodyRow: {
-        borderBottomStyle: 'solid',
+        borderStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
         height: 34,
     },
     cell: {
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
+        [web]: {
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+        },
         overflow: 'hidden',
         padding: 7,
     },
@@ -70,70 +78,74 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
     render() {
         const { classes, columns, tableData, t } = this.props,
             totalWidth = columns.reduce(
-                (prevSum, current) => prevSum + (current.preferredWidth || DEFAULT_CELL_WIDTH),
+                ( prevSum, current ) => prevSum + ( current.preferredWidth || DEFAULT_CELL_WIDTH ),
                 0
             );
         return (
-            <View style={classes.horizontalScrollable} >
+            <ScrollView
+                style={classes.horizontalScrollable}
+                horizontal={true} // todo here
+            >
                 <View
                     name="header"
                     style={[
                         classes.header,
                         classes.row,
-                        {width: totalWidth}
+                        { width: totalWidth }
                     ]}
                 >
-                    {columns.map(column => (
+                    {columns.map( column => (
                         <Text
                             key={column.field}
                             style={[
                                 classes.cell,
-                                {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
+                                { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
                             ]}
                         >
-                            {t(column.title || "")}
+                            {t( column.title || "" )}
                         </Text>
-                    ))}
+                    ) )}
                 </View>
-
-                <View
-                    name="body"
+                <ScrollView
                     style={[
                         classes.body,
-                        {width: totalWidth}
+                        { width: totalWidth }
                     ]}
+                    horizontal={true} // todo also here
                 >
                     {
                         !tableData
                             ? (
                                 <View style={classes.noData}>
-                                    {t(NO_TABLE_DATA)}
+                                    <Text>
+                                        {t( NO_TABLE_DATA )}
+                                    </Text>
                                 </View>
                             ) : (
-                                tableData.items.map((row, index)=> (
+                                tableData.items.map( ( row, index ) => (
                                     <View key={index} style={[classes.row, classes.bodyRow]}>
-                                        {columns.map(column => (
+                                        {columns.map( column => (
                                             <View
                                                 key={column.field}
                                                 style={[
-                                                   index % 2 === 0 ? classes.evenRow: classes.oddRow,
-                                                   {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
+                                                    index % 2 === 0 ? classes.evenRow : classes.oddRow,
+                                                    { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
                                                 ]}
                                             >
                                                 {column.dataFormat
-                                                    ? column.dataFormat(row[column.field], row)
+                                                    ? column.dataFormat( row[column.field], row )
                                                     : <Text style={classes.cell}>
                                                         {row[column.field] || "-"}
                                                     </Text>
                                                 }
                                             </View>
-                                        ))}
+                                        ) )}
                                     </View>
-                                ))
+                                ) )
                             )
                     }
-                </View>
-            </View>
+                </ScrollView>
+            </ScrollView>
         );
     }
 }

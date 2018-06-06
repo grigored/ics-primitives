@@ -6,7 +6,7 @@ import { ButtonProps } from './Button.types';
 
 export { fade } from 'material-ui/styles/colorManipulator';
 
-const getUpdatedRoot = (primary?: boolean, backgroundColor?: string, labelColor?: string): any => {
+const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor?: string ): any => {
     let root: any = {};
     if (backgroundColor) {
         // root = {
@@ -26,6 +26,7 @@ const getUpdatedRoot = (primary?: boolean, backgroundColor?: string, labelColor?
         root.backgroundColor = backgroundColor || appTheme.primaryColor;
         root.color = labelColor || appTheme.primaryTextColor;
     }
+    root.textTransform = 'none';
     return root;
 };
 
@@ -38,8 +39,8 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
         let buttonStyle = styles || {};
         // let buttonStyle = {};
         buttonStyle.root = {
-            ...(buttonStyle.root || {}),
-            ...getUpdatedRoot(primary, backgroundColor, labelColor),
+            ...( buttonStyle.root || {} ),
+            ...getUpdatedRoot( primary, backgroundColor, labelColor ),
         };
         return (
             <MaterialButton
@@ -49,7 +50,7 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
                 disabled={disabled}
                 href={href}
                 onClick={onPress}
-                variant={raised? 'raised': 'flat'}
+                variant={raised ? 'raised' : 'flat'}
             >
                 {
                     iconLeft &&
@@ -58,7 +59,7 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
                         source={iconLeft}
                     />
                 }
-                {!!title ? t(title) : null}
+                {!!title ? t( title ) : null}
                 {
                     iconRight &&
                     <Image
@@ -72,4 +73,4 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
     }
 }
 
-export const Button: React.ComponentType<ButtonProps> = translate()(CButton);
+export const Button: React.ComponentType<ButtonProps> = translate()( CButton );

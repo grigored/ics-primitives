@@ -10,7 +10,7 @@ import { createStyles } from '../../decorators/createStyles/createStyles';
 import { Text } from '../../primitives/Text/Text';
 import { View } from '../../primitives/View/View';
 import { getNestedField, shallowEqual } from '../../utils/common';
-import { ClassValues, WithStyles } from '../../utils/theme.types';
+import { WithStyles } from '../../utils/theme.types';
 import { DBValue, FieldDefinition, GlobalState } from './FormComponents.types';
 import { FormItem } from './FormItem';
 
@@ -24,6 +24,7 @@ const styles = () => ( {
         },
         margin: appTheme.defaultVerticalMargin,
         flexDirection: 'column',
+        overflow: 'hidden',
     }
 } );
 
@@ -33,7 +34,7 @@ export interface FormProps {
     handleSubmit?: any, // do we need this?
     fieldDefinitions: Array<FieldDefinition>,
     form: string,
-    containerStyle?: ClassValues,
+    containerStyle?: any,
     allRequired?: boolean,
     alwaysTouched?: boolean,
     destroyOnUnmount?: boolean, // do we need this?
@@ -51,7 +52,7 @@ interface ConnectedProps {
 
 type Props = FormProps & InjectedFormProps<{}, FormProps> & ConnectedProps & WithStyles & InjectedTranslateProps
 
-const FormField = Field as any;
+const FormField = Field as any;3
 
 class CForm extends React.PureComponent<Props, {}> {
     _bindedOnTouchDict: { [field: string]: () => void } = {};

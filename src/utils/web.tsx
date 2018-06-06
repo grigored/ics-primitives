@@ -3,7 +3,7 @@ import {AppTheme, Classes} from "./theme.types";
 export const getStyleProps = (style?: Classes) => {
     const generalStyle = {
         display: 'flex',
-        fontFamily: 'Roboto',
+        fontFamily: 'HelveticaNeue',
     };
 
 
