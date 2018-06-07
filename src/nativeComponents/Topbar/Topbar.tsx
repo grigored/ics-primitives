@@ -18,7 +18,7 @@ const styles = () => ( {
     },
     appBar: {
         position: 'fixed',
-        backgroundColor: appTheme.primaryColor,
+        backgroundColor: appTheme.topBarColor,
         height: {
             [webDesktop]: appTheme.topBarHeightDesktop,
             [all]: appTheme.topBarHeightMobile,

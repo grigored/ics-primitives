@@ -101,17 +101,44 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
 
     render() {
         let {
-            placeholder,
-            inputType = TEXT_INPUT_TYPES.TEXT,
-            onBlur,
-            title,
-            error,
-            id,
-            multiline,
-            onChange,
-            disableUnderline,
-            classes,
-        } = this.props;
+                placeholder,
+                inputType = TEXT_INPUT_TYPES.TEXT,
+                onBlur,
+                title,
+                error,
+                id,
+                multiline,
+                onChange,
+                disableUnderline,
+                classes,
+                inputStyle,
+            } = this.props,
+            inputColor = (
+                !!inputStyle && !!inputStyle.input
+                    ? inputStyle.input
+                    : classes.input
+            )as any,
+            labelColor = (
+                !!inputStyle && !!inputStyle.label
+                    ? inputStyle.label
+                    : classes.label
+            )as any,
+            focusedLabelColor = (
+                !!inputStyle && !!inputStyle.focusedLabel
+                    ? inputStyle.focusedLabel
+                    : classes.focusedLabel
+            )as any,
+            underline = (
+                !!inputStyle && !!inputStyle.underline
+                    ? inputStyle.underline
+                    : classes.focusedLabel
+            )as any,
+            underlineError = (
+                !!inputStyle && !!inputStyle.underlineError
+                    ? inputStyle.underlineError
+                    : classes.focusedLabel
+            )as any;
+
         return (
             <FormControl fullWidth>
                 <TextField
@@ -138,17 +165,17 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                     InputProps={{
                         disableUnderline,
                         classes: {
-                            input: classes.input as any,
-                            underline: !!error ? classes.underlineError : classes.underline as any,
+                            input: inputColor,
+                            underline: !!error ? underlineError : underline as any,
                         },
                     }}
                     InputLabelProps={{
                         shrink: true,
-                        FormControlClasses:{
-                            focused: classes.focusedLabel as any,
+                        FormControlClasses: {
+                            focused: focusedLabelColor,
                         },
                         classes: {
-                            root: classes.label as any,
+                            root: labelColor,
                         },
                     }}
                 />

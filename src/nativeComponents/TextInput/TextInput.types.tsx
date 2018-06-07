@@ -17,6 +17,15 @@ export interface TextInputProps {
     dbToRaw?: ( value: any ) => string,
     extraErrorChecker?: ( value: string ) => string | undefined,
     disableUnderline?: boolean,
+    inputStyle?: InputColorTheme,
+}
+
+export interface InputColorTheme {
+    input?: any,
+    label?: any,
+    focusedLabel?: any,
+    underline?: any,
+    underlineError?: any,
 }
 
 export type TextInputDBValue = any;// string | number | {[field: string]: any};
