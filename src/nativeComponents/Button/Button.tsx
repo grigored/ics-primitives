@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import MaterialButton from 'material-ui/Button';
+import MaterialButton from '@material-ui/core/Button';
 import { appTheme, Image } from '../../';
 import { ButtonProps } from './Button.types';
 
-export { fade } from 'material-ui/styles/colorManipulator';
+export { fade } from '@material-ui/core/styles/colorManipulator';
 
 const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor?: string ): any => {
     let root: any = {};

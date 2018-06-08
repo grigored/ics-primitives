@@ -1,13 +1,12 @@
 import * as React from "react"
-import {MenuItem} from 'material-ui/Menu';
-import SelectMaterial from 'material-ui/Select';
-import { default as Input, InputLabel } from 'material-ui/Input';
-import {FormControl, FormHelperText} from 'material-ui/Form';
+import SelectMaterial from '@material-ui/core/Select';
+import { default as Input } from '@material-ui/core/Input';
 import { createStyles, isXs, WithStyles } from '../../';
 import { appTheme } from '../../index';
 import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "./selectUtils";
 import { FieldStateProps, Option, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
 import { SELECT_INPUT_TYPES } from "../../utils/enums";
+import {FormControl, FormHelperText, InputLabel, MenuItem} from "@material-ui/core";
 
 class SelectOption extends React.PureComponent<Option, {}> {
     render() {
@@ -69,9 +68,7 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                         classes={{
                             root: classes.label as any,
                         }}
-                        FormControlClasses={{
-                            focused: classes.focusedLabel as any,
-                        }}
+                        focused={classes.focusedLabel as any}
                     >
                         {title}
                     </InputLabel>}

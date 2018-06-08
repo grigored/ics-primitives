@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Dialog, { DialogContent, DialogContentText, DialogTitle, DialogActions } from 'material-ui/Dialog';
 import { connect } from 'react-redux';
 import { View } from "../../primitives/View/View";
 import { AlertData, hideAlert } from "../../redux/reducers/navigation";
@@ -7,6 +6,7 @@ import { appTheme} from '../../utils/theme';
 import { WithStyles } from "../../utils/theme.types";
 import {Button, createStyles} from "../..";
 import { AlertProps } from "./Alert.types";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 
 const styles = () => ({
     dataContainer: {

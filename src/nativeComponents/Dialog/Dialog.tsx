@@ -1,13 +1,8 @@
 import * as React from "react";
-import MaterialDialog from 'material-ui/Dialog';
-import Fade, { FadeProps } from 'material-ui/transitions/Fade';
+import MaterialDialog from '@material-ui/core/Dialog';
 import { connect } from 'react-redux';
 import { DialogData, hideDialog, removeDialog } from '../../redux/reducers/navigation';
 import { AllProps, BodyProps, Props } from './Dialog.props';
-
-function Transition(props: FadeProps) {
-    return <Fade {...props} timeout={{enter: 400, exit: 500}}/>;
-}
 
 class CDialog extends React.PureComponent<AllProps, {}> {
     private hideDialog: () => void;
@@ -42,7 +37,6 @@ class CDialog extends React.PureComponent<AllProps, {}> {
                 open={dialog.visible || false}
                 onExited={this.onExited}
                 fullScreen={fullScreen}
-                transition={Transition}
                 onClose={this.hideDialog}
             >
                 <BodyComponent

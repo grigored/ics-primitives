@@ -1,4 +1,4 @@
-import MenuIcon from 'material-ui-icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { appTheme, createStyles, View, webDesktop, webMobile, WithStyles } from '../..';

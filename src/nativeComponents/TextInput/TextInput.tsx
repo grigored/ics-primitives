@@ -1,6 +1,4 @@
-import { FormHelperText } from "material-ui";
-import { FormControl } from 'material-ui/Form';
-import TextField from 'material-ui/TextField';
+import {FormControl, FormHelperText, TextField} from "@material-ui/core";
 import * as React from 'react';
 import { appTheme, createStyles, WithStyles } from "../../";
 import { FieldStateProps } from "../../redux/FormComponents/FormComponents.types";
@@ -171,9 +169,7 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                     }}
                     InputLabelProps={{
                         shrink: true,
-                        FormControlClasses: {
-                            focused: focusedLabelColor,
-                        },
+                        focused: focusedLabelColor,
                         classes: {
                             root: labelColor,
                         },

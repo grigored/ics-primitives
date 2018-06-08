@@ -1,4 +1,4 @@
-import Popover from 'material-ui/Popover';
+import Popover from '@material-ui/core/Popover';
 import * as React from 'react';
 import { Button, createStyles, View, WithStyles } from '../../';
 import { StyleRules } from '../../utils/theme.types';

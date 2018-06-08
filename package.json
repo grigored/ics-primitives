@@ -6,7 +6,6 @@
   "types": "dist/src/index.d.ts",
   "peerDependencies": {
     "localforage": "^1.5.5",
-    "material-ui": "1.0.0-beta.37",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
@@ -33,8 +32,8 @@
     "file-saver": "^1.3.3",
     "i18next": "^10.5.0",
     "localforage": "^1.5.5",
-    "material-ui": "1.0.0-beta.37",
-    "material-ui-icons": "^1.0.0-beta.36",
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
     "moment": "^2.21.0",
     "moment-timezone": "^0.5.14",
     "react": "^16.2.0",

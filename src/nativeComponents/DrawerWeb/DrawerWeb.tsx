@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Drawer from "material-ui/Drawer";
+import Drawer from "@material-ui/core/Drawer";
 import {appTheme, createStyles, WithStyles} from "../..";
 
 const styles = {

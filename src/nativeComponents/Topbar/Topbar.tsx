@@ -1,7 +1,7 @@
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { all, appTheme, createStyles, isXs, View, webDesktop, WithStyles } from "../..";
 import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";

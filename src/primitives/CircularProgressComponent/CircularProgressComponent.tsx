@@ -2,9 +2,9 @@
  * Created by alexbuicescu on 19 - Mar 2018.
  */
 
-import { CircularProgress } from 'material-ui/Progress';
+import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
-import { appTheme } from '../..//utils/theme';
+import { appTheme } from '../../utils/theme';
 import { createStyles, WithStyles } from '../../';
 import { CIRCULAR_PROGRESS_SIZE } from '../../utils/enums';
 import { Props } from './CircularProgressComponent.types';
