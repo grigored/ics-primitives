@@ -124,7 +124,7 @@ class CForm extends React.PureComponent<Props, {}> {
     render() {
         let { classes, fieldDefinitions, containerStyle, formError, t } = this.props;
         return (
-            <View style={{ width: '100%', }}>
+            <View style={{ width: '100%' }}>
                 <ScrollView style={[classes.container, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>

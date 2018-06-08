@@ -1,10 +1,11 @@
+import { HTTP_METHOD } from "src";
+import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
+import { isWeb } from '../../primitives/platform/platform';
 import {
     CommonTypeKeys, LoginAction, LoginSuccessFailAction, LogoutAction, LogoutSuccessFailAction, SignupAction,
     SignupSuccessFailAction, SocialLoginAction, SocialLoginSuccessFailAction, Validate2FAAction,
     Validate2FASuccessFailAction
 } from './commonActions';
-import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
-import { isWeb } from '../../primitives/platform/platform';
 import { getUserDataLocalStorageName } from './utils';
 
 export enum TypeKeys {
@@ -144,17 +145,20 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
         case CommonTypeKeys.VALIDATE_2FA:
             return {
                 ...state,
-                validating: true
+                validating: true,
+                validateSuccess: false,
             };
         case CommonTypeKeys.VALIDATE_2FA_SUCCESS:
             return {
                 ...state,
                 validating: false,
+                validateSuccess: true,
             };
         case CommonTypeKeys.VALIDATE_2FA_FAIL:
             return {
                 ...state,
                 validating: false,
+                validateSuccess: false,
             };
 
         case CommonTypeKeys.LOGOUT:
@@ -164,7 +168,7 @@ export const auth = ( state: AuthState = initialState, action: ActionTypes ): Au
             };
         case CommonTypeKeys.LOGOUT_SUCCESS:
             if (isWeb) {
-                localStorage.removeItem(getUserDataLocalStorageName());
+                localStorage.removeItem( getUserDataLocalStorageName() );
                 document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
             googleSignOut();
@@ -225,9 +229,9 @@ export function fbStatusChangeCallback( inviteCode: string,
             },
         }
     } else if (response.status === 'not_authorized') {
-        console.log('Please log into this app.');
+        console.log( 'Please log into this app.' );
     } else {
-        console.log('Please log into Facebook.');
+        console.log( 'Please log into Facebook.' );
     }
     return {
         type: TypeKeys.FB_STATUS_CHANGE
@@ -242,27 +246,27 @@ export const fbLoadSdk = ( appId: string,
                            inviteCode?: string, ): FbLoadSdkAction => {
 
     window.fbAsyncInit = function () {
-        FB.init({
+        FB.init( {
             appId: appId,
             cookie: false,
             xfbml: true,
             version: 'v2.5'
-        });
+        } );
 
-        FB.Event.subscribe('auth.statusChange', fbStatusChangeCallback.bind(null, inviteCode));
+        FB.Event.subscribe( 'auth.statusChange', fbStatusChangeCallback.bind( null, inviteCode ) );
 
         fbSdkLoaded();
     };
 
     // Load the SDK asynchronously
-    (function ( d, s, id ) {
-        let js: any, fjs: any = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
+    ( function ( d, s, id ) {
+        let js: any, fjs: any = d.getElementsByTagName( s )[0];
+        if (d.getElementById( id )) return;
+        js = d.createElement( s );
         js.id = id;
         js.src = '//connect.facebook.net/en_US/sdk.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+        fjs.parentNode.insertBefore( js, fjs );
+    }( document, 'script', 'facebook-jssdk' ) );
 
     return {
         type: TypeKeys.FB_LOAD_SDK
@@ -301,7 +305,7 @@ export const socialLogin = ( url: string,
         types: [CommonTypeKeys.SOCIAL_LOGIN, CommonTypeKeys.SOCIAL_LOGIN_SUCCESS, CommonTypeKeys.SOCIAL_LOGIN_FAIL],
         method,
         url,
-        body: {providerName, oauthToken, providerUserId, invite_code, redirect_uri: redirect_uri},
+        body: { providerName, oauthToken, providerUserId, invite_code, redirect_uri: redirect_uri },
     }
 };
 
@@ -314,16 +318,18 @@ export const signup = ( body: any, url: string, method: string ) => {
     }
 };
 
-export const validate2FA = ( body: any, url: string, method: string ) => {
+export const validate2FA = ( body: any, url: string, method: string, types?: Array<string> ) => {
     return {
-        types: [CommonTypeKeys.VALIDATE_2FA, CommonTypeKeys.VALIDATE_2FA_SUCCESS, CommonTypeKeys.VALIDATE_2FA_FAIL],
+        types: types && types.length == 3
+            ? types
+            : [CommonTypeKeys.VALIDATE_2FA, CommonTypeKeys.VALIDATE_2FA_SUCCESS, CommonTypeKeys.VALIDATE_2FA_FAIL],
         method,
         url,
         body,
     }
 };
 
-export const logout = (body: any, url: string, method: string) => {
+export const logout = ( body: any, url: string, method: string ) => {
     return {
         types: [CommonTypeKeys.LOGOUT, CommonTypeKeys.LOGOUT_SUCCESS, CommonTypeKeys.LOGOUT_FAIL],
         url,
@@ -332,14 +338,21 @@ export const logout = (body: any, url: string, method: string) => {
     }
 };
 
-export const logoutLocal = () => {
+export interface LogoutProps {
+    types: Array<string>,
+    url: string,
+    method: HTTP_METHOD,
+    body: any,
+}
+
+export const logoutLocal = ( props?: LogoutProps ) => {
     if (isWeb) {
-        localStorage.removeItem(getUserDataLocalStorageName());
+        localStorage.removeItem( getUserDataLocalStorageName() );
         document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
     googleSignOut();
     // fbSignOut();
-    return {
-        type: CommonTypeKeys.LOGOUT
-    }
+    return !!props
+        ? props
+        : { type: CommonTypeKeys.LOGOUT }
 };
