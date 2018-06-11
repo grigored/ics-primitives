@@ -15,12 +15,6 @@ const styles = () => ( {
         '&:after': {
             backgroundColor: appTheme.primaryColor,
         },
-        '&:before': {
-            backgroundColor: appTheme.textInputUnderlineColor,
-        },
-        '&:hover:not($disabled):before': {
-            backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
-        },
     },
     inkbar: {
         '&:after': {
@@ -121,11 +115,6 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                     ? inputStyle.label
                     : classes.label
             )as any,
-            focusedLabelColor = (
-                !!inputStyle && !!inputStyle.focusedLabel
-                    ? inputStyle.focusedLabel
-                    : classes.focusedLabel
-            )as any,
             underline = (
                 !!inputStyle && !!inputStyle.underline
                     ? inputStyle.underline
@@ -169,7 +158,7 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
                     }}
                     InputLabelProps={{
                         shrink: true,
-                        focused: focusedLabelColor,
+                        // focused: focusedLabelColor,
                         classes: {
                             root: labelColor,
                         },

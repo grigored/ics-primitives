@@ -29,18 +29,6 @@ const raw2db = (rawValue: string, selectInputType?: SELECT_INPUT_TYPES): string 
 };
 
 const styles = () => ({
-    underline: {
-        '&:after': {
-            backgroundColor: appTheme.primaryColor,
-        },
-        '&:before': {
-            backgroundColor: appTheme.textInputUnderlineColor,
-        },
-        '&:hover:not($disabled):before': {
-            backgroundColor: `${appTheme.textInputUnderlineColor} !important`,
-        },
-    },
-    underlineError: {},
     input: {
         color: appTheme.textColor,
     },
