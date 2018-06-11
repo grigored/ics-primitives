@@ -26,7 +26,7 @@ const styles = {
         },
         borderBottomWidth: 1,
         borderBottomColor: '#000',
-        borderStyle: 'solid',
+        borderBottomStyle: 'solid',
         fontWeight: '500',
         backgroundColor: '#eee',
     },
@@ -49,7 +49,7 @@ const styles = {
         flexGrow: 1,
     },
     bodyRow: {
-        borderStyle: 'solid',
+        borderBottomStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
         height: 34,
@@ -128,7 +128,7 @@ class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTrans
                                             <View
                                                 key={column.field}
                                                 style={[
-                                                    index % 2 === 0 ? classes.evenRow : classes.oddRow,
+                                                    // index % 2 === 0 ? classes.evenRow : classes.oddRow,
                                                     { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
                                                 ]}
                                             >
