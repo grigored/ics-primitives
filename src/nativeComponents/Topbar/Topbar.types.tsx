@@ -20,4 +20,5 @@ export interface TopbarProps {
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     drawerOpen?: boolean
     topbarContent?: Array<any>
+    disableGutters?: boolean,
 }

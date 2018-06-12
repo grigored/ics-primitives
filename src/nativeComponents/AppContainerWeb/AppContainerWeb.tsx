@@ -15,11 +15,6 @@ const styles = () => ( {
         flex: 1,
         width: '100vw',
         height: '100vh',
-        // position: 'absolute',
-        // top: 0,
-        // bottom: 0,
-        // left: 0,
-        // right: 0,
     },
     appBarShift: {
         marginLeft: appTheme.drawerWidth,
@@ -50,14 +45,9 @@ const styles = () => ( {
         backgroundColor: '#fff'
     },
     contentPersistent: {
-        marginLeft: -appTheme.drawerWidth,
     },
     contentShift: {
         marginLeft: 0,
-        // transition: muiTheme.transitions.create('margin', {
-        //     easing: muiTheme.transitions.easing.easeOut,
-        //     duration: muiTheme.transitions.duration.enteringScreen,
-        // }),
     },
     logo: {
         height: 48,
@@ -123,6 +113,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
                         title={title}
                         rightButtonsData={rightButtonsData}
                         topbarContent={topbarContent}
+                        disableGutters={!drawerOpen}
                     />
 
                     <DrawerWeb
