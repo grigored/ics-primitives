@@ -1,13 +1,13 @@
+import { isAndroid, isIOS, isWeb } from "../primitives/platform/platform";
 import { isObject, isXs } from "./common";
-import { isIOS, isWeb, isAndroid } from "../primitives/platform/platform";
 import { runTimeClasses } from "./theme";
 
-export const removePlatform = (theme: any): any => {
-    if (!isObject(theme)) {
+export const removePlatform = ( theme: any ): any => {
+    if (!isObject( theme )) {
         return theme;
     }
 
-    let {webDesktop, webMobile, web, ios, android, native, all, ...other} = theme;
+    let { webDesktop, webMobile, web, ios, android, native, all, ...other } = theme;
     // other.values is either [] or list of objects
 
     let value = undefined;
@@ -34,33 +34,35 @@ export const removePlatform = (theme: any): any => {
         value = all;
     }
 
-    if (value !== undefined && !isObject(value)) {
+    if (value !== undefined && !isObject( value )) {
         return value;
     }
     let cleanedOther = {};
-    for (let key of Object.keys(other)) {
-        if (!isWeb && key.indexOf('media') !== -1) {
+    for (let key of Object.keys( other )) {
+        if (!isWeb && key.indexOf( 'media' ) !== -1) {
             // TODO: use media queries for webMobile/webDesktop and support media queries on native
             continue;
         }
-        cleanedOther[key] = removePlatform(other[key]);
+        cleanedOther[key] = removePlatform( other[key] );
     }
 
     return {
-        ...(value === undefined ? {}: value),
+        ...( value === undefined ? {} : value ),
         ...cleanedOther
     }
 };
+
 //
-export function combineStyles(componentStyles: any, componentName: string): any {
-    let fullStyles = typeof(componentStyles) === "function" ? componentStyles() : componentStyles;
+export function combineStyles( componentStyles: any, componentName: string ): any {
+    let fullStyles = typeof( componentStyles ) === "function" ? componentStyles() : componentStyles;
     let newStyles: any = {};
     for (let className in fullStyles) {
         let styleDefinition = {
-            ...removePlatform(fullStyles[className]),
-            ...removePlatform(runTimeClasses[componentName] && runTimeClasses[componentName][className]),
+            ...removePlatform( fullStyles[className] ),
+            ...removePlatform( runTimeClasses[componentName] && runTimeClasses[componentName][className] ),
         };
-        newStyles[className] = {...styleDefinition};
+        newStyles[className] = { ...styleDefinition };
     }
+    console.log( componentName, newStyles );
     return newStyles;
 }

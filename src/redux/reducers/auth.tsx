@@ -1,4 +1,4 @@
-import { HTTP_METHOD } from "src";
+// import { HTTP_METHOD } from "src";
 import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
 import { isWeb } from '../../primitives/platform/platform';
 import {
@@ -22,7 +22,7 @@ export interface FbLoadSdkAction {
 }
 
 export interface FbSdkLoadedAction {
-    type: TypeKeys.FB_SDK_LOADED
+    type: TypeKeys.FB_SDK_LOADED,
 }
 
 export interface FbStatusChangeAction {
@@ -341,7 +341,7 @@ export const logout = ( body: any, url: string, method: string ) => {
 export interface LogoutProps {
     types: Array<string>,
     url: string,
-    method: HTTP_METHOD,
+    method: string,
     body: any,
 }
 
