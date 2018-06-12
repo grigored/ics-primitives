@@ -1,4 +1,4 @@
-import { HTTP_METHOD } from "src";
+import { HTTP_METHOD } from "../../";
 import { googleSignOut } from '../../nativeComponents/ButtonGoogleComponent/googleLoginUtils';
 import { isWeb } from '../../primitives/platform/platform';
 import {
