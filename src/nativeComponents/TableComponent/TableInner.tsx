@@ -1,152 +1,109 @@
 import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { View } from "../../primitives/View/View";
-import { Text } from "../../primitives/Text/Text";
-import { Data, TableColumn } from "./TableComponent.types";
-import { compose } from "redux";
-import { createStyles, ScrollView, web, WithStyles } from "../../index";
-import { NO_TABLE_DATA } from "../../utils/strings";
+import {InjectedTranslateProps, translate} from 'react-i18next';
+import {compose} from 'redux';
+import {createStyles, ScrollView, Text, View, web, WithStyles} from "../..";
+import {Data, TableColumn} from "./TableComponent.types";
+import {NO_TABLE_DATA} from "../../utils/strings";
 
-const styles = {
-    horizontalScrollable: {
-        borderWidth: 1,
-        borderColor: '#999',
-        borderStyle: 'solid',
-        flexDirection: 'column',
-        [web]: {
-            overflowX: 'scroll',
-            overflowY: 'hidden',
-        }
+const styles = () => ({
+    container: {
+        width: '100%',
+        overflow: 'scroll',
     },
-    header: {
-        flexBasis: 50,
-        [web]: {
-            flexAlign: 'center',
-            textTransform: 'uppercase',
-        },
-        borderBottomWidth: 1,
-        borderBottomColor: '#000',
-        borderBottomStyle: 'solid',
-        fontWeight: '500',
-        backgroundColor: '#eee',
-    },
-    row: {
+    th: {
         flexDirection: 'row',
-        flexShrink: 0,
-    },
-    evenRow: {
-        backgroundColor: '#efefef',
-    },
-    oddRow: {
         backgroundColor: '#fff',
-    },
-    body: {
-        [web]: {
-            overflowX: 'visible', /* so that the body is scrollable horizontally, and scrolls together with header in right-scrollable */
-            overflowY: 'scroll',
-        },
-        flexDirection: 'column',
-        flexGrow: 1,
-    },
-    bodyRow: {
-        borderBottomStyle: 'solid',
         borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-        height: 34,
-    },
-    cell: {
+        borderBottomColor: '#eee',
         [web]: {
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
+            borderBottomStyle: 'solid'
         },
-        overflow: 'hidden',
-        padding: 7,
+    },
+    thtd: {
+        [web]: {
+            boxSizing: 'border-box',
+        },
+        textAlign: 'center',
+        alignItems: 'center',
+        textAlignVertical: 'center',
+        padding: 8,
+        height: 40,
+    },
+    trasd: {
+        [web]: {
+            borderBottomStyle: 'solid',
+            '&:hover': {
+                backgroundColor: '#eee',
+            },
+        },
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        flexDirection: 'row',
     },
     noData: {
-        margin: 'auto'
-    }
-};
+        width: '100%',
+        height: 40,
+        padding: 8,
+        [web]: {
+            boxSizing: 'border-box',
+        },
+    },
 
-export interface Props {
+});
+
+export interface OwnProps {
     columns: Array<TableColumn>,
     tableData?: Data
 }
 
-const DEFAULT_CELL_WIDTH = 200;
+type Props = OwnProps & WithStyles & InjectedTranslateProps
 
-class CTableInner extends React.PureComponent<Props & WithStyles & InjectedTranslateProps, {}> {
+const DEFAULT_CELL_WIDTH = 150;
+
+class CTableInner extends React.PureComponent<Props, {}> {
     render() {
-        const { classes, columns, tableData, t } = this.props,
-            totalWidth = columns.reduce(
-                ( prevSum, current ) => prevSum + ( current.preferredWidth || DEFAULT_CELL_WIDTH ),
-                0
-            );
+        const {classes, columns, tableData, t} = this.props;
         return (
-            <ScrollView
-                style={classes.horizontalScrollable}
-                horizontal={true} // todo here
-            >
-                <View
-                    name="header"
-                    style={[
-                        classes.header,
-                        classes.row,
-                        { width: totalWidth }
-                    ]}
-                >
-                    {columns.map( column => (
-                        <Text
-                            key={column.field}
-                            style={[
-                                classes.cell,
-                                { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
-                            ]}
-                        >
-                            {t( column.title || "" )}
-                        </Text>
-                    ) )}
-                </View>
-                <ScrollView
-                    style={[
-                        classes.body,
-                        { width: totalWidth }
-                    ]}
-                    horizontal={true} // todo also here
-                >
-                    {
-                        !tableData
+            <ScrollView contentContainerStyle={{height: 1000}}>
+                <ScrollView horizontal={true} contentContainerStyle={{width: 1000}} style={classes.container}>
+                    <View style={{flexDirection: 'column', backgroundColor: '#fff'}}>
+                        <View style={classes.th}>
+                            {columns.map(column => (
+                                <Text
+                                    key={column.field}
+                                    style={[
+                                        classes.thtd,
+                                        { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
+                                    ]}
+                                >
+                                    {t(column.title || '')}
+                                </Text>
+                            ))}
+                        </View>
+                        {!tableData
                             ? (
-                                <View style={classes.noData}>
+                                <View style={[classes.noData, classes.th]}>
                                     <Text>
-                                        {t( NO_TABLE_DATA )}
+                                        {t(NO_TABLE_DATA)}
                                     </Text>
                                 </View>
                             ) : (
-                                tableData.items.map( ( row, index ) => (
-                                    <View key={index} style={[classes.row, classes.bodyRow]}>
-                                        {columns.map( column => (
-                                            <View
-                                                key={column.field}
-                                                style={[
-                                                    // index % 2 === 0 ? classes.evenRow : classes.oddRow,
-                                                    { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
-                                                ]}
-                                            >
-                                                {column.dataFormat
-                                                    ? column.dataFormat( row[column.field], row )
-                                                    : <Text style={classes.cell}>
-                                                        {row[column.field] || "-"}
-                                                    </Text>
-                                                }
-                                            </View>
-                                        ) )}
+                                tableData.items.map((row, index) => (
+                                    <View key={row.id || index} style={classes.trasd}>
+                                        {columns.map(column => (
+                                            <Text key={column.field} style={classes.thtd}>
+                                                {row[column.field]}
+                                            </Text>
+                                        ))}
+
                                     </View>
-                                ) )
+                                ))
                             )
-                    }
+                        }
+                    </View>
                 </ScrollView>
             </ScrollView>
-        );
+        )
     }
 }
 
@@ -155,7 +112,5 @@ export const TableInner = compose(
     createStyles(
         styles,
         'TableInner'
-    ),
-)(
-    CTableInner
-) as React.ComponentType<Props>;
+    )
+)(CTableInner as React.ComponentType<OwnProps>;
