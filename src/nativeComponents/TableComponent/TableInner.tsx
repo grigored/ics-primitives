@@ -8,10 +8,17 @@ import {NO_TABLE_DATA} from "../../utils/strings";
 const styles = () => ({
     containerVertical: {
         flex: 1,
+        [web]: {
+            boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+        },
     },
     container: {
         width: '100%',
         overflow: 'scroll',
+    },
+    innerView: {
+        flexDirection: 'column',
+        backgroundColor: '#fff',
     },
     th: {
         flexDirection: 'row',
@@ -22,6 +29,8 @@ const styles = () => ({
         [web]: {
             borderBottomStyle: 'solid'
         },
+        fontSize: 12,
+        color: '#777',
     },
     thtd: {
         [web]: {
@@ -44,6 +53,7 @@ const styles = () => ({
         borderBottomColor: '#eee',
         flexDirection: 'row',
         flexShrink: 0,
+        fontSize: 14
     },
     noData: {
         width: '100%',
@@ -71,7 +81,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
         return (
             <ScrollView style={classes.containerVertical}>
                 <ScrollView horizontal={true} style={classes.container}>
-                    <View style={{flexDirection: 'column', backgroundColor: '#fff'}}>
+                    <View style={classes.innerView}>
                         <View style={classes.th}>
                             {columns.map(column => (
                                 <Text
