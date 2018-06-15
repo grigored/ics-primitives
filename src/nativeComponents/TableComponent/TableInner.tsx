@@ -6,6 +6,9 @@ import {Data, TableColumn} from "./TableComponent.types";
 import {NO_TABLE_DATA} from "../../utils/strings";
 
 const styles = () => ({
+    containerVertical: {
+        flex: 1,
+    },
     container: {
         width: '100%',
         overflow: 'scroll',
@@ -15,6 +18,7 @@ const styles = () => ({
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
+        flexShrink: 0,
         [web]: {
             borderBottomStyle: 'solid'
         },
@@ -29,7 +33,7 @@ const styles = () => ({
         padding: 8,
         height: 40,
     },
-    trasd: {
+    tr: {
         [web]: {
             borderBottomStyle: 'solid',
             '&:hover': {
@@ -39,6 +43,7 @@ const styles = () => ({
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
         flexDirection: 'row',
+        flexShrink: 0,
     },
     noData: {
         width: '100%',
@@ -64,8 +69,8 @@ class CTableInner extends React.PureComponent<Props, {}> {
     render() {
         const {classes, columns, tableData, t} = this.props;
         return (
-            <ScrollView contentContainerStyle={{height: 1000}}>
-                <ScrollView horizontal={true} contentContainerStyle={{width: 1000}} style={classes.container}>
+            <ScrollView style={classes.containerVertical}>
+                <ScrollView horizontal={true} style={classes.container}>
                     <View style={{flexDirection: 'column', backgroundColor: '#fff'}}>
                         <View style={classes.th}>
                             {columns.map(column => (
@@ -89,9 +94,15 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                 </View>
                             ) : (
                                 tableData.items.map((row, index) => (
-                                    <View key={row.id || index} style={classes.trasd}>
+                                    <View key={row.id || index} style={classes.tr}>
                                         {columns.map(column => (
-                                            <Text key={column.field} style={classes.thtd}>
+                                            <Text
+                                                key={column.field}
+                                                style={[
+                                                    classes.thtd,
+                                                    { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
+                                                ]}
+                                            >
                                                 {row[column.field]}
                                             </Text>
                                         ))}
@@ -113,4 +124,4 @@ export const TableInner = compose(
         styles,
         'TableInner'
     )
-)(CTableInner as React.ComponentType<OwnProps>;
+)(CTableInner) as React.ComponentType<OwnProps>;
