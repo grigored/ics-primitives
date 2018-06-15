@@ -1,16 +1,16 @@
 import * as React from "react";
-import {Modal} from 'react-native';
-import {connect} from "react-redux";
-import {android, appTheme, ios} from "../../utils/theme";
-import { WithStyles } from "../../utils/theme.types";
-import {Button} from "../Button/Button";
-import {View} from "../../primitives/View/View";
+import { Modal } from 'react-native';
+import { connect } from "react-redux";
+import { all, createStyles, isIOS } from "../..";
 import { Text } from '../../primitives/Text/Text';
+import { View } from "../../primitives/View/View";
+import { AlertData, hideAlert } from "../../redux/reducers/navigation";
+import { android, appTheme, ios } from "../../utils/theme";
+import { WithStyles } from "../../utils/theme.types";
+import { Button } from "../Button/Button";
 import { AlertProps } from "./Alert.types";
-import { createStyles, isIOS } from "../..";
-import {AlertData, hideAlert} from "../../redux/reducers/navigation";
 
-let styles = () => ({
+let styles = () => ( {
     dialog: {
         width: '100%',
         height: '100%',
@@ -37,7 +37,10 @@ let styles = () => ({
         fontWeight: '500',
     },
     body: {
-        marginTop: appTheme.horizontalMargin,
+        marginTop: {
+            [android]: appTheme.horizontalMargin,
+            [all]: appTheme.horizontalMargin,
+        },
         marginLeft: appTheme.horizontalMargin,
         marginRight: appTheme.horizontalMargin,
     },
@@ -63,7 +66,6 @@ let styles = () => ({
             width: '50%',
             paddingTop: 12,
             paddingBottom: 12,
-            // alignSelf: "center",
         },
         [android]: {
             elevation: 0,
@@ -78,7 +80,6 @@ let styles = () => ({
             width: '100%',
             paddingTop: 12,
             paddingBottom: 12,
-            // alignSelf: "center",
         },
         [android]: {
             elevation: 0,
@@ -108,7 +109,7 @@ let styles = () => ({
         height: '100%',
         width: appTheme.dividerSize,
     }
-});
+} );
 
 export interface ConnectedProps {
     alerts: Array<AlertData>,
@@ -117,7 +118,7 @@ export interface ConnectedProps {
 }
 
 
-const getTextComponent = (value: any, style: any) => {
+const getTextComponent = ( value: any, style: any ) => {
     if (typeof value === 'string') {
         return <Text style={style}>{value}</Text>;
     }
@@ -142,95 +143,94 @@ class CAlert extends React.Component<AlertProps & ConnectedProps & WithStyles, {
 
         return (
             <View>
-            {
-                alerts
-                    .filter(alert => alert.alertId === alertId)
-                    .map(({visible, body, bodyData}, index) => (
-                            <Modal
-                                key={index}
-                                transparent={true}
-                                visible={visible}
-                                onRequestClose={hideAlert.bind(this, body, alertId)}
-                                animationType={'fade'}
-                            >
-                                <View style={classes.dialog}>
-                                    <View style={classes.dataContainer}>
+                {
+                    alerts
+                        .filter( alert => alert.alertId === alertId )
+                        .map( ( { visible, body, bodyData }, index ) => (
+                                <Modal
+                                    key={index}
+                                    transparent={true}
+                                    visible={visible}
+                                    onRequestClose={hideAlert.bind( this, body, alertId )}
+                                    animationType={'fade'}
+                                >
+                                    <View style={classes.dialog}>
+                                        <View style={classes.dataContainer}>
 
-                                        {
-                                            title &&
-                                            <View style={classes.title}>
+                                            {
+                                                title &&
+                                                <View style={classes.title}>
+                                                    {
+                                                        getTextComponent( title, classes.titleText )
+                                                    }
+                                                </View>
+                                            }
+                                            {
+                                                body &&
+                                                <View style={classes.body}>
+                                                    {
+                                                        getTextComponent( body, classes.bodyText )
+                                                    }
+                                                </View>
+                                            }
+                                            {isIOS && <View style={classes.buttonHorizontalDivider}/>}
+                                            <View style={classes.buttonsContainer}>
                                                 {
-                                                    getTextComponent(title, classes.titleText)
+                                                    leftButtonText &&
+                                                    <Button
+                                                        // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                        // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                        // labelStyle={classes.buttonLabel}
+                                                        styles={styles}
+                                                        title={leftButtonText}
+                                                        labelColor={appTheme.primaryColor}
+                                                        onPress={() => {
+                                                            leftButtonOnPress && leftButtonOnPress();
+                                                            hideAlert( body, alertId );
+                                                        }}
+                                                    />
                                                 }
-                                            </View>
-                                        }
-                                        {
-                                            body &&
-                                            <View style={classes.body}>
                                                 {
-                                                    getTextComponent(body, classes.bodyText)
+                                                    isIOS && leftButtonText && rightButtonText &&
+                                                    <View style={classes.buttonVerticalDivider}/>
                                                 }
+                                                {
+                                                    rightButtonText &&
+                                                    <Button
+                                                        // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                        // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
+                                                        // labelStyle={classes.buttonLabel}
+                                                        title={rightButtonText}
+                                                        styles={styles}
+                                                        labelColor={appTheme.primaryColor}
+                                                        onPress={() => {
+                                                            rightButtonOnPress && rightButtonOnPress();
+                                                            hideAlert( body, alertId );
+                                                        }}
+                                                    />
+                                                }
+                                                {children}
                                             </View>
-                                        }
-                                        {isIOS && <View style={classes.buttonHorizontalDivider}/>}
-                                        <View style={classes.buttonsContainer}>
-                                            {
-                                                leftButtonText &&
-                                                <Button
-                                                    // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                                    // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                                    // labelStyle={classes.buttonLabel}
-                                                    styles={styles}
-                                                    title={leftButtonText}
-                                                    labelColor={appTheme.primaryColor}
-                                                    onPress={() => {
-                                                        leftButtonOnPress && leftButtonOnPress();
-                                                        hideAlert(body, alertId);
-                                                    }}
-                                                />
-                                            }
-                                            {
-                                                isIOS && leftButtonText && rightButtonText &&
-                                                <View style={classes.buttonVerticalDivider}/>
-                                            }
-                                            {
-                                                rightButtonText &&
-                                                <Button
-                                                    // touchableStyle={!isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                                    // style={isIOS ? null : (singleButton ? classes.singleButton : classes.button)}
-                                                    // labelStyle={classes.buttonLabel}
-                                                    title={rightButtonText}
-                                                    styles={styles}
-                                                    labelColor={appTheme.primaryColor}
-                                                    onPress={() => {
-                                                        rightButtonOnPress && rightButtonOnPress();
-                                                        hideAlert(body, alertId);
-                                                    }}
-                                                />
-                                            }
-                                            {children}
                                         </View>
                                     </View>
-                                </View>
-                            </Modal>
+                                </Modal>
+                            )
                         )
-                    )
-            }
+                }
             </View>
         );
     }
 }
 
 const componentName = 'Alert';
-const StyledAlert: React.ComponentType<AlertProps & ConnectedProps> = createStyles(styles, componentName)(CAlert);
+const StyledAlert: React.ComponentType<AlertProps & ConnectedProps> = createStyles( styles, componentName )( CAlert );
 export default StyledAlert;
 
 export const Alert = connect(
-    ( state: any) => ({
+    ( state: any ) => ( {
         alerts: state.navigation.alerts,
-    }),
+    } ),
     {
         hideAlert
     }
-
-)(StyledAlert) as React.ComponentType<AlertProps>;
+)( StyledAlert ) as React.ComponentType<AlertProps>;

@@ -15,6 +15,7 @@ export const appTheme: AppTheme = {
     topBarHeightMobile: 50,
     topBarColor: '#fff',
     drawerWidth: 250,
+    persistentDrawerWidth: 100,
     primaryColor: '#000',
     primaryTextColor: '#fff',
     backgroundColor: '#fff',
@@ -28,9 +29,6 @@ export const appTheme: AppTheme = {
     horizontalMargin: 16,
     defaultVerticalMargin: 8,
     inputHeight: 40,
-    // inputHeight: {
-    //     [ios]: 28,
-    // },
     fontSizeS: 12,
     fontSizeM: 14,
     fontSizeL: 18,

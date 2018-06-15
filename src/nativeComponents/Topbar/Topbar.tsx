@@ -23,18 +23,10 @@ const styles = () => ( {
             [webDesktop]: appTheme.topBarHeightDesktop,
             [all]: appTheme.topBarHeightMobile,
         },
-        // transition: muiTheme.transitions.create(['margin', 'width'], {
-        //     easing: muiTheme.transitions.easing.sharp,
-        //     duration: muiTheme.transitions.duration.leavingScreen,
-        // }),
     },
     appBarShift: {
         marginLeft: appTheme.drawerWidth,
         width: `calc(100% - ${appTheme.drawerWidth}px)`,
-        // transition: muiTheme.transitions.create(['margin', 'width'], {
-        //     easing: muiTheme.transitions.easing.easeOut,
-        //     duration: muiTheme.transitions.duration.enteringScreen,
-        // }),
     },
     buttonColor: {
         color: appTheme.primaryTextColor,
@@ -56,6 +48,7 @@ const CTopBar = ( {
                       rightButtonsData,
                       title,
                       topbarContent,
+                      disableGutters,
                   }: TopbarProps & WithStyles ) => (
     <AppBar {...getStyleProps( [classes.appBar/*, drawerOpen && classes.appBarShift*/] )}>
         <Toolbar
@@ -63,6 +56,7 @@ const CTopBar = ( {
                 minHeight: 0,
                 height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
             }}
+            disableGutters={disableGutters}
         >
             {
                 leftButtonIcon &&

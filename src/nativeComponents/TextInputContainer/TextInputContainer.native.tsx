@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { all, android, appTheme, Button, createStyles, Text, View, WithStyles } from '../../';
+import { appTheme, Button, createStyles, Text, View, WithStyles } from '../../';
 
 
 let styles = () => ({
@@ -15,13 +15,7 @@ let styles = () => ({
     },
     topLabel: {
         marginBottom: -10,
-        color: {
-            [android]: appTheme.primaryColor,
-            [all]: appTheme.disabledTextColor,
-        },
-        // paddingLeft: {
-        //     [android]: 4,
-        // },
+        color:  appTheme.primaryColor,
     },
     error: {
         marginTop: -5,
@@ -29,14 +23,8 @@ let styles = () => ({
         color: appTheme.errorColor
     },
     topValue: {
-        borderBottomColor: {
-            [android]: appTheme.primaryColor,
-            [all]: appTheme.dividerColor,
-        },
-        borderBottomWidth: {
-            [android]: 1,
-            [all]: appTheme.dividerSize
-        },
+        borderBottomColor: appTheme.primaryColor,
+        borderBottomWidth: 1,
         color: '#000',
         marginTop: 4,
         marginBottom: 4,

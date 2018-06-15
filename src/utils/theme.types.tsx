@@ -7,6 +7,7 @@ export type AppTheme = {
     secondaryColor?: string,
     errorColor: string,
     drawerWidth: number,
+    persistentDrawerWidth?: number,
     inputHeight: any,
     defaultVerticalMargin: number,
     horizontalMargin: number,
