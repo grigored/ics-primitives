@@ -7,14 +7,12 @@ import {NO_TABLE_DATA} from "../../utils/strings";
 
 const styles = () => ({
     containerVertical: {
-        flex: 1,
         [web]: {
+            flex: 1,
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+            overflow: 'scroll',
+            width: '100%',
         },
-    },
-    container: {
-        width: '100%',
-        overflow: 'scroll',
     },
     innerView: {
         flexDirection: 'column',
@@ -41,6 +39,7 @@ const styles = () => ({
         textAlignVertical: 'center',
         padding: 8,
         height: 40,
+        overflow: 'hidden',
     },
     tr: {
         [web]: {
@@ -73,14 +72,14 @@ export interface OwnProps {
 
 type Props = OwnProps & WithStyles & InjectedTranslateProps
 
-const DEFAULT_CELL_WIDTH = 150;
+const DEFAULT_CELL_WIDTH = 120;
 
 class CTableInner extends React.PureComponent<Props, {}> {
     render() {
         const {classes, columns, tableData, t} = this.props;
         return (
             <ScrollView style={classes.containerVertical}>
-                <ScrollView horizontal={true} style={classes.container}>
+                <ScrollView horizontal={true}>
                     <View style={classes.innerView}>
                         <View style={classes.th}>
                             {columns.map(column => (
@@ -105,17 +104,24 @@ class CTableInner extends React.PureComponent<Props, {}> {
                             ) : (
                                 tableData.items.map((row, index) => (
                                     <View key={row.id || index} style={classes.tr}>
-                                        {columns.map(column => (
-                                            <Text
-                                                key={column.field}
-                                                style={[
-                                                    classes.thtd,
-                                                    { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
-                                                ]}
-                                            >
-                                                {row[column.field]}
-                                            </Text>
-                                        ))}
+                                        {columns.map(column => {
+                                            let content = row[column.field];
+                                            if (typeof content === 'string') {
+                                                return (
+                                                    <Text
+                                                        key={column.field}
+                                                        style={[
+                                                            classes.thtd,
+                                                            {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
+                                                        ]}
+                                                    >
+                                                        {row[column.field]}
+                                                    </Text>
+                                                );
+                                            } else {
+                                                return content;
+                                            }
+                                        })}
 
                                     </View>
                                 ))

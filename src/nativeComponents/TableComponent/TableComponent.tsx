@@ -64,7 +64,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     render() {
-        let { classes, extraActions, loadingData, t, tableDefinition, tableData, tableId } = this.props,
+        let { classes, extraActions, loadingData, t, tableDefinition, tableData, tableId, title } = this.props,
             columns = tableDefinition.columns(undefined);
 
         if (!!extraActions) {
@@ -74,11 +74,12 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
         return (
             <View style={classes.container}>
 
-                <View style={classes.title}>
+                {!!title && <View style={classes.title}>
                     <Text>
-                    {tableDefinition.title}
+                        {title}
                     </Text>
                 </View>
+                }
 
                 <TableTopActions
                     columns={columns}
