@@ -63,6 +63,6 @@ export function combineStyles( componentStyles: any, componentName: string ): an
         };
         newStyles[className] = { ...styleDefinition };
     }
-    console.log( componentName, newStyles );
+
     return newStyles;
 }
