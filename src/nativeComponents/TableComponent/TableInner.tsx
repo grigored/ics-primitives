@@ -102,7 +102,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                     </Text>
                                 </View>
                             ) : (
-                                tableData.items.map((row, index) => (
+                                tableData.items.slice(0, 20).map((row, index) => (
                                     <View key={row.id || index} style={classes.tr}>
                                         {columns.map(column => {
                                             let value = !column.dataFormat
