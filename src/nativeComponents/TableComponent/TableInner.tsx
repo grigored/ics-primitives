@@ -105,23 +105,26 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                 tableData.items.map((row, index) => (
                                     <View key={row.id || index} style={classes.tr}>
                                         {columns.map(column => {
-                                            let content = row[column.field];
-                                            if (typeof content === 'string') {
-                                                return (
-                                                    <Text
-                                                        key={column.field}
-                                                        style={[
-                                                            classes.thtd,
-                                                            {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
-                                                        ]}
-                                                    >
-                                                        {row[column.field]}
-                                                    </Text>
-                                                );
-                                            } else {
-                                                return content;
-                                            }
-                                        })}
+                                            let value = !column.dataFormat
+                                                ? row[column.field]
+                                                : column.dataFormat(row[column.field], row);
+                                            return (
+                                                <View
+                                                    key={column.field}
+                                                    style={[
+                                                        classes.thtd,
+                                                        {width: column.preferredWidth || DEFAULT_CELL_WIDTH}
+                                                    ]}
+                                                >
+                                                    {
+                                                        typeof value !== 'object' // in case this is JSX
+                                                        ? <Text>{value}</Text>
+                                                        : value
+                                                    }
+
+                                                </View>
+                                            )}
+                                            )}
 
                                     </View>
                                 ))
