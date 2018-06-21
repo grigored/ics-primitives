@@ -1,18 +1,18 @@
 import * as React from 'react';
-import {compose} from "redux";
-import {connect} from "react-redux";
-import { View } from "../../primitives/View/View";
-import {TableInner} from "./TableInner";
-import {ConnectedProps, OwnProps, Row, TableColumn, TableRowAction} from "./TableComponent.types";
-import { appTheme, Button, createStyles, FORM_INPUT_TYPES, Text, WithStyles } from "../../index";
-import {InjectedTranslateProps, translate} from "react-i18next";
-import {loadTableData, showEntryDetails} from "../../redux/reducers/table";
-import {getNestedField} from "../../utils/common";
-import {setPersistentTableOptions} from "../../redux/reducers/persistedTableOptions";
-import {TableTopActions} from "./TableTopActions";
-import {ACTIONS} from "../../utils/strings";
-import {PopoverComponent} from "../PopoverComponent/PopoverComponent";
-import {TranslationFunction} from "i18next";
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { View } from '../../primitives/View/View';
+import { TableInner } from './TableInner';
+import { ConnectedProps, OwnProps, Row, TableColumn, TableRowAction } from './TableComponent.types';
+import { appTheme, Button, createStyles, FORM_INPUT_TYPES, Text, WithStyles } from '../../index';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
+import { getNestedField } from '../../utils/common';
+import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
+import { TableTopActions } from './TableTopActions';
+import { ACTIONS } from '../../utils/strings';
+import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
+import { TranslationFunction } from 'i18next';
 
 const styles = {
     container: {
@@ -27,7 +27,7 @@ const styles = {
 
 const ACTIONS_COLUMN = 'admin_actions';
 
-const getActionsColumn = (actions: Array<TableRowAction>, t: TranslationFunction): TableColumn => {
+const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunction ): TableColumn => {
     return {
         field: ACTIONS_COLUMN,
         title: ACTIONS,
@@ -64,12 +64,15 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     }
 
     render() {
-        let { classes, extraActions, loadingData, t, tableDefinition, tableData, tableId, title } = this.props,
+        let {
+                classes, extraActions, loadingData, t, tableDefinition, tableData, tableId, title, tableActions,
+            } = this.props,
             columns = tableDefinition.columns(undefined);
 
         if (!!extraActions) {
             columns = [getActionsColumn(extraActions, t), ...columns];
         }
+        columns = columns.filter(column => !column.hiddenInTable);
 
         return (
             <View style={classes.container}>
@@ -91,6 +94,7 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                     loadingData={loadingData}
                     tableData={tableData}
                     title={tableDefinition.title}
+                    tableActions={tableActions}
                 />
 
                 <TableInner

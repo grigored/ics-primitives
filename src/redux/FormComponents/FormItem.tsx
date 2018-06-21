@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { ArrayOfObjects } from '../../nativeComponents/ArrayOfObjects/ArrayOfObjects';
 import { Select } from "../../nativeComponents/Select/Select";
 import { TextInput } from '../../nativeComponents/TextInput/TextInput';
 import { Text } from '../../primitives/Text/Text';
@@ -47,8 +48,8 @@ const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
         //     return S3MultiplePhotoInputComponent;
         // case FORM_INPUT_TYPES.PLACES_AUTOCOMPLETE:
         //     return GooglePlacesAutocomplete;
-        // case FORM_INPUT_TYPES.ARRAY_OF_OBJECTS:
-        //     return ArrayOfObjects;
+        case FORM_INPUT_TYPES.ARRAY_OF_OBJECTS:
+            return ArrayOfObjects;
         // case FORM_INPUT_TYPES.LOCATION_PICKER:
         //     return LocationPicker;
     }

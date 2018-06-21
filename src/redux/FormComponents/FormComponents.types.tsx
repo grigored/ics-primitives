@@ -12,7 +12,7 @@ export type DBValue =
     // | S3MultiplePhotoComponentDBValue
     | SelectDBValue
     // | LocationPickerValue
-    // | ArrayOfObjectsDBValue
+    | ArrayOfObjectsDBValue
 
 export type RawValue = string;
 export type FieldOnChange = (( dbValue: DBValue, error?: boolean ) => void)
@@ -84,6 +84,15 @@ export interface SelectProps {
     inputStyle?: InputColorTheme,
 }
 
+export type ArrayOfObjectsDBValue = Array<{ [key: string]: any }>
+
+export interface ArrayOfObjectsProps {
+    title?: string,
+    fields: Array<FieldDefinition>,
+    wrapFields?: boolean,
+}
+
 export type FieldDefinition =
     | TextInputProps & { type: FORM_INPUT_TYPES.TEXT } & FieldCommon
     | SelectProps & { type: FORM_INPUT_TYPES.SELECT } & FieldCommon
+    | ArrayOfObjectsProps & { type: FORM_INPUT_TYPES.ARRAY_OF_OBJECTS } & FieldCommon

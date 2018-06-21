@@ -13,6 +13,9 @@ export enum FORM_INPUT_TYPES {
     SELECT,
     DATE,
     TABLE_ACTIONS,
+    ARRAY_OF_OBJECTS,
+    PHOTO_UPLOAD,
+    ARRAY_PHOTO_UPLOAD,
 }
 
 export enum SELECT_INPUT_TYPES {

@@ -52,7 +52,7 @@ interface ConnectedProps {
 
 type Props = FormProps & InjectedFormProps<{}, FormProps> & ConnectedProps & WithStyles & InjectedTranslateProps
 
-const FormField = Field as any;3
+const FormField = Field as any;
 
 class CForm extends React.PureComponent<Props, {}> {
     _bindedOnTouchDict: { [field: string]: () => void } = {};
