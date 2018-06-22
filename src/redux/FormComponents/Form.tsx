@@ -75,7 +75,7 @@ class CForm extends React.PureComponent<Props, {}> {
 
             if (props.allRequired || field.isRequired) {
                 this._fieldErrorCheckers[field.field].push(
-                    ( value: DBValue ) => !!value && value !== 0 ? undefined : REQUIRED_FIELD
+                    ( value: DBValue ) => !!value || value === 0 ? undefined : REQUIRED_FIELD
                 );
             }
 
