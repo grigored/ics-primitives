@@ -1,32 +1,11 @@
 import * as React from "react"
 import SelectMaterial from '@material-ui/core/Select';
-import { default as Input } from '@material-ui/core/Input';
 import { createStyles, isXs, WithStyles } from '../../';
-import { appTheme } from '../../index';
-import { getSelectData, NOT_AVAILABLE_FIELD_VALUE } from "./selectUtils";
+import { appTheme } from '../..';
+import { getSelectData } from "./selectUtils";
 import { FieldStateProps, Option, SelectDBValue, SelectProps } from "../../redux/FormComponents/FormComponents.types";
-import { SELECT_INPUT_TYPES } from "../../utils/enums";
-import {FormControl, FormHelperText, InputLabel, MenuItem} from "@material-ui/core";
+import { FormControl, FormHelperText, InputLabel, MenuItem } from "@material-ui/core";
 
-class SelectOption extends React.PureComponent<Option, {}> {
-    render() {
-        const {children, ...other} = this.props;
-        return isXs()
-            ? <option {...other}>{children}</option>
-            : <MenuItem {...other}>{children}</MenuItem>
-    }
-}
-
-const raw2db = (rawValue: string, selectInputType?: SELECT_INPUT_TYPES): string | number => {
-    switch (selectInputType) {
-        case SELECT_INPUT_TYPES.INT:
-            return parseInt(rawValue);
-        case SELECT_INPUT_TYPES.FLOAT:
-            return parseFloat(rawValue);
-        default:
-            return rawValue;
-    }
-};
 
 const styles = () => ({
     input: {
@@ -45,8 +24,18 @@ const styles = () => ({
 
 class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDBValue> & WithStyles, {}> {
     render() {
-        const {title, onChange, disabled, selectInputType, disableUnderline, classes} = this.props;
-        let {error, selectedValue, optionsList} = getSelectData(this.props);
+        const {
+            classes,
+            disabled,
+            disableUnderline,
+            error,
+            nullName,
+            onChange,
+            options,
+            title,
+            value,
+        } = this.props,
+            {selectedIndex, optionsList} = getSelectData(options, value, nullName);
 
         return (
             <FormControl error={!!error} fullWidth>
@@ -60,40 +49,23 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                     >
                         {title}
                     </InputLabel>}
+
                 <SelectMaterial
                     native={isXs()}
-                    value={selectedValue}
-                    onChange={(event) => {
-                        let value = null;
-                        if (event.target.value !== NOT_AVAILABLE_FIELD_VALUE) {
-                            value = raw2db(event.target.value, selectInputType);
-                        }
-                        onChange && onChange(value);
+                    value={selectedIndex === -1 ? 0: selectedIndex}
+                    onChange={event => {
+                        onChange && onChange(optionsList[event.target.value].value);
                     }}
                     error={!!error}
                     fullWidth={true}
                     disabled={disabled}
                     disableUnderline={disableUnderline}
-                    input={
-                        <Input
-                            classes={{
-                                input: classes.input as any,
-                                underline: !!error ? classes.underlineError : classes.underline as any,
-                            }}
-                        />
-                    }
-                    classes={{
-                        icon: classes.icon as any,
-                    }}
                 >
-                    {optionsList.map((option) =>
-                        <SelectOption
-                            text={option.label}
-                            value={option.value}
-                        >
-                            {option.label}
-                        </SelectOption>
-                    )}
+                    {optionsList.map((option: Option, index: number) => (
+                        isXs()
+                            ? <option key={index} value={index}>{option.text}</option>
+                            : <MenuItem key={index} value={index}>{option.text}</MenuItem>
+                    ))}
                 </SelectMaterial>
                 {error && <FormHelperText>{error}</FormHelperText>}
             </FormControl>

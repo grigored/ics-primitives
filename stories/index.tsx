@@ -12,6 +12,7 @@ import {I18nextProvider} from 'react-i18next';
 import {View} from '../src/primitives/View/View';
 // @ts-ignore
 import i18n from 'i18next';
+import {Select} from "../src";
 
 let store = createStore(
     combineReducers({
@@ -116,7 +117,7 @@ storiesOf('TableComponent', module)
         return (
             <Comp>
                 <View style={{
-                    height: 200,
+                    height: 400,
                     width: 300,
                 }}>
                     <TableComponent
@@ -131,3 +132,17 @@ storiesOf('TableComponent', module)
             </Comp>
         );
     });
+
+
+storiesOf('Inputs', module)
+    .add('Select', () => (
+        <Select
+            options={[
+                {text: "Option1", value: "option1value"},
+                {text: "Option2", value: "option2value"},
+            ]}
+            onChange={(value) => console.log(value)}
+            nullName={"Please select something"}
+            nullable={false}
+        />
+    ));

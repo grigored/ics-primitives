@@ -33,19 +33,20 @@ type Props = SelectProps & FieldStateProps<SelectDBValue> & WithStyles;
 class CSelect extends React.PureComponent<Props, { itemValue?: number }> {
     constructor( props: Props ) {
         super(props);
-        let {selectedValue,} = getSelectData(props);
+        const {options, value, nullName, nullable } = props;
+        let {selectedIndex, optionsList} = getSelectData(options, value, nullName, nullable);
 
-        this.state = {itemValue: selectedValue};
+        this.state = {itemValue: optionsList[selectedIndex].value};
     }
 
     render() {
-        const {title, onChange, classes} = this.props;
-        let {error, selectedValue, optionsList} = getSelectData(this.props);
+        const {title, onChange, classes, error, options, value, nullName, nullable } = this.props;
+        let {selectedIndex, optionsList} = getSelectData(options, value, nullName, nullable);
         return (
             <View style={classes.container}>
                 <Text style={classes.label}>{title || ' '}</Text>
                 <Picker
-                    style={[classes.picker, selectedValue === NOT_AVAILABLE_FIELD_VALUE && classes.emptyPicker] as any}
+                    style={[classes.picker, selectedIndex === -1 && classes.emptyPicker] as any}
                     selectedValue={this.state.itemValue}
                     onValueChange={( value, index ) => {
                         if (value === NOT_AVAILABLE_FIELD_VALUE && index === 0) {
@@ -57,9 +58,9 @@ class CSelect extends React.PureComponent<Props, { itemValue?: number }> {
                 >
                     {optionsList.map(( option, index ) =>
                         <Picker.Item
-                            key={option.key}
+                            key={index}
                             value={option.value}
-                            label={option.label}
+                            label={option.text}
                         />
                     )}
                 </Picker>

@@ -1,5 +1,5 @@
 import { InputColorTheme, TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
-import { FORM_INPUT_TYPES, SELECT_INPUT_TYPES } from '../../utils/enums';
+import { FORM_INPUT_TYPES } from '../../utils/enums';
 
 export type SelectDBValue = any;
 
@@ -73,11 +73,10 @@ export interface FieldReduxData {
 }
 
 export interface SelectProps {
-    selectInputType?: SELECT_INPUT_TYPES,
     defaultValue?: any,
     disabled?: boolean,
-    nullable?: boolean,
     disableUnderline?: boolean,
+    nullable?: boolean,
     nullName?: string,
     options: Array<Option>,
     title?: string,

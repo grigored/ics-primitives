@@ -18,12 +18,6 @@ export enum FORM_INPUT_TYPES {
     ARRAY_PHOTO_UPLOAD,
 }
 
-export enum SELECT_INPUT_TYPES {
-    TEXT,
-    INT,
-    FLOAT,
-}
-
 export enum MOMENT_FORMAT {
     LT = 'LT', // 8:30 PM
     L = 'L', // 09/04/1986
