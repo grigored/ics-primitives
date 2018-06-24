@@ -22,6 +22,7 @@ export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from
 
 export { Button, fade } from './nativeComponents/Button/Button';
 export { Dialog } from './nativeComponents/Dialog/Dialog';
+export { Snackbar } from './nativeComponents/Snackbar/Snackbar';
 export { AppContainerWeb } from './nativeComponents/AppContainerWeb/AppContainerWeb';
 // export { TextInput } from './nativeComponents/Form/TextInput/TextInput';
 // export { Form } from './nativeComponents/Form/Form';
@@ -55,6 +56,7 @@ export {
     loadedGoogleSdk,
     validate2FA,
 } from './redux/reducers/auth';
+export {dialog, DialogState, addSnackbar, removeSnackbar} from './redux/reducers/dialog';
 export {
     persisted,
     PersistedState,
