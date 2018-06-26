@@ -66,8 +66,9 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
     render() {
         let {
                 classes, extraActions, loadingData, t, tableDefinition, tableData, tableId, title, tableActions,
+                extraData,
             } = this.props,
-            columns = tableDefinition.columns(undefined);
+            columns = tableDefinition.columns(extraData);
 
         if (!!extraActions) {
             columns = [getActionsColumn(extraActions, t), ...columns];

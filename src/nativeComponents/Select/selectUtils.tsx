@@ -5,6 +5,7 @@ export const NOT_AVAILABLE_FIELD_VALUE = 'select component field unavailable';
 export function getSelectData(
     options: Array<Option>,
     value: any,
+    multiple?: boolean,
     nullName?: string,
     nullable?: boolean,
 ): {selectedIndex: number, optionsList: Array<Option>} {
@@ -15,9 +16,9 @@ export function getSelectData(
             break;
         }
     }
-    let showNull = nullable || selectedIndex === -1;
+    let showNull =  nullable || selectedIndex === -1;
     return {
         selectedIndex,
-        optionsList: showNull ? [{text: nullName || '', value: 0}, ...options]: options,
+        optionsList: showNull && !multiple ? [{text: nullName || '', value: 0}, ...options]: options,
     }
 }
