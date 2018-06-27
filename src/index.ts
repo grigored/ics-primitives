@@ -87,7 +87,7 @@ export { TableComponent } from './nativeComponents/TableComponent/TableComponent
 export {
     TableDefinitionData, TableColumn, TableRowAction, TableData,
 } from './nativeComponents/TableComponent/TableComponent.types';
-export { table, setRefreshTable } from './redux/reducers/table';
+export { table, setRefreshTable, loadTableData } from './redux/reducers/table';
 export { persistedTableOptions } from './redux/reducers/persistedTableOptions';
 export { TopBarButton } from './nativeComponents/TopBarButton/TopBarButton.native';
 export { requireAuthentication } from './decorators/requireAuthentication'

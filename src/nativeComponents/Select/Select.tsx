@@ -38,7 +38,11 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                 multiple,
                 nullable,
             } = this.props,
-            { selectedIndex, optionsList } = getSelectData( options, value, multiple, nullName, nullable );
+            {
+                selectedIndex,
+                selectedIndexMultiple,
+                optionsList,
+            } = getSelectData( options, value, multiple, nullName, nullable );
 
         return (
             <FormControl error={!!error} fullWidth>
@@ -51,19 +55,23 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                         focused={classes.focusedLabel as any}
                     >
                         {title}
-                    </InputLabel>}
-
+                    </InputLabel>
+                }
                 <SelectMaterial
                     native={isXs()}
                     value={
                         multiple
-                            ? value || []
+                            ? selectedIndexMultiple
                             : selectedIndex === -1 ? 0 : selectedIndex}
                     onChange={( event: any ) => {
                         if (multiple) {
-                            onChange && onChange( event.target.value || [] );
+                            onChange && onChange(
+                                ( event.target.value || [] ).map( ( i: number ) => optionsList[i].value )
+                            );
                         } else {
-                            onChange && onChange( optionsList[event.target.value].value );
+                            onChange && onChange(
+                                optionsList[event.target.value].value
+                            );
                         }
                     }}
                     error={!!error}
