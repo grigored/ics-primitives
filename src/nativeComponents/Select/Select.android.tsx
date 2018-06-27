@@ -33,15 +33,15 @@ type Props = SelectProps & FieldStateProps<SelectDBValue> & WithStyles;
 class CSelect extends React.PureComponent<Props, { itemValue?: number }> {
     constructor( props: Props ) {
         super(props);
-        const {options, value, nullName, nullable } = props;
-        let {selectedIndex, optionsList} = getSelectData(options, value, nullName, nullable);
+        const {options, value, nullName, nullable, multiple} = props;
+        let {selectedIndex, optionsList} = getSelectData(options, value, multiple, nullName, nullable);
 
         this.state = {itemValue: optionsList[selectedIndex].value};
     }
 
     render() {
-        const {title, onChange, classes, error, options, value, nullName, nullable } = this.props;
-        let {selectedIndex, optionsList} = getSelectData(options, value, nullName, nullable);
+        const {title, onChange, classes, error, options, value, nullName, nullable, multiple } = this.props;
+        let {selectedIndex, optionsList} = getSelectData(options, value, multiple, nullName, nullable);
         return (
             <View style={classes.container}>
                 <Text style={classes.label}>{title || ' '}</Text>

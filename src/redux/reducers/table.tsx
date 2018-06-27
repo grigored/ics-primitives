@@ -1,4 +1,3 @@
-
 export enum TypeKeys {
     GET_TABLE_DATA = 'instacar/table/GET_TABLE_DATA',
     GET_TABLE_DATA_SUCCESS = 'instacar/table/GET_TABLE_DATA_SUCCESS',
@@ -110,7 +109,7 @@ export interface TableEntryDetail {
 
 const initialState = {};
 
-export const table = (state: TableState = initialState, action: ActionTypes): TableState => {
+export const table = ( state: TableState = initialState, action: ActionTypes ): TableState => {
     switch (action.type) {
         case TypeKeys.GET_TABLE_DATA:
             return {
@@ -182,7 +181,7 @@ export const table = (state: TableState = initialState, action: ActionTypes): Ta
             return {
                 ...state,
                 [action.tableId]: {
-                    ...(state[action.tableId] || {}),
+                    ...( state[action.tableId] || {} ),
                     refresh: true,
                 }
             };
@@ -198,11 +197,14 @@ export const table = (state: TableState = initialState, action: ActionTypes): Ta
     }
 }
 
-export function loadTableData(url: string, tableId: string) {
+export function loadTableData( url: string, tableId: string ) {
     return {
         types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
         method: 'get',
         url,
+        requestPayload: {
+            tableId,
+        },
         successPayload: {
             tableId
         },
@@ -212,7 +214,7 @@ export function loadTableData(url: string, tableId: string) {
     }
 }
 
-export function deleteTableEntry(url: string, itemId: string | number, tableId: string) {
+export function deleteTableEntry( url: string, itemId: string | number, tableId: string ) {
     return {
         types: [TypeKeys.DELETE_TABLE_ENTRY, TypeKeys.DELETE_TABLE_ENTRY_SUCCESS, TypeKeys.DELETE_TABLE_ENTRY_FAIL],
         method: 'delete',
@@ -226,7 +228,7 @@ export function deleteTableEntry(url: string, itemId: string | number, tableId: 
     }
 }
 
-export function showMenu(pageId: string, tableId: string, menuShown: boolean, menuRow: any) {
+export function showMenu( pageId: string, tableId: string, menuShown: boolean, menuRow: any ) {
     return {
         type: TypeKeys.SHOW_MENU,
         pageId,
@@ -236,28 +238,28 @@ export function showMenu(pageId: string, tableId: string, menuShown: boolean, me
     }
 }
 
-export function setRefreshTable(tableId: string) {
+export function setRefreshTable( tableId: string ) {
     return {
         type: TypeKeys.REFRESH_TABLE,
         tableId,
     }
 }
 
-export function clearTableData(tableId: string) {
+export function clearTableData( tableId: string ) {
     return {
         type: TypeKeys.CLEAR_TABLE_DATA,
         tableId,
     }
 }
 
-export function changeGpsDataViewMode(isTableView: boolean) {
+export function changeGpsDataViewMode( isTableView: boolean ) {
     return {
         type: TypeKeys.CHANGE_GPS_DATA_VIEW_MODE,
         isTableView,
     }
 }
 
-export function showEntryDetails(details?: Array<TableEntryDetail>, itemName?: string | number): ShowEntryDetails {
+export function showEntryDetails( details?: Array<TableEntryDetail>, itemName?: string | number ): ShowEntryDetails {
     return {
         type: TypeKeys.SHOW_ENTRY_DETAILS,
         details,
@@ -265,7 +267,7 @@ export function showEntryDetails(details?: Array<TableEntryDetail>, itemName?: s
     }
 }
 
-export function initEntryDetails(componentName: string): InitEntryDetails {
+export function initEntryDetails( componentName: string ): InitEntryDetails {
     return {
         type: TypeKeys.INIT_ENTRY_DETAILS,
         componentName,

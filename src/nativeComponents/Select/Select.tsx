@@ -7,7 +7,7 @@ import { FieldStateProps, Option, SelectDBValue, SelectProps } from "../../redux
 import { FormControl, FormHelperText, InputLabel, MenuItem } from "@material-ui/core";
 
 
-const styles = () => ({
+const styles = () => ( {
     input: {
         color: appTheme.textColor,
     },
@@ -20,22 +20,29 @@ const styles = () => ({
     focusedLabel: {
         color: appTheme.primaryColor,
     },
-});
+} );
 
 class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDBValue> & WithStyles, {}> {
+
     render() {
         const {
-            classes,
-            disabled,
-            disableUnderline,
-            error,
-            nullName,
-            onChange,
-            options,
-            title,
-            value,
-        } = this.props,
-            {selectedIndex, optionsList} = getSelectData(options, value, nullName);
+                classes,
+                disabled,
+                disableUnderline,
+                error,
+                nullName,
+                onChange,
+                options,
+                title,
+                value,
+                multiple,
+                nullable,
+            } = this.props,
+            {
+                selectedIndex,
+                selectedIndexMultiple,
+                optionsList,
+            } = getSelectData( options, value, multiple, nullName, nullable );
 
         return (
             <FormControl error={!!error} fullWidth>
@@ -48,24 +55,36 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                         focused={classes.focusedLabel as any}
                     >
                         {title}
-                    </InputLabel>}
-
+                    </InputLabel>
+                }
                 <SelectMaterial
                     native={isXs()}
-                    value={selectedIndex === -1 ? 0: selectedIndex}
-                    onChange={event => {
-                        onChange && onChange(optionsList[event.target.value].value);
+                    value={
+                        multiple
+                            ? selectedIndexMultiple
+                            : selectedIndex === -1 ? 0 : selectedIndex}
+                    onChange={( event: any ) => {
+                        if (multiple) {
+                            onChange && onChange(
+                                ( event.target.value || [] ).map( ( i: number ) => optionsList[i].value )
+                            );
+                        } else {
+                            onChange && onChange(
+                                optionsList[event.target.value].value
+                            );
+                        }
                     }}
                     error={!!error}
                     fullWidth={true}
                     disabled={disabled}
                     disableUnderline={disableUnderline}
+                    multiple={multiple || false}
                 >
-                    {optionsList.map((option: Option, index: number) => (
+                    {optionsList.map( ( option: Option, index: number ) => (
                         isXs()
                             ? <option key={index} value={index}>{option.text}</option>
                             : <MenuItem key={index} value={index}>{option.text}</MenuItem>
-                    ))}
+                    ) )}
                 </SelectMaterial>
                 {error && <FormHelperText>{error}</FormHelperText>}
             </FormControl>
@@ -74,4 +93,4 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
 }
 
 export const Select: React.ComponentType<SelectProps & FieldStateProps<SelectDBValue>> =
-    createStyles(styles, 'Select')(CSelect);
+    createStyles( styles, 'Select' )( CSelect );

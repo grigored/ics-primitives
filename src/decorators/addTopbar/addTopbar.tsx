@@ -12,18 +12,18 @@ interface NavigationOptions {
 }
 
 // TODO set proper type for WrappedComponent (it must check for existence of navigationOptions)
-export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
+export function addTopbar<T>( WrappedComponent: any ): React.ComponentType<T> {
 
     if (!WrappedComponent.navigationOptions) {
         return WrappedComponent;
     }
 
-    class Enhance extends React.PureComponent<T & {navigation: any}, {}> {
+    class Enhance extends React.PureComponent<T & { navigation: any }, {}> {
 
         render() {
             const navigationOptions: NavigationOptions = (
                 typeof WrappedComponent.navigationOptions === 'function'
-                    ? WrappedComponent.navigationOptions({navigation: this.props.navigation})
+                    ? WrappedComponent.navigationOptions( { navigation: this.props.navigation } )
                     : WrappedComponent.navigationOptions
             ), topbarHeight = isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop;
             return (
@@ -42,18 +42,20 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
                             width: '100%',
                             position: 'absolute',
                             boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                         }}
                     >
                         {
-                            navigationOptions.headerLeft
+                            navigationOptions.headerLeft || <View/>
                         }
 
                         {
-                            navigationOptions.title
+                            navigationOptions.title || <View/>
                         }
 
                         {
-                            navigationOptions.headerRight
+                            navigationOptions.headerRight || <View/>
                         }
 
                     </View>
@@ -77,6 +79,6 @@ export function addTopbar<T>(WrappedComponent: any): React.ComponentType<T> {
     }
 
     // need this for statics like react-native-navigation navigatorStyle/ navigatorButtons
-    hoistNonReactStatics(Enhance, WrappedComponent);
+    hoistNonReactStatics( Enhance, WrappedComponent );
     return Enhance;
 }

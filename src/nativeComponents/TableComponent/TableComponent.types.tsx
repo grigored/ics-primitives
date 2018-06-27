@@ -108,6 +108,7 @@ export interface OwnProps {
     paginate?: boolean,
     tableContainerName?: string,
     tableData?: TableData,
+    extraData?: any,
 }
 
 export interface ConnectedProps {

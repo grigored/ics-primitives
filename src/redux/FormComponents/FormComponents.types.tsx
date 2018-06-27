@@ -81,6 +81,7 @@ export interface SelectProps {
     options: Array<Option>,
     title?: string,
     inputStyle?: InputColorTheme,
+    multiple?: boolean,
 }
 
 export type ArrayOfObjectsDBValue = Array<{ [key: string]: any }>

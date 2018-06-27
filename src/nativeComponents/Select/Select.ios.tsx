@@ -13,17 +13,17 @@ export class Select extends React.PureComponent<SelectProps & FieldStateProps<Se
     };
 
     _hideModal = () => {
-        this.setState({isModalVisible: false});
+        this.setState( { isModalVisible: false } );
     };
 
     _showModal = () => {
-        this.setState({isModalVisible: true});
+        this.setState( { isModalVisible: true } );
     };
 
     _onConfirm = ( value: any ) => {
-        const {onChange} = this.props;
-        onChange(value);
-        this.setState({isModalVisible: false});
+        const { onChange } = this.props;
+        onChange( value );
+        this.setState( { isModalVisible: false } );
     };
 
     render() {
@@ -33,10 +33,11 @@ export class Select extends React.PureComponent<SelectProps & FieldStateProps<Se
             options,
             title,
             value,
+            multiple,
         } = this.props;
-    let {selectedIndex, optionsList} = getSelectData(options, value, nullName, nullable);
+        let { selectedIndex, optionsList } = getSelectData( options, value, multiple, nullName, nullable );
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <TextInputContainer
                     title={title}
                     labelPositionLeft={isIOS}
