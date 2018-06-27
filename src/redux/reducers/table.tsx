@@ -112,7 +112,6 @@ const initialState = {};
 export const table = ( state: TableState = initialState, action: ActionTypes ): TableState => {
     switch (action.type) {
         case TypeKeys.GET_TABLE_DATA:
-            console.log( 'KKKKLQWE', action );
             return {
                 ...state,
                 [action.tableId]: {
