@@ -1,7 +1,15 @@
 import {
-    CommonTypeKeys, LoginAction, LoginSuccessFailAction, LogoutAction, SignupAction, SignupSuccessFailAction,
+    CommonTypeKeys,
+    LoginAction,
+    LoginSuccessFailAction,
+    LogoutAction,
+    LogoutSuccessFailAction,
+    SignupAction,
+    SignupSuccessFailAction,
     SocialLoginAction,
-    SocialLoginSuccessFailAction, Validate2FAAction, Validate2FASuccessFailAction
+    SocialLoginSuccessFailAction,
+    Validate2FAAction,
+    Validate2FASuccessFailAction
 } from './commonActions';
 
 export enum TypeKeys {
@@ -44,6 +52,7 @@ export type ActionTypes =
     | SocialLoginAction
     | SocialLoginSuccessFailAction
     | LogoutAction
+    | LogoutSuccessFailAction
     | Validate2FAAction
     | Validate2FASuccessFailAction
 
@@ -90,7 +99,7 @@ export const persisted = ( state: PersistedState<any> = initialState,
         case CommonTypeKeys.SIGNUP:
         case CommonTypeKeys.LOGIN_FAIL:
         case CommonTypeKeys.SIGNUP_FAIL:
-        case CommonTypeKeys.LOGOUT:
+        case CommonTypeKeys.LOGOUT_SUCCESS:
             return {
                 ...state,
                 login: {},

@@ -353,5 +353,5 @@ export const logoutLocal = ( props?: LogoutProps ) => {
     // fbSignOut();
     return !!props
         ? props
-        : { type: CommonTypeKeys.LOGOUT }
+        : { type: CommonTypeKeys.LOGOUT_SUCCESS }
 };
