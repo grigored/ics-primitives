@@ -36,17 +36,17 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
         preferredWidth: 120,
         dataFormat: ( cell: any, row: Row ) => {
             return (
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                     {
                         actions.length > 0 &&
                         <PopoverComponent
-                            actions={actions.map(action => ({
+                            actions={actions.map( action => ( {
                                 ...action,
-                                onPress: () => action.onPress(row)
-                            }))}
+                                onPress: () => action.onPress( row )
+                            } ) )}
                         >
                             <Button
-                                title={t(ACTIONS)}
+                                title={t( ACTIONS )}
                             />
                         </PopoverComponent>
                     }
@@ -57,10 +57,16 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
 };
 
 class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & WithStyles & InjectedTranslateProps, {}> {
+    _bindedLoadTableData: typeof loadTableData;
+
+    constructor( props: OwnProps & ConnectedProps & WithStyles & InjectedTranslateProps ) {
+        super( props );
+        this._bindedLoadTableData = props.loadTableData.bind( this, props.tableDefinition.url, props.tableId );
+    }
 
     componentDidMount() {
-        let {loadTableData, tableDefinition: {url}, tableId} = this.props;
-        url && loadTableData(url, tableId);
+        let { loadTableData, tableDefinition: { url }, tableId } = this.props;
+        url && loadTableData( url, tableId );
     }
 
     render() {
@@ -68,28 +74,30 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 classes, extraActions, loadingData, t, tableDefinition, tableData, tableId, title, tableActions,
                 extraData,
             } = this.props,
-            columns = tableDefinition.columns(extraData);
+            columns = tableDefinition.columns( extraData );
 
         if (!!extraActions) {
-            columns = [getActionsColumn(extraActions, t), ...columns];
+            columns = [getActionsColumn( extraActions, t ), ...columns];
         }
-        columns = columns.filter(column => !column.hiddenInTable);
+        columns = columns.filter( column => !column.hiddenInTable );
 
         return (
             <View style={classes.container}>
 
-                {!!title && <View style={classes.title}>
-                    <Text>
-                        {title}
-                    </Text>
-                </View>
+                {
+                    !!title &&
+                    <View style={classes.title}>
+                        <Text>
+                            {title}
+                        </Text>
+                    </View>
                 }
 
                 <TableTopActions
                     columns={columns}
                     refreshMethod={
                         !!tableDefinition.url
-                            ? () => loadTableData(tableDefinition.url!, tableId)
+                            ? () => loadTableData( tableDefinition.url!, tableId )
                             : undefined
                     }
                     loadingData={loadingData}
@@ -101,6 +109,8 @@ class CTableComponent extends React.PureComponent<OwnProps & ConnectedProps & Wi
                 <TableInner
                     columns={columns}
                     tableData={tableData && tableData.data}
+                    allowFilters={tableDefinition.allowFilters || false}
+                    loadTableData={this._bindedLoadTableData}
                 />
 
             </View>
@@ -116,8 +126,8 @@ export const TableComponent = compose(
         ( state: any, ownProps: OwnProps ) => {
             let tableId: string = ownProps.tableContainerName || ownProps.tableDefinition.dataName;
             return {
-                loadingData: getNestedField(state.table, [tableId, 'loading']),
-                openedTableRow: getNestedField(state.table, [tableId, 'menuRow']),
+                loadingData: getNestedField( state.table, [tableId, 'loading'] ),
+                openedTableRow: getNestedField( state.table, [tableId, 'menuRow'] ),
                 tableData: ownProps.tableData || state.table[tableId],
                 tableId: tableId,
             }
