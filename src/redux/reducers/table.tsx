@@ -1,3 +1,5 @@
+import { HTTP_METHOD } from '../..';
+
 export enum TypeKeys {
     GET_TABLE_DATA = 'instacar/table/GET_TABLE_DATA',
     GET_TABLE_DATA_SUCCESS = 'instacar/table/GET_TABLE_DATA_SUCCESS',
@@ -200,8 +202,9 @@ export const table = ( state: TableState = initialState, action: ActionTypes ): 
 export function loadTableData( url: string, tableId: string ) {
     return {
         types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
-        method: 'get',
+        method: HTTP_METHOD.POST,
         url,
+        body:{},
         requestPayload: {
             tableId,
         },
