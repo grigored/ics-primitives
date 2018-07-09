@@ -90,3 +90,12 @@ export enum PLATFORM {
     WEB_IOS,
     WEB_WINDOWS_PHONE,
 }
+
+export enum FILTER_OPERATORS {
+    LIKE = '~',
+    EQUAL = '=',
+    LESS = '<',
+    GREATER = '>',
+    LESS_OR_EQUAL = '<=',
+    GREATER_OR_EQUAL = '>=',
+}

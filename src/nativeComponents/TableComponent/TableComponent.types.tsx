@@ -1,4 +1,7 @@
+import { InjectedTranslateProps } from "react-i18next";
 import { destroy, initialize } from 'redux-form';
+import { WithStyles } from "src/index";
+import { FILTER_OPERATORS } from "src/utils/enums";
 import { FieldDefinition, FORM_INPUT_TYPES } from "../../";
 import { FormErrorChecker } from "../../redux/FormComponents/Form";
 import { FieldReduxData } from "../../redux/FormComponents/FormComponents.types";
@@ -27,6 +30,10 @@ export interface BaseColumn {
     description?: string,
 }
 
+export type TableColumnFiltersData =
+    | { hasFilter?: false }
+    | { hasFilter: true, operator: FILTER_OPERATORS }
+
 export type TableColumn = (FieldDefinition | {
     type: any,
     field: string,
@@ -36,7 +43,7 @@ export type TableColumn = (FieldDefinition | {
     field: string,
     title: string,
     type?: FORM_INPUT_TYPES,
-}) & BaseColumn
+}) & TableColumnFiltersData & BaseColumn
 
 export interface TableDefinitionData {
     columns: (( extraData: any ) => Array<TableColumn>),
@@ -45,10 +52,10 @@ export interface TableDefinitionData {
     url?: string,
     urlNew?: string,
     urlEdit?: string,
-    allowFilters: boolean,
     mixRows?: ( response: any ) => Array<Row>,
     rowStyle?: ( row: any ) => any,
     formErrorChecker?: FormErrorChecker,
+    filtersOnTop?: boolean,
 }
 
 export interface Fields {
@@ -141,3 +148,12 @@ export interface ConnectedProps {
     showMenu: typeof showMenu,
     showEntryDetails: typeof showEntryDetails,
 }
+
+export interface TableFiltersData {
+    filters: { [field: string]: string },
+    filtersTimeout: any,
+    bindedFiltersOnChange: { [field: string]: (value: any) => void },
+    bindedLoadTableData: (filters?: any) => any,
+}
+
+export type TableProps = OwnProps & ConnectedProps & WithStyles & InjectedTranslateProps

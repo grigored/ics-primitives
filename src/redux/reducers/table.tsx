@@ -206,38 +206,23 @@ export const table = ( state: TableState = initialState, action: ActionTypes ): 
 }
 
 export function loadTableData( url: string, tableId: string, filters?: Array<TableFilter> ) {
-    return !!filters
-        ? {
-            types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
-            method: 'POST',
-            url: 'query/' + url,
-            body: {
-                ...filters,
-            },
-            requestPayload: {
-                tableId,
-            },
-            successPayload: {
-                tableId
-            },
-            failPayload: {
-                tableId
-            },
-        }
-        : {
-            types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
-            method: 'GET',
-            url,
-            requestPayload: {
-                tableId,
-            },
-            successPayload: {
-                tableId
-            },
-            failPayload: {
-                tableId
-            },
-        }
+    return {
+        types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
+        method: HTTP_METHOD.POST,
+        url: 'query/' + url,
+        body: {
+            ...( filters || {} ),
+        },
+        requestPayload: {
+            tableId,
+        },
+        successPayload: {
+            tableId
+        },
+        failPayload: {
+            tableId
+        },
+    }
 }
 
 export function deleteTableEntry( url: string, itemId: string | number, tableId: string ) {

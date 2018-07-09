@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
-import { TextInput } from "../../nativeComponents/TextInput/TextInput";
-import {
-    createStyles, FORM_INPUT_TYPES, ScrollView, Text, TEXT_INPUT_TYPES, View, web, WithStyles,
-} from "../..";
-import { Data, TableColumn } from "./TableComponent.types";
+import { getFilterForColumn, getFilterValue } from "./TableComponent";
+import { createStyles, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { Data, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = () => ( {
@@ -76,90 +74,17 @@ const styles = () => ( {
 export interface OwnProps {
     columns: Array<TableColumn>,
     tableData?: Data
-    loadTableData: Function,
-    allowFilters: boolean
+    showFilters: boolean,
+    filtersData: TableFiltersData,
 }
 
 type Props = OwnProps & WithStyles & InjectedTranslateProps
 
-const DEFAULT_CELL_WIDTH = 120,
-    FILTER_DELAY_MS = 333;
+const DEFAULT_CELL_WIDTH = 120;
 
 class CTableInner extends React.PureComponent<Props, {}> {
-
-    _filters: { [field: string]: string } = {};
-    _filtersTimeout: any = null;
-    _bindedFiltersOnChange: { [field: string]: Function } = {};
-
-    constructor( props: Props ) {
-        super( props );
-        props.columns.forEach( ( column: TableColumn ) => {
-            this._bindedFiltersOnChange[column.field] = this.setFilter.bind( this, column.field );
-        } )
-    }
-
-    getFilterForColumn( column: TableColumn ) {
-        let { classes } = this.props;
-        switch (column.type) {
-            case FORM_INPUT_TYPES.TEXT:
-                return (
-                    <TextInput
-                        {...column}
-                        title={''}
-                        onChange={this._bindedFiltersOnChange[column.field]}
-                        inputType={TEXT_INPUT_TYPES.TEXT}
-                        inputStyle={{
-                            input: classes.filters,
-                        }}
-                        value={this._filters[column.field] || ''}
-                    />
-                );
-        }
-        return null
-    }
-
-    hasFilters(): boolean {
-        for (let key in this._filters) {
-            if (this._filters.hasOwnProperty( key ) && this._filters[key] !== '') {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    getFiltersObject() {
-        let filters: Array<any> = [],
-            page = 0,
-            itemsPerPage = 100;
-        for (let key in this._filters) {
-            if (this._filters.hasOwnProperty( key )) {
-                filters.push( { column: key, value: this._filters[key], operator: '~' } );
-            }
-        }
-        return {
-            filters,
-            page,
-            itemsPerPage,
-        };
-    }
-
-    setFilter( field: string, value: string ) {
-        if (!value) {
-            delete( this._filters[field] );
-        } else {
-            this._filters[field] = value;
-        }
-        clearTimeout( this._filtersTimeout );
-        this._filtersTimeout = setTimeout( () => {
-            this.props.loadTableData(
-                this.hasFilters()
-                    ? this.getFiltersObject()
-                    : null );
-        }, FILTER_DELAY_MS );
-    }
-
     render() {
-        const { classes, columns, tableData, t, allowFilters } = this.props;
+        const { classes, columns, tableData, t, showFilters, filtersData } = this.props;
         return (
             <ScrollView style={classes.containerVertical}>
                 <ScrollView horizontal={true}>
@@ -169,12 +94,12 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                 classes.th,
                                 {
                                     flexDirection: 'row',
-                                    height: allowFilters ? 80 : 40
+                                    height: showFilters ? 80 : 40
                                 },
                             ]}
                         >
                             {
-                                columns.map( column => (
+                                columns.map( ( column: TableColumn ) => (
                                     <View
                                         style={[
                                             classes.thtd,
@@ -192,14 +117,19 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                             {t( column.title || '' )}
                                         </Text>
                                         {
-                                            allowFilters &&
+                                            showFilters && column.hasFilter &&
                                             <View
                                                 style={[
                                                     classes.title,
                                                 ]}
                                             >
                                                 {
-                                                    this.getFilterForColumn( column )
+                                                    getFilterForColumn(
+                                                        column,
+                                                        { input: classes.filters },
+                                                        filtersData.bindedFiltersOnChange[column.field],
+                                                        getFilterValue( column, filtersData.filters[column.field] ),
+                                                    )
                                                 }
                                             </View>
                                         }
