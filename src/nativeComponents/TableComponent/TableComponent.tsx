@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Select, TEXT_INPUT_TYPES } from "../../index";
+import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
+import { CircularProgressComponent, Select, TEXT_INPUT_TYPES } from "../../index";
 import { TextInput } from "../TextInput/TextInput";
 import { View } from '../../primitives/View/View';
 import { TableInner } from './TableInner';
@@ -23,18 +24,25 @@ const styles = {
     },
     title: {
         flexShrink: 0,
+        flexGrow: 0,
+        height: 40,
         fontSize: appTheme.fontSizeXL,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     filtersContainer: {
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-    }
+    },
+    filter: {
+        width: 100,
+        margin: 4,
+    },
 };
 
 const ACTIONS_COLUMN = 'admin_actions',
-    FILTER_DELAY_MS = 333,
-    FILTER_WIDTH = 250;
+    FILTER_DELAY_MS = 333;
 
 export const EMPTY_SELECT_FILTER = {
     value: '',
@@ -225,14 +233,16 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         return (
             <View style={classes.container}>
 
-                {
-                    !!title &&
-                    <View style={classes.title}>
+                <View style={classes.title}>
+                    {
+                        !!title &&
                         <Text>
                             {title}
                         </Text>
-                    </View>
-                }
+                    }
+                    {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
+                </View>
+
 
                 <TableTopActions
                     columns={this._columns}
@@ -241,7 +251,6 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                             ? () => loadTableData( tableDefinition.url!, tableId )
                             : undefined
                     }
-                    loadingData={loadingData}
                     tableData={tableData}
                     title={tableDefinition.title}
                     tableActions={tableActions}
@@ -251,7 +260,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     <View style={classes.filtersContainer}>
                         {
                             this._columns.filter( column => column.hasFilter ).map( column => (
-                                <View style={{ width: FILTER_WIDTH }}>
+                                <View style={classes.filter}>
                                     {
                                         getFilterForColumn(
                                             column,
