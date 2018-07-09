@@ -209,7 +209,7 @@ export function loadTableData( url: string, tableId: string, filters?: Array<Tab
     return {
         types: [TypeKeys.GET_TABLE_DATA, TypeKeys.GET_TABLE_DATA_SUCCESS, TypeKeys.GET_TABLE_DATA_FAIL],
         method: HTTP_METHOD.POST,
-        url: 'query/' + url,
+        url,
         body: {
             ...( filters || {} ),
         },
