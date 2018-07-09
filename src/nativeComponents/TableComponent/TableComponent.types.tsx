@@ -43,6 +43,8 @@ export interface TableDefinitionData {
     dataName: string,
     title: string,
     url?: string,
+    urlNew?: string,
+    urlEdit?: string,
     allowFilters: boolean,
     mixRows?: ( response: any ) => Array<Row>,
     rowStyle?: ( row: any ) => any,

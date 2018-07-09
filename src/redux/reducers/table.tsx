@@ -1,3 +1,5 @@
+import { HTTP_METHOD } from '../..';
+
 export enum TypeKeys {
     GET_TABLE_DATA = 'instacar/table/GET_TABLE_DATA',
     GET_TABLE_DATA_SUCCESS = 'instacar/table/GET_TABLE_DATA_SUCCESS',
