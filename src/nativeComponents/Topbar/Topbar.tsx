@@ -130,7 +130,7 @@ const CTopBar = ( {
                     } )
                 }
                 {
-                    topbarContent && topbarContent.map( x => x )
+                    topbarContent
                 }
             </View>
         </Toolbar>

@@ -19,6 +19,6 @@ export interface TopbarProps {
     title: React.ReactNode | string,
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     drawerOpen?: boolean
-    topbarContent?: Array<any>
+    topbarContent?: React.ReactNode,
     disableGutters?: boolean,
 }
