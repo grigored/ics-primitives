@@ -139,6 +139,7 @@ function updateTheme(currentTheme: any, remoteTheme: any) {
 export function combineStyles(componentStyles: any, componentName: string, muiTheme: any = null): any {
     const stylesIsFunction = typeof(componentStyles) === "function";
     let fullStyles = updateTheme({}, {...(appTheme.baseStyles || {}), ...((stylesIsFunction ? componentStyles(muiTheme) : componentStyles) || {})});
+    let fullRemoteStyles = updateTheme({}, {...(appTheme[componentName] || {})});
     let newStyles: any = {};
     for (let className in fullStyles) {
         if (!isWeb && (className.indexOf('media') !== -1 || !fullStyles[className])) {
@@ -148,7 +149,7 @@ export function combineStyles(componentStyles: any, componentName: string, muiTh
         let styleDefinition = {
             ...(fullStyles[className] || {}),
             ...(
-                (appTheme[componentName] && appTheme[componentName][className]) || {}
+                updateTheme({}, fullRemoteStyles[className] || {})
             ),
         };
         // TODO: support media queries on native
