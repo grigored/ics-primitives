@@ -62,7 +62,7 @@ export interface AppProps {
     onDrawerClose?: () => void,
     rightButtonsData?: Array<TopbarSimpleButtonData | TopbarListButtonData>,
     title?: React.ReactNode | string,
-    topbarContent?: Array<any>
+    topbarContent?: React.ReactNode,
     hideDrawer?: boolean,
 }
 
