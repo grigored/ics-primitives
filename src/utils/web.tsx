@@ -1,9 +1,10 @@
 import {AppTheme, Classes} from "./theme.types";
+import {appTheme} from "./theme";
 
 export const getStyleProps = (style?: Classes) => {
     const generalStyle = {
         display: 'flex',
-        fontFamily: 'HelveticaNeue',
+        fontFamily: appTheme.fontFamily,
     };
 
 
@@ -12,8 +13,19 @@ export const getStyleProps = (style?: Classes) => {
     }
     else if (Array.isArray(style)) {
         let classes = style.filter(item => typeof(item) === 'string'),
-            styleItems = style.filter(item => typeof(item) === 'object'),
+            styleItems = style.filter(item => typeof(item) === 'object' && !Array.isArray(item)),
             styles = {...generalStyle};
+        for (let tStyle of style) {
+            if (Array.isArray(tStyle)) {
+                const flattenedStyles = getStyleProps(tStyle);
+                if (flattenedStyles.style) {
+                    styleItems.push(flattenedStyles.style);
+                }
+                if (flattenedStyles.className) {
+                    classes.push(flattenedStyles.className)
+                }
+            }
+        }
 
         styleItems.forEach(item => {
             styles = Object.assign(styles, item);

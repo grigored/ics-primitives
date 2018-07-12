@@ -11,6 +11,7 @@ export const webMobile = 'webMobile';
 export const webDesktop = 'webDesktop';
 
 export const appTheme: AppTheme = {
+    fontFamily: 'HelveticaNeue',
     topBarHeightDesktop: 64,
     topBarHeightMobile: 50,
     topBarColor: '#fff',
