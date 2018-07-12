@@ -1,4 +1,4 @@
-import { InputColorTheme, TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
+import { InputStyle, TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
 import { FORM_INPUT_TYPES } from '../../utils/enums';
 
 export type SelectDBValue = any;
@@ -80,7 +80,7 @@ export interface SelectProps {
     nullName?: string,
     options: Array<Option>,
     title?: string,
-    inputStyle?: InputColorTheme,
+    inputStyle?: InputStyle,
     multiple?: boolean,
 }
 

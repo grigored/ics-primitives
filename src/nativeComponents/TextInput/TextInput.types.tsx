@@ -17,10 +17,10 @@ export interface TextInputProps {
     dbToRaw?: ( value: any ) => string,
     extraErrorChecker?: ( value: string ) => string | undefined,
     disableUnderline?: boolean,
-    inputStyle?: InputColorTheme,
+    inputStyle?: InputStyle,
 }
 
-export interface InputColorTheme {
+export interface InputStyle {
     input?: any,
     label?: any,
     focusedLabel?: any,

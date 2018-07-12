@@ -16,7 +16,7 @@ export { Text } from './primitives/Text/Text';
 export { Touchable } from './primitives/Touchable/Touchable';
 export { View } from './primitives/View/View';
 export { Form } from './redux/FormComponents/Form';
-export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES, HTTP_METHOD, PLATFORM } from './utils/enums';
+export { FORM_INPUT_TYPES, TEXT_INPUT_TYPES, HTTP_METHOD, PLATFORM, FILTER_OPERATORS } from './utils/enums';
 export { WithStyles, Classes } from './utils/theme.types';
 export { all, appTheme, android, ios, native, web, webDesktop, webMobile, } from './utils/theme';
 

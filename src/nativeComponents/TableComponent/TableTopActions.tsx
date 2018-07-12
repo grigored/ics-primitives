@@ -2,7 +2,7 @@ import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import {formatDate} from "../../utils/i18n";
 import {EXPORT, REFRESH} from "../../utils/strings";
-import {Button, CircularProgressComponent, createStyles, isXs, View, WithStyles} from "../../index";
+import {Button, createStyles, isXs, View, WithStyles} from "../../index";
 import {isWeb} from "../../primitives/platform/platform";
 import {MOMENT_FORMAT} from "../../utils/enums";
 import {exportToCsv} from "./tableExport";
@@ -17,7 +17,6 @@ const styles = {
 
 export interface OwnProps {
     columns: Array<TableColumn>,
-    loadingData: boolean,
     refreshMethod?: () => void,
     tableActions?: Array<TableRowAction>,
     tableData?: TableData,
@@ -27,7 +26,7 @@ export interface OwnProps {
 
 class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateProps & WithStyles, {}> {
     render() {
-        const { classes, columns, loadingData, refreshMethod, t, tableActions, tableData, title } = this.props;
+        const { classes, columns, refreshMethod, t, tableActions, tableData, title } = this.props;
         return (
             <View style={classes.tableOptions}>
             {
@@ -64,7 +63,6 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                     />
                 ))
             }
-            {loadingData && <CircularProgressComponent/>}
         </View>);
     }
 }
