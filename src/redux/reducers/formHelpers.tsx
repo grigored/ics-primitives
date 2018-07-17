@@ -81,9 +81,7 @@ export const formHelpers = ( state: FormHelpersState = {}, action: ActionTypes )
     }
 };
 
-
-export const displayErrors = ( formName: string, // FORM_NAMES_ENUM
-): DisplayErrorsAction => ( {
+export const displayErrors = ( formName: string ): DisplayErrorsAction => ( {
     type: TypeKeys.DISPLAY_ERRORS,
     formName,
 } );
@@ -137,7 +135,7 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
                 extraData: { formName },
                 requestPayload: { formName, },
                 successPayload: { formName },
-                failPayload: { formName },
+                failurePayload: { formName },
             } )
         }
     }
