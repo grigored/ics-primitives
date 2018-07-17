@@ -99,3 +99,5 @@ export { Select } from './nativeComponents/Select/Select';
 export { Paper } from './nativeComponents/Paper/Paper';
 export { NativeButton } from './nativeComponents/NativeButtons/NativeButton';
 export { NativeButtonsList } from './nativeComponents/NativeButtons/NativeButtonsList/NativeButtonsList';
+
+export * from './utils/strings';

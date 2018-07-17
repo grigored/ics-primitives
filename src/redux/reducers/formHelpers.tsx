@@ -81,12 +81,10 @@ export const formHelpers = ( state: FormHelpersState = {}, action: ActionTypes )
     }
 };
 
-
-export const displayErrors = ( formName: string, // FORM_NAMES_ENUM
-): DisplayErrorsAction => ({
+export const displayErrors = ( formName: string ): DisplayErrorsAction => ( {
     type: TypeKeys.DISPLAY_ERRORS,
     formName,
-});
+} );
 
 const hasErrors = ( formFields: Array<any> | null ) => {
     if (!formFields) {
@@ -94,8 +92,8 @@ const hasErrors = ( formFields: Array<any> | null ) => {
     }
     for (let index in formFields) {
         const field = formFields[index];
-        if (isObject(field)) {
-            if (hasErrors(field)) {
+        if (isObject( field )) {
+            if (hasErrors( field )) {
                 return true;
             }
         }
@@ -115,16 +113,16 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
     return ( dispatch: any, getState: () => GlobalState ) => {
         let formData: any = getState().form[formName];
         if (formData && formData.sendingForm) {
-            console.log('already sending form');
+            console.log( 'already sending form' );
             return
         }
-        let formFields = (formData && formData.values) || {};
-        if (formHasErrors(formData)) {
-            dispatch(displayErrors(formName));
+        let formFields = ( formData && formData.values ) || {};
+        if (formHasErrors( formData )) {
+            dispatch( displayErrors( formName ) );
             return;
         }
-        if (Object.keys(formFields).length !== 0 || forceSend === true) {
-            dispatch({
+        if (Object.keys( formFields ).length !== 0 || forceSend === true) {
+            dispatch( {
                 types: types || [
                     TypeKeys.SEND_FORM_DATA,
                     TypeKeys.SEND_FORM_DATA_SUCCESS,
@@ -134,20 +132,23 @@ export const sendFormData = ( formName: string, // FORM_NAMES_ENUM,
                 queryParameters: method === 'get' ? formFields : null,
                 method: method,
                 url: url,
-                extraData: {formName}
-            })
+                extraData: { formName },
+                requestPayload: { formName, },
+                successPayload: { formName },
+                failurePayload: { formName },
+            } )
         }
     }
 };
 
-export const formHasErrors = (formData: any): boolean => {
+export const formHasErrors = ( formData: any ): boolean => {
     let errors = !!formData.syncErrors
-            ? Object.keys(formData.syncErrors!)
-                .filter(field => !!getNestedField(formData, ['syncErrors', field]))
-                .map(field => formData.syncErrors[field])
-            :
-            null;
-    if (hasErrors(errors) || formData.formError) {
+        ? Object.keys( formData.syncErrors! )
+            .filter( field => !!getNestedField( formData, ['syncErrors', field] ) )
+            .map( field => formData.syncErrors[field] )
+        :
+        null;
+    if (hasErrors( errors ) || formData.formError) {
         return true;
     }
     return false;
