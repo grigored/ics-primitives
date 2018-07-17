@@ -69,7 +69,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 {
                     pagesCount > 1 && currentPage > 0 &&
                     <Button
-                        onPress={changePage.bind(this, 1)}
+                        onPress={changePage.bind(this, 0)}
                         iconLeft={jumpToFirstIcon}
                     />
                 }

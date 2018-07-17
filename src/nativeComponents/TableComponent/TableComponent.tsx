@@ -44,7 +44,8 @@ const styles = {
 
 const ACTIONS_COLUMN = 'admin_actions',
     FILTER_DELAY_MS = 333,
-    DEFAULT_ITEMS_PER_PAGE = 10;
+    DEFAULT_ITEMS_PER_PAGE = 10,
+    NO_PAGINATE_ITEMS_COUNT = 1000;
 
 export const EMPTY_SELECT_FILTER = {
     value: '',
@@ -181,9 +182,14 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     }
 
     getLoadDataRequestObject() {
+        let { tableDefinition } = this.props;
         let filters: Array<any> = [],
-            page = this._pagesData.page,
-            itemsPerPage = this.props.tableDefinition.itemsPerPage || DEFAULT_ITEMS_PER_PAGE;
+            page = tableDefinition.paginate
+                ? this._pagesData.page
+                : 0,
+            itemsPerPage = tableDefinition.paginate
+                ? this.props.tableDefinition.itemsPerPage || DEFAULT_ITEMS_PER_PAGE
+                : NO_PAGINATE_ITEMS_COUNT;
         for (let field in this._filtersData.filters) {
             if (this._filtersData.filters.hasOwnProperty( field )) {
                 filters.push( {
@@ -314,7 +320,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                             tableData.data.totalItemsNumber
                         )}
                         currentPage={tableData.data.page}
-                        pagesCount={tableData.data.totalItemsNumber / tableData.data.itemsPerPage}
+                        pagesCount={Math.floor( tableData.data.totalItemsNumber / tableData.data.itemsPerPage )}
                         changePage={this.setPage.bind( this )}
                         jumpToFirstIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToFirstIcon}
                         jumpToLastIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToLastIcon}
