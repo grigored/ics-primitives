@@ -237,6 +237,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     setItemsPerPage( itemsPerPage: number ) {
         this._pagesData = {
             ...this._pagesData,
+            page: 0,
             itemsPerPage,
         };
         this.loadData();
@@ -273,11 +274,14 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         if (this.props.extraData !== nextProps.extraData) {
             this.setColumns( nextProps );
         }
+        if(!!this.props.tableData && !this.props.tableData.refresh && nextProps.tableData.refresh) {
+            this.loadData();
+        }
     }
 
     render() {
         let {
-                classes, loadingData, tableDefinition, tableData, tableId, title, tableActions,
+                classes, loadingData, tableDefinition, tableData, title, tableActions,
             } = this.props,
             hasFilters = this._columns.filter( column => column.hasFilter ).length > 0;
 
@@ -299,7 +303,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     columns={this._columns}
                     refreshMethod={
                         !!tableDefinition.url
-                            ? () => loadTableData( tableDefinition.url!, tableId )
+                            ? () => this.loadData()
                             : undefined
                     }
                     tableData={tableData}
