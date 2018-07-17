@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { TablePageNavigator } from "./TablePageNavigator";
 import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { CircularProgressComponent, Select, TEXT_INPUT_TYPES } from "../../index";
 import { TextInput } from "../TextInput/TextInput";
@@ -42,7 +43,8 @@ const styles = {
 };
 
 const ACTIONS_COLUMN = 'admin_actions',
-    FILTER_DELAY_MS = 333;
+    FILTER_DELAY_MS = 333,
+    DEFAULT_ITEMS_PER_PAGE = 10;
 
 export const EMPTY_SELECT_FILTER = {
     value: '',
@@ -128,6 +130,10 @@ export const getFilterForColumn: ( column: TableColumn,
 
 class CTableComponent extends React.PureComponent<TableProps, {}> {
     _columns: Array<TableColumn> = [];
+    _pagesData: {
+        page: number,
+        bindedSetPage: ( page: number ) => void,
+    };
     _filtersData: TableFiltersData;
 
     constructor( props: TableProps ) {
@@ -140,6 +146,10 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
             filtersTimeout: null,
             bindedFiltersOnChange: {},
             bindedLoadTableData: props.loadTableData.bind( this, props.tableDefinition.url, props.tableId ),
+        };
+        this._pagesData = {
+            page: 0,
+            bindedSetPage: this.setPage.bind( this ),
         };
         this._columns.filter( ( column: TableColumn ) => column.hasFilter )
             .forEach( ( column: TableColumn ) => {
@@ -156,6 +166,10 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         return false;
     }
 
+    loadData() {
+        this._filtersData.bindedLoadTableData( this.getLoadDataRequestObject() );
+    }
+
     getColumnOperator( field: string ) {
         for (let i = 0; i < this._columns.length; i++) {
             if (this._columns[i].field === field) {
@@ -166,25 +180,37 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         return '~';
     }
 
-    getFiltersObject() {
+    getLoadDataRequestObject() {
         let filters: Array<any> = [],
-            page = 0,
-            itemsPerPage = 100;
+            page = this._pagesData.page,
+            itemsPerPage = this.props.tableDefinition.itemsPerPage || DEFAULT_ITEMS_PER_PAGE;
         for (let field in this._filtersData.filters) {
             if (this._filtersData.filters.hasOwnProperty( field )) {
                 filters.push( {
                     column: field,
-                    // column: field.replace(/([A-Z])/g, (g) => `_${g[0].toLowerCase()}`),
                     value: this._filtersData.filters[field].toString(),
                     operator: this.getColumnOperator( field ),
                 } );
             }
         }
-        return {
-            filters,
+        return filters.length > 0
+            ? {
+                filters,
+                page,
+                itemsPerPage,
+            }
+            : {
+                page,
+                itemsPerPage,
+            };
+    }
+
+    setPage( page: number ) {
+        this._pagesData = {
+            ...this._pagesData,
             page,
-            itemsPerPage,
         };
+        this.loadData();
     }
 
     setFilter( field: string, value: string ) {
@@ -195,10 +221,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         }
         clearTimeout( this._filtersData.filtersTimeout );
         this._filtersData.filtersTimeout = setTimeout( () => {
-            this._filtersData.bindedLoadTableData(
-                this.hasFilters()
-                    ? this.getFiltersObject()
-                    : null );
+            this.loadData();
         }, FILTER_DELAY_MS );
     }
 
@@ -214,8 +237,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     }
 
     componentDidMount() {
-        let { loadTableData, tableDefinition: { url }, tableId } = this.props;
-        url && loadTableData( url, tableId );
+        this.loadData();
     }
 
     componentWillReceiveProps( nextProps: TableProps ) {
@@ -281,6 +303,23 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     showFilters={hasFilters && !tableDefinition.filtersOnTop}
                     filtersData={this._filtersData}
                 />
+
+                {
+                    tableDefinition.paginate && tableData && tableData.data &&
+                    <TablePageNavigator
+                        itemsCount={tableData.data.totalItemsNumber}
+                        itemsLowerLimit={tableData.data.itemsPerPage * tableData.data.page + 1}
+                        itemsUpperLimit={Math.min(
+                            tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
+                            tableData.data.totalItemsNumber
+                        )}
+                        currentPage={tableData.data.page}
+                        pagesCount={tableData.data.totalItemsNumber / tableData.data.itemsPerPage}
+                        changePage={this.setPage.bind( this )}
+                        jumpToFirstIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToFirstIcon}
+                        jumpToLastIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToLastIcon}
+                    />
+                }
 
             </View>
         )

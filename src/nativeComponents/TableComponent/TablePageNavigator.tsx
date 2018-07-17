@@ -9,8 +9,6 @@ const styles = () => ({
         marginBottom: appTheme.defaultVerticalMargin,
         height: 24,
         flexWrap: 'wrap',
-        // position: 'absolute',
-        // bottom: 0,
     },
     initialTextStyle: {
         height: 26,
@@ -50,13 +48,16 @@ export interface Props {
     currentPage: number,
     pagesCount: number,
     changePage: ( page: number ) => void,
+    jumpToFirstIcon?: any,
+    jumpToLastIcon?: any,
 }
 
 class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
 
     render() {
         let {
-            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage
+            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,
+            jumpToFirstIcon, jumpToLastIcon
         } = this.props;
         return (
             <View style={[classes.container, classes.buttonsContainers, style || {}]}>
@@ -66,31 +67,24 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                 </Text>
                 }
                 {
-                    pagesCount > 1 && currentPage > 1 &&
+                    pagesCount > 1 && currentPage > 0 &&
                     <Button
                         onPress={changePage.bind(this, 1)}
-                        // icon={iconList.fastRewind}
-                        // iconStyle={classes.iconStyle}
-                        // style={classes.buttonStyle}
-                        // touchableStyle={classes.buttonsTouchableStyle}
+                        iconLeft={jumpToFirstIcon}
                     />
                 }
                 {
-                    pagesCount > 1 && currentPage > 1 &&
+                    pagesCount > 1 && currentPage > 0 &&
                     <Button
                         onPress={changePage.bind(this, currentPage - 1)}
                         title={(currentPage - 1).toString()}
-                        // style={classes.buttonStyle}
-                        // touchableStyle={classes.buttonsTouchableStyle}
                     />
                 }
                 {
                     pagesCount > 1 &&
                     <Button
                         title={currentPage.toString()}
-                        // style={classes.buttonStyle}
                         disabled={true}
-                        // touchableStyle={classes.buttonsTouchableStyle}
                     />
                 }
                 {
@@ -98,18 +92,13 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     <Button
                         onPress={changePage.bind(this, currentPage + 1)}
                         title={(currentPage + 1).toString()}
-                        // style={classes.buttonStyle}
-                        // touchableStyle={classes.buttonsTouchableStyle}
                     />
                 }
                 {
                     pagesCount > 1 && currentPage < pagesCount &&
                     <Button
                         onPress={changePage.bind(this, pagesCount)}
-                        // icon={iconList.fastForward}
-                        // iconStyle={classes.iconStyle}
-                        // style={classes.buttonStyle}
-                        // touchableStyle={classes.buttonsTouchableStyle}
+                        iconLeft={jumpToLastIcon}
                     />
                 }
             </View>

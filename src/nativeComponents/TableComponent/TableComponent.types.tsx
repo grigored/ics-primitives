@@ -56,6 +56,12 @@ export interface TableDefinitionData {
     rowStyle?: ( row: any ) => any,
     formErrorChecker?: FormErrorChecker,
     filtersOnTop?: boolean,
+    paginate?: boolean,
+    itemsPerPage?: number,
+    paginateIcons?: {
+        jumpToFirstIcon: any,
+        jumpToLastIcon: any,
+    },
 }
 
 export interface Fields {
@@ -86,15 +92,9 @@ export interface TableData {
 
 export interface Data {
     items: Array<Row>,
-    extra_data?: ExtraData,
-}
-
-export interface ExtraData {
     page: number,
-    items_per_page: number,
-    total_items: number,
-
-    [key: string]: any,
+    itemsPerPage: number,
+    totalItemsNumber: number,
 }
 
 export interface Row {
