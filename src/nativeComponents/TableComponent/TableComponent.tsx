@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { TablePageNavigator } from "./TablePageNavigator";
 import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
-import { CircularProgressComponent, Select, TEXT_INPUT_TYPES } from "../../index";
+import { CircularProgressComponent, Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
 import { TextInput } from "../TextInput/TextInput";
 import { View } from '../../primitives/View/View';
 import { TableInner } from './TableInner';
@@ -40,6 +40,11 @@ const styles = {
         width: 100,
         margin: 4,
     },
+    paginate:{
+        [webDesktop]:{
+            marginTop: 16
+        },
+    }
 };
 
 const ACTIONS_COLUMN = 'admin_actions',
@@ -133,7 +138,9 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     _columns: Array<TableColumn> = [];
     _pagesData: {
         page: number,
+        itemsPerPage: number,
         bindedSetPage: ( page: number ) => void,
+        bindedSetItemsPerPage: ( itemsPerPage: number ) => void,
     };
     _filtersData: TableFiltersData;
 
@@ -150,7 +157,15 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         };
         this._pagesData = {
             page: 0,
+            itemsPerPage: !!props.tableDefinition.itemsPerPage
+                ? (
+                    typeof props.tableDefinition.itemsPerPage === 'object'
+                        ? props.tableDefinition.itemsPerPage[0]
+                        : props.tableDefinition.itemsPerPage
+                )
+                : DEFAULT_ITEMS_PER_PAGE,
             bindedSetPage: this.setPage.bind( this ),
+            bindedSetItemsPerPage: this.setItemsPerPage.bind( this ),
         };
         this._columns.filter( ( column: TableColumn ) => column.hasFilter )
             .forEach( ( column: TableColumn ) => {
@@ -188,7 +203,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                 ? this._pagesData.page
                 : 0,
             itemsPerPage = tableDefinition.paginate
-                ? this.props.tableDefinition.itemsPerPage || DEFAULT_ITEMS_PER_PAGE
+                ? this._pagesData.itemsPerPage
                 : NO_PAGINATE_ITEMS_COUNT;
         for (let field in this._filtersData.filters) {
             if (this._filtersData.filters.hasOwnProperty( field )) {
@@ -215,6 +230,14 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         this._pagesData = {
             ...this._pagesData,
             page,
+        };
+        this.loadData();
+    }
+
+    setItemsPerPage( itemsPerPage: number ) {
+        this._pagesData = {
+            ...this._pagesData,
+            itemsPerPage,
         };
         this.loadData();
     }
@@ -324,6 +347,14 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                         changePage={this.setPage.bind( this )}
                         jumpToFirstIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToFirstIcon}
                         jumpToLastIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToLastIcon}
+                        itemsPerPageValue={this._pagesData.itemsPerPage}
+                        itemsPerPageOptions={
+                            typeof tableDefinition.itemsPerPage === 'object'
+                                ? tableDefinition.itemsPerPage
+                                : undefined
+                        }
+                        changeItemsPerPage={this._pagesData.bindedSetItemsPerPage}
+                        style={classes.paginate}
                     />
                 }
 

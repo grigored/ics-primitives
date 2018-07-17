@@ -57,7 +57,7 @@ export interface TableDefinitionData {
     formErrorChecker?: FormErrorChecker,
     filtersOnTop?: boolean,
     paginate?: boolean,
-    itemsPerPage?: number,
+    itemsPerPage?: number | Array<number>,
     paginateIcons?: {
         jumpToFirstIcon: any,
         jumpToLastIcon: any,
