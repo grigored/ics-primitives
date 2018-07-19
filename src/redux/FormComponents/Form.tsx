@@ -18,6 +18,9 @@ const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
     container: {
         width:'100%',
+    },
+    noShrinkContainer: {
+        width:'100%',
         flexShrink: 0,
     },
     innerContainer: {
@@ -47,6 +50,7 @@ export interface FormProps {
     enableReinitialize?: boolean,
     fields?: any, // do we need this?
     keepDirty?: boolean, // do we need this?
+    noShrink?: boolean,
 }
 
 interface ConnectedProps {
@@ -126,9 +130,9 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError, t } = this.props;
+        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink} = this.props;
         return (
-            <View style={classes.container}>
+            <View style={noShrink ? classes.noShrinkContainer : classes.container}>
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>
