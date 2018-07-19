@@ -81,7 +81,7 @@ class CForm extends React.PureComponent<Props, {}> {
 
             if (field.type === FORM_INPUT_TYPES.TEXT) {
                 this._fieldErrorCheckers[field.field].push(
-                    (value: any) => !!value && !!value.error ? value.error : undefined
+                    ( value: any ) => !!value && !!value.error ? value.error : undefined
                 );
             }
 
@@ -124,7 +124,7 @@ class CForm extends React.PureComponent<Props, {}> {
     render() {
         let { classes, fieldDefinitions, containerStyle, formError, t } = this.props;
         return (
-            <View style={{ width: '100%' }}>
+            <View style={{ width: '100%', flexShrink: 0 }}>
                 <ScrollView style={[classes.container, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>
@@ -143,7 +143,7 @@ class CForm extends React.PureComponent<Props, {}> {
                         !!formError &&
                         <Text style={{ color: 'red', }}>
                             {
-                                t(formError)
+                                t( formError )
                             }
                         </Text>
                     }
@@ -170,4 +170,4 @@ export const Form = compose(
         styles,
         componentName
     ),
-)(CForm) as React.ComponentType<FormProps>;
+)( CForm ) as React.ComponentType<FormProps>;
