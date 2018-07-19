@@ -17,6 +17,10 @@ import { FormItem } from './FormItem';
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
     container: {
+        width:'100%',
+        flexShrink: 0,
+    },
+    innerContainer: {
         [web]: {
             overflowY: 'auto',
             flexGrow: 1,
@@ -124,8 +128,8 @@ class CForm extends React.PureComponent<Props, {}> {
     render() {
         let { classes, fieldDefinitions, containerStyle, formError, t } = this.props;
         return (
-            <View style={{ width: '100%', flexShrink: 0 }}>
-                <ScrollView style={[classes.container, containerStyle]}>
+            <View style={classes.container}>
+                <ScrollView style={[classes.innerContainer, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>
                             <FormField
