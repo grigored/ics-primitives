@@ -37,7 +37,6 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
             backgroundColor, labelColor, t,
         } = this.props;
         let buttonStyle = styles || {};
-        // let buttonStyle = {};
         buttonStyle.root = {
             ...( buttonStyle.root || {} ),
             ...getUpdatedRoot( primary, backgroundColor, labelColor ),
