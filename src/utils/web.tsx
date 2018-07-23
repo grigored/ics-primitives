@@ -76,6 +76,9 @@ export const getMuiTheme = (appTheme: AppTheme) => {
         secondary[hue] = appTheme.secondaryColor;
     });
     return {
+        typography:{
+            fontFamily: appTheme.fontFamily,
+        },
         palette: {
             primary,
             secondary,
