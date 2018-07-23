@@ -37,6 +37,7 @@ const styles = () => ( {
             [webDesktop]: appTheme.topBarHeightDesktop,
             [all]: appTheme.topBarHeightMobile,
         },
+        backgroundColor: appTheme.topBarColor,
     },
 } );
 
@@ -80,7 +81,8 @@ const CTopBar = ( {
                     right: 0,
                     top: 0,
                     height: isXs() ? appTheme.topBarHeightMobile : appTheme.topBarHeightDesktop,
-                }}>
+                }}
+            >
                 {
                     rightButtonsData && rightButtonsData.map( buttonData => {
                         if (( buttonData as TopbarListButtonData ).items) {
