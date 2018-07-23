@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import MaterialButton from '@material-ui/core/Button';
 import { appTheme, Image } from '../../';
 import { ButtonProps } from './Button.types';
@@ -30,11 +29,11 @@ const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor
     return root;
 };
 
-class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, {}> {
+class CButton extends React.PureComponent<ButtonProps, {}> {
     render() {
         const {
             children, disabled, iconLeft, iconRight, onPress, href, primary, raised, styles, className, title,
-            backgroundColor, labelColor, t,
+            backgroundColor, labelColor,
         } = this.props;
         let buttonStyle = styles || {};
         // let buttonStyle = {};
@@ -59,7 +58,7 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
                         source={iconLeft}
                     />
                 }
-                {!!title ? t( title ) : null}
+                {title || null}
                 {
                     iconRight &&
                     <Image
@@ -73,4 +72,4 @@ class CButton extends React.PureComponent<ButtonProps & InjectedTranslateProps, 
     }
 }
 
-export const Button: React.ComponentType<ButtonProps> = translate()( CButton );
+export const Button: React.ComponentType<ButtonProps> = CButton;

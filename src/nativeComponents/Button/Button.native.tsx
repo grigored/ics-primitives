@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
 import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
 import { isIOS } from '../../primitives/platform/platform';
@@ -62,11 +61,11 @@ const styles = () => ({
     }
 });
 
-class CButton extends React.PureComponent<ButtonProps & WithStyles & InjectedTranslateProps, {}> {
+class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
     render() {
         const {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
-            backgroundColor, labelColor, className, t,
+            backgroundColor, labelColor, className,
         } = this.props;
         let buttonStyle = (styles && styles.root) || {},
             labelStyle = (styles && styles.label) || {};
@@ -116,7 +115,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles & InjectedTra
                                 className && className.label,
                             ]}
                         >
-                            {t(title)}
+                            {title}
                         </Text>
                     }
                     {
@@ -135,6 +134,5 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles & InjectedTra
 
 const componentName = 'Button';
 export const Button: React.ComponentType<ButtonProps> = compose(
-    translate(),
     createStyles(styles, componentName),
 )(CButton);
