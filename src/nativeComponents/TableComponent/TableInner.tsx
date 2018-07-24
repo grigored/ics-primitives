@@ -2,20 +2,21 @@ import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
-import { createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { all, createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, WithStyles, } from "../..";
 import { Data, Row, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = () => ( {
     containerVertical: {
         [web]: {
-            flex: 1,
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
             overflow: 'scroll',
             width: '100%',
         },
+        [all]: {
+            flexGrow: 1,
+        },
         flexShrink: 0,
-        flexGrow: 1,
     },
     innerView: {
         flex: 1,

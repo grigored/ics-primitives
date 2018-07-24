@@ -1,21 +1,32 @@
 import * as React from 'react';
-import { appTheme, Button, createStyles, Text, View, WithStyles } from '../../';
+import { appTheme, createStyles, Text, Touchable, View, WithStyles } from '../../';
 
 
-let styles = () => ({
+let styles = () => ( {
+    touchable: {
+        flex: 1,
+    },
     containerLeft: {
         flexDirection: 'row',
         height: appTheme.inputHeight,
         justifyContent: 'space-between',
+        flex: 1,
+        flexShrink: 0,
         alignItems: 'center',
     },
+    containerTop: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        flex: 1,
+    },
     leftLabel: {
-        minWidth: 150,
         fontWeight: '500',
+        flexGrow: 1,
+        flexShrink: 0,
     },
     topLabel: {
         marginBottom: -10,
-        color:  appTheme.primaryColor,
+        color: appTheme.primaryColor,
     },
     error: {
         marginTop: -5,
@@ -33,10 +44,10 @@ let styles = () => ({
     leftValue: {
         fontWeight: '500',
         fontSize: 15,
-        flex: 1,
+        flexGrow: 1,
+        flexShrink: 0,
     }
-
-});
+} );
 
 export interface Props {
     error?: string,
@@ -55,18 +66,17 @@ const CTextInputContainer = ( {
                                   title,
                                   value,
                               }: Props & WithStyles ) => (
-    <Button
+    <Touchable
         onPress={onPress}
+        style={classes.touchable}
     >
-        <View>
-            <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
-                <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>{title}</Text>
-                <Text style={labelPositionLeft ? classes.leftValue : classes.topValue}>{value}</Text>
-            </View>
-            {!!error && <Text style={classes.error}>{error}</Text>}
+        <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
+            <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>{title}</Text>
+            <Text style={labelPositionLeft ? classes.leftValue : classes.topValue}>{value}</Text>
         </View>
-    </Button>
+        {!!error && <Text style={classes.error}>{error}</Text>}
+    </Touchable>
 );
 
 const componentName = 'TextInputContainer';
-export const TextInputContainer: React.ComponentType<Props> = createStyles(styles, componentName)(CTextInputContainer);
+export const TextInputContainer: React.ComponentType<Props> = createStyles( styles, componentName )( CTextInputContainer );

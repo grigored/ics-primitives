@@ -3,8 +3,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
 import { TABLE_PAGE_COUNTER, ITEMS_PER_PAGE } from "../../utils/strings";
 import {
-    android, appTheme, Button, createStyles, ios, isXs, Select, Text, View,
-    WithStyles
+    all, android, appTheme, Button, createStyles, ios, isXs, Select, Text, View, webDesktop, WithStyles
 } from '../../';
 
 
@@ -16,6 +15,13 @@ const styles = () => ( {
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'center',
+        [webDesktop]:{
+            width:'40%',
+        },
+        [all]:{
+            width:'100%',
+            marginLeft: appTheme.marginM,
+        },
     },
     initialTextStyle: {
         height: 26,
@@ -42,9 +48,10 @@ const styles = () => ( {
         },
     },
     itemsPerPageContainer: {
-        width: 128,
-        minWidth: 128,
-        flex: 0,
+        width: {
+            [webDesktop]: '50%',
+            [all]: '100%',
+        },
     }
 } );
 
@@ -75,18 +82,18 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
         return (
             <View style={[classes.container, style || {}]}>
                 {
-                    !!itemsPerPageValue &&!!itemsPerPageOptions && !!changeItemsPerPage &&
-                        <View style={classes.itemsPerPageContainer}>
-                    <Select
-                        title={t( ITEMS_PER_PAGE )}
-                        value={itemsPerPageValue}
-                        options={itemsPerPageOptions.map( ( value: number ) => ( {
-                            text: value.toString(),
-                            value,
-                        } ) )}
-                        onChange={( value: number ) => changeItemsPerPage!( value )}
-                    />
-                        </View>
+                    !!itemsPerPageValue && !!itemsPerPageOptions && !!changeItemsPerPage &&
+                    <View style={classes.itemsPerPageContainer}>
+                        <Select
+                            title={t( ITEMS_PER_PAGE )}
+                            value={itemsPerPageValue}
+                            options={itemsPerPageOptions.map( ( value: number ) => ( {
+                                text: value.toString(),
+                                value,
+                            } ) )}
+                            onChange={( value: number ) => changeItemsPerPage!( value )}
+                        />
+                    </View>
                 }
                 {!isXs() &&
                 <Text style={classes.initialTextStyle}>
