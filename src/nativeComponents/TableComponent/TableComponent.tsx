@@ -40,8 +40,8 @@ const styles = {
         width: 100,
         margin: 4,
     },
-    paginate:{
-        [webDesktop]:{
+    paginate: {
+        [webDesktop]: {
             marginTop: 16
         },
     }
@@ -274,7 +274,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         if (this.props.extraData !== nextProps.extraData) {
             this.setColumns( nextProps );
         }
-        if(!!this.props.tableData && !this.props.tableData.refresh && nextProps.tableData.refresh) {
+        if (!!this.props.tableData && !this.props.tableData.refresh && nextProps.tableData.refresh) {
             this.loadData();
         }
     }
@@ -289,12 +289,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
             <View style={classes.container}>
 
                 <View style={classes.title}>
-                    {
-                        !!title &&
-                        <Text>
-                            {title}
-                        </Text>
-                    }
+                    {!!title && <Text>{title}</Text>}
                     {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
                 </View>
 
