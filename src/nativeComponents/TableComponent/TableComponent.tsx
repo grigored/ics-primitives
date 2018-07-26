@@ -2,8 +2,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { TablePageNavigator } from "./TablePageNavigator";
-import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
-import { CircularProgressComponent, Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
+import { Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
 import { TextInput } from "../TextInput/TextInput";
 import { View } from '../../primitives/View/View';
 import { TableInner } from './TableInner';
@@ -288,11 +287,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         return (
             <View style={classes.container}>
 
-                <View style={classes.title}>
-                    {!!title && <Text>{title}</Text>}
-                    {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
-                </View>
-
+                {!!title && <Text style={classes.title}>{title}</Text>}
 
                 <TableTopActions
                     columns={this._columns}
@@ -304,6 +299,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     tableData={tableData}
                     title={tableDefinition.title}
                     tableActions={tableActions}
+                    loadingData={loadingData}
                 />
                 {
                     hasFilters && tableDefinition.filtersOnTop &&
@@ -342,7 +338,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                             tableData.data.totalItemsNumber
                         )}
                         currentPage={tableData.data.page}
-                        pagesCount={Math.floor( tableData.data.totalItemsNumber / tableData.data.itemsPerPage )}
+                        pagesCount={Math.ceil( tableData.data.totalItemsNumber / tableData.data.itemsPerPage )}
                         changePage={this.setPage.bind( this )}
                         jumpToFirstIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToFirstIcon}
                         jumpToLastIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToLastIcon}

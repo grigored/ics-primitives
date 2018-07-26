@@ -2,7 +2,7 @@ import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
-import { all, createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { all, createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { Data, Row, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
@@ -17,6 +17,10 @@ const styles = () => ( {
             flexGrow: 1,
         },
         flexShrink: 0,
+        maxHeight: {
+            [webDesktop]: '75%',
+            [all]: '85%',
+        },
     },
     innerView: {
         flex: 1,

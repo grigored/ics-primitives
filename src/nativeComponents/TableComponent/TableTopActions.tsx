@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { formatDate } from "../../utils/i18n";
 import { EXPORT, REFRESH } from "../../utils/strings";
-import { Button, createStyles, isXs, View, WithStyles } from "../../index";
+import { Button, CircularProgressComponent, createStyles, isXs, View, WithStyles } from "../../index";
 import { isWeb } from "../../primitives/platform/platform";
 import { MOMENT_FORMAT } from "../../utils/enums";
 import { exportToCsv } from "./tableExport";
@@ -22,12 +23,12 @@ export interface OwnProps {
     tableActions?: Array<TableRowAction>,
     tableData?: TableData,
     title: string,
-
+    loadingData?: boolean,
 }
 
 class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateProps & WithStyles, {}> {
     render() {
-        const { classes, columns, refreshMethod, t, tableActions, tableData, title } = this.props;
+        const { classes, columns, refreshMethod, t, tableActions, tableData, title, loadingData } = this.props;
         return (
             <View style={classes.tableOptions}>
                 {
@@ -64,6 +65,8 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                         />
                     ) )
                 }
+
+                {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
             </View> );
     }
 }

@@ -12,15 +12,17 @@ const styles = () => ( {
         marginTop: appTheme.defaultVerticalMargin,
         marginBottom: appTheme.defaultVerticalMargin,
         height: 24,
+        minHeight: 24,
+        maxHeight: 24,
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'center',
-        [webDesktop]:{
-            width:'40%',
-        },
-        [all]:{
-            width:'100%',
-            marginLeft: appTheme.marginM,
+        width: '100%',
+        flex: 1,
+        flexShrink: 0,
+        marginLeft: {
+            [webDesktop]: 0,
+            [all]: appTheme.marginM,
         },
     },
     initialTextStyle: {
@@ -48,11 +50,33 @@ const styles = () => ( {
         },
     },
     itemsPerPageContainer: {
-        width: {
-            [webDesktop]: '50%',
-            [all]: '100%',
+        minWidth: 128,
+        width: 128,
+        maxWidth: 128,
+    },
+    buttonsRoot: {
+        [webDesktop]: {},
+        [all]: {
+            minWidth: 32,
+            minHeight: 24,
+            width: 32,
+            height: 24,
+            maxWidth: 32,
+            maxHeight: 24,
+            marginLeft: appTheme.marginS,
+            backgroundColor: '#ffffff',
+            padding: 0,
         },
-    }
+    },
+    disabled: {
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: '#ffffff',
+    },
+    buttonLabel: {
+        color: '#000000',
+    },
 } );
 
 export interface OwnProps {
@@ -105,6 +129,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     <Button
                         onPress={changePage.bind( this, 0 )}
                         iconLeft={jumpToFirstIcon}
+                        styles={{ root: classes.buttonsRoot }}
                     />
                 }
                 {
@@ -112,6 +137,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     <Button
                         onPress={changePage.bind( this, currentPage - 1 )}
                         title={( currentPage - 1 ).toString()}
+                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
                     />
                 }
                 {
@@ -119,20 +145,23 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     <Button
                         title={currentPage.toString()}
                         disabled={true}
+                        styles={{ root: [classes.buttonsRoot, classes.disabled], label: classes.buttonLabel }}
                     />
                 }
                 {
-                    pagesCount > 1 && currentPage < pagesCount &&
+                    pagesCount > 1 && currentPage < pagesCount - 1 &&
                     <Button
                         onPress={changePage.bind( this, currentPage + 1 )}
                         title={( currentPage + 1 ).toString()}
+                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
                     />
                 }
                 {
-                    pagesCount > 1 && currentPage < pagesCount &&
+                    pagesCount > 1 && currentPage < pagesCount - 1 &&
                     <Button
-                        onPress={changePage.bind( this, pagesCount )}
+                        onPress={changePage.bind( this, pagesCount - 1 )}
                         iconLeft={jumpToLastIcon}
+                        styles={{ root: classes.buttonsRoot }}
                     />
                 }
             </View>
