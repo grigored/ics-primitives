@@ -22,10 +22,13 @@ export interface TextInputProps {
 
 export interface InputStyle {
     input?: any,
+    inputError?: any,
+    inputFocused?: any,
     label?: any,
-    focusedLabel?: any,
-    underline?: any,
-    underlineError?: any,
+    labelError?: any,
+    labelFocused?: any,
+    error?: any,
+    errorFocused?: any,
 }
 
 export type TextInputDBValue = any;// string | number | {[field: string]: any};
