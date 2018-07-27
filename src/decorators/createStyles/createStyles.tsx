@@ -8,7 +8,8 @@ export const createStyles = ( styles: PlatformStyleRules | (() => PlatformStyleR
     // @ts-ignore
     return WrappedComponent => {
         return (withStyles as any)(
-            () => combineStyles(styles, componentName)
+            () => combineStyles(styles, componentName),
+            { name: componentName }
         )(WrappedComponent);
     }
 };
