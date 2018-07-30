@@ -11,7 +11,7 @@ import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType } from
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 
-const styles = () => ({
+const styles = () => ( {
     input: {
         backgroundColor: 'transparent',
         color: appTheme.textColor,
@@ -24,6 +24,7 @@ const styles = () => ({
         marginBottom: 1,
         paddingTop: 4,
         paddingBottom: 4,
+        resize: 'vertical',
     },
     inputError: {
         color: appTheme.errorColor,
@@ -48,9 +49,8 @@ const styles = () => ({
         color: appTheme.errorColor,
         fontSize: appTheme.fontSizeS,
     },
-    errorFocused: {
-    },
-});
+    errorFocused: {},
+} );
 
 
 export type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
@@ -59,47 +59,47 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
     _rawValue: string = '';
 
     constructor( props: Props ) {
-        super(props);
-        let {value} = this.props;
+        super( props );
+        let { value } = this.props;
         this.state = {
             focused: false,
         };
-        this._rawValue = (value !== null && value !== undefined)
-            ? this.getRawValue(value)
+        this._rawValue = ( value !== null && value !== undefined )
+            ? this.getRawValue( value )
             : '';
     }
 
     getRawValue( dbValue: TextInputDBValue ): string {
-        let {dbToRaw, inputType = TEXT_INPUT_TYPES.TEXT} = this.props;
+        let { dbToRaw, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
         return !!dbToRaw
-            ? dbToRaw(dbValue)
-            : defaultDbToRaw(inputType, dbValue);
+            ? dbToRaw( dbValue )
+            : defaultDbToRaw( inputType, dbValue );
     }
 
     getDbValue( rawValue: string ): TextInputDBValue {
-        let {rawToDb, inputType = TEXT_INPUT_TYPES.TEXT} = this.props;
+        let { rawToDb, inputType = TEXT_INPUT_TYPES.TEXT } = this.props;
         return !!rawToDb
-            ? rawToDb(rawValue)
-            : defaultRawToDb(inputType, rawValue);
+            ? rawToDb( rawValue )
+            : defaultRawToDb( inputType, rawValue );
     }
 
     getError( rawValue: string ): string | undefined {
-        let {extraErrorChecker, inputType} = this.props;
-        return (!!extraErrorChecker && extraErrorChecker(rawValue)) || defaultGetError(inputType, rawValue);
+        let { extraErrorChecker, inputType } = this.props;
+        return ( !!extraErrorChecker && extraErrorChecker( rawValue ) ) || defaultGetError( inputType, rawValue );
     }
 
     componentWillReceiveProps( nextProps: Props ) {
-        let {value} = nextProps,
-            dbValue = (value !== null && value !== undefined && value.value !== null && value.value !== undefined)
+        let { value } = nextProps,
+            dbValue = ( value !== null && value !== undefined && value.value !== null && value.value !== undefined )
                 ? value.value
                 : value,
-            parsedRawValue = this.getDbValue(this._rawValue);
+            parsedRawValue = this.getDbValue( this._rawValue );
 
-        let shouldChangeRawValue: boolean = (typeof parsedRawValue !== typeof dbValue);
+        let shouldChangeRawValue: boolean = ( typeof parsedRawValue !== typeof dbValue );
 
         if (typeof parsedRawValue == typeof dbValue) {
             if (typeof dbValue === 'object') {
-                shouldChangeRawValue = !shallowEqual(parsedRawValue, dbValue);
+                shouldChangeRawValue = !shallowEqual( parsedRawValue, dbValue );
             } else {
                 shouldChangeRawValue = parsedRawValue !== dbValue;
             }
@@ -107,27 +107,98 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
 
         if (shouldChangeRawValue) {
             // this.props.field == 'theme' && console.log("SHOULD CHANGE RAW VALUE 'CUZ Y NOT");
-            this._rawValue = (dbValue !== null && dbValue !== undefined)
-                ? this.getRawValue(dbValue)
+            this._rawValue = ( dbValue !== null && dbValue !== undefined )
+                ? this.getRawValue( dbValue )
                 : '';
         }
     }
 
+    onBlur( ev: any ) {
+        let { onBlur } = this.props;
+        this.setState( {
+            ...this.state,
+            focused: false
+        } );
+        if (!!onBlur) {
+            onBlur( ev );
+        }
+    }
+
+    onFocus( ev: any ) {
+        let { onFocus } = this.props;
+        this.setState( {
+            ...this.state,
+            focused: true,
+        } );
+        if (!!onFocus) {
+            onFocus( ev );
+        }
+    }
+
+    onChange( ev: any ) {
+        let { onChange } = this.props;
+        let rawValue = ev.target.value;
+        let dbValue = this.getDbValue( rawValue );
+        this._rawValue = rawValue;
+        this.forceUpdate();
+        let fieldError = this.getError( rawValue );
+        if (!!onChange) {
+            onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
+        }
+    }
+
+    getCommonProps() {
+        let { classes, inputStyle, error, placeholder, id } = this.props,
+            { focused } = this.state;
+        return {
+            ...getStyleProps( [
+                classes.input,
+                !!inputStyle && inputStyle.input,
+                focused && classes.inputFocused,
+                focused && !!inputStyle && inputStyle.inputFocused,
+                !!error && classes.inputError,
+                !!error && !!inputStyle && inputStyle.inputError,
+            ] ),
+            id: id,
+            placeholder: placeholder || '',
+            value: this._rawValue,
+            onChange: ( ev: any ) => this.onChange( ev ),
+            onBlur: ( ev: any ) => this.onBlur( ev ),
+            onFocus: ( ev: any ) => this.onFocus( ev ),
+        }
+    }
+
+    getSingleLineTextInput() {
+        let { inputType } = this.props;
+        return (
+            <input
+                type={getKeyboardType( inputType )}
+                {...this.getCommonProps()}
+            />
+        );
+    }
+
+    getMultilineInput() {
+        return (
+            <textarea
+                {...this.getCommonProps()}
+                rows={10}
+            >
+                {}
+            </textarea>
+        )
+    }
+
     render() {
         let {
-            placeholder,
-            inputType = TEXT_INPUT_TYPES.TEXT,
-            onBlur,
             title,
             error,
-            id,
-            // multiline,
-            onChange,
+            multiline,
             classes,
             inputStyle = {},
         } = this.props;
 
-        const {focused} = this.state;
+        const { focused } = this.state;
 
         return (
             <FormControl fullWidth>
@@ -143,34 +214,11 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
                         {title}
                     </Text>
                 }
-                <input
-                    {...getStyleProps([
-                        classes.input,
-                        inputStyle.input,
-                        focused && classes.inputFocused,
-                        focused && inputStyle.inputFocused,
-                        !!error && classes.inputError,
-                        !!error && inputStyle.inputError,
-                    ])}
-                    id={id}
-                    value={this._rawValue}
-                    placeholder={placeholder || ''}
-                    type={getKeyboardType(inputType)}
-                    onChange={( ev: React.ChangeEvent<HTMLInputElement> ) => {
-                        let rawValue = ev.target.value;
-                        let dbValue = this.getDbValue(rawValue);
-                        this._rawValue = rawValue;
-                        this.forceUpdate();
-                        let fieldError = this.getError(rawValue);
-                        onChange && onChange(!!fieldError ? {value: dbValue, error: fieldError} : dbValue);
-
-                    }}
-                    onBlur={() => {
-                        onBlur && onBlur();
-                        this.setState({focused: false})
-                    }}
-                    onFocus={(a) => {this.setState({focused: true})}}
-                />
+                {
+                    multiline
+                        ? this.getMultilineInput()
+                        : this.getSingleLineTextInput()
+                }
                 {
                     error && <Text style={[
                         classes.error,
@@ -189,4 +237,4 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
 export const TextInput: React.ComponentType<TextInputProps & FieldStateProps<TextInputDBValue>> = createStyles(
     styles,
     'TextInput'
-)(CTextInput);
+)( CTextInput );

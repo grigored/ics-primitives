@@ -5,9 +5,9 @@ export interface TextInputProps {
     id?: string,
     inputType: TEXT_INPUT_TYPES,
     labelPositionLeft?: boolean,
-    onBlur?: () => void,
+    onBlur?: (ev?: any) => void,
     onChange?: any // optional, don't want controlled components for autocomplete, datepicker
-    onFocus?: () => void,
+    onFocus?: (ev?: any) => void,
     placeholder?: string,
     title?: string,
     value?: string,
