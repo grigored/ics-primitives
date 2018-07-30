@@ -1,9 +1,33 @@
 import * as React from 'react';
-import MaterialButton from '@material-ui/core/Button';
-import { appTheme, Image } from '../../';
+import { getStyleProps } from "../../utils/web";
+import { appTheme, createStyles, Image, WithStyles } from '../../';
 import { ButtonProps } from './Button.types';
 
 export { fade } from '@material-ui/core/styles/colorManipulator';
+
+const styles = () => ( {
+    container: {
+        display: 'flex',
+        padding: '8px 16px',
+        minWidth: 64,
+        minHeight: 36,
+        boxSizing: 'border-box',
+        fontFamily: appTheme.fontFamily,
+        fontWeight: '500',
+        borderRadius: 4,
+        cursor: 'pointer',
+        border: 0,
+        outline: 'none',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'inherit',
+        fontSize: appTheme.fontSizeM,
+        '&:hover': {
+            opacity: 0.75,
+        },
+    },
+} );
 
 const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor?: string ): any => {
     let root: any = {};
@@ -29,26 +53,43 @@ const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor
     return root;
 };
 
-class CButton extends React.PureComponent<ButtonProps, {}> {
+type Props = ButtonProps & WithStyles
+
+class CButton extends React.PureComponent<Props, {}> {
+    onClick( ev: any ) {
+        let { onPress, href } = this.props;
+        if (!!onPress) {
+            onPress( ev )
+        }
+        if (!!href) {
+            window.location.assign( href );
+        }
+    }
+
+
     render() {
         const {
-            children, disabled, iconLeft, iconRight, onPress, href, primary, raised, styles, className, title,
-            backgroundColor, labelColor,
+            children,
+            disabled,
+            iconLeft,
+            iconRight,
+            primary,
+            styles,
+            title,
+            backgroundColor,
+            labelColor,
+            classes,
         } = this.props;
         let buttonStyle = styles || {};
-        buttonStyle.root = {
-            ...( buttonStyle.root || {} ),
-            ...getUpdatedRoot( primary, backgroundColor, labelColor ),
-        };
         return (
-            <MaterialButton
-                classes={className}
-                style={buttonStyle.root}
-                color={primary ? 'primary' : undefined}
+            <button
+                {...getStyleProps( [
+                    classes.container,
+                    buttonStyle.root,
+                    getUpdatedRoot( primary, backgroundColor, labelColor ),
+                ] )}
                 disabled={disabled}
-                href={href}
-                onClick={onPress}
-                variant={raised ? 'raised' : 'flat'}
+                onClick={( ev: any ) => this.onClick( ev )}
             >
                 {
                     iconLeft &&
@@ -66,9 +107,9 @@ class CButton extends React.PureComponent<ButtonProps, {}> {
                     />
                 }
                 {children}
-            </MaterialButton>
+            </button>
         );
     }
 }
 
-export const Button: React.ComponentType<ButtonProps> = CButton;
+export const Button = createStyles( styles, 'Button' )( CButton ) as React.ComponentType<ButtonProps>;
