@@ -14,6 +14,7 @@ const styles = () => ( {
         fontFamily: appTheme.fontFamily,
         fontWeight: '500',
         borderRadius: 4,
+        border: 0,
     },
 } );
 
@@ -70,8 +71,10 @@ class CButton extends React.PureComponent<Props, {}> {
         } = this.props;
         let buttonStyle = styles || {};
         buttonStyle.root = {
-            ...( buttonStyle.root || {} ),
-            ...getUpdatedRoot( primary, backgroundColor, labelColor ),
+            ...getStyleProps( [
+                ( buttonStyle.root || {} ),
+                getUpdatedRoot( primary, backgroundColor, labelColor ),
+            ] )
         };
         return (
             <button
