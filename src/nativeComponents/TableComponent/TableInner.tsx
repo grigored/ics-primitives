@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
+import { getValue } from "./tableUtils";
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
-import { createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, WithStyles, } from "../..";
-import { Data, Row, TableColumn, TableFiltersData } from "./TableComponent.types";
+import { createStyles, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { Data, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = () => ( {
@@ -83,24 +84,6 @@ type Props = OwnProps & WithStyles & InjectedTranslateProps
 const DEFAULT_CELL_WIDTH = 120;
 
 class CTableInner extends React.PureComponent<Props, {}> {
-    getValue( column: TableColumn, row: Row ) {
-        if (!!column.dataFormat) {
-            return column.dataFormat( row[column.field], row );
-        } else {
-            switch (column.type) {
-                case FORM_INPUT_TYPES.SELECT:
-                    for (let i = 0; i < column['options'].length; i++) {
-                        if (column['options'][i].value === row[column.field]) {
-                            return column['options'][i].text;
-                        }
-                    }
-                    return 'UNKNOWN';
-                default:
-                    return row[column.field];
-            }
-
-        }
-    }
 
     render() {
         const { classes, columns, tableData, t, showFilters, filtersData } = this.props;
@@ -168,7 +151,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                     tableData.items.slice( 0, 20 ).map( ( row, index ) => (
                                         <View key={row.id || index} style={classes.tr}>
                                             {columns.map( column => {
-                                                    let value = this.getValue( column, row );
+                                                    let value = getValue( column, row );
                                                     return (
                                                         <View
                                                             key={column.field}

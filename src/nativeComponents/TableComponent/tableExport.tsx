@@ -1,17 +1,20 @@
 import * as FileSaver from 'file-saver';
 import { getNestedField } from '../../utils/common';
 import { Row, TableColumn, TableData } from './TableComponent.types';
-import { getExportFormattedValue } from './tableUtils';
+import { getValue } from './tableUtils';
+import { ACTIONS_COLUMN } from "./tableUtils";
 
 export function exportToCsv( fileName: string, columns: TableColumn[], tableData: TableData ) {
     const separator = ',';
-    const replacer = ( key: string, value: string ) => value === null ? '' : value;
-    const header = columns.map( column => column.title );
+    // const replacer = ( key: string, value: string ) => value === null ? '' : value;
+    const filteredColumns = columns.filter( column => column.field !== ACTIONS_COLUMN );
+    const header = filteredColumns
+        .map( column => column.title );
     let items: Array<Row> = getNestedField( tableData, ['data', 'items'] );
     if (!!items) {
         let csv = items.map( ( row: Row ) =>
-            columns
-                .map( column => JSON.stringify( getExportFormattedValue( row, column ), replacer ) )
+            filteredColumns
+                .map( column => getValue( column, row ) )
                 .join( separator )
         );
         csv.unshift( header.join( separator ) );

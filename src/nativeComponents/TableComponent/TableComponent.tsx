@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { ACTIONS_COLUMN } from "./tableUtils";
 import { TablePageNavigator } from "./TablePageNavigator";
 import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { CircularProgressComponent, Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
@@ -47,8 +48,7 @@ const styles = {
     }
 };
 
-const ACTIONS_COLUMN = 'admin_actions',
-    FILTER_DELAY_MS = 333,
+const FILTER_DELAY_MS = 333,
     DEFAULT_ITEMS_PER_PAGE = 10,
     NO_PAGINATE_ITEMS_COUNT = 1000;
 

@@ -65,3 +65,23 @@ export function getFormattedValue( row: Row | undefined, column: TableColumn ) {
     }
     return getExportFormattedValue( row, column );
 }
+
+export function getValue( column: TableColumn, row: Row ) {
+    if (!!column.dataFormat) {
+        return column.dataFormat( row[column.field], row );
+    } else {
+        switch (column.type) {
+            case FORM_INPUT_TYPES.SELECT:
+                for (let i = 0; i < column['options'].length; i++) {
+                    if (column['options'][i].value === row[column.field]) {
+                        return column['options'][i].text;
+                    }
+                }
+                return 'UNKNOWN';
+            default:
+                return row[column.field];
+        }
+
+    }
+}
+export const ACTIONS_COLUMN = 'admin_actions';
