@@ -65,7 +65,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
     render() {
         const {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
-            backgroundColor, labelColor, className,
+            backgroundColor, labelColor,
         } = this.props;
         let buttonStyle = (styles && styles.root) || {},
             labelStyle = (styles && styles.label) || {};
@@ -78,7 +78,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
         const containerStyle = [
             classes.button,
             buttonStyle,
-            className && className.root,
+            // className && className.root,
         ];
         // use TouchableComponent for Ripple effect
         return (
@@ -112,7 +112,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                                 primary && classes.primaryText,
                                 disabled && classes.disabledText,
                                 labelStyle,
-                                className && className.label,
+                                // className && className.label,
                             ]}
                         >
                             {title}
