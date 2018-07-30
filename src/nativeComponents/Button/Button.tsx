@@ -7,6 +7,7 @@ export { fade } from '@material-ui/core/styles/colorManipulator';
 
 const styles = () => ( {
     container: {
+        display: 'flex',
         padding: '8px 16px',
         minWidth: 64,
         minHeight: 36,
@@ -14,7 +15,14 @@ const styles = () => ( {
         fontFamily: appTheme.fontFamily,
         fontWeight: '500',
         borderRadius: 4,
+        cursor: 'pointer',
         border: 0,
+        outline: 'none',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'inherit',
+        fontSize: appTheme.fontSizeM,
     },
 } );
 
@@ -70,15 +78,13 @@ class CButton extends React.PureComponent<Props, {}> {
             classes,
         } = this.props;
         let buttonStyle = styles || {};
-        buttonStyle.root = {
-            ...getStyleProps( [
-                ( buttonStyle.root || {} ),
-                getUpdatedRoot( primary, backgroundColor, labelColor ),
-            ] )
-        };
         return (
             <button
-                {...getStyleProps( [classes.container, buttonStyle.root] )}
+                {...getStyleProps( [
+                    classes.container,
+                    buttonStyle.root,
+                    getUpdatedRoot( primary, backgroundColor, labelColor ),
+                ] )}
                 disabled={disabled}
                 onClick={( ev: any ) => this.onClick( ev )}
             >
