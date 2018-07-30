@@ -23,6 +23,9 @@ const styles = () => ( {
         justifyContent: 'center',
         backgroundColor: 'inherit',
         fontSize: appTheme.fontSizeM,
+        '&:hover': {
+            opacity: 0.75,
+        },
     },
 } );
 

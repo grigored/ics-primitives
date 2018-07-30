@@ -78,7 +78,6 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
         const containerStyle = [
             classes.button,
             buttonStyle,
-            // className && className.root,
         ];
         // use TouchableComponent for Ripple effect
         return (
@@ -112,7 +111,6 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                                 primary && classes.primaryText,
                                 disabled && classes.disabledText,
                                 labelStyle,
-                                // className && className.label,
                             ]}
                         >
                             {title}
