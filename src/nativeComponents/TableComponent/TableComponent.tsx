@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { ACTIONS_COLUMN } from "./tableUtils";
 import { TablePageNavigator } from "./TablePageNavigator";
 import { Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
 import { TextInput } from "../TextInput/TextInput";
@@ -46,8 +47,7 @@ const styles = {
     }
 };
 
-const ACTIONS_COLUMN = 'admin_actions',
-    FILTER_DELAY_MS = 333,
+const FILTER_DELAY_MS = 333,
     DEFAULT_ITEMS_PER_PAGE = 10,
     NO_PAGINATE_ITEMS_COUNT = 1000;
 
@@ -280,12 +280,12 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
 
     render() {
         let {
-                classes, loadingData, tableDefinition, tableData, title, tableActions,
+                classes, loadingData, tableDefinition, tableData, title, tableActions, style,
             } = this.props,
             hasFilters = this._columns.filter( column => column.hasFilter ).length > 0;
 
         return (
-            <View style={classes.container}>
+            <View style={[classes.container, style]}>
 
                 {!!title && <Text style={classes.title}>{title}</Text>}
 

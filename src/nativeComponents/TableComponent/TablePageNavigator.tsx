@@ -3,6 +3,9 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
 import { TABLE_PAGE_COUNTER, ITEMS_PER_PAGE } from "../../utils/strings";
 import {
+    // ALL,
+    android, appTheme, Button, createStyles, ios, isXs, Select, Text, View,
+    WithStyles
     all, android, appTheme, Button, createStyles, ios, isXs, Select, Text, View, webDesktop, WithStyles
 } from '../../';
 
@@ -98,6 +101,21 @@ export type Props = OwnProps & InjectedTranslateProps
 
 class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
 
+    getItemsPerPageOptions() {
+        let { itemsPerPageOptions } = this.props;
+
+        return [
+            ...itemsPerPageOptions!.map( ( value: number ) => ( {
+                text: value.toString(),
+                value,
+            } ) ),
+            // {
+            //     text: t( ALL ),
+            //     value: 1000000,
+            // }
+        ]
+    }
+
     render() {
         let {
             classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,
@@ -111,10 +129,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         <Select
                             title={t( ITEMS_PER_PAGE )}
                             value={itemsPerPageValue}
-                            options={itemsPerPageOptions.map( ( value: number ) => ( {
-                                text: value.toString(),
-                                value,
-                            } ) )}
+                            options={this.getItemsPerPageOptions()}
                             onChange={( value: number ) => changeItemsPerPage!( value )}
                         />
                     </View>

@@ -118,6 +118,7 @@ export interface OwnProps {
     tableContainerName?: string,
     tableData?: TableData,
     extraData?: any,
+    style?: any,
 }
 
 export interface ConnectedProps {

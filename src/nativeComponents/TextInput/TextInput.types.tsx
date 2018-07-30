@@ -5,9 +5,9 @@ export interface TextInputProps {
     id?: string,
     inputType: TEXT_INPUT_TYPES,
     labelPositionLeft?: boolean,
-    onBlur?: () => void,
+    onBlur?: (ev?: any) => void,
     onChange?: any // optional, don't want controlled components for autocomplete, datepicker
-    onFocus?: () => void,
+    onFocus?: (ev?: any) => void,
     placeholder?: string,
     title?: string,
     value?: string,
@@ -22,10 +22,13 @@ export interface TextInputProps {
 
 export interface InputStyle {
     input?: any,
+    inputError?: any,
+    inputFocused?: any,
     label?: any,
-    focusedLabel?: any,
-    underline?: any,
-    underlineError?: any,
+    labelError?: any,
+    labelFocused?: any,
+    error?: any,
+    errorFocused?: any,
 }
 
 export type TextInputDBValue = any;// string | number | {[field: string]: any};

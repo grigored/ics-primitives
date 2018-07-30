@@ -1,47 +1,69 @@
-import {FormControl, FormHelperText, TextField} from "@material-ui/core";
+import { FormControl } from '@material-ui/core';
 import * as React from 'react';
-import { appTheme, createStyles, WithStyles } from "../../";
-import { FieldStateProps } from "../../redux/FormComponents/FormComponents.types";
-import { shallowEqual } from "../../utils/common";
-import { TEXT_INPUT_TYPES } from "../../utils/enums";
-import { TextInputDBValue, TextInputProps } from "./TextInput.types";
-import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType } from "./TextInput.utils";
+import { appTheme, createStyles, Text, WithStyles } from '../../';
+import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
+import { shallowEqual } from '../../utils/common';
+import { TEXT_INPUT_TYPES } from '../../utils/enums';
+import { getStyleProps } from '../../utils/web';
+import { TextInputDBValue, TextInputProps } from './TextInput.types';
+import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType } from './TextInput.utils';
 
 export const INVALID_JSON_STRING = 'Invalid JSON string';
 export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
 
 const styles = () => ( {
-    underline: {
-        '&:after': {
-            backgroundColor: appTheme.primaryColor,
-        },
-    },
-    inkbar: {
-        '&:after': {
-            backgroundColor: appTheme.primaryColor,
-        },
-    },
-    underlineError: {},
     input: {
+        backgroundColor: 'transparent',
         color: appTheme.textColor,
+        fontSize: appTheme.fontSizeM,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+        borderBottomStyle: 'solid',
+        borderBottomColor: appTheme.textColor,
+        outline: 0,
+        marginBottom: 1,
+        paddingTop: 4,
+        paddingBottom: 4,
+        resize: 'vertical',
+    },
+    inputError: {
+        color: appTheme.errorColor,
+    },
+    inputFocused: {
+        borderBottomWidth: 2,
+        borderBottomStyle: 'solid',
+        borderBottomColor: appTheme.primaryColor,
+        marginBottom: 0,
     },
     label: {
         color: appTheme.textColor,
+        fontSize: appTheme.fontSizeS,
     },
-    focusedLabel: {
+    labelError: {
+        color: appTheme.errorColor,
+    },
+    labelFocused: {
         color: appTheme.primaryColor,
     },
+    error: {
+        color: appTheme.errorColor,
+        fontSize: appTheme.fontSizeS,
+    },
+    errorFocused: {},
 } );
 
 
 export type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
 
-export class CTextInput extends React.PureComponent<Props, { rawValue: string, }> {
+export class CTextInput extends React.PureComponent<Props, { focused: boolean }> {
     _rawValue: string = '';
 
     constructor( props: Props ) {
         super( props );
         let { value } = this.props;
+        this.state = {
+            focused: false,
+        };
         this._rawValue = ( value !== null && value !== undefined )
             ? this.getRawValue( value )
             : '';
@@ -91,80 +113,122 @@ export class CTextInput extends React.PureComponent<Props, { rawValue: string, }
         }
     }
 
+    onBlur( ev: any ) {
+        let { onBlur } = this.props;
+        this.setState( {
+            ...this.state,
+            focused: false
+        } );
+        if (!!onBlur) {
+            onBlur( ev );
+        }
+    }
+
+    onFocus( ev: any ) {
+        let { onFocus } = this.props;
+        this.setState( {
+            ...this.state,
+            focused: true,
+        } );
+        if (!!onFocus) {
+            onFocus( ev );
+        }
+    }
+
+    onChange( ev: any ) {
+        let { onChange } = this.props;
+        let rawValue = ev.target.value;
+        let dbValue = this.getDbValue( rawValue );
+        this._rawValue = rawValue;
+        this.forceUpdate();
+        let fieldError = this.getError( rawValue );
+        if (!!onChange) {
+            onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
+        }
+    }
+
+    getCommonProps() {
+        let { classes, inputStyle, error, placeholder, id } = this.props,
+            { focused } = this.state;
+        return {
+            ...getStyleProps( [
+                classes.input,
+                !!inputStyle && inputStyle.input,
+                focused && classes.inputFocused,
+                focused && !!inputStyle && inputStyle.inputFocused,
+                !!error && classes.inputError,
+                !!error && !!inputStyle && inputStyle.inputError,
+            ] ),
+            id: id,
+            placeholder: placeholder || '',
+            value: this._rawValue,
+            onChange: ( ev: any ) => this.onChange( ev ),
+            onBlur: ( ev: any ) => this.onBlur( ev ),
+            onFocus: ( ev: any ) => this.onFocus( ev ),
+        }
+    }
+
+    getSingleLineTextInput() {
+        let { inputType } = this.props;
+        return (
+            <input
+                type={getKeyboardType( inputType )}
+                {...this.getCommonProps()}
+            />
+        );
+    }
+
+    getMultilineInput() {
+        return (
+            <textarea
+                {...this.getCommonProps()}
+                rows={10}
+            >
+                {}
+            </textarea>
+        )
+    }
+
     render() {
         let {
-                placeholder,
-                inputType = TEXT_INPUT_TYPES.TEXT,
-                onBlur,
-                title,
-                error,
-                id,
-                multiline,
-                onChange,
-                disableUnderline,
-                classes,
-                inputStyle,
-            } = this.props,
-            inputColor = (
-                !!inputStyle && !!inputStyle.input
-                    ? inputStyle.input
-                    : classes.input
-            )as any,
-            labelColor = (
-                !!inputStyle && !!inputStyle.label
-                    ? inputStyle.label
-                    : classes.label
-            )as any,
-            underline = (
-                !!inputStyle && !!inputStyle.underline
-                    ? inputStyle.underline
-                    : classes.focusedLabel
-            )as any,
-            underlineError = (
-                !!inputStyle && !!inputStyle.underlineError
-                    ? inputStyle.underlineError
-                    : classes.focusedLabel
-            )as any;
+            title,
+            error,
+            multiline,
+            classes,
+            inputStyle = {},
+        } = this.props;
+
+        const { focused } = this.state;
 
         return (
             <FormControl fullWidth>
-                <TextField
-                    id={id}
-                    value={this._rawValue}
-                    error={!!error}
-                    multiline={multiline}
-                    placeholder={placeholder || ''}
-                    label={title || ''}
-                    type={getKeyboardType( inputType )}
-                    onChange={( ev: React.ChangeEvent<HTMLInputElement> ) => {
-                        let rawValue = ev.target.value;
-                        let dbValue = this.getDbValue( rawValue );
-                        this._rawValue = rawValue;
-                        this.forceUpdate();
-                        let fieldError = this.getError( rawValue );
-                        onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
-
-                    }}
-                    onBlur={() => {
-                        onBlur && onBlur();
-                    }}
-                    helperText={error}
-                    InputProps={{
-                        disableUnderline,
-                        classes: {
-                            input: inputColor,
-                            underline: !!error ? underlineError : underline as any,
-                        },
-                    }}
-                    InputLabelProps={{
-                        shrink: true,
-                        // focused: focusedLabelColor,
-                        classes: {
-                            root: labelColor,
-                        },
-                    }}
-                />
-                {false && <FormHelperText>some helping text here</FormHelperText>}
+                {
+                    title && <Text style={[
+                        classes.label,
+                        inputStyle.label,
+                        focused && classes.labelFocused,
+                        focused && inputStyle.labelFocused,
+                        !!error && classes.labelError,
+                        !!error && inputStyle.labelError,
+                    ]}>
+                        {title}
+                    </Text>
+                }
+                {
+                    multiline
+                        ? this.getMultilineInput()
+                        : this.getSingleLineTextInput()
+                }
+                {
+                    error && <Text style={[
+                        classes.error,
+                        inputStyle.error,
+                        focused && classes.errorFocused,
+                        focused && inputStyle.errorFocused,
+                    ]}>
+                        {error}
+                    </Text>
+                }
             </FormControl>
         );
     }
