@@ -35,14 +35,15 @@ export class Select extends React.PureComponent<SelectProps & FieldStateProps<Se
             value,
             multiple,
         } = this.props;
-        let { selectedIndex, optionsList } = getSelectData( options, value, multiple, nullName, nullable );
+        let { selectedIndex, optionsList } = getSelectData( options, value, multiple, nullName, nullable ),
+            displayedValue = ( optionsList[selectedIndex] && optionsList[selectedIndex].text ) || nullName || '';
         return (
             <View style={{ flex: 1 }}>
                 <TextInputContainer
                     title={title}
                     labelPositionLeft={isIOS}
                     onPress={this._showModal}
-                    value={optionsList[selectedIndex].value}
+                    value={displayedValue}
                 />
                 <CustomPicker
                     isVisible={this.state.isModalVisible}

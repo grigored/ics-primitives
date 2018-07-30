@@ -3,20 +3,28 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
 import { getValue } from "./tableUtils";
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
-import { createStyles, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { Data, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = () => ( {
     containerVertical: {
         [web]: {
-            flex: 1,
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
             overflow: 'scroll',
             width: '100%',
         },
+        [all]: {
+            flexGrow: 1,
+        },
+        flexShrink: 0,
+        maxHeight: {
+            [webDesktop]: '75%',
+            [all]: '85%',
+        },
     },
     innerView: {
+        flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
     },

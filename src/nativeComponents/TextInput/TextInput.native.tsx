@@ -133,6 +133,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
             onFocus,
             placeholder,
             title,
+            inputStyle,
         } = this.props;
 
         return (
@@ -141,7 +142,12 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
             >
                 <View>
                     <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
-                        <Text style={labelPositionLeft ? classes.leftLabel : classes.topLabel}>
+                        <Text
+                            style={[
+                                labelPositionLeft ? classes.leftLabel : classes.topLabel,
+                                inputStyle && inputStyle.label,
+                            ]}
+                        >
                             {title}
                         </Text>
                         <TextInputNative
