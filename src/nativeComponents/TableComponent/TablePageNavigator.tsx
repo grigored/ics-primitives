@@ -4,8 +4,6 @@ import { compose } from "redux";
 import { TABLE_PAGE_COUNTER, ITEMS_PER_PAGE } from "../../utils/strings";
 import {
     // ALL,
-    android, appTheme, Button, createStyles, ios, isXs, Select, Text, View,
-    WithStyles
     all, android, appTheme, Button, createStyles, ios, isXs, Select, Text, View, webDesktop, WithStyles
 } from '../../';
 

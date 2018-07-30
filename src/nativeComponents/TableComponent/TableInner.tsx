@@ -3,9 +3,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
 import { getValue } from "./tableUtils";
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
-import { all, createStyles, FORM_INPUT_TYPES, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
-import { Data, Row, TableColumn, TableFiltersData } from "./TableComponent.types";
-import { createStyles, ScrollView, Text, View, web, WithStyles, } from "../..";
+import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { Data, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
 
