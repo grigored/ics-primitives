@@ -106,7 +106,6 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
         }
 
         if (shouldChangeRawValue) {
-            // this.props.field == 'theme' && console.log("SHOULD CHANGE RAW VALUE 'CUZ Y NOT");
             this._rawValue = (dbValue !== null && dbValue !== undefined)
                 ? this.getRawValue(dbValue)
                 : '';

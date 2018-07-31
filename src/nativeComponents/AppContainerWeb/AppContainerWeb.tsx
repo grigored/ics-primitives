@@ -57,6 +57,7 @@ const styles = () => ( {
 
 
 export interface AppProps {
+    dangerouslyUseGlobalCSS?: boolean,
     drawerContent?: React.ReactNode,
     drawerPersistent?: boolean,
     onDrawerClose?: () => void,
@@ -79,6 +80,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
         const {
             classes,
             children,
+            dangerouslyUseGlobalCSS,
             drawerContent,
             drawerOpen,
             drawerPersistent,
@@ -96,7 +98,7 @@ class CAppContainerWeb extends React.PureComponent<WithStyles & AppProps & Conne
         }
 
         return (
-            <ThemeProvider>
+            <ThemeProvider dangerouslyUseGlobalCSS={dangerouslyUseGlobalCSS}>
                 <View style={classes.appFrame} name={'AppFrame'}>
                     <Topbar
                         leftButtonIcon={

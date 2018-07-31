@@ -1,7 +1,7 @@
 import "whatwg-fetch";
 import {showAlert} from "./reducers/navigation";
 
-const encodeParametersInUrl = (url: string, queryParameters: {[key: string]: string}) => {
+const encodeParametersInUrl = (url: string, queryParameters: { [key: string]: string }) => {
     if (!queryParameters) {
         return url;
     }
@@ -10,16 +10,16 @@ const encodeParametersInUrl = (url: string, queryParameters: {[key: string]: str
         .map(key => `${key}=${encodeURIComponent(queryParameters[key])}`)
         .join('&');
 
-    return url + (encodedParams ? `?${encodedParams}`: '');
+    return url + (encodedParams ? `?${encodedParams}` : '');
 };
 
 export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
     baseUrl: string,
-    baseHeaders: {[key: string]: string} = {}
-    ) => (
-    {dispatch, getState}: {dispatch: Dispatch, getState: () => GlobalState}
+    baseHeaders: { [key: string]: string } = {}
+) => (
+    {dispatch, getState}: { dispatch: Dispatch, getState: () => GlobalState }
 ) => {
-    return (next: any ) => (action: any) => {
+    return (next: any) => (action: any) => {
         const {
             types,
             method,
@@ -32,6 +32,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
             dispatchOnSuccess,
             failurePayload = {},
             dispatchOnFailure,
+            host = undefined,
         } = action;
 
         if (!types) {
@@ -63,7 +64,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
             headers: {...baseHeaders, ...persistedHeaders, ...(extraHeaders || {})},
         };
 
-        return fetch(baseUrl + encodeParametersInUrl(url, queryParameters), fetchParams)
+        return fetch((!host ? baseUrl : host) + encodeParametersInUrl(url, queryParameters), fetchParams)
             .then(response =>
                 response
                     .json()
@@ -78,7 +79,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 ...successPayload,
                             });
                             dispatchOnSuccess && dispatch(dispatchOnSuccess);
-                        // } else if (status === 401) {
+                            // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
                         } else {
