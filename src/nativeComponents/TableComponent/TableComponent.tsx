@@ -71,6 +71,8 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
                         <PopoverComponent
                             actions={actions.map( action => ( {
                                 ...action,
+                                title: action.title && t(action.title),
+                                titleXs: action.titleXs && t(action.titleXs),
                                 onPress: () => action.onPress( row )
                             } ) )}
                         >

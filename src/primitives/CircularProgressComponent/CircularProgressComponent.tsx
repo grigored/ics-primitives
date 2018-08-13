@@ -8,6 +8,7 @@ import { appTheme } from '../../utils/theme';
 import { createStyles, WithStyles } from '../../';
 import { CIRCULAR_PROGRESS_SIZE } from '../../utils/enums';
 import { Props } from './CircularProgressComponent.types';
+import {getStyleProps} from "../../utils/web";
 
 const styles = () => ({
     progress: {
@@ -34,7 +35,7 @@ class CCircularProgressComponent extends React.PureComponent<Props & WithStyles,
 
         return (
             <CircularProgress
-                style={{color: appTheme.primaryColor, ...(style || {})}}
+                {...getStyleProps([{color: appTheme.primaryColor}, style])}
                 size={progressSize}
                 thickness={thickness}
             />
