@@ -82,6 +82,7 @@ export interface SelectProps {
     title?: string,
     inputStyle?: InputStyle,
     multiple?: boolean,
+    selectStyles?: Object
 }
 
 export type ArrayOfObjectsDBValue = Array<{ [key: string]: any }>
