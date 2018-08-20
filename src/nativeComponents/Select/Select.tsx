@@ -37,6 +37,7 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                 value,
                 multiple,
                 nullable,
+                selectStyles
             } = this.props,
             {
                 selectedIndex,
@@ -79,6 +80,7 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                     disabled={disabled}
                     disableUnderline={disableUnderline}
                     multiple={multiple || false}
+                    classes={selectStyles}
                 >
                     {optionsList.map( ( option: Option, index: number ) => (
                         isXs()
