@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
 import { shallowEqual } from "../../utils/common";
-import { android, appTheme, createStyles, ios, Text, View, WithStyles } from '../../';
+import { android, appTheme, createStyles, getTestProps, ios, Testable, Text, View, WithStyles } from '../../';
 import { defaultDbToRaw, defaultGetError, defaultRawToDb } from '../../nativeComponents/TextInput/TextInput.utils';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
@@ -59,7 +59,7 @@ const getKeyboardType = ( inputType: TEXT_INPUT_TYPES ) => {
     }
 };
 
-type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
+type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles & Testable
 
 class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
     static defaultProps = {
@@ -139,6 +139,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
         return (
             <TouchableWithoutFeedback
                 onPress={() => this.inputRef.focus()}
+                {...getTestProps(this.props.testId)}
             >
                 <View>
                     <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>

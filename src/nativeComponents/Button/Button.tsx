@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getStyleProps } from "../../utils/web";
-import { appTheme, createStyles, Image, WithStyles } from '../../';
+import { appTheme, createStyles, getTestProps, Image, Testable, WithStyles } from '../../';
 import { ButtonProps } from './Button.types';
 
 export { fade } from '@material-ui/core/styles/colorManipulator';
@@ -53,7 +53,7 @@ const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor
     return root;
 };
 
-type Props = ButtonProps & WithStyles
+type Props = ButtonProps & WithStyles & Testable
 
 class CButton extends React.PureComponent<Props, {}> {
     onClick( ev: any ) {
@@ -90,6 +90,7 @@ class CButton extends React.PureComponent<Props, {}> {
                 ] )}
                 disabled={disabled}
                 onClick={( ev: any ) => this.onClick( ev )}
+                {...getTestProps(this.props.testId)}
             >
                 {
                     iconLeft &&
@@ -112,4 +113,4 @@ class CButton extends React.PureComponent<Props, {}> {
     }
 }
 
-export const Button = createStyles( styles, 'Button' )( CButton ) as React.ComponentType<ButtonProps>;
+export const Button = createStyles( styles, 'Button' )( CButton ) as React.ComponentType<ButtonProps & Testable>;

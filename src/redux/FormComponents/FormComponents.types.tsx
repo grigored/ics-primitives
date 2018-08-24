@@ -23,6 +23,7 @@ export interface FieldCommon {
     isRequired?: boolean,
     extraOnChange?: FieldOnChange,
     fieldErrorChecker?: FieldErrorChecker,
+    testId?: string,
 }
 
 export interface Option {

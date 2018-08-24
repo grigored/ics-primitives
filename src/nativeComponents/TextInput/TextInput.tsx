@@ -1,6 +1,6 @@
 import { FormControl } from '@material-ui/core';
 import * as React from 'react';
-import { appTheme, createStyles, Text, WithStyles } from '../../';
+import { appTheme, createStyles, getTestProps, Testable, Text, WithStyles } from '../../';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
 import { shallowEqual } from '../../utils/common';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
@@ -53,7 +53,7 @@ const styles = () => ( {
 } );
 
 
-export type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles
+export type Props = TextInputProps & FieldStateProps<TextInputDBValue> & WithStyles & Testable
 
 export class CTextInput extends React.PureComponent<Props, { focused: boolean }> {
     _rawValue: string = '';
@@ -174,6 +174,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
             <input
                 type={getKeyboardType( inputType )}
                 {...this.getCommonProps()}
+                {...getTestProps(this.props.testId)}
             />
         );
     }
@@ -183,6 +184,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
             <textarea
                 {...this.getCommonProps()}
                 rows={10}
+                {...getTestProps(this.props.testId)}
             >
                 {}
             </textarea>
