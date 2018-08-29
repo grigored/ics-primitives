@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { getTestProps } from "../..";
 import { View } from "../../primitives/View/View";
 import { Touchable } from "../../primitives/Touchable/Touchable";
 import { appTheme } from "../../utils/theme";
@@ -50,6 +51,7 @@ class CTopBarButton extends React.PureComponent<TopBarButtonProps & WithStyles, 
                         onPress && onPress();
                     }}
                     useForeground={true}
+                    {...getTestProps(this.props.testId)}
                 >
                     <View style={classes.containerImg}>
                         <Image

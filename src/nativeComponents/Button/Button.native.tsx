@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose } from 'redux';
-import { createStyles, Image, Text, Touchable, View, WithStyles } from '../..';
+import { createStyles, getTestProps, Image, Testable, Text, Touchable, View, WithStyles } from '../..';
 import { isIOS } from '../../primitives/platform/platform';
 import { all, android, appTheme } from '../../utils/theme';
 import { ButtonProps } from './Button.types';
@@ -61,7 +61,7 @@ const styles = () => ( {
     }
 } );
 
-class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
+class CButton extends React.PureComponent<ButtonProps & WithStyles & Testable, {}> {
     render() {
         const {
             children, classes, disabled, iconLeft, iconRight, onPress, primary, raised, styles, title,
@@ -96,6 +96,7 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
                     isIOS && primary && classes.primaryView,
                     ...( isIOS ? containerStyle : [] ),
                 ]}
+                {...getTestProps(this.props.testId)}
             >
                 <View
                     style={isIOS ? undefined : [containerStyle, primary && classes.primaryView]}
@@ -135,6 +136,6 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles, {}> {
 }
 
 const componentName = 'Button';
-export const Button: React.ComponentType<ButtonProps> = compose(
+export const Button: React.ComponentType<ButtonProps & Testable> = compose(
     createStyles( styles, componentName ),
 )( CButton );

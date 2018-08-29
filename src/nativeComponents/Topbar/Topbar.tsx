@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
-import { all, appTheme, createStyles, isXs, View, webDesktop, WithStyles } from "../..";
+import { all, appTheme, createStyles, getTestProps, isXs, View, webDesktop, WithStyles } from "../..";
 import { TopbarListButtonData, TopbarSimpleButtonData } from "../../nativeComponents/Topbar/Topbar.types";
 import { getStyleProps } from "../../utils/web";
 import { Button } from "../Button/Button";
@@ -61,7 +61,7 @@ const CTopBar = ( {
         >
             {
                 leftButtonIcon &&
-                <IconButton aria-label="Menu" onClick={leftButtonOnPress}>
+                <IconButton aria-label="Menu" onClick={leftButtonOnPress} {...getTestProps( 'drawer_button' )}>
                     {leftButtonIcon}
                 </IconButton>
             }

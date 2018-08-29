@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Testable } from "../..";
 import { ArrayOfObjects } from '../../nativeComponents/ArrayOfObjects/ArrayOfObjects';
 import { Select } from "../../nativeComponents/Select/Select";
 import { TextInput } from '../../nativeComponents/TextInput/TextInput';
@@ -56,7 +57,7 @@ const getFormItemComponent = ( type: FORM_INPUT_TYPES ) => {
     return UnImplemented;
 };
 
-class CFormItem extends React.PureComponent<FormItemProps & InjectedTranslateProps, {}> {
+class CFormItem extends React.PureComponent<FormItemProps & InjectedTranslateProps & Testable, {}> {
     render() {
         const { fieldDefinition, input, meta, onTouch, style, t } = this.props,
             FormItemComponent = fieldDefinition && getFormItemComponent( fieldDefinition.type ) as React.ComponentType<any>;

@@ -1,4 +1,6 @@
-export interface TopBarButtonProps {
+import { Testable } from "../../";
+
+export type TopBarButtonProps = {
     onPress: (args?: any) => void,
     imgSrc?: any,
     text?: string,
@@ -6,4 +8,4 @@ export interface TopBarButtonProps {
     testProps?: any,
     navigation: any,
     imgStyle?: any,
-}
+} & Testable

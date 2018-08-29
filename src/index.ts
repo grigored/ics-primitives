@@ -101,3 +101,4 @@ export { NativeButton } from './nativeComponents/NativeButtons/NativeButton';
 export { NativeButtonsList } from './nativeComponents/NativeButtons/NativeButtonsList/NativeButtonsList';
 
 export * from './utils/strings';
+export * from './utils/testUtils';
