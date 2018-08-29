@@ -131,6 +131,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
             labelPositionLeft,
             onChange,
             onFocus,
+            onBlur,
             placeholder,
             title,
             inputStyle,
@@ -161,8 +162,8 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
                                 this.forceUpdate();
                                 let fieldError = this.getError( rawValue );
                                 onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
-
                             }}
+                            onBlur={onBlur}
                             onFocus={onFocus}
                             placeholder={placeholder}
                             selectionColor={appTheme.cursorColor}
