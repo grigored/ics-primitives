@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { appTheme, createStyles, Image, Text, Touchable, View } from "../../";
+import { appTheme, createStyles, Image, Text, Touchable, View, getTestProps, Testable } from "../../";
 import { NativeButtonOwnProps, NativeButtonProps } from "./NativeButton.types";
 
 const styles = () => ( {
@@ -17,11 +17,12 @@ const styles = () => ( {
     },
 } );
 
-class CNativeButton extends React.PureComponent<NativeButtonProps, {}> {
+class CNativeButton extends React.PureComponent<NativeButtonProps & Testable, {}> {
     render() {
         let { classes, title, onPress, icon, extraItemLeft, extraItemRight } = this.props;
         return (
             <Touchable
+                {...getTestProps( this.props.testId )}
                 onPress={() => onPress()}
                 style={classes.container}
             >
@@ -41,4 +42,4 @@ class CNativeButton extends React.PureComponent<NativeButtonProps, {}> {
 export const NativeButton = createStyles(
     styles,
     'NativeButton',
-)( CNativeButton ) as React.ComponentType<NativeButtonOwnProps>;
+)( CNativeButton ) as React.ComponentType<NativeButtonOwnProps & Testable>;
