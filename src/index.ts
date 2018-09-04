@@ -56,7 +56,7 @@ export {
     loadedGoogleSdk,
     validate2FA,
 } from './redux/reducers/auth';
-export {dialog, DialogState, addSnackbar, removeSnackbar} from './redux/reducers/dialog';
+export { dialog, DialogState, addSnackbar, removeSnackbar } from './redux/reducers/dialog';
 export {
     persisted,
     PersistedState,
@@ -96,6 +96,7 @@ export { addTopbar } from './decorators/addTopbar/addTopbar';
 export { Alert } from './nativeComponents/Alert/Alert';
 export { PlatformStyleRules } from './utils/theme.types';
 export { Select } from './nativeComponents/Select/Select';
+export { Checkbox } from './nativeComponents/Checkbox/Checkbox';
 export { Paper } from './nativeComponents/Paper/Paper';
 export { NativeButton } from './nativeComponents/NativeButtons/NativeButton';
 export { NativeButtonsList } from './nativeComponents/NativeButtons/NativeButtonsList/NativeButtonsList';
