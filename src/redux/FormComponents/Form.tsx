@@ -17,10 +17,10 @@ import { FormItem } from './FormItem';
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
     container: {
-        width:'100%',
+        width: '100%',
     },
     noShrinkContainer: {
-        width:'100%',
+        width: '100%',
         flexShrink: 0,
     },
     innerContainer: {
@@ -68,6 +68,10 @@ class CForm extends React.PureComponent<Props, {}> {
 
     constructor( props: Props ) {
         super( props );
+
+        if (!!props.validate) {
+            this._fieldErrorCheckers['form'] = [props.validate];
+        }
 
         for (let field of props.fieldDefinitions) {
 
@@ -130,7 +134,7 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink} = this.props;
+        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink } = this.props;
         return (
             <View style={noShrink ? classes.noShrinkContainer : classes.container}>
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
