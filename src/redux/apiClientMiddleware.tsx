@@ -1,5 +1,6 @@
 import "whatwg-fetch";
 import {showAlert} from "./reducers/navigation";
+import {logoutLocal} from "./reducers/auth";
 
 const encodeParametersInUrl = (url: string, queryParameters: {[key: string]: string}) => {
     if (!queryParameters) {
@@ -70,7 +71,6 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                     .then(json => {
                         let status = response.status;
 
-
                         if (status >= 200 && status < 300) {
                             dispatch({
                                 type: successType,
@@ -81,7 +81,11 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                         // } else if (status === 401) {
                             // dispatch(logout());
                             // dispatch(push('/login'));
-                        } else {
+                        } else if (status == 401) {
+                            dispatch(logoutLocal());
+                        }
+                        else {
+
                             dispatch({
                                 type: failureType,
                                 response: json,
@@ -93,6 +97,7 @@ export const apiClientMiddleware = <Dispatch extends Function, GlobalState>(
                                 // if (translatedError === json.error) {
                                 //     // TODO send json.error to bugsnag
                                 // }
+
                                 dispatch(showAlert(json.error));
                             } else {
                                 dispatch(showAlert("API_ERROR"));
