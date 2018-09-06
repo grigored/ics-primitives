@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 import { isXs } from '../../';
-import { View } from "../../primitives/View/View";
-import { appTheme } from "../../utils/theme";
-import { hoistNonReactStatics } from "../../lib/hoist-non-react-statics";
+import { View } from '../../primitives/View/View';
+import { appTheme } from '../../utils/theme';
+import { hoistNonReactStatics } from '../../lib/hoist-non-react-statics';
 
 
 interface NavigationOptions {
