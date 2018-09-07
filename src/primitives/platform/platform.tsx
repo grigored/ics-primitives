@@ -1,4 +1,4 @@
-import * as localForage from "localforage";
+import * as localForage from 'localforage';
 import { PLATFORM } from '../../utils/enums';
 
 export const isWeb = true;
@@ -20,7 +20,7 @@ export const getStorage = () => {
 export function getPlatform(): PLATFORM {
     const userAgent: string = navigator.userAgent || navigator.vendor || window.opera || '';
 
-    // Windows Phone must come first because its UA also contains "Android"
+    // Windows Phone must come first because its UA also contains 'Android'
     if (/windows phone/i.test(userAgent)) {
         return PLATFORM.WEB_WINDOWS_PHONE;
     }

@@ -24,7 +24,6 @@ export interface BaseColumn {
     preferredWidth?: number,
     notSortable?: boolean,
     hiddenInTable?: boolean,
-    visibleByDefault?: boolean,
     modalDisplay?: number,
     fullRow?: ( row: Row | undefined ) => boolean,
     description?: string,
