@@ -15,7 +15,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
     }
 
     render() {
-        const { body, fullScreen, id, props, dialogs} = this.props;
+        const { body, fullScreen, id, props, dialogs, disableBackdropClick, disableEscapeKeyDown} = this.props;
         let dialog: null | DialogData = null;
 
         for (let ldialog of dialogs) {
@@ -38,6 +38,8 @@ class CDialog extends React.PureComponent<AllProps, {}> {
                 onExited={this.onExited}
                 fullScreen={fullScreen}
                 onClose={this.hideDialog}
+                disableBackdropClick={disableBackdropClick || false}
+                disableEscapeKeyDown={disableEscapeKeyDown || false}
             >
                 <BodyComponent
                     displayTopbar={true}
