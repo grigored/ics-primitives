@@ -27,6 +27,11 @@ const styles = () => ( {
             opacity: 0.75,
         },
     },
+    actionButton: {
+        backgroundColor: 'lightblue',
+        boxShadow: '1px 1px 1px lightgrey',
+        fontSize: 10
+    }
 } );
 
 const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor?: string ): any => {
@@ -69,6 +74,7 @@ class CButton extends React.PureComponent<Props, {}> {
 
     render() {
         const {
+            actionVariant,
             children,
             disabled,
             iconLeft,
@@ -86,8 +92,9 @@ class CButton extends React.PureComponent<Props, {}> {
                 {...getStyleProps( [
                     classes.container,
                     buttonStyle.root,
-                    getUpdatedRoot( primary, backgroundColor, labelColor ),
-                ] )}
+                    getUpdatedRoot( primary, backgroundColor, labelColor ),  
+                    actionVariant ? classes.actionButton : ''                  
+                ] )}                
                 disabled={disabled}
                 onClick={( ev: any ) => this.onClick( ev )}
                 {...getTestProps(this.props.testId)}

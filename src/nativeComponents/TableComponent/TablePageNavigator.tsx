@@ -17,6 +17,7 @@ const styles = () => ( {
         maxHeight: 24,
         flexWrap: 'wrap',
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
         flex: 1,

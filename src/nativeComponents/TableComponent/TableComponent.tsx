@@ -26,7 +26,7 @@ const styles = {
     title: {
         flexShrink: 0,
         flexGrow: 0,
-        height: 40,
+        height: 50,
         fontSize: appTheme.fontSizeXL,
         flexDirection: 'row',
         alignItems: 'center',
@@ -78,6 +78,7 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
                         >
                             <Button
                                 title={t( ACTIONS )}
+                                actionVariant={true}                                
                             />
                         </PopoverComponent>
                     }
@@ -291,6 +292,26 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
 
                 {!!title && <Text style={classes.title}>{title}</Text>}
 
+                {
+                    hasFilters && tableDefinition.filtersOnTop &&
+                    <View style={classes.filtersContainer}>
+                        {
+                            this._columns.filter(column => column.hasFilter).map(column => (
+                                <View style={classes.filter}>
+                                    {
+                                        getFilterForColumn(
+                                            column,
+                                            { input: classes.filters },
+                                            this._filtersData.bindedFiltersOnChange[column.field],
+                                            getFilterValue(column, this._filtersData.filters[column.field]),
+                                        )
+                                    }
+                                </View>
+                            ))
+                        }
+                    </View>
+                }
+
                 <TableTopActions
                     columns={this._columns}
                     refreshMethod={
@@ -302,26 +323,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     title={tableDefinition.title}
                     tableActions={tableActions}
                     loadingData={loadingData}
-                />
-                {
-                    hasFilters && tableDefinition.filtersOnTop &&
-                    <View style={classes.filtersContainer}>
-                        {
-                            this._columns.filter( column => column.hasFilter ).map( column => (
-                                <View style={classes.filter}>
-                                    {
-                                        getFilterForColumn(
-                                            column,
-                                            { input: classes.filters },
-                                            this._filtersData.bindedFiltersOnChange[column.field],
-                                            getFilterValue( column, this._filtersData.filters[column.field] ),
-                                        )
-                                    }
-                                </View>
-                            ) )
-                        }
-                    </View>
-                }
+                />          
 
                 <TableInner
                     columns={this._columns}
