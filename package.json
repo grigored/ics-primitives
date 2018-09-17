@@ -26,7 +26,7 @@
     "@types/react-native-fbsdk": "^0.6.0",
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.3",
-    "@types/react-sketchapp": "^0.12.3",
+    "@types/react-sketchapp": "^0.12.1",
     "@types/redux-form": "^7.0.13",
     "expo": "28.0.0",
     "file-saver": "^1.3.3",

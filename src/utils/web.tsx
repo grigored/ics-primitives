@@ -12,7 +12,7 @@ export const getStyleProps = (style?: Classes) => {
         return {style: generalStyle};
     }
     else if (Array.isArray(style)) {
-        let classes = style.filter(item => typeof(item) === 'string'),
+        let classes = style.filter(item => typeof(item) === 'string' || typeof(item) === 'number'),
             styleItems = style.filter(item => typeof(item) === 'object' && !Array.isArray(item)),
             styles = {...generalStyle};
         for (let tStyle of style) {
@@ -41,10 +41,10 @@ export const getStyleProps = (style?: Classes) => {
             style: {...generalStyle, ...style}
         }
     }
-    else if (typeof(style) === 'string') {
+    else if (typeof(style) === 'string' || typeof(style) === 'number') {
         return {
             style: generalStyle,
-            className: style
+            className: String(style)
         }
     }
     else {

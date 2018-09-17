@@ -10,7 +10,6 @@ const styles = () => ( {
     button: {
         borderRadius: 2,
         flexDirection: 'row',
-        padding: 14,
         justifyContent: 'center',
         alignItems: 'center',
     },
