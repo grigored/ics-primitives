@@ -73,6 +73,7 @@ const styles = () => ( {
     },
     disabled: {
         backgroundColor: 'transparent',
+        color: appTheme.primaryColor
         // borderWidth: 2,
         // borderStyle: 'solid',
         // borderColor: '#ffffff',
