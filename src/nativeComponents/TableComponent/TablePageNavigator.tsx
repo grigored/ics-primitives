@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { LastPage, FirstPage } from '@material-ui/icons';
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
 import { TABLE_PAGE_COUNTER, ITEMS_PER_PAGE } from "../../utils/strings";
@@ -72,9 +73,9 @@ const styles = () => ( {
     },
     disabled: {
         backgroundColor: 'transparent',
-        borderWidth: 2,
-        borderStyle: 'solid',
-        borderColor: '#ffffff',
+        // borderWidth: 2,
+        // borderStyle: 'solid',
+        // borderColor: '#ffffff',
     },
     buttonLabel: {
         color: '#000000',
@@ -91,6 +92,10 @@ export interface OwnProps {
     changePage: ( page: number ) => void,
     jumpToFirstIcon?: any,
     jumpToLastIcon?: any,
+    // firstPage: any,
+    // lastPage: any,
+    // leftPage: any,
+    // rightPage: any,
     itemsPerPageValue?: number,
     itemsPerPageOptions?: Array<number>,
     changeItemsPerPage?: ( itemsPerPage: number ) => void,
@@ -117,8 +122,9 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
 
     render() {
         let {
-            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,
-            jumpToFirstIcon, jumpToLastIcon, t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
+            // tslint:disable-next-line:max-line-length
+            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,            
+            t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
         } = this.props;
         return (
             <View style={[classes.container, style || {}]}>
@@ -142,7 +148,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     pagesCount > 1 && currentPage > 0 &&
                     <Button
                         onPress={changePage.bind( this, 0 )}
-                        iconLeft={jumpToFirstIcon}
+                        iconLeft={FirstPage}
                         styles={{ root: classes.buttonsRoot }}
                     />
                 }
@@ -174,7 +180,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     pagesCount > 1 && currentPage < pagesCount - 1 &&
                     <Button
                         onPress={changePage.bind( this, pagesCount - 1 )}
-                        iconLeft={jumpToLastIcon}
+                        iconLeft={LastPage}
                         styles={{ root: classes.buttonsRoot }}
                     />
                 }
