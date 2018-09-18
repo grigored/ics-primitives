@@ -140,51 +140,53 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         />
                     </View>
                 }
-                {!isXs() &&
-                <Text style={classes.initialTextStyle}>
-                    {t( TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount } )}
-                </Text>
-                }
-                {
-                    pagesCount > 1 && currentPage > 0 &&
-                    <Button
-                        onPress={changePage.bind( this, 0 )}
-                        iconLeft={FirstPage}
-                        styles={{ root: classes.buttonsRoot }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage > 0 &&
-                    <Button
-                        onPress={changePage.bind( this, currentPage - 1 )}
-                        title={( currentPage - 1 ).toString()}
-                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 &&
-                    <Button
-                        title={currentPage.toString()}
-                        disabled={true}
-                        styles={{ root: [classes.buttonsRoot, classes.disabled], label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage < pagesCount - 1 &&
-                    <Button
-                        onPress={changePage.bind( this, currentPage + 1 )}
-                        title={( currentPage + 1 ).toString()}
-                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage < pagesCount - 1 &&
-                    <Button
-                        onPress={changePage.bind( this, pagesCount - 1 )}
-                        iconLeft={LastPage}
-                        styles={{ root: classes.buttonsRoot }}
-                    />
-                }
+                <View style={{alignItems: 'center'}}>
+                    {!isXs() &&
+                        <Text style={classes.initialTextStyle}>
+                            {t(TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount })}
+                        </Text>
+                    }
+                    {                        
+                        <Button
+                            disabled={!(pagesCount < 1) && !(currentPage > 0)}
+                            onPress={changePage.bind(this, 0)}
+                            iconLeft={FirstPage}
+                            styles={{ root: classes.buttonsRoot }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 && currentPage > 0 &&
+                        <Button
+                            onPress={changePage.bind(this, currentPage - 1)}
+                            title={(currentPage).toString()}
+                            styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 &&
+                        <Button
+                            title={(currentPage + 1).toString()}
+                            disabled={true}
+                            styles={{ root: [classes.buttonsRoot, classes.disabled], label: classes.buttonLabel }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 && currentPage < pagesCount - 1 &&
+                        <Button
+                            onPress={changePage.bind(this, currentPage + 1)}
+                            title={(currentPage + 2).toString()}
+                            styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
+                        />
+                    }
+                    {                        
+                        <Button
+                            disabled={(pagesCount > 1) && !(currentPage < pagesCount - 1)}
+                            onPress={changePage.bind(this, pagesCount - 1)}
+                            iconLeft={LastPage}
+                            styles={{ root: classes.buttonsRoot }}
+                        />
+                    }
+                </View>               
             </View>
         );
     }
