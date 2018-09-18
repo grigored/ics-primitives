@@ -336,11 +336,19 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     tableDefinition.paginate && tableData && tableData.data &&
                     <TablePageNavigator
                         itemsCount={tableData.data.totalItemsNumber}
-                        itemsLowerLimit={tableData.data.itemsPerPage * tableData.data.page + 1}
-                        itemsUpperLimit={Math.min(
-                            tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
+                        itemsLowerLimit={
                             tableData.data.totalItemsNumber
-                        )}
+                                ? tableData.data.itemsPerPage * tableData.data.page + 1
+                                : 0
+                        }
+                        itemsUpperLimit={
+                            tableData.data.itemsPerPage
+                                ? Math.min(
+                                    tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
+                                    tableData.data.totalItemsNumber,
+                                )
+                                : 0
+                        }
                         currentPage={tableData.data.page}
                         pagesCount={Math.ceil( tableData.data.totalItemsNumber / tableData.data.itemsPerPage )}
                         changePage={this.setPage.bind( this )}
