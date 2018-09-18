@@ -32,18 +32,23 @@ export function addTopbar<T>( WrappedComponent: any ): React.ComponentType<T> {
                         width: '100%',
                         height: '100%',
                         flexDirection: 'column',
+                        backgroundColor: '#eee'
                     }}
                 >
                     <View
                         style={{
                             height: topbarHeight,
-                            backgroundColor: appTheme.topbarColor,
+                            // backgroundColor: appTheme.topbarColor,
+                            backgroundColor: '#000',
                             zIndex: 100,
-                            width: '100%',
+                            width: '50%',
                             position: 'absolute',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
                             boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
                             justifyContent: 'space-between',
                             alignItems: 'center',
+                            color: '#fff'
                         }}
                     >
                         {
@@ -69,7 +74,7 @@ export function addTopbar<T>( WrappedComponent: any ): React.ComponentType<T> {
                             },
                         ]}
                     >
-                        <WrappedComponent
+                        <WrappedComponent                            
                             {...this.props}
                         />
                     </View>

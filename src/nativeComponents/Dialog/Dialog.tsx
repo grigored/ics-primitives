@@ -33,7 +33,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
         const BodyComponent: React.ComponentType<BodyProps & {navigation?: {state: {params: any}}}> = body;
 
         return (
-            <MaterialDialog
+            <MaterialDialog                
                 open={dialog.visible || false}
                 onExited={this.onExited}
                 fullScreen={fullScreen}
@@ -41,7 +41,7 @@ class CDialog extends React.PureComponent<AllProps, {}> {
                 disableBackdropClick={disableBackdropClick || false}
                 disableEscapeKeyDown={disableEscapeKeyDown || false}
             >
-                <BodyComponent
+                <BodyComponent                    
                     displayTopbar={true}
                     navigation={{state:{params: {...(props || {}), ...(dialog.props || {})}}}}
                 />

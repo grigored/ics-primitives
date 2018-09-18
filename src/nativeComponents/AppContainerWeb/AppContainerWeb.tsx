@@ -42,7 +42,7 @@ const styles = () => ( {
         height: '100%',
         width: appTheme.drawerWidth,
         overflow: 'hidden',
-        backgroundColor: '#fff'
+        backgroundColor: '#eee'
     },
     contentPersistent: {
     },

@@ -37,8 +37,8 @@ const styles = {
         flexWrap: 'wrap',
     },
     filter: {
-        width: 100,
-        margin: 4,
+        width: 140,
+        margin: '4px 0',
     },
     paginate: {
         [webDesktop]: {

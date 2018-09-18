@@ -17,7 +17,10 @@ import { FormItem } from './FormItem';
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
     container: {
-        width: '100%',
+        // width: '100%',
+        width: 'auto',
+        padding: '30px 15px',
+        backgroundColor: '#fff'
     },
     noShrinkContainer: {
         width: '100%',
@@ -146,7 +149,7 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexShrink: 0 }}
+                                style={{ flexShrink: 0, margin: '20px 0' }}
                                 onTouch={this._bindedOnTouchDict[formField.field]}
                             />
                         )
