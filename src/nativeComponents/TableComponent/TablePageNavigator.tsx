@@ -140,13 +140,14 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         />
                     </View>
                 }
-                <View style={{alignItems: 'center'}}>
+
+                {!!pagesCount && <View style={{ alignItems: 'center' }}>
                     {!isXs() &&
                         <Text style={classes.initialTextStyle}>
                             {t(TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount })}
                         </Text>
                     }
-                    {                        
+                    {
                         <Button
                             disabled={!(pagesCount < 1) && !(currentPage > 0)}
                             onPress={changePage.bind(this, 0)}
@@ -178,7 +179,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                             styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
                         />
                     }
-                    {                        
+                    {
                         <Button
                             disabled={(pagesCount > 1) && !(currentPage < pagesCount - 1)}
                             onPress={changePage.bind(this, pagesCount - 1)}
@@ -186,7 +187,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }
-                </View>               
+                </View>}                          
             </View>
         );
     }
