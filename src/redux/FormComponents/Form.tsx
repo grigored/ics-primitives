@@ -17,7 +17,9 @@ import { FormItem } from './FormItem';
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
     container: {        
-        width: 'auto',
+        width: 'auto',      
+    },
+    containerAdmin: {
         padding: '30px 15px',
         backgroundColor: '#fff'
     },
@@ -140,7 +142,13 @@ class CForm extends React.PureComponent<Props, {}> {
         let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, adminForm } = this.props;        
 
         return (
-            <View style={noShrink ? classes.noShrinkContainer : classes.container}>
+            // tslint:disable-next-line:max-line-length
+            // tslint:disable-next-line:jsx-alignment
+            <View style={[
+                    noShrink ? classes.noShrinkContainer : classes.container,
+                    adminForm ? classes.containerAdmin : ''
+                ]}
+            >
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>
