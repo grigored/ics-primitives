@@ -10,6 +10,5 @@ export const getSketchStyleProps = (style?: Classes) => {
             ...((combinedStyle.className || '').split(' ').map(className => parseInt(className)))
         ].filter(style => !!style))
     };
-    console.log('StyleSheet1:', x);
     return x;
 };
