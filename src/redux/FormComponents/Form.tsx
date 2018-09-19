@@ -16,8 +16,7 @@ import { FormItem } from './FormItem';
 
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
-    container: {
-        // width: '100%',
+    container: {        
         width: 'auto',
         padding: '30px 15px',
         backgroundColor: '#fff'
@@ -54,6 +53,7 @@ export interface FormProps {
     fields?: any, // do we need this?
     keepDirty?: boolean, // do we need this?
     noShrink?: boolean,
+    adminForm?: boolean
 }
 
 interface ConnectedProps {
@@ -137,7 +137,8 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink } = this.props;
+        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, adminForm } = this.props;        
+
         return (
             <View style={noShrink ? classes.noShrinkContainer : classes.container}>
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
@@ -149,8 +150,8 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexShrink: 0, margin: '20px 0' }}
-                                onTouch={this._bindedOnTouchDict[formField.field]}
+                                style={{ flexShrink: 0, margin: adminForm ? '20px 0' : ''}}
+                                onTouch={this._bindedOnTouchDict[formField.field]}                                
                             />
                         )
                     }
