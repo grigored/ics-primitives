@@ -8,7 +8,7 @@ import { ButtonProps } from './Button.types';
 
 const styles = () => ( {
     button: {
-        // borderRadius: 0,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
