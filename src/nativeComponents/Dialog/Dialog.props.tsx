@@ -10,6 +10,9 @@ export interface Props {
     body: React.ComponentType<BodyProps | any>,
     fullScreen: boolean,
     props?: any,
+    disableBackdropClick?: boolean,
+    disableEscapeKeyDown?: boolean,
+
 }
 
 export interface ConnectedProps {
