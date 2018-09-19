@@ -45,7 +45,6 @@ const styles = () => ( {
             boxSizing: 'border-box',
         },
         textAlign: 'center',
-        alignItems: 'center',
         textAlignVertical: 'center',
         padding: 8,
         height: 40,
