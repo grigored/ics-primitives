@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { LastPage, FirstPage } from '@material-ui/icons';
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
 import { TABLE_PAGE_COUNTER, ITEMS_PER_PAGE } from "../../utils/strings";
@@ -121,7 +120,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
         let {
             // tslint:disable-next-line:max-line-length
             classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,            
-            t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
+            jumpToFirstIcon, jumpToLastIcon, t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
         } = this.props;
         return (
             <View style={[classes.container, style || {}]}>
@@ -147,7 +146,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         <Button
                             disabled={!(pagesCount < 1) && !(currentPage > 0)}
                             onPress={changePage.bind(this, 0)}
-                            iconLeft={FirstPage as any}
+                            iconLeft={jumpToFirstIcon}
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }
@@ -179,7 +178,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         <Button
                             disabled={(pagesCount > 1) && !(currentPage < pagesCount - 1)}
                             onPress={changePage.bind(this, pagesCount - 1)}
-                            iconLeft={LastPage as any}
+                            iconLeft={jumpToLastIcon}
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }
