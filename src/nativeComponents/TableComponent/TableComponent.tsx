@@ -250,6 +250,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         } else {
             this._filtersData.filters[field] = value;
         }
+        this._pagesData.page = 0;
         clearTimeout( this._filtersData.filtersTimeout );
         this._filtersData.filtersTimeout = setTimeout( () => {
             this.loadData();
