@@ -1,4 +1,53 @@
-* Styles can be specified like this: 
+### Getting started
+
+[TODO: We need an overview of how this can be used via npm vs as a local package]
+
+### Install dependencies (for local dev)
+
+You will need to install the following dependencies:
+
+* Yarn
+    > https://yarnpkg.com/en/docs/install
+* Yalc
+    > https://github.com/whitecolor/yalc
+    ```bash
+    yarn global add yalc
+    ```
+    or
+    ```bash
+    npm i yalc -g
+    ```
+
+### How to use (for local dev)
+
+1. Run this from ```ics-primitives``` root:
+
+    ```bash
+    yarn
+    yarn build
+    yalc publish  # this publishes code to local yalc repo
+    ```
+    
+1. Go to your development project (e.g. ```instacar-front```) and run (remember to run this after every ```yarn``` or ```npm install```):
+    
+    ```bash
+    yalc link react-web-native-sketch
+    ```
+    
+1. When making code changes to ```ics-primitives``` run (from ```ics-primitives``` root):
+   
+   1. Run:
+       
+        ```bash
+        yarn build  # run this if necessary
+        yalc push
+        ```
+        
+    1. Refresh web page
+
+### How to Add Styles
+
+Styles can be specified like this: 
 ```
 // platform before class name
 import {web, ios, android} from 'src/utils/theme';
@@ -36,48 +85,29 @@ const styles = {
 }
 ```
 
-* Things to pay attention:
-1. on web, styles cascade to children, this does not happen in sketch (and native?)
 
+Things to pay attention to:
+* On web, styles cascade to children. This does not happen in sketch (and native?).
 
-# How to use the lib locally
-1. Install yacc:
-    ```bash
-    yarn global add yalc
-    ```
-1. Run this from ```ics-primitives``` root:
-    ```bash
-    yarn
-    yarn build
-    yalc publish  # this publishes code to local yalc repo
-    ```
-1. Go to your development project (eg: ```instacar-front```) and run (remember to run this after every ```yarn``` or ```npm install```):
-    ```bash
-    yalc link react-web-native-sketch
-    ```
-1. When making code changes to ```ics-primitives``` run (from ```ics-primitives``` root):
-    1. Run:
-        ```bash
-        yarn build  # run this if necessary
-        yalc push
-        ```
-    1. Refresh web page
-
-
-# How to add sketch to a project
+### How to add sketch to a project
 1. add sketch-manifest.json (similar to the one in this repo)
-2. in package.json add   
-```
-"skpm": {
-  "main": "your_repo_name.sketchplugin",
-  "manifest": "./sketch-manifest.json"
-},
-"scripts": {
-  "render": "skpm-build --watch --run & npm run typescript",
-}
-```
-3. add `your_repo_name.sketchplugin` to .gitignore
-# TODO
+
+1. in package.json add
+
+    ```
+    "skpm": {
+      "main": "your_repo_name.sketchplugin",
+      "manifest": "./sketch-manifest.json"
+    },
+    "scripts": {
+      "render": "skpm-build --watch --run & npm run typescript",
+    }
+    ```
+    
+1. add `your_repo_name.sketchplugin` to .gitignore
+
+### TODO
+
 1. Add internationalization (using context maybe?)
 1. Add the rest of form components
     1. select
