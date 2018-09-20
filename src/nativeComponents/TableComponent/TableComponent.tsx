@@ -1,22 +1,24 @@
+import { TranslationFunction } from 'i18next';
 import * as React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { ACTIONS_COLUMN } from "./tableUtils";
-import { TablePageNavigator } from "./TablePageNavigator";
-import { Select, TEXT_INPUT_TYPES, webDesktop } from "../../index";
-import { TextInput } from "../TextInput/TextInput";
-import { View } from '../../primitives/View/View';
-import { TableInner } from './TableInner';
-import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
-import { appTheme, Button, createStyles, FORM_INPUT_TYPES, Text } from '../../index';
 import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+    appTheme, Button, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
+    webDesktop
+} from "../../index";
+import { View } from '../../primitives/View/View';
+import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
 import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
 import { getNestedField } from '../../utils/common';
-import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
-import { TableTopActions } from './TableTopActions';
 import { ACTIONS } from '../../utils/strings';
 import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
-import { TranslationFunction } from 'i18next';
+import { TextInput } from "../TextInput/TextInput";
+import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
+import { TableInner } from './TableInner';
+import { TablePageNavigator } from "./TablePageNavigator";
+import { TableTopActions } from './TableTopActions';
+import { ACTIONS_COLUMN } from "./tableUtils";
 
 const styles = {
     container: {
@@ -74,8 +76,8 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
                         <PopoverComponent
                             actions={actions.map( action => ( {
                                 ...action,
-                                title: action.title && t(action.title),
-                                titleXs: action.titleXs && t(action.titleXs),
+                                title: action.title && t( action.title ),
+                                titleXs: action.titleXs && t( action.titleXs ),
                                 onPress: () => action.onPress( row )
                             } ) )}
                         >
@@ -261,6 +263,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         } else {
             this._filtersData.filters[field] = value;
         }
+        this._pagesData.page = 0;
         clearTimeout( this._filtersData.filtersTimeout );
         this._filtersData.filtersTimeout = setTimeout( () => {
             this.loadData();
@@ -270,7 +273,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     setColumns( props: TableProps ) {
         let { tableDefinition, extraData, extraActions, t } = props;
 
-        this._columns = tableDefinition.columns( extraData ).filter(
+        this._columns = tableDefinition.columns( { ...( extraData || {} ), t } ).filter(
             ( column: TableColumn ) => !column.hiddenInTable
         );
         if (!!extraActions) {
@@ -354,8 +357,8 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                         itemsUpperLimit={
                             tableData.data.itemsPerPage
                                 ? Math.min(
-                                    tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
-                                    tableData.data.totalItemsNumber,
+                                tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
+                                tableData.data.totalItemsNumber,
                                 )
                                 : 0
                         }
