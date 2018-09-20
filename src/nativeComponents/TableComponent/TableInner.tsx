@@ -9,9 +9,7 @@ import { NO_TABLE_DATA } from "../../utils/strings";
 
 const styles = () => ( {
     containerVertical: {
-        [web]: {
-            // boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-            // tslint:disable-next-line:max-line-length
+        [web]: {            
             boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',       
             backgroundColor: '#fff',
             overflow: 'auto',

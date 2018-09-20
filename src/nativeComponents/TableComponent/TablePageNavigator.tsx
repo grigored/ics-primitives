@@ -117,8 +117,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
     }
 
     render() {
-        let {
-            // tslint:disable-next-line:max-line-length
+        let {            
             classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,            
             jumpToFirstIcon, jumpToLastIcon, t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
         } = this.props;
