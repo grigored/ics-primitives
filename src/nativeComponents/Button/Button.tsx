@@ -73,8 +73,7 @@ class CButton extends React.PureComponent<Props, {}> {
 
 
     render() {
-        const {
-            actionVariant,
+        const {            
             children,
             disabled,
             iconLeft,
@@ -92,8 +91,7 @@ class CButton extends React.PureComponent<Props, {}> {
                 {...getStyleProps( [
                     classes.container,
                     buttonStyle.root,
-                    getUpdatedRoot( primary, backgroundColor, labelColor ),  
-                    actionVariant ? classes.actionButton : ''                  
+                    getUpdatedRoot( primary, backgroundColor, labelColor )
                 ] )}                
                 disabled={disabled}
                 onClick={( ev: any ) => this.onClick( ev )}

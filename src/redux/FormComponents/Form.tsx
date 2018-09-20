@@ -19,9 +19,18 @@ const styles = () => ( {
     container: {        
         width: 'auto',      
     },
-    containerAdmin: {
-        padding: '30px 15px',
+    containerAdmin: {        
+        paddingTop: 30,
+        paddingRight: 15,
+        paddingBottom: 30,
+        paddingLeft: 15,
         backgroundColor: '#fff'
+    },
+    adminInputField: {
+        marginTop: 20,
+        marginRight: 0,
+        marginBottom: 20,
+        marginLeft: 0,
     },
     noShrinkContainer: {
         width: '100%',
@@ -55,7 +64,7 @@ export interface FormProps {
     fields?: any, // do we need this?
     keepDirty?: boolean, // do we need this?
     noShrink?: boolean,
-    adminForm?: boolean
+    adminForm?: boolean,
 }
 
 interface ConnectedProps {
@@ -142,8 +151,6 @@ class CForm extends React.PureComponent<Props, {}> {
         let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, adminForm } = this.props;        
 
         return (
-            // tslint:disable-next-line:max-line-length
-            // tslint:disable-next-line:jsx-alignment
             <View style={[
                     noShrink ? classes.noShrinkContainer : classes.container,
                     adminForm ? classes.containerAdmin : ''
@@ -158,7 +165,7 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexShrink: 0, margin: adminForm ? '20px 0' : ''}}
+                                style={[{ flexShrink: 0 }, adminForm ? classes.adminInputField : '']}
                                 onTouch={this._bindedOnTouchDict[formField.field]}                                
                             />
                         )

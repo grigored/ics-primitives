@@ -38,7 +38,10 @@ const styles = {
     },
     filter: {
         width: 140,
-        margin: '4px 0',
+        marginTop: 4,
+        marginBottom: 4,
+        marginLeft: 0,
+        marginRigth: 0,        
     },
     paginate: {
         [webDesktop]: {
@@ -78,7 +81,14 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
                         >
                             <Button
                                 title={t( ACTIONS )}
-                                actionVariant={true}                                
+                                primary={true}
+                                styles={{
+                                    root: {
+                                            backgroundColor: 'lightblue',
+                                            boxShadow: '1px 1px 1px lightgrey',
+                                            fontSize: 10
+                                        }
+                                    }}                               
                             />
                         </PopoverComponent>
                     }

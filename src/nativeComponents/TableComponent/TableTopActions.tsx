@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Refresh, FileDownload } from '@material-ui/icons';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { formatDate } from "../../utils/i18n";
@@ -18,10 +17,16 @@ const styles = {
         flexDirection: 'row',
     },
     buttonLeft: {
-        padding: '8px 15px 8px 0'
+        paddingTop: 8,
+        paddingRight: 15,
+        paddingBottom: 8,
+        paddingLeft: 0        
     },
-    buttonRight: {
-        padding: '8px 1px 8px 15px'
+    buttonRight: {        
+        paddingTop: 8,
+        paddingRight: 1,
+        paddingBottom: 8,
+        paddingLeft: 15
     },
     iconRight: {
         width: 18,
@@ -46,8 +51,7 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                 <View>
                     {
                         !!refreshMethod &&
-                        <Button
-                            iconRight={Refresh}
+                        <Button                            
                             title={t( REFRESH )}
                             onPress={!!refreshMethod && refreshMethod}
                             styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
@@ -55,8 +59,7 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                     }
                     {
                         isWeb &&
-                        <Button
-                            iconRight={FileDownload}
+                        <Button                            
                             title={t( EXPORT )}
                             styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
                             onPress={

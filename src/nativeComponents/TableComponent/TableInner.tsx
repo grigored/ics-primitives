@@ -46,6 +46,8 @@ const styles = () => ( {
     thtd: {
         [web]: {
             boxSizing: 'border-box',
+            flex: '1 0 120px',
+            minWidth: 120
         },
         textAlign: 'center',
         alignItems: 'center',
@@ -120,8 +122,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                         style={[
                                             classes.thtd,
                                             {
-                                                minWidth: column.preferredWidth || DEFAULT_CELL_WIDTH,
-                                                flex: '1 0 120px',
+                                                width: column.preferredWidth || DEFAULT_CELL_WIDTH,                                              
                                                 flexDirection: 'column',
                                                 height: '100%',
                                             }
@@ -172,12 +173,8 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                                             key={column.field}
                                                             style={[
                                                                 classes.thtd,
-                                                                {
-                                                                    // tslint:disable-next-line:max-line-length
-                                                                    minWidth: column.preferredWidth || DEFAULT_CELL_WIDTH,
-                                                                    flex: '1 0 120px', 
-                                                                    // tslint:disable-next-line:max-line-length
-                                                                    // width: column.preferredWidth || DEFAULT_CELL_WIDTH 
+                                                                {                                                                    
+                                                                    width: column.preferredWidth || DEFAULT_CELL_WIDTH 
                                                                 }
                                                             ]}
                                                         >

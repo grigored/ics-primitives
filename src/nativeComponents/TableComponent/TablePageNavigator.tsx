@@ -93,10 +93,6 @@ export interface OwnProps {
     changePage: ( page: number ) => void,
     jumpToFirstIcon?: any,
     jumpToLastIcon?: any,
-    // firstPage: any,
-    // lastPage: any,
-    // leftPage: any,
-    // rightPage: any,
     itemsPerPageValue?: number,
     itemsPerPageOptions?: Array<number>,
     changeItemsPerPage?: ( itemsPerPage: number ) => void,
@@ -151,7 +147,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         <Button
                             disabled={!(pagesCount < 1) && !(currentPage > 0)}
                             onPress={changePage.bind(this, 0)}
-                            iconLeft={FirstPage}
+                            iconLeft={FirstPage as any}
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }
@@ -183,7 +179,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         <Button
                             disabled={(pagesCount > 1) && !(currentPage < pagesCount - 1)}
                             onPress={changePage.bind(this, pagesCount - 1)}
-                            iconLeft={LastPage}
+                            iconLeft={LastPage as any}
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }

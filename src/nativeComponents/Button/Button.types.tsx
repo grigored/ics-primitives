@@ -2,8 +2,8 @@
 
 export interface ButtonProps {
     disabled?: boolean,
-    iconLeft?: any,
-    iconRight?: any,
+    iconLeft?: string,
+    iconRight?: string,
     href?: string,
     onPress?: ( event?: any ) => void,
     primary?: boolean,
@@ -18,7 +18,6 @@ export interface ButtonProps {
     //     raised?: StyleSheetClass,
     // },
     styles?: any,
-    actionVariant?: boolean,
     // className?: any,
     title?: string,
 }
