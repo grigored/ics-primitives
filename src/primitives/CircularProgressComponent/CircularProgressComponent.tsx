@@ -28,14 +28,14 @@ class CCircularProgressComponent extends React.PureComponent<Props & WithStyles,
                 break;
             case CIRCULAR_PROGRESS_SIZE.SMALL:
             default:
-                progressSize = 40;
+                progressSize = 32;
                 thickness = thickness || 3;
                 break;
         }
 
         return (
             <CircularProgress
-                {...getStyleProps([{color: appTheme.primaryColor}, style])}
+                {...getStyleProps([{color: appTheme.primaryColor, display: 'block important'}, style])}
                 size={progressSize}
                 thickness={thickness}
             />

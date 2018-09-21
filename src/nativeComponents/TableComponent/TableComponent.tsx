@@ -305,7 +305,11 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                 <View style={classes.flexRow}>
                     {!!title && <Text style={classes.title}>{title}</Text>}
 
-                    {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
+                    {loadingData &&
+                    <View style={{ marginLeft: 16 }}>
+                        <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>
+                    </View>
+                    }
                 </View>
 
                 <TableTopActions
