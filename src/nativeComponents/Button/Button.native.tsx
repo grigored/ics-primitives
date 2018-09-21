@@ -5,6 +5,7 @@ import { isIOS } from '../../primitives/platform/platform';
 import { all, android, appTheme } from '../../utils/theme';
 import { ButtonProps } from './Button.types';
 
+export { fade } from '@material-ui/core/styles/colorManipulator';
 
 const styles = () => ( {
     button: {
