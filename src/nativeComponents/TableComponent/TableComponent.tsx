@@ -4,13 +4,14 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-    appTheme, Button, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
+    appTheme, Button, CircularProgressComponent, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
     webDesktop
 } from "../../index";
 import { View } from '../../primitives/View/View';
 import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
 import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
 import { getNestedField } from '../../utils/common';
+import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { ACTIONS } from '../../utils/strings';
 import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
 import { TextInput } from "../TextInput/TextInput";
@@ -46,7 +47,13 @@ const styles = {
         [webDesktop]: {
             marginTop: 16
         },
-    }
+    },
+    flexRow: {
+        flexDirection: 'row',
+    },
+    flexColumn: {
+        flexDirection: 'column',
+    },
 };
 
 const FILTER_DELAY_MS = 333,
@@ -106,15 +113,18 @@ export const getFilterValue: ( column: TableColumn, value: any ) => any = ( colu
 export const getFilterForColumn: ( column: TableColumn,
                                    style: any,
                                    onChange: Function,
-                                   value: any, ) => any = ( column: TableColumn,
+                                   value: any,
+                                   t: Function ) => any = ( column: TableColumn,
                                                             style: any,
                                                             onChange: Function,
-                                                            value: any, ) => {
+                                                            value: any,
+                                                            t: Function ) => {
     switch (column.type) {
         case FORM_INPUT_TYPES.TEXT:
             return (
                 <TextInput
                     {...column}
+                    title={t( column.title )}
                     onChange={( value: any ) => onChange( value )}
                     inputType={TEXT_INPUT_TYPES.TEXT}
                     inputStyle={style}
@@ -126,6 +136,7 @@ export const getFilterForColumn: ( column: TableColumn,
             return (
                 <Select
                     {...column}
+                    title={t( column.title )}
                     onChange={( value: any ) => onChange( value )}
                     inputStyle={style}
                     value={( value === null || value === undefined ) ? EMPTY_SELECT_FILTER.value : value}
@@ -285,14 +296,17 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
 
     render() {
         let {
-                classes, loadingData, tableDefinition, tableData, title, tableActions, style,
+                classes, loadingData, tableDefinition, tableData, title, tableActions, style, t,
             } = this.props,
             hasFilters = this._columns.filter( column => column.hasFilter ).length > 0;
 
         return (
             <View style={[classes.container, style]}>
+                <View style={classes.flexRow}>
+                    {!!title && <Text style={classes.title}>{title}</Text>}
 
-                {!!title && <Text style={classes.title}>{title}</Text>}
+                    {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
+                </View>
 
                 <TableTopActions
                     columns={this._columns}
@@ -304,20 +318,25 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     tableData={tableData}
                     title={tableDefinition.title}
                     tableActions={tableActions}
-                    loadingData={loadingData}
+                    hideRefreshButton={tableDefinition.hideRefreshButton}
+                    hideExportButton={tableDefinition.hideExportButton}
                 />
                 {
                     hasFilters && tableDefinition.filtersOnTop &&
                     <View style={classes.filtersContainer}>
                         {
                             this._columns.filter( column => column.hasFilter ).map( column => (
-                                <View style={classes.filter}>
+                                <View
+                                    key={'table_' + tableDefinition.title + '_filter_' + column.field}
+                                    style={classes.filter}
+                                >
                                     {
                                         getFilterForColumn(
                                             column,
                                             { input: classes.filters },
                                             this._filtersData.bindedFiltersOnChange[column.field],
                                             getFilterValue( column, this._filtersData.filters[column.field] ),
+                                            t,
                                         )
                                     }
                                 </View>
@@ -331,6 +350,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     tableData={tableData && tableData.data}
                     showFilters={hasFilters && !tableDefinition.filtersOnTop}
                     filtersData={this._filtersData}
+                    tableDefinition={tableDefinition}
                 />
 
                 {

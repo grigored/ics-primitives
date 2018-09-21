@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
-import { formatDate } from "../../utils/i18n";
-import { EXPORT, REFRESH } from "../../utils/strings";
-import { Button, CircularProgressComponent, createStyles, isXs, View, WithStyles } from "../../index";
+import { compose } from "redux";
+import { Button, createStyles, isXs, View, WithStyles } from "../../index";
 import { isWeb } from "../../primitives/platform/platform";
 import { MOMENT_FORMAT } from "../../utils/enums";
-import { exportToCsv } from "./tableExport";
-import { compose } from "redux";
+import { formatDate } from "../../utils/i18n";
+import { EXPORT, REFRESH } from "../../utils/strings";
 import { TableColumn, TableData, TableRowAction } from "./TableComponent.types";
+import { exportToCsv } from "./tableExport";
 
 const styles = {
     tableOptions: {
@@ -23,23 +22,27 @@ export interface OwnProps {
     tableActions?: Array<TableRowAction>,
     tableData?: TableData,
     title: string,
-    loadingData?: boolean,
+    hideRefreshButton?: boolean,
+    hideExportButton?: boolean,
 }
 
 class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateProps & WithStyles, {}> {
     render() {
-        const { classes, columns, refreshMethod, t, tableActions, tableData, title, loadingData } = this.props;
+        const {
+            classes, columns, refreshMethod, t, tableActions, tableData, title, hideExportButton,
+            hideRefreshButton,
+        } = this.props;
         return (
             <View style={classes.tableOptions}>
                 {
-                    !!refreshMethod &&
+                    !!refreshMethod && !hideRefreshButton &&
                     <Button
                         title={t( REFRESH )}
                         onPress={!!refreshMethod && refreshMethod}
                     />
                 }
                 {
-                    isWeb &&
+                    isWeb && !hideExportButton &&
                     <Button
                         title={t( EXPORT )}
                         onPress={
@@ -65,8 +68,6 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                         />
                     ) )
                 }
-
-                {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
             </View> );
     }
 }
