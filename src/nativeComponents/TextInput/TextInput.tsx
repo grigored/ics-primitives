@@ -211,7 +211,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
                         focused && classes.labelFocused,
                         focused && inputStyle.labelFocused,
                         !!error && classes.labelError,
-                        !!error && inputStyle.labelError,
+                        !!error && inputStyle.labelError,                        
                     ]}>
                         {title}
                     </Text>

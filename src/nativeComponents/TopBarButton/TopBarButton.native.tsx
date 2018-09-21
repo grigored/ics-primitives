@@ -33,6 +33,9 @@ const styles = () => ({
         fontSize: 17,
         fontWeight: '400',
     },
+    buttonColor: {
+        color: '#fff'
+    },
     imgSrc: {
         width: 24,
         height: 24,
@@ -64,6 +67,7 @@ class CTopBarButton extends React.PureComponent<TopBarButtonProps & WithStyles, 
         }
         return (
             <Button
+                styles={{root: classes.buttonColor}}
                 title={text}
                 onPress={() => {
                     goBack && navigation.goBack();

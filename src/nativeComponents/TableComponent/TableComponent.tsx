@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-    appTheme, Button, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
+    appTheme, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
     webDesktop
 } from "../../index";
 import { View } from '../../primitives/View/View';
@@ -12,13 +12,13 @@ import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOp
 import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
 import { getNestedField } from '../../utils/common';
 import { ACTIONS } from '../../utils/strings';
-import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
 import { TextInput } from "../TextInput/TextInput";
 import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
 import { TableInner } from './TableInner';
 import { TablePageNavigator } from "./TablePageNavigator";
 import { TableTopActions } from './TableTopActions';
 import { ACTIONS_COLUMN } from "./tableUtils";
+import { TableActionsColumn } from './TableActionsColumn';
 
 const styles = {
     container: {
@@ -28,7 +28,7 @@ const styles = {
     title: {
         flexShrink: 0,
         flexGrow: 0,
-        height: 40,
+        height: 50,
         fontSize: appTheme.fontSizeXL,
         flexDirection: 'row',
         alignItems: 'center',
@@ -37,10 +37,14 @@ const styles = {
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        flexShrink: 0
     },
     filter: {
-        width: 100,
-        margin: 4,
+        width: 140,
+        marginTop: 4,
+        marginBottom: 4,
+        marginLeft: 0,
+        marginRight: 0,        
     },
     paginate: {
         [webDesktop]: {
@@ -67,23 +71,11 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
         preferredWidth: 120,
         dataFormat: ( cell: any, row: Row ) => {
             return (
-                <View style={{ flexDirection: 'row' }}>
-                    {
-                        actions.length > 0 &&
-                        <PopoverComponent
-                            actions={actions.map( action => ( {
-                                ...action,
-                                title: action.title && t( action.title ),
-                                titleXs: action.titleXs && t( action.titleXs ),
-                                onPress: () => action.onPress( row )
-                            } ) )}
-                        >
-                            <Button
-                                title={t( ACTIONS )}
-                            />
-                        </PopoverComponent>
-                    }
-                </View>
+                <TableActionsColumn 
+                    actions={actions}
+                    t={t}
+                    row={row}                                         
+                />            
             );
         }
     };
@@ -294,6 +286,26 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
 
                 {!!title && <Text style={classes.title}>{title}</Text>}
 
+                {
+                    hasFilters && tableDefinition.filtersOnTop &&
+                    <View style={classes.filtersContainer}>
+                        {
+                            this._columns.filter(column => column.hasFilter).map(column => (
+                                <View style={classes.filter}>
+                                    {
+                                        getFilterForColumn(
+                                            column,
+                                            { input: classes.filters },
+                                            this._filtersData.bindedFiltersOnChange[column.field],
+                                            getFilterValue(column, this._filtersData.filters[column.field]),
+                                        )
+                                    }
+                                </View>
+                            ))
+                        }
+                    </View>
+                }
+
                 <TableTopActions
                     columns={this._columns}
                     refreshMethod={
@@ -305,26 +317,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     title={tableDefinition.title}
                     tableActions={tableActions}
                     loadingData={loadingData}
-                />
-                {
-                    hasFilters && tableDefinition.filtersOnTop &&
-                    <View style={classes.filtersContainer}>
-                        {
-                            this._columns.filter( column => column.hasFilter ).map( column => (
-                                <View style={classes.filter}>
-                                    {
-                                        getFilterForColumn(
-                                            column,
-                                            { input: classes.filters },
-                                            this._filtersData.bindedFiltersOnChange[column.field],
-                                            getFilterValue( column, this._filtersData.filters[column.field] ),
-                                        )
-                                    }
-                                </View>
-                            ) )
-                        }
-                    </View>
-                }
+                />          
 
                 <TableInner
                     columns={this._columns}
