@@ -74,8 +74,7 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
                 <TableActionsColumn 
                     actions={actions}
                     t={t}
-                    row={row} 
-                    classes={''}
+                    row={row}                                         
                 />            
             );
         }

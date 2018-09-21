@@ -6,24 +6,28 @@ import { Button } from '../../index';
 import { View } from '../../primitives/View/View';
 import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
 import { Row } from './TableComponent.types';
-import { createStyles } from "../../index";
+import { WithStyles } from '../../utils/theme.types';
+import { createStyles, web } from '../../index';
 
 const styles = {
-    button: {
-        boxShadow: '1px 1px 1px lightgrey',
+    button: {       
+        [web]: {
+            boxShadow: '1px 1px 1px lightgrey',
+        },
         fontSize: 10
     }
 };
 
-interface Props {
+interface TableActionProps {
     actions: Array<TableRowAction>;
     t: TranslationFunction;
-    row: Row;
-    classes: any | undefined;
+    row: Row;    
 }
 
+type Props = TableActionProps & WithStyles;
+
 const CTableActionsColumn = (props: Props): any => {
-   let { actions, t, row } = props;
+   let { actions, t, row, classes } = props;
 
    return (       
        <View style={{ flexDirection: 'row' }}>
@@ -40,7 +44,7 @@ const CTableActionsColumn = (props: Props): any => {
                    <Button
                        title={t(ACTIONS)}
                        backgroundColor={'lightblue'}                       
-                       styles={{root: styles.button}}
+                       styles={{root: classes.button}}
                    />
                </PopoverComponent> 
            }
@@ -48,4 +52,5 @@ const CTableActionsColumn = (props: Props): any => {
     );     
 };
 
-export const TableActionsColumn = createStyles(styles, 'CTableActionsColumn')(CTableActionsColumn);
+export const TableActionsColumn = 
+    createStyles(styles, 'CTableActionsColumn')(CTableActionsColumn) as React.ComponentType<TableActionProps>;
