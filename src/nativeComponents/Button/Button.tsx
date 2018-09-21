@@ -26,11 +26,6 @@ const styles = () => ( {
         '&:hover': {
             opacity: 0.75,
         },
-    },
-    actionButton: {
-        backgroundColor: 'lightblue',
-        boxShadow: '1px 1px 1px lightgrey',
-        fontSize: 10
     }
 } );
 

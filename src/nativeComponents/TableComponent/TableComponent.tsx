@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-    appTheme, Button, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
+    appTheme, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
     webDesktop
 } from "../../index";
 import { View } from '../../primitives/View/View';
@@ -12,13 +12,13 @@ import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOp
 import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
 import { getNestedField } from '../../utils/common';
 import { ACTIONS } from '../../utils/strings';
-import { PopoverComponent } from '../PopoverComponent/PopoverComponent';
 import { TextInput } from "../TextInput/TextInput";
 import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
 import { TableInner } from './TableInner';
 import { TablePageNavigator } from "./TablePageNavigator";
 import { TableTopActions } from './TableTopActions';
 import { ACTIONS_COLUMN } from "./tableUtils";
+import { TableActionsColumn } from './TableActionsColumn';
 
 const styles = {
     container: {
@@ -37,13 +37,14 @@ const styles = {
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        flexShrink: 0
     },
     filter: {
         width: 140,
         marginTop: 4,
         marginBottom: 4,
         marginLeft: 0,
-        marginRigth: 0,        
+        marginRight: 0,        
     },
     paginate: {
         [webDesktop]: {
@@ -70,31 +71,12 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
         preferredWidth: 120,
         dataFormat: ( cell: any, row: Row ) => {
             return (
-                <View style={{ flexDirection: 'row' }}>
-                    {
-                        actions.length > 0 &&
-                        <PopoverComponent
-                            actions={actions.map( action => ( {
-                                ...action,
-                                title: action.title && t( action.title ),
-                                titleXs: action.titleXs && t( action.titleXs ),
-                                onPress: () => action.onPress( row )
-                            } ) )}
-                        >
-                            <Button
-                                title={t( ACTIONS )}
-                                primary={true}
-                                styles={{
-                                    root: {
-                                            backgroundColor: 'lightblue',
-                                            boxShadow: '1px 1px 1px lightgrey',
-                                            fontSize: 10
-                                        }
-                                    }}                               
-                            />
-                        </PopoverComponent>
-                    }
-                </View>
+                <TableActionsColumn 
+                    actions={actions}
+                    t={t}
+                    row={row} 
+                    classes={''}
+                />            
             );
         }
     };

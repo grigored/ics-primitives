@@ -19,19 +19,6 @@ const styles = () => ( {
     container: {        
         width: 'auto',      
     },
-    containerAdmin: {        
-        paddingTop: 30,
-        paddingRight: 15,
-        paddingBottom: 30,
-        paddingLeft: 15,
-        backgroundColor: '#fff'
-    },
-    adminInputField: {
-        marginTop: 20,
-        marginRight: 0,
-        marginBottom: 20,
-        marginLeft: 0,
-    },
     noShrinkContainer: {
         width: '100%',
         flexShrink: 0,
@@ -49,7 +36,10 @@ const styles = () => ( {
 } );
 
 export type FormErrorChecker = ( values: { [key: string]: any } ) => ( undefined | { form: string } );
-
+export interface FormClasses {
+    formContainer: any;
+    formField: any;
+}
 export interface FormProps {
     handleSubmit?: any, // do we need this?
     fieldDefinitions: Array<FieldDefinition>,
@@ -64,7 +54,7 @@ export interface FormProps {
     fields?: any, // do we need this?
     keepDirty?: boolean, // do we need this?
     noShrink?: boolean,
-    adminForm?: boolean,
+    formClasses?: FormClasses,
 }
 
 interface ConnectedProps {
@@ -148,12 +138,12 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, adminForm } = this.props;        
+        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, formClasses } = this.props;           
 
         return (
             <View style={[
                     noShrink ? classes.noShrinkContainer : classes.container,
-                    adminForm ? classes.containerAdmin : ''
+                    formClasses ? formClasses.formContainer : ''
                 ]}
             >
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
@@ -165,7 +155,7 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={[{ flexShrink: 0 }, adminForm ? classes.adminInputField : '']}
+                                style={[{ flexShrink: 0 }, formClasses ? formClasses.formField : '']}                                
                                 onTouch={this._bindedOnTouchDict[formField.field]}                                
                             />
                         )
