@@ -9,8 +9,9 @@ import { getValue } from "./tableUtils";
 
 const styles = () => ( {
     containerVertical: {
-        [web]: {
-            boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+        [web]: {            
+            boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',       
+            backgroundColor: '#fff',
             overflow: 'auto',
             width: '100%',
         },
@@ -26,11 +27,11 @@ const styles = () => ( {
     innerView: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: '#fff'        
     },
     th: {
         flexDirection: 'row',
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
         flexShrink: 0,
@@ -38,13 +39,17 @@ const styles = () => ( {
             borderBottomStyle: 'solid'
         },
         fontSize: 12,
-        color: '#777',
+        color: '#fff',
     },
     thtd: {
         [web]: {
             boxSizing: 'border-box',
+            flex: '1 0 120px',
+            minWidth: 120
         },
         textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         textAlignVertical: 'center',
         padding: 8,
         height: 40,
@@ -52,6 +57,7 @@ const styles = () => ( {
     },
     tr: {
         [web]: {
+            padding: '8px 0',
             borderBottomStyle: 'solid',
             '&:hover': {
                 backgroundColor: '#eee',
@@ -73,6 +79,7 @@ const styles = () => ( {
     },
     title: {
         height: 40,
+        alignItems: 'center'
     },
     filters: {
         width: '100%',
@@ -97,7 +104,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
         const { classes, columns, tableData, t, showFilters, filtersData, tableDefinition } = this.props;
         return (
             <ScrollView style={classes.containerVertical}>
-                <ScrollView horizontal={true}>
+                <ScrollView horizontal={true} style={{width: '100%'}}>
                     <View style={classes.innerView}>
                         <View
                             style={[
@@ -115,7 +122,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                         style={[
                                             classes.thtd,
                                             {
-                                                width: column.preferredWidth || DEFAULT_CELL_WIDTH,
+                                                width: column.preferredWidth || DEFAULT_CELL_WIDTH,                                              
                                                 flexDirection: 'column',
                                                 height: '100%',
                                             }
@@ -167,7 +174,9 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                                             key={column.field}
                                                             style={[
                                                                 classes.thtd,
-                                                                { width: column.preferredWidth || DEFAULT_CELL_WIDTH }
+                                                                {                                                                    
+                                                                    width: column.preferredWidth || DEFAULT_CELL_WIDTH 
+                                                                }
                                                             ]}
                                                         >
                                                             {

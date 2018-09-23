@@ -17,6 +17,7 @@ const styles = () => ( {
         maxHeight: 24,
         flexWrap: 'wrap',
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
         flex: 1,
@@ -71,9 +72,10 @@ const styles = () => ( {
     },
     disabled: {
         backgroundColor: 'transparent',
-        borderWidth: 2,
-        borderStyle: 'solid',
-        borderColor: '#ffffff',
+        color: appTheme.primaryColor
+        // borderWidth: 2,
+        // borderStyle: 'solid',
+        // borderColor: '#ffffff',
     },
     buttonLabel: {
         color: '#000000',
@@ -115,8 +117,8 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
     }
 
     render() {
-        let {
-            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,
+        let {            
+            classes, style, itemsCount, itemsLowerLimit, itemsUpperLimit, currentPage, pagesCount, changePage,            
             jumpToFirstIcon, jumpToLastIcon, t, itemsPerPageValue, itemsPerPageOptions, changeItemsPerPage,
         } = this.props;
         return (
@@ -132,51 +134,54 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                         />
                     </View>
                 }
-                {!isXs() &&
-                <Text style={classes.initialTextStyle}>
-                    {t( TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount } )}
-                </Text>
-                }
-                {
-                    pagesCount > 1 && currentPage > 0 &&
-                    <Button
-                        onPress={changePage.bind( this, 0 )}
-                        iconLeft={jumpToFirstIcon}
-                        styles={{ root: classes.buttonsRoot }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage > 0 &&
-                    <Button
-                        onPress={changePage.bind( this, currentPage - 1 )}
-                        title={( currentPage - 1 ).toString()}
-                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 &&
-                    <Button
-                        title={currentPage.toString()}
-                        disabled={true}
-                        styles={{ root: [classes.buttonsRoot, classes.disabled], label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage < pagesCount - 1 &&
-                    <Button
-                        onPress={changePage.bind( this, currentPage + 1 )}
-                        title={( currentPage + 1 ).toString()}
-                        styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
-                    />
-                }
-                {
-                    pagesCount > 1 && currentPage < pagesCount - 1 &&
-                    <Button
-                        onPress={changePage.bind( this, pagesCount - 1 )}
-                        iconLeft={jumpToLastIcon}
-                        styles={{ root: classes.buttonsRoot }}
-                    />
-                }
+
+                {!!pagesCount && <View style={{ alignItems: 'center' }}>
+                    {!isXs() &&
+                        <Text style={classes.initialTextStyle}>
+                            {t(TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount })}
+                        </Text>
+                    }
+                    {
+                        <Button
+                            disabled={!(pagesCount < 1) && !(currentPage > 0)}
+                            onPress={changePage.bind(this, 0)}
+                            iconLeft={jumpToFirstIcon}
+                            styles={{ root: classes.buttonsRoot }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 && currentPage > 0 &&
+                        <Button
+                            onPress={changePage.bind(this, currentPage - 1)}
+                            title={(currentPage).toString()}
+                            styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 &&
+                        <Button
+                            title={(currentPage + 1).toString()}
+                            disabled={true}
+                            styles={{ root: [classes.buttonsRoot, classes.disabled], label: classes.buttonLabel }}
+                        />
+                    }
+                    {
+                        pagesCount > 1 && currentPage < pagesCount - 1 &&
+                        <Button
+                            onPress={changePage.bind(this, currentPage + 1)}
+                            title={(currentPage + 2).toString()}
+                            styles={{ root: classes.buttonsRoot, label: classes.buttonLabel }}
+                        />
+                    }
+                    {
+                        <Button
+                            disabled={(pagesCount > 1) && !(currentPage < pagesCount - 1)}
+                            onPress={changePage.bind(this, pagesCount - 1)}
+                            iconLeft={jumpToLastIcon}
+                            styles={{ root: classes.buttonsRoot }}
+                        />
+                    }
+                </View>}                          
             </View>
         );
     }

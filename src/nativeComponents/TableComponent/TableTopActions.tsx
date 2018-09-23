@@ -11,8 +11,25 @@ import { exportToCsv } from "./tableExport";
 
 const styles = {
     tableOptions: {
+        justifyContent: 'space-between',
         flexShrink: 0,
         flexDirection: 'row',
+    },
+    buttonLeft: {
+        paddingTop: 8,
+        paddingRight: 15,
+        paddingBottom: 8,
+        paddingLeft: 0        
+    },
+    buttonRight: {        
+        paddingTop: 8,
+        paddingRight: 1,
+        paddingBottom: 8,
+        paddingLeft: 15
+    },
+    iconRight: {
+        width: 18,
+        height: 18
     }
 };
 
@@ -39,6 +56,7 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                     <Button
                         title={t( REFRESH )}
                         onPress={!!refreshMethod && refreshMethod}
+                        styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
                     />
                 }
                 {
@@ -55,11 +73,13 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                         }
                     />
                 }
+
                 {
                     ( tableActions || [] ).map( action => (
                         <Button
                             iconLeft={isXs() ? action.iconXs : action.icon}
                             title={isXs() ? t( action.titleXs || '' ) : t( action.title || '' )}
+                            styles={{root: styles.buttonRight}}
                             // iconStyle={classes.optionsIconStyle}
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}
