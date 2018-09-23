@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
-import { formatDate } from "../../utils/i18n";
-import { EXPORT, REFRESH } from "../../utils/strings";
-import { Button, CircularProgressComponent, createStyles, isXs, View, WithStyles } from "../../index";
+import { compose } from "redux";
+import { Button, createStyles, isXs, View, WithStyles } from "../../index";
 import { isWeb } from "../../primitives/platform/platform";
 import { MOMENT_FORMAT } from "../../utils/enums";
-import { exportToCsv } from "./tableExport";
-import { compose } from "redux";
+import { formatDate } from "../../utils/i18n";
+import { EXPORT, REFRESH } from "../../utils/strings";
 import { TableColumn, TableData, TableRowAction } from "./TableComponent.types";
+import { exportToCsv } from "./tableExport";
 
 const styles = {
     tableOptions: {
@@ -40,39 +39,41 @@ export interface OwnProps {
     tableActions?: Array<TableRowAction>,
     tableData?: TableData,
     title: string,
-    loadingData?: boolean,
+    hideRefreshButton?: boolean,
+    hideExportButton?: boolean,
 }
 
 class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateProps & WithStyles, {}> {
     render() {
-        const { classes, columns, refreshMethod, t, tableActions, tableData, title, loadingData } = this.props;
+        const {
+            classes, columns, refreshMethod, t, tableActions, tableData, title, hideExportButton,
+            hideRefreshButton,
+        } = this.props;
         return (
             <View style={classes.tableOptions}>
-                <View>
-                    {
-                        !!refreshMethod &&
-                        <Button                            
-                            title={t( REFRESH )}
-                            onPress={!!refreshMethod && refreshMethod}
-                            styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
-                        />
-                    }
-                    {
-                        isWeb &&
-                        <Button                            
-                            title={t( EXPORT )}
-                            styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
-                            onPress={
-                                exportToCsv.bind(
-                                    this,
-                                    title + '_' + formatDate( MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
-                                    columns,
-                                    tableData,
-                                )
-                            }
-                        />
-                    }
-                </View>
+                {
+                    !!refreshMethod && !hideRefreshButton &&
+                    <Button
+                        title={t( REFRESH )}
+                        onPress={!!refreshMethod && refreshMethod}
+                        styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
+                    />
+                }
+                {
+                    isWeb && !hideExportButton &&
+                    <Button
+                        title={t( EXPORT )}
+                        onPress={
+                            exportToCsv.bind(
+                                this,
+                                title + '_' + formatDate( MOMENT_FORMAT.L_LT, new Date() ) + '.csv',
+                                columns,
+                                tableData,
+                            )
+                        }
+                    />
+                }
+
                 {
                     ( tableActions || [] ).map( action => (
                         <Button
@@ -87,8 +88,6 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                         />
                     ) )
                 }
-
-                {loadingData && <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>}
             </View> );
     }
 }

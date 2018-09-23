@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
-import { getValue } from "./tableUtils";
-import { getFilterForColumn, getFilterValue } from "./TableComponent";
 import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
-import { Data, TableColumn, TableFiltersData } from "./TableComponent.types";
 import { NO_TABLE_DATA } from "../../utils/strings";
+import { getFilterForColumn, getFilterValue } from "./TableComponent";
+import { Data, TableColumn, TableDefinitionData, TableFiltersData } from "./TableComponent.types";
+import { getValue } from "./tableUtils";
 
 const styles = () => ( {
     containerVertical: {
@@ -87,6 +87,7 @@ const styles = () => ( {
 } );
 
 export interface OwnProps {
+    tableDefinition: TableDefinitionData,
     columns: Array<TableColumn>,
     tableData?: Data
     showFilters: boolean,
@@ -100,7 +101,7 @@ const DEFAULT_CELL_WIDTH = 120;
 class CTableInner extends React.PureComponent<Props, {}> {
 
     render() {
-        const { classes, columns, tableData, t, showFilters, filtersData } = this.props;
+        const { classes, columns, tableData, t, showFilters, filtersData, tableDefinition } = this.props;
         return (
             <ScrollView style={classes.containerVertical}>
                 <ScrollView horizontal={true} style={{width: '100%'}}>
@@ -117,6 +118,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                             {
                                 columns.map( ( column: TableColumn ) => (
                                     <View
+                                        key={'table_' + tableDefinition.title + '_column_' + column.field}
                                         style={[
                                             classes.thtd,
                                             {
@@ -145,6 +147,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                                         { input: classes.filters },
                                                         filtersData.bindedFiltersOnChange[column.field],
                                                         getFilterValue( column, filtersData.filters[column.field] ),
+                                                        t,
                                                     )
                                                 }
                                             </View>
