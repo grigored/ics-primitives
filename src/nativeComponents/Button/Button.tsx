@@ -26,7 +26,7 @@ const styles = () => ( {
         '&:hover': {
             opacity: 0.75,
         },
-    },
+    }
 } );
 
 const getUpdatedRoot = ( primary?: boolean, backgroundColor?: string, labelColor?: string ): any => {
@@ -68,7 +68,7 @@ class CButton extends React.PureComponent<Props, {}> {
 
 
     render() {
-        const {
+        const {            
             children,
             disabled,
             iconLeft,
@@ -86,8 +86,8 @@ class CButton extends React.PureComponent<Props, {}> {
                 {...getStyleProps( [
                     classes.container,
                     buttonStyle.root,
-                    getUpdatedRoot( primary, backgroundColor, labelColor ),
-                ] )}
+                    getUpdatedRoot( primary, backgroundColor, labelColor )
+                ] )}                
                 disabled={disabled}
                 onClick={( ev: any ) => this.onClick( ev )}
                 {...getTestProps(this.props.testId)}
