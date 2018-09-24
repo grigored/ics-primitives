@@ -19,9 +19,9 @@ const styles = {
         paddingTop: 8,
         paddingRight: 15,
         paddingBottom: 8,
-        paddingLeft: 0        
+        paddingLeft: 0
     },
-    buttonRight: {        
+    buttonRight: {
         paddingTop: 8,
         paddingRight: 1,
         paddingBottom: 8,
@@ -56,7 +56,7 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                     <Button
                         title={t( REFRESH )}
                         onPress={!!refreshMethod && refreshMethod}
-                        styles={{root: styles.buttonLeft, iconRight: classes.iconRight}}
+                        styles={{ root: styles.buttonLeft, iconRight: classes.iconRight }}
                     />
                 }
                 {
@@ -77,9 +77,10 @@ class CTableTopActions extends React.PureComponent<OwnProps & InjectedTranslateP
                 {
                     ( tableActions || [] ).map( action => (
                         <Button
+                            key={title + '_table_button_' + action.title}
                             iconLeft={isXs() ? action.iconXs : action.icon}
-                            title={isXs() ? t( action.titleXs || '' ) : t( action.title || '' )}
-                            styles={{root: styles.buttonRight}}
+                            title={isXs() ? ( action.titleXs || '' ) : ( action.title || '' )}
+                            styles={{ root: styles.buttonRight }}
                             // iconStyle={classes.optionsIconStyle}
                             // labelStyle={classes.optionsTitleStyle}
                             // touchableStyle={classes.optionsTouchableStyle}

@@ -33,7 +33,7 @@ class CCheckbox extends React.PureComponent<CheckboxProps & WithStyles, {}> {
                     }
                     <input
                         type={'checkbox'}
-                        {...( !!value ? { checked: true } : {} )}
+                        {...( value!== null && value !== undefined ? { checked: value } : {} )}
                         onChange={( value ) => onChange( value )}
                     />
                 </View>

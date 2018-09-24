@@ -13,7 +13,7 @@ export interface Props {
 export class ScrollView extends React.PureComponent<Props, {}> {
     render() {
         return (
-            <View {...this.props}/>
+            <View {...{...this.props, horizontal: undefined}}/>
         );
     }
 }
