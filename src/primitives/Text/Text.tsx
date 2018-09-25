@@ -12,8 +12,9 @@ export interface Props {
     numberOfLines?: number,
 }
 
-export const Text = ({classes, children, style, onPress}: Props) => (
+export const Text = ({classes, children, style, onPress, id}: Props) => (
     <span
+        id={id}
         {...getStyleProps(style)}
         onClick={onPress && ((event) => {
             event.preventDefault();
