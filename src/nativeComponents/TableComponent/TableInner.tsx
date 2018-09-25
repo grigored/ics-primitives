@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
+import { FILTER_OPERATORS } from "../../index";
+import { getNestedField } from "../../utils/common";
 import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { NO_TABLE_DATA } from "../../utils/strings";
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
@@ -9,8 +11,8 @@ import { getValue } from "./tableUtils";
 
 const styles = () => ( {
     containerVertical: {
-        [web]: {            
-            boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',       
+        [web]: {
+            boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
             backgroundColor: '#fff',
             overflow: 'auto',
             width: '100%',
@@ -27,7 +29,7 @@ const styles = () => ( {
     innerView: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff'        
+        backgroundColor: '#fff'
     },
     th: {
         flexDirection: 'row',
@@ -104,7 +106,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
         const { classes, columns, tableData, t, showFilters, filtersData, tableDefinition } = this.props;
         return (
             <ScrollView style={classes.containerVertical}>
-                <ScrollView horizontal={true} style={{width: '100%'}}>
+                <ScrollView horizontal={true} style={{ width: '100%' }}>
                     <View style={classes.innerView}>
                         <View
                             style={[
@@ -122,7 +124,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                         style={[
                                             classes.thtd,
                                             {
-                                                width: column.preferredWidth || DEFAULT_CELL_WIDTH,                                              
+                                                width: column.preferredWidth || DEFAULT_CELL_WIDTH,
                                                 flexDirection: 'column',
                                                 height: '100%',
                                             }
@@ -145,8 +147,30 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                                     getFilterForColumn(
                                                         column,
                                                         { input: classes.filters },
-                                                        filtersData.bindedFiltersOnChange[column.field],
-                                                        getFilterValue( column, filtersData.filters[column.field] ),
+                                                        filtersData.bindedFiltersOnChange[column.field].value,
+                                                        getFilterValue(
+                                                            column,
+                                                            getNestedField(
+                                                                filtersData.filters,
+                                                                [column.field, 'value']
+                                                            )
+                                                        ),
+                                                        t,
+                                                    )
+                                                }
+                                                {
+                                                    column['operator'] === FILTER_OPERATORS.BETWEEN &&
+                                                    getFilterForColumn(
+                                                        column,
+                                                        { input: classes.filters },
+                                                        filtersData.bindedFiltersOnChange[column.field].upperValue!,
+                                                        getFilterValue(
+                                                            column,
+                                                            getNestedField(
+                                                                filtersData.filters,
+                                                                [column.field, 'upperValue']
+                                                            )
+                                                        ),
                                                         t,
                                                     )
                                                 }
@@ -174,8 +198,8 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                                             key={column.field}
                                                             style={[
                                                                 classes.thtd,
-                                                                {                                                                    
-                                                                    width: column.preferredWidth || DEFAULT_CELL_WIDTH 
+                                                                {
+                                                                    width: column.preferredWidth || DEFAULT_CELL_WIDTH
                                                                 }
                                                             ]}
                                                         >

@@ -98,4 +98,5 @@ export enum FILTER_OPERATORS {
     GREATER = '>',
     LESS_OR_EQUAL = '<=',
     GREATER_OR_EQUAL = '>=',
+    BETWEEN = '><',
 }
