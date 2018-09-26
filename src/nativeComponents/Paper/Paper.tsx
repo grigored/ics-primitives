@@ -4,8 +4,11 @@ import {all, web} from "../../utils/theme";
 import {StyleSheetClass} from "../../utils/theme.types";
 
 const styles = {
+    root: {
+        backgroundColor: '#eee'
+    },
     elevation: {
-        [web]: {
+        [web]: {            
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
             transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
         },

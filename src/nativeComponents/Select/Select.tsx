@@ -53,7 +53,6 @@ class CSelect extends React.PureComponent<SelectProps & FieldStateProps<SelectDB
                         classes={{
                             root: classes.label as any,
                         }}
-                        focused={classes.focusedLabel as any}
                     >
                         {title}
                     </InputLabel>

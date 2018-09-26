@@ -16,8 +16,8 @@ import { FormItem } from './FormItem';
 
 const REQUIRED_FIELD = 'REQUIRED_FIELD';
 const styles = () => ( {
-    container: {
-        width: '100%',
+    container: {        
+        width: 'auto',      
     },
     noShrinkContainer: {
         width: '100%',
@@ -36,7 +36,10 @@ const styles = () => ( {
 } );
 
 export type FormErrorChecker = ( values: { [key: string]: any } ) => ( undefined | { form: string } );
-
+export interface FormClasses {
+    formContainer: any;
+    formField: any;
+}
 export interface FormProps {
     handleSubmit?: any, // do we need this?
     fieldDefinitions: Array<FieldDefinition>,
@@ -51,6 +54,7 @@ export interface FormProps {
     fields?: any, // do we need this?
     keepDirty?: boolean, // do we need this?
     noShrink?: boolean,
+    formClasses?: FormClasses,
 }
 
 interface ConnectedProps {
@@ -134,9 +138,14 @@ class CForm extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink } = this.props;
+        let { classes, fieldDefinitions, containerStyle, formError, t, noShrink, formClasses } = this.props;           
+
         return (
-            <View style={noShrink ? classes.noShrinkContainer : classes.container}>
+            <View style={[
+                    noShrink ? classes.noShrinkContainer : classes.container,
+                    formClasses ? formClasses.formContainer : ''
+                ]}
+            >
                 <ScrollView style={[classes.innerContainer, containerStyle]}>
                     {
                         fieldDefinitions.map( ( formField: FieldDefinition, index: number ) =>
@@ -146,8 +155,8 @@ class CForm extends React.PureComponent<Props, {}> {
                                 component={FormItem}
                                 fieldDefinition={formField}
                                 validate={this._fieldErrorCheckers[formField.field]}
-                                style={{ flexShrink: 0 }}
-                                onTouch={this._bindedOnTouchDict[formField.field]}
+                                style={[{ flexShrink: 0 }, formClasses ? formClasses.formField : '']}                                
+                                onTouch={this._bindedOnTouchDict[formField.field]}                                
                             />
                         )
                     }

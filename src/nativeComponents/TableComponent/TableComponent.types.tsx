@@ -62,6 +62,8 @@ export interface TableDefinitionData {
         jumpToFirstIcon: any,
         jumpToLastIcon: any,
     },
+    hideRefreshButton?: boolean,
+    hideExportButton?: boolean,
 }
 
 export interface Fields {
@@ -106,15 +108,11 @@ export interface OwnProps {
     extraActions?: Array<TableRowAction>,
     tableActions?: Array<TableRowAction>,
     editFunc?: ( row: Row ) => void,
-    // navigation: NavigationType,
-    // pageId: string,
     title: string,
     refreshMethod?: () => void,
     url?: string,
     mixRows?: ( response: any ) => Array<Row>,
     clearDataOnUnmount?: boolean,
-    hideRefreshButton?: boolean,
-    paginate?: boolean,
     tableContainerName?: string,
     tableData?: TableData,
     extraData?: any,
