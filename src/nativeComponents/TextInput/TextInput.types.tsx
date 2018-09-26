@@ -18,6 +18,7 @@ export interface TextInputProps {
     extraErrorChecker?: ( value: string ) => string | undefined,
     disableUnderline?: boolean,
     inputStyle?: InputStyle,
+    maxDecimals?: number,  // for float only
 }
 
 export interface InputStyle {

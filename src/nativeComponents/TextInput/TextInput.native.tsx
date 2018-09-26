@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { StyleProp, TextInput as TextInputNative, TextStyle, TouchableWithoutFeedback } from 'react-native';
-import { shallowEqual } from "../../utils/common";
 import { android, appTheme, createStyles, getTestProps, ios, Testable, Text, View, WithStyles } from '../../';
-import { defaultDbToRaw, defaultGetError, defaultRawToDb } from '../../nativeComponents/TextInput/TextInput.utils';
+import {
+    DEFAULT_MAX_DECIMALS, defaultDbToRaw, defaultGetError,
+    defaultRawToDb
+} from '../../nativeComponents/TextInput/TextInput.utils';
 import { isIOS } from '../../primitives/platform/platform';
 import { FieldStateProps } from '../../redux/FormComponents/FormComponents.types';
+import { shallowEqual } from "../../utils/common";
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 import { TextInputDBValue, TextInputProps } from './TextInput.types';
 
@@ -91,10 +94,10 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
     }
 
     getError( rawValue: string ): string | undefined {
-        let { extraErrorChecker, inputType } = this.props;
+        let { extraErrorChecker, inputType, maxDecimals = DEFAULT_MAX_DECIMALS } = this.props;
         return !!extraErrorChecker
             ? extraErrorChecker( rawValue )
-            : defaultGetError( inputType, rawValue );
+            : defaultGetError( inputType, rawValue, maxDecimals );
     }
 
     componentWillReceiveProps( nextProps: Props ) {
@@ -140,7 +143,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
         return (
             <TouchableWithoutFeedback
                 onPress={() => this.inputRef.focus()}
-                {...getTestProps(this.props.testId)}
+                {...getTestProps( this.props.testId )}
             >
                 <View>
                     <View style={labelPositionLeft ? classes.containerLeft : classes.containerTop}>
