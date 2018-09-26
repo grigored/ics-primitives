@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
+import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { FILTER_OPERATORS } from "../../index";
 import { getNestedField } from "../../utils/common";
-import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
 import { NO_TABLE_DATA } from "../../utils/strings";
 import { getFilterForColumn, getFilterValue } from "./TableComponent";
 import { Data, TableColumn, TableDefinitionData, TableFiltersData } from "./TableComponent.types";
@@ -85,7 +85,8 @@ const styles = () => ( {
     },
     filters: {
         width: '100%',
-    }
+    },
+    filter: {},
 } );
 
 export interface OwnProps {
@@ -139,9 +140,7 @@ class CTableInner extends React.PureComponent<Props, {}> {
                                         {
                                             showFilters && column.hasFilter &&
                                             <View
-                                                style={[
-                                                    classes.title,
-                                                ]}
+                                                style={classes.filter}
                                             >
                                                 {
                                                     getFilterForColumn(
