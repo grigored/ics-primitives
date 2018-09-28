@@ -1,5 +1,8 @@
+import { S3PhotoComponentDBValue } from "../../nativeComponents/S3PhotoInput/S3PhotoInputComponent.types";
+import { S3UploadState } from "../../redux/reducers/s3upload";
 import { InputStyle, TextInputDBValue, TextInputProps } from '../../nativeComponents/TextInput/TextInput.types';
 import { FORM_INPUT_TYPES } from '../../utils/enums';
+import {S3PhotoInputComponentProps} from '../../nativeComponents/S3PhotoInput/S3PhotoInputComponent.types';
 
 export type SelectDBValue = any;
 
@@ -8,7 +11,7 @@ export type DBValue =
     // | DateTimeDBValue
     // | DateMultiTimePickerDBValue
     // | RadioDBValue
-    // | S3PhotoComponentDBValue
+    | S3PhotoComponentDBValue
     // | S3MultiplePhotoComponentDBValue
     | SelectDBValue
     // | LocationPickerValue
@@ -55,6 +58,7 @@ export interface FormHelpersState {
 export type GlobalState = {
     form: FormState,
     formHelpers: FormHelpersState,
+    s3upload: S3UploadState,
 };
 
 export interface FieldStateProps<DBValueType> {
@@ -98,3 +102,4 @@ export type FieldDefinition =
     | TextInputProps & { type: FORM_INPUT_TYPES.TEXT } & FieldCommon
     | SelectProps & { type: FORM_INPUT_TYPES.SELECT } & FieldCommon
     | ArrayOfObjectsProps & { type: FORM_INPUT_TYPES.ARRAY_OF_OBJECTS } & FieldCommon
+    | S3PhotoInputComponentProps & {type: FORM_INPUT_TYPES} & FieldCommon

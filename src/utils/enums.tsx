@@ -99,3 +99,5 @@ export enum FILTER_OPERATORS {
     LESS_OR_EQUAL = '<=',
     GREATER_OR_EQUAL = '>=',
 }
+
+export const AWS_S3 = 'localhost';

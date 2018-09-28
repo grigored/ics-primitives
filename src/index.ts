@@ -83,6 +83,7 @@ export {
     showAlert,
     hideAlert,
 } from './redux/reducers/navigation';
+export * from './redux/reducers/s3upload';
 export { TableComponent } from './nativeComponents/TableComponent/TableComponent';
 export {
     TableDefinitionData, TableColumn, TableRowAction, TableData,
