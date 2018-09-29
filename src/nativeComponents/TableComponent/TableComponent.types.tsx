@@ -149,10 +149,10 @@ export interface ConnectedProps {
 }
 
 export interface TableFiltersData {
-    filters: { [field: string]: string },
+    filters: { [field: string]: { value?: string, upperValue?: string } },
     filtersTimeout: any,
-    bindedFiltersOnChange: { [field: string]: (value: any) => void },
-    bindedLoadTableData: (filters?: any) => any,
+    bindedFiltersOnChange: { [field: string]: { value: ( value: any ) => void, upperValue?: ( value: any ) => void } },
+    bindedLoadTableData: ( filters?: any ) => any,
 }
 
 export type TableProps = OwnProps & ConnectedProps & WithStyles & InjectedTranslateProps
