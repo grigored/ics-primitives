@@ -6,10 +6,7 @@ import { shallowEqual } from '../../utils/common';
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
 import { getStyleProps } from '../../utils/web';
 import { TextInputDBValue, TextInputProps } from './TextInput.types';
-import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType } from './TextInput.utils';
-
-export const INVALID_JSON_STRING = 'Invalid JSON string';
-export const FIELD_MUST_BE_NUMBER = 'Field must be a number';
+import { defaultDbToRaw, defaultGetError, defaultRawToDb, getKeyboardType, DEFAULT_MAX_DECIMALS } from './TextInput.utils';
 
 const styles = () => ( {
     input: {
@@ -84,8 +81,9 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
     }
 
     getError( rawValue: string ): string | undefined {
-        let { extraErrorChecker, inputType } = this.props;
-        return ( !!extraErrorChecker && extraErrorChecker( rawValue ) ) || defaultGetError( inputType, rawValue );
+        let { extraErrorChecker, inputType, maxDecimals = DEFAULT_MAX_DECIMALS } = this.props;
+        return ( !!extraErrorChecker && extraErrorChecker( rawValue ) ) ||
+            defaultGetError( inputType, rawValue, maxDecimals );
     }
 
     componentWillReceiveProps( nextProps: Props ) {
@@ -174,7 +172,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
             <input
                 type={getKeyboardType( inputType )}
                 {...this.getCommonProps()}
-                {...getTestProps(this.props.testId)}
+                {...getTestProps( this.props.testId )}
             />
         );
     }
@@ -184,7 +182,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
             <textarea
                 {...this.getCommonProps()}
                 rows={10}
-                {...getTestProps(this.props.testId)}
+                {...getTestProps( this.props.testId )}
             >
                 {}
             </textarea>
@@ -211,7 +209,7 @@ export class CTextInput extends React.PureComponent<Props, { focused: boolean }>
                         focused && classes.labelFocused,
                         focused && inputStyle.labelFocused,
                         !!error && classes.labelError,
-                        !!error && inputStyle.labelError,                        
+                        !!error && inputStyle.labelError,
                     ]}>
                         {title}
                     </Text>
