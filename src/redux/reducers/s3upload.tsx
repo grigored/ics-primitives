@@ -162,7 +162,6 @@ export function postPhotoToS3( field: IField ) {
         s3Upload: true,
         method: 'get',
         url: field.url,
-        // queryParameters: {nr_of_photos: 1},
         field,
         fields: [field],
         requestPayload: {field},

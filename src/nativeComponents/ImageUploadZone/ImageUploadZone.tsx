@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDropzone from 'react-dropzone';
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
-import { UPLOAD_PHOTO_HELPER } from "../..";
+import { appTheme, UPLOAD_PHOTO_HELPER } from "../..";
 import { createStyles, Image, Text, View, WithStyles } from "../../";
 import { getStyleProps } from "../../utils/web";
 import { OwnProps } from './ImageUploadZone.types';
@@ -15,7 +15,11 @@ const styles = () => ( {
         width: '100%',
         height: '100%',
     },
+    addPhoto:{
+        color: appTheme.primaryColor,
+    },
     deletePhoto: {
+        color: appTheme.primaryColor,
         position: 'absolute',
         right: 0,
         top: 0,
@@ -23,7 +27,7 @@ const styles = () => ( {
         marginRight: 4,
         width: 32,
         height: 32,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.66)',
         borderRadius: 20,
         padding: 4,
     },
@@ -69,7 +73,10 @@ class CImageUploadZone extends React.PureComponent<Props, {}> {
                             openOnClick={true}
                         />
                         : <View style={classes.helperContainer}>
-                            <Image source={addPhotoIcon}/>
+                            <Image
+                                style={classes.addPhoto}
+                                source={addPhotoIcon}
+                            />
                             <Text>{t( UPLOAD_PHOTO_HELPER )}</Text>
                         </View>
                 }
@@ -78,7 +85,6 @@ class CImageUploadZone extends React.PureComponent<Props, {}> {
                     <Image
                         style={classes.deletePhoto}
                         source={removePhotoIcon}
-                        color={'#fff'}
                         onPress={() => {
                             removePhoto();
                         }}
