@@ -78,10 +78,7 @@ export function getImageUrl( url: string | any ): string | any {
     if (!url) {
         return '';
     }
-    if (typeof( url ) === "string" && ( url.startsWith( 'clients' ) || url.startsWith( 'assets' ) )) {
-        return AWS_S3 + url;
-    }
-    return url;
+    return AWS_S3 + url;
 }
 
 export function checkImageRestrictions( showAlert: Function,

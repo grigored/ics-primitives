@@ -100,4 +100,4 @@ export enum FILTER_OPERATORS {
     GREATER_OR_EQUAL = '>=',
 }
 
-export const AWS_S3 = 'localhost';
+export const AWS_S3 = 'https://crypto-exchange-test.s3.amazonaws.com/';
