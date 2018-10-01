@@ -1,6 +1,5 @@
-import { FIELD_MUST_BE_NUMBER, INVALID_JSON_STRING } from "../../nativeComponents/TextInput/TextInput";
+import { FIELD_MUST_BE_NUMBER, INVALID_JSON_STRING } from "../../utils/strings";
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
-
 
 export const getKeyboardType = ( inputType?: TEXT_INPUT_TYPES ): string => {
     switch (inputType) {

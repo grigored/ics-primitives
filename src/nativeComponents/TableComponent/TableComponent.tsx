@@ -4,8 +4,8 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-    appTheme, CircularProgressComponent, createStyles, FORM_INPUT_TYPES, Select, Text, TEXT_INPUT_TYPES,
-    webDesktop
+    appTheme, CircularProgressComponent, createStyles, FILTER_OPERATORS, FORM_INPUT_TYPES, Select, Text,
+    TEXT_INPUT_TYPES, webDesktop
 } from "../../index";
 import { View } from '../../primitives/View/View';
 import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
@@ -14,12 +14,12 @@ import { getNestedField } from '../../utils/common';
 import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
 import { ACTIONS } from '../../utils/strings';
 import { TextInput } from "../TextInput/TextInput";
+import { TableActionsColumn } from './TableActionsColumn';
 import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
 import { TableInner } from './TableInner';
 import { TablePageNavigator } from "./TablePageNavigator";
 import { TableTopActions } from './TableTopActions';
 import { ACTIONS_COLUMN } from "./tableUtils";
-import { TableActionsColumn } from './TableActionsColumn';
 
 const styles = {
     container: {
@@ -45,7 +45,7 @@ const styles = {
         marginTop: 4,
         marginBottom: 4,
         marginLeft: 0,
-        marginRight: 0,        
+        marginRight: 0,
     },
     paginate: {
         [webDesktop]: {
@@ -78,11 +78,11 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
         preferredWidth: 120,
         dataFormat: ( cell: any, row: Row ) => {
             return (
-                <TableActionsColumn 
+                <TableActionsColumn
                     actions={actions}
                     t={t}
-                    row={row}                                         
-                />            
+                    row={row}
+                />
             );
         }
     };
@@ -175,17 +175,19 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         };
         this._columns.filter( ( column: TableColumn ) => column.hasFilter )
             .forEach( ( column: TableColumn ) => {
-                this._filtersData.bindedFiltersOnChange[column.field] = this.setFilter.bind( this, column.field )
-            } )
-    }
 
-    hasFilters(): boolean {
-        for (let key in this._filtersData.filters) {
-            if (this._filtersData.filters.hasOwnProperty( key ) && this._filtersData.filters[key] !== '') {
-                return true;
-            }
-        }
-        return false;
+                this._filtersData.filters[column.field] = {};
+
+                this._filtersData.bindedFiltersOnChange[column.field] = {
+                    value: this.setFilter.bind( this, column.field, false ),
+                };
+
+                if (column['operator'] === FILTER_OPERATORS.BETWEEN) {
+                    this._filtersData.bindedFiltersOnChange[column.field].upperValue =
+                        this.setFilter.bind( this, column.field, true );
+                }
+
+            } )
     }
 
     loadData() {
@@ -198,7 +200,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                 return this._columns[i]['operator'];
             }
         }
-        console.log( 'Could not get finter operator for field', field );
+        console.log( 'Could not get filter operator for field', field );
         return '~';
     }
 
@@ -213,11 +215,23 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                 : NO_PAGINATE_ITEMS_COUNT;
         for (let field in this._filtersData.filters) {
             if (this._filtersData.filters.hasOwnProperty( field )) {
-                filters.push( {
-                    column: field,
-                    value: this._filtersData.filters[field].toString(),
-                    operator: this.getColumnOperator( field ),
-                } );
+
+                let value = this._filtersData.filters[field].hasOwnProperty( 'value' )
+                    ? this._filtersData.filters[field].value!.toString()
+                    : undefined,
+
+                    upperValue = this._filtersData.filters[field].hasOwnProperty( 'upperValue' )
+                        ? this._filtersData.filters[field].upperValue!.toString()
+                        : undefined;
+
+                if (value !== undefined || upperValue !== undefined) {
+                    filters.push( {
+                        column: field,
+                        operator: this.getColumnOperator( field ),
+                        value,
+                        upperValue,
+                    } );
+                }
             }
         }
         return filters.length > 0
@@ -249,12 +263,22 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         this.loadData();
     }
 
-    setFilter( field: string, value: string ) {
+    setFilter( field: string, isUpperValue: boolean, value: string ) {
+
         if (value === null || value === undefined || value === '') {
-            delete( this._filtersData.filters[field] );
+            if (isUpperValue && !!this._filtersData.filters[field]) {
+                delete( this._filtersData.filters[field].upperValue );
+            } else {
+                delete( this._filtersData.filters[field].value )
+            }
         } else {
-            this._filtersData.filters[field] = value;
+            if (isUpperValue) {
+                this._filtersData.filters[field].upperValue = value
+            } else {
+                this._filtersData.filters[field].value = value;
+            }
         }
+
         this._pagesData.page = 0;
         clearTimeout( this._filtersData.filtersTimeout );
         this._filtersData.filtersTimeout = setTimeout( () => {
@@ -317,13 +341,35 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                         getFilterForColumn(
                                             column,
                                             { input: classes.filters },
-                                            this._filtersData.bindedFiltersOnChange[column.field],
-                                            getFilterValue( column, this._filtersData.filters[column.field] ),
+                                            this._filtersData.bindedFiltersOnChange[column.field].value,
+                                            getFilterValue(
+                                                column,
+                                                getNestedField(
+                                                    this._filtersData.filters,
+                                                    [column.field, 'value']
+                                                )
+                                            ),
+                                            t,
+                                        )
+                                    }
+                                    {
+                                        column['operator'] === FILTER_OPERATORS.BETWEEN &&
+                                        getFilterForColumn(
+                                            column,
+                                            { input: classes.filters },
+                                            this._filtersData.bindedFiltersOnChange[column.field].upperValue!,
+                                            getFilterValue(
+                                                column,
+                                                getNestedField(
+                                                    this._filtersData.filters,
+                                                    [column.field, 'upperValue']
+                                                )
+                                            ),
                                             t,
                                         )
                                     }
                                 </View>
-                            ))
+                            ) )
                         }
                     </View>
                 }
