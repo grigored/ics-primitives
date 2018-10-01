@@ -10,40 +10,41 @@ export enum TypeKeys {
     REMOVE_PHOTO = 'instacar/s3upload/REMOVE_PHOTO',
 }
 
-interface IField {
+export interface IField {
     field: string,
     preview: string,
+    url: string,
     s3ExtraData: {
         file: any,
         'Content-Type': string,
     },
 }
 
-interface PostS3DataAction {
+export interface PostS3DataAction {
     type: TypeKeys.POST_S3_DATA,
     field: IField,
 }
 
-interface PostS3DataSuccessAction {
+export interface PostS3DataSuccessAction {
     type: TypeKeys.POST_S3_DATA_SUCCESS,
     field: IField,
     s3Key: string,
     preview: string,
 }
 
-interface PostS3DataFailAction {
+export interface PostS3DataFailAction {
     type: TypeKeys.POST_S3_DATA_FAIL,
     field: IField,
     s3Key: string,
     preview: string,
 }
 
-interface GetS3PhotoInfoAction {
+export interface GetS3PhotoInfoAction {
     type: TypeKeys.GET_S3_PHOTO_INFO,
     field: IField,
 }
 
-interface GetS3PhotoInfoSuccessAction {
+export interface GetS3PhotoInfoSuccessAction {
     type: TypeKeys.GET_S3_PHOTO_INFO_SUCCESS,
     field: IField,
     photo: string,
@@ -52,18 +53,18 @@ interface GetS3PhotoInfoSuccessAction {
 
 }
 
-interface GetS3PhotoInfoFailAction {
+export interface GetS3PhotoInfoFailAction {
     type: TypeKeys.GET_S3_PHOTO_INFO_FAIL,
     field: IField,
 }
 
-interface RemovePhotoAction {
+export interface RemovePhotoAction {
     type: TypeKeys.REMOVE_PHOTO,
     field: string,
 }
 
 
-type ActionTypes =
+export type ActionTypes =
     | PostS3DataAction
     | PostS3DataSuccessAction
     | PostS3DataFailAction
@@ -93,7 +94,7 @@ const removeItemFromDict = ( obj: S3UploadState, fieldName: string ): S3UploadSt
     return newObj;
 };
 
-export const s3upload = ( state: S3UploadState = {}, action: ActionTypes ) => {
+export const s3upload = ( state: S3UploadState = {}, action: ActionTypes ): S3UploadState => {
     switch (action.type) {
         case TypeKeys.POST_S3_DATA:
             return {
@@ -148,7 +149,7 @@ export const s3upload = ( state: S3UploadState = {}, action: ActionTypes ) => {
         case TypeKeys.REMOVE_PHOTO:
             return {
                 ...state,
-                ...removeItemFromDict( state, action.field ),
+                ...removeItemFromDict(state, action.field),
             };
 
         default:
@@ -160,11 +161,13 @@ export function postPhotoToS3( field: IField ) {
     return {
         s3Upload: true,
         method: 'get',
-        url: 'file-upload',
-        queryParameters: { nr_of_photos: 1 },
+        url: field.url,
+        // queryParameters: {nr_of_photos: 1},
         field,
         fields: [field],
-        extraData: { field }
+        requestPayload: {field},
+        failurePayload: {field},
+        successPayload: {field},
     }
 }
 

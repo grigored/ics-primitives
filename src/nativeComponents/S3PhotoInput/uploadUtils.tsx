@@ -46,6 +46,7 @@ export function onDrop( acceptedFiles: Array<File>,
 
             let fieldData = {
                 field: multiple ? `${field},${lastPhotoIndex}.url` : field,
+                url: 'get_s3_upload_params',  // todo
                 s3ExtraData: getPhotoDetails( { rawValue: file } ),
                 preview: getImageUrl( getImagePreview( { rawValue: file } ) )
             };
