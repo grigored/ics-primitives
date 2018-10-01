@@ -135,7 +135,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                     </View>
                 }
 
-                {!!pagesCount && <View style={{ alignItems: 'center' }}>
+                {!!pagesCount && <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                     {!isXs() &&
                         <Text style={classes.initialTextStyle}>
                             {t(TABLE_PAGE_COUNTER, { itemsLowerLimit, itemsUpperLimit, itemsCount })}
@@ -181,7 +181,7 @@ class CTablePageNavigator extends React.PureComponent<Props & WithStyles, {}> {
                             styles={{ root: classes.buttonsRoot }}
                         />
                     }
-                </View>}                          
+                </View>}
             </View>
         );
     }
