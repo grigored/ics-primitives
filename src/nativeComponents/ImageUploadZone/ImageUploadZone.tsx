@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Dropzone from 'react-dropzone';
+import * as ReactDropzone from 'react-dropzone';
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { compose } from "redux";
 import { UPLOAD_PHOTO_HELPER } from "../..";
@@ -46,9 +46,12 @@ type Props = OwnProps & WithStyles & InjectedTranslateProps
 class CImageUploadZone extends React.PureComponent<Props, {}> {
     render() {
         let {
-            classes, removePhoto, dropzoneStyle, multiple, photoPreview, s3Url, disableClick, onDrop, accept, t,
-            addPhotoIcon, removePhotoIcon,
-        } = this.props;
+                classes, removePhoto, dropzoneStyle, multiple, photoPreview, s3Url, disableClick, onDrop, accept, t,
+                addPhotoIcon, removePhotoIcon,
+            } = this.props,
+            Dropzone: any = ReactDropzone as any;
+        // react-dropzone's typescript definitions seem to be broken
+        // https://github.com/react-dropzone/react-dropzone/issues/509#issuecomment-341902236
         return (
             <Dropzone
                 {...getStyleProps( dropzoneStyle )}

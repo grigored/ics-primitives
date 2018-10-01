@@ -1,7 +1,7 @@
 export interface OwnProps {
     disableClick: boolean,
     dropzoneStyle: any,
-    onDrop: (files: Array<any> | any) => void,  // File on web, Image on native
+    onDrop: ( acceptedFiles: Array<any> | any, rejectedFiles: Array<any> | any ) => void,  // File on web, Image on native
     photoPreview: string,
     s3Url: string,
     accept: string,

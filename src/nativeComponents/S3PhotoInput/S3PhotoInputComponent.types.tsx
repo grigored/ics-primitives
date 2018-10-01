@@ -17,7 +17,7 @@ export interface S3PhotoInputComponentProps {
     title: string,
     multiple?: boolean,
     displaySelectedPreview?: boolean,
-    additionalOnDrop?: ( files: Array<File> ) => void,
+    additionalOnDrop?: ( acceptedFiles: Array<File>, rejectedFiles: Array<File> ) => void,
     lastPhotoIndex?: number,
     addPhotoIcon: any,
     removePhotoIcon: any,

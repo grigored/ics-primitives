@@ -2,13 +2,13 @@ import * as React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { postPhotoToS3, removePhoto } from "../../redux/reducers/s3upload";
 import {
-    Alert, all, CAMERA_PERMISSION_IS_DENIED, CircularProgressComponent, createStyles, FILE_IS_NOT_IMAGE, History,
-    isWeb, Navigation, PHOTO_INCORRECT_RATIO, PHOTO_INCORRECT_SIZE, PHOTO_PERMISSION_IS_DENIED, showAlert, Text,
-    UPLOAD_FAILED, View, web, WithStyles
+    Alert, all, CAMERA_PERMISSION_IS_DENIED, CircularProgressComponent, createStyles, FILE_IS_NOT_IMAGE,
+    getNestedField, History, isWeb, Navigation, PHOTO_INCORRECT_RATIO, PHOTO_INCORRECT_SIZE, PHOTO_PERMISSION_IS_DENIED,
+    showAlert, Text, UPLOAD_FAILED, View, web, WithStyles
 } from "../..";
 import { FieldStateProps, GlobalState } from "../../redux/FormComponents/FormComponents.types";
+import { postPhotoToS3, removePhoto } from "../../redux/reducers/s3upload";
 import { ImageUploadZone } from "../ImageUploadZone/ImageUploadZone";
 import { ConnectedProps, S3PhotoComponentDBValue, S3PhotoInputComponentProps } from "./S3PhotoInputComponent.types";
 import { getImageUrl, onDrop } from "./uploadUtils";
@@ -111,9 +111,9 @@ class CS3PhotoInputComponent extends React.Component<AllProps, {}> {
                     <ImageUploadZone
                         disableClick={!!value}
                         dropzoneStyle={classes.dropzone}
-                        onDrop={( files: any ) => {
-                            onDrop( files, this.props );
-                            additionalOnDrop && additionalOnDrop( files );
+                        onDrop={( acceptedFiles: any, rejectedFiles: any ) => {
+                            onDrop( acceptedFiles, rejectedFiles, this.props );
+                            additionalOnDrop && additionalOnDrop( acceptedFiles, rejectedFiles );
                         }}
                         photoPreview={getImageUrl( value )}
                         s3Url={getImageUrl( value )}
@@ -166,10 +166,10 @@ const componentName = 'S3PhotoInputComponent';
 export const S3PhotoInputComponent: React.ComponentType<OwnProps> = compose(
     connect(
         ( state: GlobalState, ownProps: OwnProps ) => ( {
-            uploadingPhotoToS3: state.s3upload[ownProps.field] && state.s3upload[ownProps.field].uploading,
-            uploadingPhotoToS3Success: state.s3upload[ownProps.field] && state.s3upload[ownProps.field].uploadSuccess,
-            photoPreview: state.s3upload[ownProps.field] && state.s3upload[ownProps.field].preview,
-            s3Url: state.s3upload[ownProps.field] && state.s3upload[ownProps.field].s3Key,
+            uploadingPhotoToS3: getNestedField( state.s3upload, [ownProps.field, 'uploading'] ),
+            uploadingPhotoToS3Success: getNestedField( state.s3upload, [ownProps.field, 'uploadSuccess'] ),
+            photoPreview: getNestedField( state.s3upload, [ownProps.field, 'preview'] ),
+            s3Url: getNestedField( state.s3upload, [ownProps.field, 's3Key'] ),
         } ), {
             postPhotoToS3,
             removePhoto,

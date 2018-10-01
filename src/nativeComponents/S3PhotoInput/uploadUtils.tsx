@@ -1,7 +1,7 @@
 import { InjectedTranslateProps } from "react-i18next";
-import { AWS_S3 } from "../../utils/enums";
 import { FILE_IS_NOT_IMAGE, PHOTO_INCORRECT_RATIO, PHOTO_INCORRECT_SIZE } from "../..";
 import { FieldStateProps } from "../../redux/FormComponents/FormComponents.types";
+import { AWS_S3 } from "../../utils/enums";
 import { ConnectedProps, S3PhotoComponentDBValue, S3PhotoInputComponentProps } from "./S3PhotoInputComponent.types";
 
 declare global {
@@ -10,12 +10,17 @@ declare global {
     }
 }
 
-export function onDrop( files: Array<File>, props: S3PhotoInputComponentProps & ConnectedProps & FieldStateProps<S3PhotoComponentDBValue> & InjectedTranslateProps ) {
+export function onDrop( acceptedFiles: Array<File>,
+                        rejectedFiles: Array<File>,
+                        props: S3PhotoInputComponentProps &
+                            ConnectedProps &
+                            FieldStateProps<S3PhotoComponentDBValue> &
+                            InjectedTranslateProps ) {
     let {
         field, lastPhotoIndex, multiple, postPhotoToS3, showAlert, t,
         minWidth, maxWidth, minHeight, maxHeight, fixedWidth, fixedHeight, ratioWidthHeight,
     } = props;
-    let file = files[0];
+    let file = acceptedFiles[0];
     let _URL = window.URL || window.webkitURL;
 
     if (!file.type.match( 'image.*' )) {
