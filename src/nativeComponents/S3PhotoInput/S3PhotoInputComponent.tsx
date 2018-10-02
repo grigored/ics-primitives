@@ -10,8 +10,9 @@ import {
 import { FieldStateProps, GlobalState } from "../../redux/FormComponents/FormComponents.types";
 import { postPhotoToS3, removePhoto } from "../../redux/reducers/s3upload";
 import { ImageUploadZone } from "../ImageUploadZone/ImageUploadZone";
+import { getImageUrl } from './common';
 import { ConnectedProps, S3PhotoComponentDBValue, S3PhotoInputComponentProps } from "./S3PhotoInputComponent.types";
-import { getImageUrl, onDrop } from "./uploadUtils";
+import { onDrop } from "./uploadUtils";
 
 const ACCEPTED_MIMES = 'image/png, image/jpg, image/jpeg';
 

@@ -1,11 +1,16 @@
 import * as React from "react";
 import { TouchableWithoutFeedback } from "react-native";
+import { Image as ImageInterface } from 'react-native-image-crop-picker';
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { GlobalState } from "src/redux/FormComponents/FormComponents.types";
+import { ACTION_SHEETS_IDS } from "src/utils/enums";
+import { appTheme, createStyles, History, Image, Navigation, showAlert, View, WithStyles } from "../..";
+import { checkForCameraPermission } from "../../primitives/Camera/cameraUtils";
 import { NetworkImage } from "../../primitives/NetworkImage/NetworkImage";
-import { appTheme, View, WithStyles, Image, createStyles } from "../..";
-import { pushScreen } from '../../redux/reducers/navigation';
+import { showActionSheet } from "../../redux/reducers/dialog";
+import { pushScreen, routes } from '../../redux/reducers/navigation';
+import { connectActionSheet } from "../../utils/addActionSheet.native";
 import { OwnProps } from "./ImageUploadZone.types";
 
 const styles = () => ( {
@@ -27,76 +32,95 @@ const styles = () => ( {
 
 interface ConnectedProps {
     pushScreen: typeof pushScreen,
-    // showActionSheet: typeof showActionSheet,
+    showAlert: typeof showAlert,
+    showActionSheet: typeof showActionSheet,
+    connectedShowActionSheet: any,
 }
 
-type AllProps = OwnProps & ConnectedProps & WithStyles;
+type AllProps = OwnProps & ConnectedProps & WithStyles & Navigation & History;
 
 class CImageUploadZone extends React.PureComponent<AllProps, {}> {
 
-    // static actionSheetData = (props: AllProps) => ({
-    //     [ACTION_SHEETS_IDS.IMAGE_CLICK]: {
-    //         options: props.photoPreview && !props.multiple
-    //             ? ['View', 'Album', 'Camera', 'Cancel']
-    //             : ['Album', 'Camera', 'Cancel'],
-    //         optionClick: (index: number) => {
-    //             if (!props.photoPreview || props.multiple) {
-    //                 // ignore 0(View) if it is not available
-    //                 index++;
-    //             }
-    //             switch (index) {
-    //                 case 0:
-    //                     props.pushScreen(
-    //                         props.navigation,
-    //                         null,
-    //                         routeDefinitions.FULL_SCREEN_IMAGE,
-    //                         null,
-    //                         null,
-    //                         null,
-    //                         {
-    //                             images: [{url: props.photoPreview}],
-    //                             index
-    //                         },
-    //                     );
-    //                     break;
-    //                 case 1:
-    //                 case 2:
-    //                     let getImage = index === 1 ? ImagePicker.openPicker : ImagePicker.openCamera;
-    //                     checkForCameraPermission(index === 1 ? 'album' : 'camera', props.displayAlert)
-    //                         .then((success: boolean) => {
-    //                             if (!success) {
-    //                                 return;
-    //                             }
-    //                             getImage({
-    //                                 width: 300,
-    //                                 height: 300,
-    //                                 cropping: false,
-    //                                 // includeBase64: true,
-    //                                 multiple: props.multiple,
-    //                                 maxFiles: 20,
-    //                             }).then((image: ImageInterface | Array<ImageInterface>) => {
-    //                                 if (props.multiple) {
-    //                                     props.onDrop(image);
-    //                                 }
-    //                                 else {
-    //                                     props.onDrop([image]);
-    //                                 }
-    //                             }).catch(() => {
-    //                                 console.log('fail');
-    //                             });
-    //                         });
-    //                     break;
-    //                 case 3:
-    //                     break;
-    //             }
-    //         }
-    //     },
-    // });
+    static actionSheetData = ( props: AllProps ) => ( {
+        [ACTION_SHEETS_IDS.IMAGE_CLICK]: {
+            options: props.photoPreview && !props.multiple
+                ? ['View', 'Album', 'Camera', 'Cancel']  // todo View throws error
+                : ['Album', 'Camera', 'Cancel'],
+            optionClick: ( index: number ) => {
+                if (!props.photoPreview || props.multiple) {
+                    index++;
+                }
+                let options = {
+                    width: 300,
+                    height: 300,
+                    cropping: false,
+                    // includeBase64: true,
+                    multiple: props.multiple,
+                    maxFiles: 20,
+                };
+                switch (index) {
+                    case 0:
+                        props.pushScreen(
+                            props.navigation,
+                            null,
+                            routes.FULL_SCREEN_IMAGE,
+                            {
+                                images: [{ url: props.photoPreview }],
+                                index
+                            },
+                        );
+                        break;
+                    case 1:
+                        // @ts-ignore
+                        const { ImagePicker } = Expo;
+                        checkForCameraPermission( 'camera_roll', props.showAlert )
+                            .then( ( success: boolean ) => {
+                                if (success) {
+                                    ImagePicker.launchImageLibraryAsync( options )
+                                        .then( ( image: ImageInterface | Array<ImageInterface> ) => {
+                                            if (props.multiple) {
+                                                props.onDrop( image, [] );
+                                            } else {
+                                                props.onDrop( [image], [] );
+                                            }
+                                        } )
+                                        .catch( ( e: any ) => {console.log( 'err', e )} )
+                                } else {
+                                }
+                            } )
+                            .catch( ( e: any ) => {console.log( 'err', e )} );
+                        break;
+                    case 2:
+                        // @ts-ignore
+                        const { ImagePicker } = Expo;
+                        checkForCameraPermission( 'camera', props.showAlert )
+                            .then( ( success: boolean ) => {
+                                if (!success) {
+                                    return;
+                                }
+                                ImagePicker.launchCameraAsync( options )
+                                    .then( ( image: ImageInterface | Array<ImageInterface> ) => {
+                                        if (props.multiple) {
+                                            props.onDrop( image, [] );
+                                        } else {
+                                            props.onDrop( [image], [] );
+                                        }
+                                    } )
+                                    .catch( ( e: any ) => {
+                                    } );
+                            } );
+                        break;
+                    case 3:
+                        break;
+                }
+            }
+        },
+    } );
 
     render() {
         let {
             classes, uploadSuccess, uploading, dropzoneStyle, multiple, photoPreview,
-            addPhotoIcon,
+            addPhotoIcon, connectedShowActionSheet
         } = this.props;
         let imageSource = photoPreview && !multiple ? { uri: photoPreview } : addPhotoIcon;
         if (uploadSuccess === false && uploading === false) {
@@ -104,9 +128,9 @@ class CImageUploadZone extends React.PureComponent<AllProps, {}> {
         }
         return (
             <TouchableWithoutFeedback
-                // onPress={() => {
-                //     connectedShowActionSheet( ACTION_SHEETS_IDS.IMAGE_CLICK );
-                // }}
+                onPress={() => {
+                    connectedShowActionSheet( ACTION_SHEETS_IDS.IMAGE_CLICK );
+                }}
             >
                 <View>
                     {photoPreview && photoPreview.startsWith( 'http' ) ?
@@ -144,10 +168,13 @@ class CImageUploadZone extends React.PureComponent<AllProps, {}> {
 const componentName = 'ImageUploadZone';
 export const ImageUploadZone = compose(
     connect(
-    ( state: GlobalState, ownProps: OwnProps ) => ( {} ), {
-        pushScreen,
-        // showActionSheet,
-    }
-),
-    createStyles(styles, componentName),
-)(CImageUploadZone) as React.ComponentType<OwnProps>;
+        ( state: GlobalState, ownProps: OwnProps ) => ( {} ),
+        {
+            pushScreen,
+            showAlert,
+            // showActionSheet,
+        }
+    ),
+    connectActionSheet,
+    createStyles( styles, componentName ),
+)( CImageUploadZone ) as React.ComponentType<OwnProps>;
