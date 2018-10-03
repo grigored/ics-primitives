@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'redux';
-import { all, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles, } from "../..";
+import {all, appTheme, createStyles, ScrollView, Text, View, web, webDesktop, WithStyles,} from "../..";
 import { FILTER_OPERATORS } from "../../index";
 import { getNestedField } from "../../utils/common";
 import { NO_TABLE_DATA } from "../../utils/strings";
@@ -80,9 +80,11 @@ const styles = () => ( {
         },
     },
     title: {
-        height: 40,
-        alignItems: 'center',
-        color: '#fff',
+        // height: 40,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        textAlign: 'center',
+        color: appTheme.primaryTextColor,
     },
     filters: {
         width: '100%',
