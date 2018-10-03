@@ -81,7 +81,8 @@ const styles = () => ( {
     },
     title: {
         height: 40,
-        alignItems: 'center'
+        alignItems: 'center',
+        color: '#fff',
     },
     filters: {
         width: '100%',
@@ -105,6 +106,9 @@ class CTableInner extends React.PureComponent<Props, {}> {
 
     render() {
         const { classes, columns, tableData, t, showFilters, filtersData, tableDefinition } = this.props;
+        console.log('Columns', columns);
+        console.log('TableDefinition', tableDefinition);
+        console.log('TableData', tableData);
         return (
             <ScrollView style={classes.containerVertical}>
                 <ScrollView horizontal={true} style={{ width: '100%' }}>

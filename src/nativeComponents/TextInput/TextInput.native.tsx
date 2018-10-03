@@ -26,7 +26,8 @@ let styles = () => ( {
     },
     leftLabel: {
         fontWeight: '500',
-        minWidth: 150,
+        marginRight: 4,
+        // minWidth: 150,
         color: appTheme.textInputLabelColor,
     },
     topLabel: {
@@ -36,6 +37,9 @@ let styles = () => ( {
         flex: 1,
         height: appTheme.inputHeight,
         color: appTheme.textColor,
+        // borderWidth: 1,
+        // minWidth: 100,
+        // maxWidth: 100,
         [android]: {
             // textAlignVertical: 'top',
             fontSize: 16,
@@ -162,6 +166,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
                             onChangeText={( rawValue: string ) => {
                                 let dbValue = this.getDbValue( rawValue );
                                 this._rawValue = rawValue;
+                                console.log('RAW_VALUE',this._rawValue);
                                 this.forceUpdate();
                                 let fieldError = this.getError( rawValue );
                                 onChange && onChange( !!fieldError ? { value: dbValue, error: fieldError } : dbValue );
@@ -173,7 +178,7 @@ class CTextInput extends React.PureComponent<Props, { rawValue: string }> {
                             placeholderTextColor={appTheme.placeholderColor}
                             ref={input => this.inputRef = input}
                             secureTextEntry={inputType === TEXT_INPUT_TYPES.PASSWORD}
-                            style={classes.leftText as StyleProp<TextStyle>}
+                            style={[classes.leftText as StyleProp<TextStyle>, inputStyle && inputStyle.input]}
                             underlineColorAndroid={
                                 error ? appTheme.errorColor : appTheme.textInputUnderlineColor
                             }
