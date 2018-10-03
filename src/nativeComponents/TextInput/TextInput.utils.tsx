@@ -1,5 +1,7 @@
-import { FIELD_MUST_BE_NUMBER, INVALID_JSON_STRING } from "./TextInput";
+import { FIELD_MUST_BE_NUMBER, FRACTIONAL_PART_TOO_LONG, INVALID_JSON_STRING } from "../../utils/strings";
 import { TEXT_INPUT_TYPES } from '../../utils/enums';
+
+export const DEFAULT_MAX_DECIMALS = 7;
 
 export const parseValue = ( textInputType: TEXT_INPUT_TYPES, value: string ): any => {
     switch (textInputType) {
@@ -33,7 +35,7 @@ export const getKeyboardType = ( inputType?: TEXT_INPUT_TYPES ): string => {
     }
 };
 
-export const defaultGetError = ( textInputType: TEXT_INPUT_TYPES, rawValue: string ): string | undefined => {
+export const defaultGetError = ( textInputType: TEXT_INPUT_TYPES, rawValue: string, maxDecimals?: number ): string | undefined => {
     switch (textInputType) {
         case TEXT_INPUT_TYPES.INT:
             if (rawValue.indexOf( '.' ) !== -1) {
@@ -41,6 +43,14 @@ export const defaultGetError = ( textInputType: TEXT_INPUT_TYPES, rawValue: stri
             }
             return rawValue !== '' && isNaN( +rawValue ) ? FIELD_MUST_BE_NUMBER : undefined;
         case TEXT_INPUT_TYPES.FLOAT:
+            if (rawValue.indexOf('.') !== -1 ) {
+                let fractionalPart = rawValue.split('.')[1];
+                if(!!fractionalPart && !!maxDecimals) {
+                    if (fractionalPart.length > maxDecimals) {
+                        return FRACTIONAL_PART_TOO_LONG;
+                    }
+                }
+            }
             return rawValue !== '' && isNaN( +rawValue ) ? FIELD_MUST_BE_NUMBER : undefined;
         case TEXT_INPUT_TYPES.JSON:
             try {

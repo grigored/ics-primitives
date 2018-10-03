@@ -2,7 +2,8 @@ import * as Enzyme from "enzyme";
 import { mount } from "enzyme";
 import * as Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react'
-import { FIELD_MUST_BE_NUMBER, TextInput } from "src/nativeComponents/TextInput/TextInput";
+import { FIELD_MUST_BE_NUMBER } from "../../../../../src/utils/strings";
+import {  TextInput } from "src/nativeComponents/TextInput/TextInput";
 import { TEXT_INPUT_TYPES } from "src/utils/enums";
 
 Enzyme.configure( { adapter: new Adapter() } );
