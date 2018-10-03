@@ -13,6 +13,8 @@ const styles = () => ( {
         padding: 14,
         justifyContent: 'center',
         alignItems: 'center',
+        minWidth: 80,
+        minHeight: 30,
     },
     buttonRaised: {
         [android]: {
@@ -83,6 +85,8 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles & Testable, {
             !!backgroundColor ? { backgroundColor } : {},
         ];
         // use TouchableComponent for Ripple effect
+
+        console.log(title);
         return (
             <Touchable
                 disabled={disabled}

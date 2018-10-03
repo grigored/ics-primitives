@@ -293,7 +293,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
             ( column: TableColumn ) => !column.hiddenInTable
         );
         if (!!extraActions) {
-            this._columns = [getActionsColumn( extraActions, t ), ...this._columns];
+            this._columns = [getActionsColumn( extraActions, t.bind(this) ), ...this._columns];
         }
     }
 
@@ -340,7 +340,18 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                     {
                                         getFilterForColumn(
                                             column,
-                                            { input: classes.filters },
+                                            {
+                                                input: {
+                                                    borderWidth: 1,
+                                                    minWidth: 100,
+                                                    maxWidth: 100,
+                                                    marginTop: 4,
+                                                    marginBottom: 4,
+                                                    borderRadius: 5,
+                                                    justifyContent: 'center',
+                                                    textAlign: 'center',
+                                                },
+                                            },
                                             this._filtersData.bindedFiltersOnChange[column.field].value,
                                             getFilterValue(
                                                 column,
@@ -426,6 +437,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                         style={classes.paginate}
                     />
                 }
+                <TableActionsColumn actions={[]} t={t} row={{}}/>
 
             </View>
         )
