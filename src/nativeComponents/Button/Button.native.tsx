@@ -86,7 +86,6 @@ class CButton extends React.PureComponent<ButtonProps & WithStyles & Testable, {
         ];
         // use TouchableComponent for Ripple effect
 
-        console.log(title);
         return (
             <Touchable
                 disabled={disabled}
