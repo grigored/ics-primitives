@@ -1,25 +1,33 @@
-import { TranslationFunction } from 'i18next';
+import {TranslationFunction} from 'i18next';
 import * as React from 'react';
-import { translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import {translate} from 'react-i18next';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import {
-    appTheme, CircularProgressComponent, createStyles, FILTER_OPERATORS, FORM_INPUT_TYPES, Select, Text,
-    TEXT_INPUT_TYPES, webDesktop
+    all,
+    appTheme,
+    CircularProgressComponent,
+    createStyles,
+    FILTER_OPERATORS,
+    FORM_INPUT_TYPES,
+    Select,
+    Text,
+    TEXT_INPUT_TYPES,
+    webDesktop
 } from "../../index";
-import { View } from '../../primitives/View/View';
-import { setPersistentTableOptions } from '../../redux/reducers/persistedTableOptions';
-import { loadTableData, showEntryDetails } from '../../redux/reducers/table';
-import { getNestedField } from '../../utils/common';
-import { CIRCULAR_PROGRESS_SIZE } from "../../utils/enums";
-import { ACTIONS } from '../../utils/strings';
-import { TextInput } from "../TextInput/TextInput";
-import { TableActionsColumn } from './TableActionsColumn';
-import { OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction } from './TableComponent.types';
-import { TableInner } from './TableInner';
-import { TablePageNavigator } from "./TablePageNavigator";
-import { TableTopActions } from './TableTopActions';
-import { ACTIONS_COLUMN } from "./tableUtils";
+import {View} from '../../primitives/View/View';
+import {setPersistentTableOptions} from '../../redux/reducers/persistedTableOptions';
+import {loadTableData, showEntryDetails} from '../../redux/reducers/table';
+import {getNestedField} from '../../utils/common';
+import {CIRCULAR_PROGRESS_SIZE} from "../../utils/enums";
+import {ACTIONS} from '../../utils/strings';
+import {TextInput} from "../TextInput/TextInput";
+import {TableActionsColumn} from './TableActionsColumn';
+import {OwnProps, Row, TableColumn, TableFiltersData, TableProps, TableRowAction} from './TableComponent.types';
+import {TableInner} from './TableInner';
+import {TablePageNavigator} from "./TablePageNavigator";
+import {TableTopActions} from './TableTopActions';
+import {ACTIONS_COLUMN} from "./tableUtils";
 
 const styles = {
     container: {
@@ -38,14 +46,18 @@ const styles = {
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        flexShrink: 0
+        flexShrink: 0,
     },
     filter: {
         width: 140,
         marginTop: 4,
         marginBottom: 4,
-        marginLeft: 0,
+        marginLeft: {
+            [webDesktop]: 0,
+            [all]: 6,
+        },
         marginRight: 0,
+        height: appTheme.inputHeight,
     },
     paginate: {
         [webDesktop]: {
@@ -69,14 +81,14 @@ export const EMPTY_SELECT_FILTER = {
     text: '',
 };
 
-const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunction ): TableColumn => {
+const getActionsColumn = (actions: Array<TableRowAction>, t: TranslationFunction): TableColumn => {
     return {
         field: ACTIONS_COLUMN,
         title: ACTIONS,
         type: FORM_INPUT_TYPES.TABLE_ACTIONS,
         notSortable: true,
         preferredWidth: 120,
-        dataFormat: ( cell: any, row: Row ) => {
+        dataFormat: (cell: any, row: Row) => {
             return (
                 <TableActionsColumn
                     actions={actions}
@@ -88,7 +100,7 @@ const getActionsColumn = ( actions: Array<TableRowAction>, t: TranslationFunctio
     };
 };
 
-export const getFilterValue: ( column: TableColumn, value: any ) => any = ( column: TableColumn, value: any ) => {
+export const getFilterValue: (column: TableColumn, value: any) => any = (column: TableColumn, value: any) => {
     if (value !== null && value !== undefined) {
         return value;
     }
@@ -102,22 +114,22 @@ export const getFilterValue: ( column: TableColumn, value: any ) => any = ( colu
     }
 };
 
-export const getFilterForColumn: ( column: TableColumn,
-                                   style: any,
-                                   onChange: Function,
-                                   value: any,
-                                   t: Function ) => any = ( column: TableColumn,
-                                                            style: any,
-                                                            onChange: Function,
-                                                            value: any,
-                                                            t: Function ) => {
+export const getFilterForColumn: (column: TableColumn,
+                                  style: any,
+                                  onChange: Function,
+                                  value: any,
+                                  t: Function) => any = (column: TableColumn,
+                                                         style: any,
+                                                         onChange: Function,
+                                                         value: any,
+                                                         t: Function) => {
     switch (column.type) {
         case FORM_INPUT_TYPES.TEXT:
             return (
                 <TextInput
                     {...column}
-                    title={t( column.title )}
-                    onChange={( value: any ) => onChange( value )}
+                    title={t(column.title)}
+                    onChange={(value: any) => onChange(value)}
                     inputType={TEXT_INPUT_TYPES.TEXT}
                     inputStyle={style}
                     value={value}
@@ -125,14 +137,15 @@ export const getFilterForColumn: ( column: TableColumn,
             );
         case FORM_INPUT_TYPES.SELECT:
 
+            console.log('SELECT', column.title, style);
             return (
                 <Select
                     {...column}
-                    title={t( column.title )}
-                    onChange={( value: any ) => onChange( value )}
+                    title={t(column.title)}
+                    onChange={(value: any) => onChange(value)}
                     inputStyle={style}
-                    value={( value === null || value === undefined ) ? EMPTY_SELECT_FILTER.value : value}
-                    options={[EMPTY_SELECT_FILTER, ...( column['options'] || [] )]}
+                    value={(value === null || value === undefined) ? EMPTY_SELECT_FILTER.value : value}
+                    options={[EMPTY_SELECT_FILTER, ...(column['options'] || [])]}
                     nullable={false}
                 />
             );
@@ -145,21 +158,21 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
     _pagesData: {
         page: number,
         itemsPerPage: number,
-        bindedSetPage: ( page: number ) => void,
-        bindedSetItemsPerPage: ( itemsPerPage: number ) => void,
+        bindedSetPage: (page: number) => void,
+        bindedSetItemsPerPage: (itemsPerPage: number) => void,
     };
     _filtersData: TableFiltersData;
 
-    constructor( props: TableProps ) {
-        super( props );
+    constructor(props: TableProps) {
+        super(props);
 
-        this.setColumns( props );
+        this.setColumns(props);
 
         this._filtersData = {
             filters: {},
             filtersTimeout: null,
             bindedFiltersOnChange: {},
-            bindedLoadTableData: props.loadTableData.bind( this, props.tableDefinition.url, props.tableId ),
+            bindedLoadTableData: props.loadTableData.bind(this, props.tableDefinition.url, props.tableId),
         };
         this._pagesData = {
             page: 0,
@@ -170,42 +183,42 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                         : props.tableDefinition.itemsPerPage
                 )
                 : DEFAULT_ITEMS_PER_PAGE,
-            bindedSetPage: this.setPage.bind( this ),
-            bindedSetItemsPerPage: this.setItemsPerPage.bind( this ),
+            bindedSetPage: this.setPage.bind(this),
+            bindedSetItemsPerPage: this.setItemsPerPage.bind(this),
         };
-        this._columns.filter( ( column: TableColumn ) => column.hasFilter )
-            .forEach( ( column: TableColumn ) => {
+        this._columns.filter((column: TableColumn) => column.hasFilter)
+            .forEach((column: TableColumn) => {
 
                 this._filtersData.filters[column.field] = {};
 
                 this._filtersData.bindedFiltersOnChange[column.field] = {
-                    value: this.setFilter.bind( this, column.field, false ),
+                    value: this.setFilter.bind(this, column.field, false),
                 };
 
                 if (column['operator'] === FILTER_OPERATORS.BETWEEN) {
                     this._filtersData.bindedFiltersOnChange[column.field].upperValue =
-                        this.setFilter.bind( this, column.field, true );
+                        this.setFilter.bind(this, column.field, true);
                 }
 
-            } )
+            })
     }
 
     loadData() {
-        this._filtersData.bindedLoadTableData( this.getLoadDataRequestObject() );
+        this._filtersData.bindedLoadTableData(this.getLoadDataRequestObject());
     }
 
-    getColumnOperator( field: string ) {
+    getColumnOperator(field: string) {
         for (let i = 0; i < this._columns.length; i++) {
             if (this._columns[i].field === field) {
                 return this._columns[i]['operator'];
             }
         }
-        console.log( 'Could not get filter operator for field', field );
+        console.log('Could not get filter operator for field', field);
         return '~';
     }
 
     getLoadDataRequestObject() {
-        let { tableDefinition } = this.props;
+        let {tableDefinition} = this.props;
         let filters: Array<any> = [],
             page = tableDefinition.paginate
                 ? this._pagesData.page
@@ -214,23 +227,23 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                 ? this._pagesData.itemsPerPage
                 : NO_PAGINATE_ITEMS_COUNT;
         for (let field in this._filtersData.filters) {
-            if (this._filtersData.filters.hasOwnProperty( field )) {
+            if (this._filtersData.filters.hasOwnProperty(field)) {
 
-                let value = this._filtersData.filters[field].hasOwnProperty( 'value' )
+                let value = this._filtersData.filters[field].hasOwnProperty('value')
                     ? this._filtersData.filters[field].value!.toString()
                     : undefined,
 
-                    upperValue = this._filtersData.filters[field].hasOwnProperty( 'upperValue' )
+                    upperValue = this._filtersData.filters[field].hasOwnProperty('upperValue')
                         ? this._filtersData.filters[field].upperValue!.toString()
                         : undefined;
 
                 if (value !== undefined || upperValue !== undefined) {
-                    filters.push( {
+                    filters.push({
                         column: field,
-                        operator: this.getColumnOperator( field ),
+                        operator: this.getColumnOperator(field),
                         value,
                         upperValue,
-                    } );
+                    });
                 }
             }
         }
@@ -246,7 +259,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
             };
     }
 
-    setPage( page: number ) {
+    setPage(page: number) {
         this._pagesData = {
             ...this._pagesData,
             page,
@@ -254,7 +267,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         this.loadData();
     }
 
-    setItemsPerPage( itemsPerPage: number ) {
+    setItemsPerPage(itemsPerPage: number) {
         this._pagesData = {
             ...this._pagesData,
             page: 0,
@@ -263,13 +276,13 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         this.loadData();
     }
 
-    setFilter( field: string, isUpperValue: boolean, value: string ) {
+    setFilter(field: string, isUpperValue: boolean, value: string) {
 
         if (value === null || value === undefined || value === '') {
             if (isUpperValue && !!this._filtersData.filters[field]) {
-                delete( this._filtersData.filters[field].upperValue );
+                delete(this._filtersData.filters[field].upperValue);
             } else {
-                delete( this._filtersData.filters[field].value )
+                delete(this._filtersData.filters[field].value)
             }
         } else {
             if (isUpperValue) {
@@ -280,20 +293,20 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         }
 
         this._pagesData.page = 0;
-        clearTimeout( this._filtersData.filtersTimeout );
-        this._filtersData.filtersTimeout = setTimeout( () => {
+        clearTimeout(this._filtersData.filtersTimeout);
+        this._filtersData.filtersTimeout = setTimeout(() => {
             this.loadData();
-        }, FILTER_DELAY_MS );
+        }, FILTER_DELAY_MS);
     }
 
-    setColumns( props: TableProps ) {
-        let { tableDefinition, extraData, extraActions, t } = props;
+    setColumns(props: TableProps) {
+        let {tableDefinition, extraData, extraActions, t} = props;
 
-        this._columns = tableDefinition.columns( { ...( extraData || {} ), t } ).filter(
-            ( column: TableColumn ) => !column.hiddenInTable
+        this._columns = tableDefinition.columns({...(extraData || {}), t}).filter(
+            (column: TableColumn) => !column.hiddenInTable
         );
         if (!!extraActions) {
-            this._columns = [getActionsColumn( extraActions, t.bind(this) ), ...this._columns];
+            this._columns = [getActionsColumn(extraActions, t.bind(this)), ...this._columns];
         }
     }
 
@@ -301,9 +314,9 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         this.loadData();
     }
 
-    componentWillReceiveProps( nextProps: TableProps ) {
+    componentWillReceiveProps(nextProps: TableProps) {
         if (this.props.extraData !== nextProps.extraData) {
-            this.setColumns( nextProps );
+            this.setColumns(nextProps);
         }
         if (!!this.props.tableData && !this.props.tableData.refresh && nextProps.tableData.refresh) {
             this.loadData();
@@ -314,7 +327,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
         let {
                 classes, loadingData, tableDefinition, tableData, title, tableActions, style, t,
             } = this.props,
-            hasFilters = this._columns.filter( column => column.hasFilter ).length > 0;
+            hasFilters = this._columns.filter(column => column.hasFilter).length > 0;
 
         return (
             <View style={[classes.container, style]}>
@@ -322,7 +335,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     {!!title && <Text style={classes.title}>{title}</Text>}
 
                     {loadingData &&
-                    <View style={{ marginLeft: 16 }}>
+                    <View style={{marginLeft: 16}}>
                         <CircularProgressComponent size={CIRCULAR_PROGRESS_SIZE.SMALL}/>
                     </View>
                     }
@@ -332,7 +345,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                     hasFilters && tableDefinition.filtersOnTop &&
                     <View style={classes.filtersContainer}>
                         {
-                            this._columns.filter( column => column.hasFilter ).map( column => (
+                            this._columns.filter(column => column.hasFilter).map(column => (
                                 <View
                                     key={'table_' + tableDefinition.title + '_filter_' + column.field}
                                     style={classes.filter}
@@ -345,6 +358,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                                     borderWidth: 1,
                                                     minWidth: 100,
                                                     maxWidth: 100,
+                                                    minHeight: 0,
                                                     marginTop: 4,
                                                     marginBottom: 4,
                                                     borderRadius: 5,
@@ -367,7 +381,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                         column['operator'] === FILTER_OPERATORS.BETWEEN &&
                                         getFilterForColumn(
                                             column,
-                                            { input: classes.filters },
+                                            {input: classes.filters},
                                             this._filtersData.bindedFiltersOnChange[column.field].upperValue!,
                                             getFilterValue(
                                                 column,
@@ -380,7 +394,7 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                         )
                                     }
                                 </View>
-                            ) )
+                            ))
                         }
                     </View>
                 }
@@ -417,14 +431,14 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                         itemsUpperLimit={
                             tableData.data.itemsPerPage
                                 ? Math.min(
-                                tableData.data.itemsPerPage * ( tableData.data.page + 1 ),
+                                tableData.data.itemsPerPage * (tableData.data.page + 1),
                                 tableData.data.totalItemsNumber,
                                 )
                                 : 0
                         }
                         currentPage={tableData.data.page}
-                        pagesCount={Math.ceil( tableData.data.totalItemsNumber / tableData.data.itemsPerPage )}
-                        changePage={this.setPage.bind( this )}
+                        pagesCount={Math.ceil(tableData.data.totalItemsNumber / tableData.data.itemsPerPage)}
+                        changePage={this.setPage.bind(this)}
                         jumpToFirstIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToFirstIcon}
                         jumpToLastIcon={tableDefinition.paginateIcons && tableDefinition.paginateIcons.jumpToLastIcon}
                         itemsPerPageValue={this._pagesData.itemsPerPage}
@@ -449,11 +463,11 @@ const componentName = 'TableComponent';
 export const TableComponent = compose(
     translate(),
     connect(
-        ( state: any, ownProps: OwnProps ) => {
+        (state: any, ownProps: OwnProps) => {
             let tableId: string = ownProps.tableContainerName || ownProps.tableDefinition.dataName;
             return {
-                loadingData: getNestedField( state.table, [tableId, 'loading'] ),
-                openedTableRow: getNestedField( state.table, [tableId, 'menuRow'] ),
+                loadingData: getNestedField(state.table, [tableId, 'loading']),
+                openedTableRow: getNestedField(state.table, [tableId, 'menuRow']),
                 tableData: ownProps.tableData || state.table[tableId],
                 tableId: tableId,
             }
