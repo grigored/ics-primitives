@@ -9,7 +9,7 @@ import {
     CircularProgressComponent,
     createStyles,
     FILTER_OPERATORS,
-    FORM_INPUT_TYPES,
+    FORM_INPUT_TYPES, ios,
     Select,
     Text,
     TEXT_INPUT_TYPES,
@@ -33,6 +33,9 @@ const styles = {
     container: {
         maxWidth: '100%',
         flexDirection: 'column',
+        [ios]: {
+            alignSelf: 'flex-start'
+        },
     },
     title: {
         flexShrink: 0,
@@ -52,11 +55,14 @@ const styles = {
         width: 140,
         marginTop: 4,
         marginBottom: 4,
-        marginLeft: {
+        paddingLeft: {
             [webDesktop]: 0,
-            [all]: 6,
+            [all]: appTheme.marginM,
         },
-        marginRight: 0,
+        paddingRight: {
+            [webDesktop]: 0,
+            [all]: appTheme.marginM,
+        },
         height: appTheme.inputHeight,
     },
     paginate: {

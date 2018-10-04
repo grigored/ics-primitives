@@ -22,10 +22,15 @@ const styles = () => ( {
         width: '100%',
         flex: 1,
         flexShrink: 0,
-        marginLeft: {
+        paddingLeft: {
             [webDesktop]: 0,
             [all]: appTheme.marginM,
         },
+        paddingRight: {
+            [webDesktop]: 0,
+            [all]: appTheme.marginM,
+        },
+
     },
     initialTextStyle: {
         height: 26,

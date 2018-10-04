@@ -23,7 +23,7 @@ const styles = () => ( {
         flexShrink: 0,
         maxHeight: {
             [webDesktop]: '75%',
-            [all]: '85%',
+            [all]: '75%',
         },
     },
     innerView: {
