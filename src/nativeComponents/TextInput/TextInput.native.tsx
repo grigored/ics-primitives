@@ -23,11 +23,13 @@ let styles = () => ( {
     containerTop: {
         // flex: 1,
         flexDirection: 'column',
+        [android]: {
+            height: appTheme.inputHeight * 1.5,
+        }
     },
     leftLabel: {
         fontWeight: '500',
         marginRight: 4,
-        // minWidth: 150,
         color: appTheme.textInputLabelColor,
     },
     topLabel: {
@@ -37,16 +39,12 @@ let styles = () => ( {
         flex: 1,
         height: appTheme.inputHeight,
         color: appTheme.textColor,
-        // borderWidth: 1,
-        // minWidth: 100,
-        // maxWidth: 100,
         [android]: {
             // textAlignVertical: 'top',
             fontSize: 16,
             // padding: 0,
             // margin: 0,
         },
-        // height: appTheme.inputHeight,
     },
     error: {
         marginTop: -5,

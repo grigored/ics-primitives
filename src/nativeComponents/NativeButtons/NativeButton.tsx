@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { appTheme, createStyles, getTestProps, Image, Testable, Text, Touchable, View } from "../../";
-import { NativeButtonOwnProps, NativeButtonProps } from "./NativeButton.types";
+import {appTheme, createStyles, getTestProps, Image, Testable, Text, Touchable, View} from "../../";
+import {NativeButtonOwnProps, NativeButtonProps} from "./NativeButton.types";
 
-const styles = () => ( {
+const styles = () => ({
     container: {
         height: 43,
         width: '100%',
@@ -15,25 +15,31 @@ const styles = () => ( {
         flexDirection: 'row',
         padding: appTheme.marginM,
     },
-} );
+});
 
 class CNativeButton extends React.PureComponent<NativeButtonProps & Testable, {}> {
     render() {
-        let { classes, title, onPress, icon, extraItemLeft, extraItemRight } = this.props;
+        let {classes, title, onPress, icon, extraItemLeft, extraItemRight} = this.props;
         return (
             <Touchable
                 {...getTestProps(this.props.testId)}
                 onPress={() => onPress()}
                 style={classes.container}
             >
-                <View style={classes.inner}>
-                    <Text>{title}</Text>
-                    {extraItemLeft || null}
-                    <View style={{ flex: 1 }}/>
-                    {extraItemRight || null}
-                    {icon && <Image source={icon}/>}
+                <View style={{height: '100%', width: '100%', flex: 1}}>
+                    {
+                        [
+                            <View style={classes.inner}>
+                                <Text>{title}</Text>
+                                {extraItemLeft || null}
+                                <View style={{flex: 1}}/>
+                                {extraItemRight || null}
+                                {icon && <Image source={icon}/>}
+                            </View>,
+                            <View style={{height: 1, width: '100%', backgroundColor: '#e2e2e2'}}/>
+                        ]
+                    }
                 </View>
-                <View style={{ height: 1, width: '100%', backgroundColor: '#e2e2e2' }}/>
             </Touchable>
         )
     }
@@ -42,4 +48,4 @@ class CNativeButton extends React.PureComponent<NativeButtonProps & Testable, {}
 export const NativeButton = createStyles(
     styles,
     'NativeButton',
-)( CNativeButton ) as React.ComponentType<NativeButtonOwnProps & Testable>;
+)(CNativeButton) as React.ComponentType<NativeButtonOwnProps & Testable>;

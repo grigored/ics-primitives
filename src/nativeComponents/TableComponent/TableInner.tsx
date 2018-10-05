@@ -84,7 +84,7 @@ const styles = () => ( {
         // alignItems: 'center',
         // justifyContent: 'center',
         textAlign: 'center',
-        color: appTheme.primaryTextColor,
+        color: appTheme.whiteText,
     },
     filters: {
         width: '100%',

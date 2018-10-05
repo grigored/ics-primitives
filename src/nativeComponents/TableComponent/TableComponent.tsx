@@ -4,12 +4,13 @@ import {translate} from 'react-i18next';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {
-    all,
     appTheme,
     CircularProgressComponent,
     createStyles,
     FILTER_OPERATORS,
-    FORM_INPUT_TYPES, ios,
+    FORM_INPUT_TYPES,
+    isIOS,
+    native,
     Select,
     Text,
     TEXT_INPUT_TYPES,
@@ -33,7 +34,7 @@ const styles = {
     container: {
         maxWidth: '100%',
         flexDirection: 'column',
-        [ios]: {
+        [native]: {
             alignSelf: 'flex-start'
         },
     },
@@ -50,20 +51,16 @@ const styles = {
         flexDirection: 'row',
         flexWrap: 'wrap',
         flexShrink: 0,
+        [native]: {
+            marginLeft: 8,
+            marginRight: 8,
+        },
+        height: 60,
     },
     filter: {
         width: 140,
         marginTop: 4,
         marginBottom: 4,
-        paddingLeft: {
-            [webDesktop]: 0,
-            [all]: appTheme.marginM,
-        },
-        paddingRight: {
-            [webDesktop]: 0,
-            [all]: appTheme.marginM,
-        },
-        height: appTheme.inputHeight,
     },
     paginate: {
         [webDesktop]: {
@@ -142,8 +139,6 @@ export const getFilterForColumn: (column: TableColumn,
                 />
             );
         case FORM_INPUT_TYPES.SELECT:
-
-            console.log('SELECT', column.title, style);
             return (
                 <Select
                     {...column}
@@ -359,19 +354,24 @@ class CTableComponent extends React.PureComponent<TableProps, {}> {
                                     {
                                         getFilterForColumn(
                                             column,
-                                            {
-                                                input: {
-                                                    borderWidth: 1,
-                                                    minWidth: 100,
-                                                    maxWidth: 100,
-                                                    minHeight: 0,
-                                                    marginTop: 4,
-                                                    marginBottom: 4,
-                                                    borderRadius: 5,
-                                                    justifyContent: 'center',
-                                                    textAlign: 'center',
+                                            isIOS ? {
+                                                    input: {
+                                                        borderWidth: 1,
+                                                        minWidth: 100,
+                                                        maxWidth: 100,
+                                                        minHeight: appTheme.inputHeight,
+                                                        marginTop: 4,
+                                                        marginBottom: 4,
+                                                        borderRadius: 5,
+                                                        justifyContent: 'center',
+                                                        textAlign: 'center',
+                                                    }
+                                                } :
+                                                {
+                                                    input: {
+                                                        minHeight: 0,
+                                                    }
                                                 },
-                                            },
                                             this._filtersData.bindedFiltersOnChange[column.field].value,
                                             getFilterValue(
                                                 column,
