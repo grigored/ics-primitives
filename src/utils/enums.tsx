@@ -100,3 +100,5 @@ export enum FILTER_OPERATORS {
     GREATER_OR_EQUAL = '>=',
     BETWEEN = '><',
 }
+
+export const AWS_S3 = 'https://crypto-exchange-test.s3.amazonaws.com/';
