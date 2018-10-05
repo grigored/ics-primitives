@@ -11,7 +11,7 @@ const styles = () => ({
     },
     label: {
         fontSize: 12,
-        color: appTheme.primaryColor,
+        color: appTheme.textColor,
     },
     picker: {
         marginTop: -9,
@@ -65,7 +65,7 @@ class CSelect extends React.PureComponent<Props, { itemValue?: number }> {
                     )}
                 </Picker>
                 <View style={[classes.bottomBorder, {
-                    backgroundColor: error ? '#fff' : appTheme.primaryColor,
+                    backgroundColor: error ? '#fff' : appTheme.textColor,
                 }]}/>
                 {!!error ? <Text style={classes.baseErrorText}>{error}</Text> : null}
             </View>
