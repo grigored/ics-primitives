@@ -6,7 +6,7 @@ import { ViewProps } from './View.types';
  * Class description and examples here <a id="asd" data-path="src/primitives/View" href="#asd">#asd</a>
  * @class View
  */
-export class View extends React.PureComponent<ViewProps, {}> {
+class CView extends React.PureComponent<ViewProps, {}> {
     render() {
         let {
             children, style, collapsable, accessible, ...otherProps
@@ -21,3 +21,5 @@ export class View extends React.PureComponent<ViewProps, {}> {
         );
     }
 }
+
+export const View = CView as React.ComponentType;
