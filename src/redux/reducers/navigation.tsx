@@ -125,7 +125,7 @@ export interface NavigationState {
 }
 
 export const initialState = {
-    screen: isWeb ? location.pathname.substring(1): '',
+    screen: (isWeb && !!location) ? location.pathname.substring(1) : '',
     drawerOpen: false,
     props: null,
     dialogs: [],
