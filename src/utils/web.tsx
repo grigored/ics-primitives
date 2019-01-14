@@ -1,10 +1,8 @@
 import {AppTheme, Classes} from "./theme.types";
-import {appTheme} from "./theme";
 
 export const getStyleProps = (style?: Classes) => {
     const generalStyle = {
         display: 'flex',
-        fontFamily: appTheme.fontFamily,
     };
 
 
@@ -77,7 +75,7 @@ export const getMuiTheme = (appTheme: AppTheme) => {
     });
     return {
         typography:{
-            fontFamily: appTheme.fontFamily,
+            // fontFamily: appTheme.fontFamily,
         },
         palette: {
             primary,

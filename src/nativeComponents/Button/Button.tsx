@@ -12,7 +12,7 @@ const styles = () => ( {
         minWidth: 64,
         minHeight: 36,
         boxSizing: 'border-box',
-        fontFamily: appTheme.fontFamily,
+        // fontFamily: appTheme.fontFamily,
         fontWeight: '500',
         borderRadius: 4,
         cursor: 'pointer',

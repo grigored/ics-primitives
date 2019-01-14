@@ -11,7 +11,7 @@ import { TopbarListButtonData, TopbarSimpleButtonData } from '../Topbar/Topbar.t
 
 const styles = () => ( {
     appFrame: {
-        fontFamily: appTheme.fontFamily,
+        // fontFamily: appTheme.fontFamily,
         flex: 1,
         width: '100vw',
         height: '100vh',
