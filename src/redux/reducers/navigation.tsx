@@ -125,7 +125,8 @@ export interface NavigationState {
 }
 
 export const initialState = {
-    screen: (isWeb && !!location) ? location.pathname.substring(1) : '',
+    // screen: isWeb ? location.pathname.substring(1): '',   // doesn't work with server-side rendering bc. location
+    screen: '',
     drawerOpen: false,
     props: null,
     dialogs: [],
