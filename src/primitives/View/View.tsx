@@ -22,4 +22,4 @@ class CView extends React.PureComponent<ViewProps, {}> {
     }
 }
 
-export const View = CView as React.ComponentType;
+export const View = CView as React.ComponentType<ViewProps>;
